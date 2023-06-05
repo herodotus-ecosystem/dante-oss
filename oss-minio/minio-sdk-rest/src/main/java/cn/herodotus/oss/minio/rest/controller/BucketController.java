@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
  *
- * Dante Engine licensed under the Apache License, Version 2.0 (the "License");
+ * Dante Cloud licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Dante Engine 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+ * Dante OSS 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
  *
  * 1.请不要删除和修改根目录下的LICENSE文件。
  * 2.请不要删除和修改 Dante Cloud 源码头部的版权声明。
  * 3.请保留源码和相关描述文件的项目出处，作者声明等。
- * 4.分发源码时候，请注明软件出处 <https://gitee.com/herodotus/dante-engine>
- * 5.在修改包名，模块名称，项目代码等时，请注明软件出处 <https://gitee.com/herodotus/dante-engine>
+ * 4.分发源码时候，请注明软件出处 <https://gitee.com/herodotus/dante-oss>
+ * 5.在修改包名，模块名称，项目代码等时，请注明软件出处 <https://gitee.com/herodotus/dante-oss>
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
@@ -66,6 +66,7 @@ import java.util.List;
 public class BucketController implements Controller {
 
     private final BucketService bucketService;
+
     public BucketController(BucketService bucketService) {
         this.bucketService = bucketService;
     }
@@ -80,7 +81,7 @@ public class BucketController implements Controller {
                     @ApiResponse(responseCode = "500", description = "查询失败")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, in = ParameterIn.PATH ,description = "ListBucketsRequest参数对象", schema = @Schema(implementation = ListBucketsRequest.class))
+            @Parameter(name = "request", required = true, in = ParameterIn.PATH, description = "ListBucketsRequest参数对象", schema = @Schema(implementation = ListBucketsRequest.class))
     })
     @GetMapping("/list")
     public Result<List<BucketEntity>> list(ListBucketsRequest request) {
@@ -97,7 +98,7 @@ public class BucketController implements Controller {
                     @ApiResponse(responseCode = "500", description = "查询失败")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, in = ParameterIn.PATH ,description = "BucketExistsRequest请求实体", schema = @Schema(implementation = BucketExistsRequest.class))
+            @Parameter(name = "request", required = true, in = ParameterIn.PATH, description = "BucketExistsRequest请求实体", schema = @Schema(implementation = BucketExistsRequest.class))
     })
     @GetMapping("/exists")
     public Result<Boolean> exists(BucketExistsRequest request) {
