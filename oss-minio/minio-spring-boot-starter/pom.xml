@@ -35,6 +35,15 @@
     </parent>
 
     <artifactId>minio-spring-boot-starter</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.oss</groupId>
+            <artifactId>minio-sdk-rest</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

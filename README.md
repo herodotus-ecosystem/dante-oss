@@ -66,6 +66,7 @@ dante-oss
 | 线程池支持                  | 提供 Minio Client 对象池支持，提升访问 Minio Server性能                 |  已完成   |
 | REST 参数封装              | Minio API **Args 参数封装为支持 Validation 的请求参数对象               |  已完成   |
 | REST 接口开发              | Bucket、Object 增、删、改、显示REST接口开发                            |  已完成   |
+| OpenAPI 支持             | 在支持 Open API 环境下，显示 Swagger 文档，建议使用 Springdoc             |  已完成   |
 | 大文件分片上传                | 采用 PresignedObjectUrl 方案的大文件分片上传                          |  已完成   |
 | 大文件分片上传                | 采用 PresignedObjectUrl 方案的大文件分片上传                          |  已完成   |
 | 超轻量级反向代理               | 实现轻量级反向代理解决 PresignedObjectUrl 方式直接向前端暴露 Minio Server地址问题 |  已完成   |

@@ -79,28 +79,28 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             return minioAsyncClient.createMultipartUploadAsync(bucketName, region, objectName, extraHeaders, extraQueryParams).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
-            throw new OssInsufficientDataException("Minio async insufficient data error.");
+            throw new MinioInsufficientDataException("Minio async insufficient data error.");
         } catch (InternalException e) {
             log.error("[Herodotus] |- Minio async catch InternalException in [{}].", function, e);
-            throw new OssInternalException("Minio async internal error.");
+            throw new MinioInternalException("Minio async internal error.");
         } catch (InvalidKeyException e) {
             log.error("[Herodotus] |- Minio async catch InvalidKeyException in [{}].", function, e);
-            throw new OssInvalidKeyException("Minio async key invalid.");
+            throw new MinioInvalidKeyException("Minio async key invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio async catch IOException in [{}].", function, e);
-            throw new OssIOException("Minio async io error.");
+            throw new MinioIOException("Minio async io error.");
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new OssNoSuchAlgorithmException("Minio async no such algorithm.");
+            throw new MinioNoSuchAlgorithmException("Minio async no such algorithm.");
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio async catch XmlParserException in [{}].", function, e);
-            throw new OssXmlParserException("Minio async xml parser error.");
+            throw new MinioXmlParserException("Minio async xml parser error.");
         } catch (ExecutionException e) {
             log.error("[Herodotus] |- Minio async catch ExecutionException in [{}].", function, e);
-            throw new OssExecutionException("Minio async execution error.");
+            throw new MinioExecutionException("Minio async execution error.");
         } catch (InterruptedException e) {
             log.error("[Herodotus] |- Minio async catch InterruptedException in [{}].", function, e);
-            throw new OssInterruptedException("Minio async interrupted error.");
+            throw new MinioInterruptedException("Minio async interrupted error.");
         } finally {
             close(minioAsyncClient);
         }
@@ -163,28 +163,28 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             return minioAsyncClient.listPartsAsync(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, extraHeaders, extraQueryParams).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
-            throw new OssInsufficientDataException("Minio async insufficient data error.");
+            throw new MinioInsufficientDataException("Minio async insufficient data error.");
         } catch (InternalException e) {
             log.error("[Herodotus] |- Minio async catch InternalException in [{}].", function, e);
-            throw new OssInternalException("Minio async internal error.");
+            throw new MinioInternalException("Minio async internal error.");
         } catch (InvalidKeyException e) {
             log.error("[Herodotus] |- Minio async catch InvalidKeyException in [{}].", function, e);
-            throw new OssInvalidKeyException("Minio async key invalid.");
+            throw new MinioInvalidKeyException("Minio async key invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio async catch IOException in [{}].", function, e);
-            throw new OssIOException("Minio async io error.");
+            throw new MinioIOException("Minio async io error.");
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new OssNoSuchAlgorithmException("Minio async no such algorithm.");
+            throw new MinioNoSuchAlgorithmException("Minio async no such algorithm.");
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio async catch XmlParserException in [{}].", function, e);
-            throw new OssXmlParserException("Minio async xml parser error.");
+            throw new MinioXmlParserException("Minio async xml parser error.");
         } catch (ExecutionException e) {
             log.error("[Herodotus] |- Minio async catch ExecutionException in [{}].", function, e);
-            throw new OssExecutionException("Minio async execution error.");
+            throw new MinioExecutionException("Minio async execution error.");
         } catch (InterruptedException e) {
             log.error("[Herodotus] |- Minio async catch InterruptedException in [{}].", function, e);
-            throw new OssInterruptedException("Minio async interrupted error.");
+            throw new MinioInterruptedException("Minio async interrupted error.");
         } finally {
             close(minioAsyncClient);
         }
@@ -280,28 +280,28 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             return minioAsyncClient.completeMultipartUploadAsync(bucketName, region, objectName, uploadId, parts, extraHeaders, extraQueryParams).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
-            throw new OssInsufficientDataException("Minio async insufficient data error.");
+            throw new MinioInsufficientDataException("Minio async insufficient data error.");
         } catch (InternalException e) {
             log.error("[Herodotus] |- Minio async catch InternalException in [{}].", function, e);
-            throw new OssInternalException("Minio async internal error.");
+            throw new MinioInternalException("Minio async internal error.");
         } catch (InvalidKeyException e) {
             log.error("[Herodotus] |- Minio async catch InvalidKeyException in [{}].", function, e);
-            throw new OssInvalidKeyException("Minio async key invalid.");
+            throw new MinioInvalidKeyException("Minio async key invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio async catch IOException in [{}].", function, e);
-            throw new OssIOException("Minio async io error.");
+            throw new MinioIOException("Minio async io error.");
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new OssNoSuchAlgorithmException("Minio async no such algorithm.");
+            throw new MinioNoSuchAlgorithmException("Minio async no such algorithm.");
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio async catch XmlParserException in [{}].", function, e);
-            throw new OssXmlParserException("Minio async xml parser error.");
+            throw new MinioXmlParserException("Minio async xml parser error.");
         } catch (ExecutionException e) {
             log.error("[Herodotus] |- Minio async catch ExecutionException in [{}].", function, e);
-            throw new OssExecutionException("Minio async execution error.");
+            throw new MinioExecutionException("Minio async execution error.");
         } catch (InterruptedException e) {
             log.error("[Herodotus] |- Minio async catch InterruptedException in [{}].", function, e);
-            throw new OssInterruptedException("Minio async interrupted error.");
+            throw new MinioInterruptedException("Minio async interrupted error.");
         } finally {
             close(minioAsyncClient);
         }

@@ -1,0 +1,4 @@
+cn.herodotus.oss.minio.autoconfigure.AutoConfiguration
+cn.herodotus.oss.minio.api.configuration.MinioApiConfiguration
+cn.herodotus.oss.minio.logic.configuration.MinioLogicConfiguration
+cn.herodotus.oss.minio.rest.configuration.MinioRestConfiguration
