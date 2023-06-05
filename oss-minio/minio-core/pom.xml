@@ -31,20 +31,20 @@
 
     <parent>
         <groupId>cn.herodotus.oss</groupId>
-        <artifactId>dante-oss</artifactId>
+        <artifactId>oss-minio</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>oss-minio</artifactId>
+    <artifactId>minio-core</artifactId>
     <version>0.0.1</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
-    <modules>
-        <module>minio-core</module>
-        <module>minio-sdk-api</module>
-        <module>minio-sdk-logic</module>
-        <module>minio-sdk-rest</module>
-        <module>minio-spring-boot-starter</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>assistant-core</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>

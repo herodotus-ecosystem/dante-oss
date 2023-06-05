@@ -28,23 +28,27 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>cn.herodotus.oss</groupId>
-        <artifactId>dante-oss</artifactId>
+        <artifactId>oss-minio</artifactId>
         <version>0.0.1</version>
     </parent>
 
-    <artifactId>oss-minio</artifactId>
+    <artifactId>minio-sdk-rest</artifactId>
     <version>0.0.1</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
-    <modules>
-        <module>minio-core</module>
-        <module>minio-sdk-api</module>
-        <module>minio-sdk-logic</module>
-        <module>minio-sdk-rest</module>
-        <module>minio-spring-boot-starter</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.oss</groupId>
+            <artifactId>minio-sdk-logic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>rest-core</artifactId>
+        </dependency>
+    </dependencies>
+
 
 </project>

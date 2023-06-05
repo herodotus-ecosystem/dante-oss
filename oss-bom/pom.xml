@@ -78,18 +78,50 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <maven-javadoc-plugin.version>3.5.0</maven-javadoc-plugin.version>
+        <maven-source-plugin.version>3.3.0</maven-source-plugin.version>
+        <maven-gpg-plugin.version>3.1.0</maven-gpg-plugin.version>
+
+
         <dante-bom.version>3.1.0.3</dante-bom.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-        <!-- Spring Dependencies -->
             <dependency>
                 <groupId>cn.herodotus.engine</groupId>
                 <artifactId>dependencies</artifactId>
                 <version>${dante-bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+            <!-- oss -->
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>minio-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>minio-sdk-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>minio-sdk-logic</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>minio-sdk-rest</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>minio-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -103,14 +135,17 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-source-plugin</artifactId>
+                        <version>${maven-source-plugin.version}</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>${maven-javadoc-plugin.version}</version>
                     </plugin>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
                     </plugin>
                 </plugins>
             </build>
