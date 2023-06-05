@@ -35,6 +35,7 @@
     <packaging>pom</packaging>
 
     <description>Dante Cloud 生态产品 Dante OSS Bom</description>
+    <name>oss-bom</name>
 
     <url>https://github.com/herodotus/dante-oss</url>
 

@@ -27,6 +27,8 @@ package cn.herodotus.oss.minio.api.service;
 
 import cn.herodotus.oss.minio.api.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.api.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.core.converter.ObjectLockConfigurationToDoConverter;
+import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDo;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.DeleteObjectLockConfigurationArgs;
 import io.minio.GetObjectLockConfigurationArgs;
@@ -38,6 +40,7 @@ import io.minio.messages.RetentionDuration;
 import io.minio.messages.RetentionMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -53,9 +56,55 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class ObjectLockConfigurationService extends BaseMinioService {
     private static final Logger log = LoggerFactory.getLogger(ObjectLockConfigurationService.class);
+    private final Converter<ObjectLockConfiguration, ObjectLockConfigurationDo> toDo;
 
     public ObjectLockConfigurationService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
+        this.toDo = new ObjectLockConfigurationToDoConverter();
+    }
+
+    /**
+     * 获取对象锁定配置
+     *
+     * @param getObjectLockConfigurationArgs {@link GetObjectLockConfigurationArgs}
+     * @return {@link ObjectLockConfiguration}
+     */
+    public ObjectLockConfigurationDo getObjectLockConfiguration(GetObjectLockConfigurationArgs getObjectLockConfigurationArgs) {
+        String function = "getObjectLockConfiguration";
+        MinioClient minioClient = getMinioClient();
+
+        try {
+            return toDo.convert(minioClient.getObjectLockConfiguration(getObjectLockConfigurationArgs));
+        } catch (ErrorResponseException e) {
+            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
+            throw new MinioErrorResponseException("Minio response error.");
+        } catch (InsufficientDataException e) {
+            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
+            throw new MinioInsufficientDataException("Minio insufficient data error.");
+        } catch (InternalException e) {
+            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
+            throw new MinioInternalException("Minio internal error.");
+        } catch (InvalidKeyException e) {
+            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
+            throw new MinioInvalidKeyException("Minio key invalid.");
+        } catch (InvalidResponseException e) {
+            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
+            throw new MinioInvalidResponseException("Minio response invalid.");
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            throw new MinioIOException("Minio io error.");
+        } catch (NoSuchAlgorithmException e) {
+            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
+            throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
+        } catch (ServerException e) {
+            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
+            throw new MinioServerException("Minio server error.");
+        } catch (XmlParserException e) {
+            log.error("[Herodotus] |- Minio catch XmlParserException in createBucket.", e);
+            throw new MinioXmlParserException("Minio xml parser error.");
+        } finally {
+            close(minioClient);
+        }
     }
 
     /**
@@ -139,71 +188,6 @@ public class ObjectLockConfigurationService extends BaseMinioService {
             throw new MinioServerException("Minio server error.");
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException("Minio xml parser error.");
-        } finally {
-            close(minioClient);
-        }
-    }
-
-    /**
-     * 获取对象锁定配置
-     *
-     * @param bucketName bucketName
-     * @return {@link ObjectLockConfiguration}
-     */
-    public ObjectLockConfiguration getObjectLockConfiguration(String bucketName) {
-        return getObjectLockConfiguration(GetObjectLockConfigurationArgs.builder().bucket(bucketName).build());
-    }
-
-    /**
-     * 获取对象锁定配置
-     *
-     * @param bucketName bucketName
-     * @param region     region
-     * @return {@link ObjectLockConfiguration}
-     */
-    public ObjectLockConfiguration getObjectLockConfiguration(String bucketName, String region) {
-        return getObjectLockConfiguration(GetObjectLockConfigurationArgs.builder().bucket(bucketName).region(region).build());
-    }
-
-    /**
-     * 获取对象锁定配置
-     *
-     * @param getObjectLockConfigurationArgs {@link GetObjectLockConfigurationArgs}
-     * @return {@link ObjectLockConfiguration}
-     */
-    public ObjectLockConfiguration getObjectLockConfiguration(GetObjectLockConfigurationArgs getObjectLockConfigurationArgs) {
-        String function = "getObjectLockConfiguration";
-        MinioClient minioClient = getMinioClient();
-
-        try {
-            return minioClient.getObjectLockConfiguration(getObjectLockConfigurationArgs);
-        } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException("Minio response error.");
-        } catch (InsufficientDataException e) {
-            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException("Minio insufficient data error.");
-        } catch (InternalException e) {
-            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException("Minio internal error.");
-        } catch (InvalidKeyException e) {
-            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException("Minio key invalid.");
-        } catch (InvalidResponseException e) {
-            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException("Minio response invalid.");
-        } catch (IOException e) {
-            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
-        } catch (NoSuchAlgorithmException e) {
-            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
-        } catch (ServerException e) {
-            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException("Minio server error.");
-        } catch (XmlParserException e) {
-            log.error("[Herodotus] |- Minio catch XmlParserException in createBucket.", e);
             throw new MinioXmlParserException("Minio xml parser error.");
         } finally {
             close(minioClient);

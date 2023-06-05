@@ -23,32 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.configuration;
+package cn.herodotus.oss.minio.core.converter;
 
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import cn.herodotus.oss.minio.core.domain.TagsDo;
+import io.minio.messages.Tags;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.Map;
 
 /**
- * <p>Description: Minio Rest 模块配置 </p>
+ * <p>Description: Minio Tags 转 TagsDo 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:13
+ * @date : 2023/6/5 18:08
  */
-@AutoConfiguration
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.rest.controller.api",
-        "cn.herodotus.oss.minio.rest.controller.assistant",
-        "cn.herodotus.oss.minio.rest.controller.logic",
-})
-public class MinioRestConfiguration {
+public class TagsToDoConverter implements Converter<Tags, TagsDo> {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioRestConfiguration.class);
+    @Override
+    public TagsDo convert(Tags tags) {
+        if (ObjectUtils.isNotEmpty(tags)) {
+            Map<String, String> maps = tags.get();
+            TagsDo entity = new TagsDo();
+            entity.setTags(maps);
+            return entity;
+        }
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Rest] Auto Configure.");
+        return new TagsDo();
     }
 }

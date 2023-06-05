@@ -23,32 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.configuration;
+package cn.herodotus.oss.minio.core.converter;
 
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
+import io.minio.messages.SseConfiguration;
+import io.minio.messages.SseConfigurationRule;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio Rest 模块配置 </p>
+ * <p>Description: Minio SseConfiguration 转 SseConfigurationEnums 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:13
+ * @date : 2023/6/5 21:11
  */
-@AutoConfiguration
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.rest.controller.api",
-        "cn.herodotus.oss.minio.rest.controller.assistant",
-        "cn.herodotus.oss.minio.rest.controller.logic",
-})
-public class MinioRestConfiguration {
+public class SseConfigurationToDoConverter implements Converter<SseConfiguration, SseConfigurationEnums> {
+    @Override
+    public SseConfigurationEnums convert(SseConfiguration sseConfiguration) {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioRestConfiguration.class);
+        if (ObjectUtils.isNotEmpty(sseConfiguration) && ObjectUtils.isNotEmpty(sseConfiguration.rule())) {
+            SseConfigurationRule rule = sseConfiguration.rule();
+            return SseConfigurationEnums.valueOf(rule.sseAlgorithm().name());
+        }
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Rest] Auto Configure.");
+        return SseConfigurationEnums.DISABLED;
     }
 }

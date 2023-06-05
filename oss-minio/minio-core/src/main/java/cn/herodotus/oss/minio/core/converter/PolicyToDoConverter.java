@@ -23,32 +23,25 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.configuration;
+package cn.herodotus.oss.minio.core.converter;
 
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import cn.herodotus.oss.minio.core.enums.PolicyEnums;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio Rest 模块配置 </p>
+ * <p>Description: Minio Policy 转 PolicyEnums 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:13
+ * @date : 2023/6/5 21:26
  */
-@AutoConfiguration
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.rest.controller.api",
-        "cn.herodotus.oss.minio.rest.controller.assistant",
-        "cn.herodotus.oss.minio.rest.controller.logic",
-})
-public class MinioRestConfiguration {
+public class PolicyToDoConverter implements Converter<String, PolicyEnums> {
+    @Override
+    public PolicyEnums convert(String source) {
+        if (StringUtils.isNotBlank(source)) {
+            return PolicyEnums.valueOf(source);
+        }
 
-    private static final Logger log = LoggerFactory.getLogger(MinioRestConfiguration.class);
-
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Rest] Auto Configure.");
+        return PolicyEnums.PRIVATE;
     }
 }

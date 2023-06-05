@@ -23,32 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.configuration;
+package cn.herodotus.oss.minio.core.domain;
 
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+
+import java.util.Map;
 
 /**
- * <p>Description: Minio Rest 模块配置 </p>
+ * <p>Description: Minio Tags 对应 Domain Object </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:13
+ * @date : 2023/6/5 18:04
  */
-@AutoConfiguration
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.rest.controller.api",
-        "cn.herodotus.oss.minio.rest.controller.assistant",
-        "cn.herodotus.oss.minio.rest.controller.logic",
-})
-public class MinioRestConfiguration {
+public class TagsDo implements Entity {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioRestConfiguration.class);
+    /**
+     * Tags 内容
+     */
+    private Map<String, String> tags;
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Rest] Auto Configure.");
+    public Map<String, String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Map<String, String> tags) {
+        this.tags = tags;
     }
 }
