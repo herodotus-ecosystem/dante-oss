@@ -27,6 +27,8 @@ package cn.herodotus.oss.minio.api.service;
 
 import cn.herodotus.oss.minio.api.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.api.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.core.converter.SseConfigurationToDoConverter;
+import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.DeleteBucketEncryptionArgs;
 import io.minio.GetBucketEncryptionArgs;
@@ -36,6 +38,7 @@ import io.minio.errors.*;
 import io.minio.messages.SseConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -52,30 +55,24 @@ import java.security.NoSuchAlgorithmException;
 public class BucketEncryptionService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketEncryptionService.class);
+    private final Converter<SseConfiguration, SseConfigurationEnums> toDo;
 
     public BucketEncryptionService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-    }
-
-    public void setBucketEncryption(String bucketName) {
-        setBucketEncryption(SetBucketEncryptionArgs.builder().bucket(bucketName).build());
-    }
-
-    public void setBucketEncryption(String bucketName, String region) {
-        setBucketEncryption(SetBucketEncryptionArgs.builder().bucket(bucketName).region(region).build());
+        this.toDo = new SseConfigurationToDoConverter();
     }
 
     /**
-     * 设置 Bucket 加密
+     * 获取 Bucket 加密配置
      *
-     * @param setBucketEncryptionArgs {@link SetBucketEncryptionArgs}
+     * @param getBucketEncryptionArgs {@link GetBucketEncryptionArgs}
      */
-    public void setBucketEncryption(SetBucketEncryptionArgs setBucketEncryptionArgs) {
-        String function = "setBucketEncryption";
+    public SseConfigurationEnums getBucketEncryption(GetBucketEncryptionArgs getBucketEncryptionArgs) {
+        String function = "getBucketEncryption";
         MinioClient minioClient = getMinioClient();
 
         try {
-            minioClient.setBucketEncryption(setBucketEncryptionArgs);
+            return toDo.convert(minioClient.getBucketEncryption(getBucketEncryptionArgs));
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException("Minio response error.");
@@ -108,25 +105,17 @@ public class BucketEncryptionService extends BaseMinioService {
         }
     }
 
-    public SseConfiguration getBucketEncryption(String bucketName) {
-        return getBucketEncryption(GetBucketEncryptionArgs.builder().bucket(bucketName).build());
-    }
-
-    public SseConfiguration getBucketEncryption(String bucketName, String region) {
-        return getBucketEncryption(GetBucketEncryptionArgs.builder().bucket(bucketName).region(region).build());
-    }
-
     /**
-     * 获取 Bucket 加密配置
+     * 设置 Bucket 加密
      *
-     * @param getBucketEncryptionArgs {@link GetBucketEncryptionArgs}
+     * @param setBucketEncryptionArgs {@link SetBucketEncryptionArgs}
      */
-    public SseConfiguration getBucketEncryption(GetBucketEncryptionArgs getBucketEncryptionArgs) {
-        String function = "getBucketEncryption";
+    public void setBucketEncryption(SetBucketEncryptionArgs setBucketEncryptionArgs) {
+        String function = "setBucketEncryption";
         MinioClient minioClient = getMinioClient();
 
         try {
-            return minioClient.getBucketEncryption(getBucketEncryptionArgs);
+            minioClient.setBucketEncryption(setBucketEncryptionArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException("Minio response error.");

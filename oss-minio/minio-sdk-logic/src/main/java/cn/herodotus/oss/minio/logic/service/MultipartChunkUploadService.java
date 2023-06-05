@@ -23,13 +23,14 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.processor;
+package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.api.converter.ObjectWriteResponseToEntityConverter;
 import cn.herodotus.oss.minio.api.entity.MultipartCreateEntity;
 import cn.herodotus.oss.minio.api.entity.ObjectWriteEntity;
 import cn.herodotus.oss.minio.api.service.MultipartUploadService;
 import cn.herodotus.oss.minio.api.service.PresignedService;
+import cn.herodotus.oss.minio.logic.proxy.MinioProxyAddressConverter;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.ListPartsResponse;
@@ -54,14 +55,13 @@ import java.util.concurrent.TimeUnit;
  * @date : 2022/7/3 22:39
  */
 @Component
-public class MultipartUploadProcessor {
+public class MultipartChunkUploadService {
 
     private final MultipartUploadService multipartUploadService;
     private final PresignedService presignedService;
     private final MinioProxyAddressConverter converter;
 
-    @Autowired
-    public MultipartUploadProcessor(MultipartUploadService multipartUploadService, PresignedService presignedService, MinioProxyAddressConverter converter) {
+    public MultipartChunkUploadService(MultipartUploadService multipartUploadService, PresignedService presignedService, MinioProxyAddressConverter converter) {
         this.multipartUploadService = multipartUploadService;
         this.presignedService = presignedService;
         this.converter = converter;

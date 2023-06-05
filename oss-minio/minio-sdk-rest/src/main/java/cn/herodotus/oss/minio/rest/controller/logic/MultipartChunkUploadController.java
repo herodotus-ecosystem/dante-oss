@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.controller;
+package cn.herodotus.oss.minio.rest.controller.logic;
 
 import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
 import cn.herodotus.engine.assistant.core.domain.Result;
@@ -31,8 +31,8 @@ import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.minio.api.entity.MultipartCreateEntity;
 import cn.herodotus.oss.minio.api.entity.ObjectWriteEntity;
-import cn.herodotus.oss.minio.logic.processor.MinioPresignedObjectUrlProxy;
-import cn.herodotus.oss.minio.logic.processor.MultipartUploadProcessor;
+import cn.herodotus.oss.minio.logic.proxy.MinioPresignedObjectUrlProxy;
+import cn.herodotus.oss.minio.logic.service.MultipartChunkUploadService;
 import cn.herodotus.oss.minio.rest.request.multipart.MultipartUploadCompleteRequest;
 import cn.herodotus.oss.minio.rest.request.multipart.MultipartUploadCreateRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -49,7 +49,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>Description: Minio 分片上传接口 </p>
+ * <p>Description: 大文件分片上传接口 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/7/4 15:02
@@ -61,13 +61,13 @@ import org.springframework.web.bind.annotation.*;
         @Tag(name = "Minio 对象存储管理接口"),
         @Tag(name = "Minio 对象存储分片上传接口")
 })
-public class MultipartUploadController implements Controller {
+public class MultipartChunkUploadController implements Controller {
 
-    private final MultipartUploadProcessor multipartUploadProcessor;
+    private final MultipartChunkUploadService multipartChunkUploadService;
     private final MinioPresignedObjectUrlProxy presignedObjectUrlDelegate;
 
-    public MultipartUploadController(MultipartUploadProcessor multipartUploadProcessor, MinioPresignedObjectUrlProxy presignedObjectUrlDelegate) {
-        this.multipartUploadProcessor = multipartUploadProcessor;
+    public MultipartChunkUploadController(MultipartChunkUploadService multipartChunkUploadService, MinioPresignedObjectUrlProxy presignedObjectUrlDelegate) {
+        this.multipartChunkUploadService = multipartChunkUploadService;
         this.presignedObjectUrlDelegate = presignedObjectUrlDelegate;
     }
 
@@ -85,7 +85,7 @@ public class MultipartUploadController implements Controller {
     })
     @PostMapping("/create")
     public Result<MultipartCreateEntity> createMultipartUpload(@Validated @RequestBody MultipartUploadCreateRequest request) {
-        MultipartCreateEntity result = multipartUploadProcessor.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
+        MultipartCreateEntity result = multipartChunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
         return result(result);
     }
 
@@ -103,7 +103,7 @@ public class MultipartUploadController implements Controller {
     })
     @PostMapping("/complete")
     public Result<ObjectWriteEntity> completeMultipartUpload(@Validated @RequestBody MultipartUploadCompleteRequest request) {
-        ObjectWriteEntity entity = multipartUploadProcessor.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
+        ObjectWriteEntity entity = multipartChunkUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
         return result(entity);
     }
 

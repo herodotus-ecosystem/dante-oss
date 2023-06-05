@@ -44,7 +44,8 @@ import org.springframework.context.annotation.Import;
         RestTemplateConfiguration.class
 })
 @ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.logic.processor",
+        "cn.herodotus.oss.minio.logic.proxy",
+        "cn.herodotus.oss.minio.logic.service"
 })
 public class MinioLogicConfiguration {
 

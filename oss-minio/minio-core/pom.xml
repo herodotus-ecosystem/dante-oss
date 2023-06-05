@@ -44,6 +44,12 @@
             <groupId>cn.herodotus.engine</groupId>
             <artifactId>assistant-core</artifactId>
         </dependency>
+
+
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+        </dependency>
     </dependencies>
 
 
