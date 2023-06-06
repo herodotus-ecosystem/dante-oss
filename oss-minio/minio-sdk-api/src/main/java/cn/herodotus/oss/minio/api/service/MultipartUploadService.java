@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.ExecutionException;
@@ -87,8 +88,12 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             log.error("[Herodotus] |- Minio async catch InvalidKeyException in [{}].", function, e);
             throw new MinioInvalidKeyException("Minio async key invalid.");
         } catch (IOException e) {
-            log.error("[Herodotus] |- Minio async catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio async io error.");
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio async no such algorithm.");
@@ -171,8 +176,12 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             log.error("[Herodotus] |- Minio async catch InvalidKeyException in [{}].", function, e);
             throw new MinioInvalidKeyException("Minio async key invalid.");
         } catch (IOException e) {
-            log.error("[Herodotus] |- Minio async catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio async io error.");
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio async no such algorithm.");
@@ -288,8 +297,12 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             log.error("[Herodotus] |- Minio async catch InvalidKeyException in [{}].", function, e);
             throw new MinioInvalidKeyException("Minio async key invalid.");
         } catch (IOException e) {
-            log.error("[Herodotus] |- Minio async catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio async io error.");
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio async no such algorithm.");

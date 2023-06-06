@@ -41,7 +41,7 @@ public class SseConfigurationToDoConverter implements Converter<SseConfiguration
     @Override
     public SseConfigurationEnums convert(SseConfiguration sseConfiguration) {
 
-        if (ObjectUtils.isNotEmpty(sseConfiguration) && ObjectUtils.isNotEmpty(sseConfiguration.rule())) {
+        if (ObjectUtils.isNotEmpty(sseConfiguration.rule())) {
             SseConfigurationRule rule = sseConfiguration.rule();
             return SseConfigurationEnums.valueOf(rule.sseAlgorithm().name());
         }

@@ -39,6 +39,10 @@ public class ObjectLockConfigurationDo implements Entity {
 
     private RuleDo rule;
 
+    public ObjectLockConfigurationDo() {
+        this.setObjectLockEnabled("Disabled");
+    }
+
     public String getObjectLockEnabled() {
         return objectLockEnabled;
     }

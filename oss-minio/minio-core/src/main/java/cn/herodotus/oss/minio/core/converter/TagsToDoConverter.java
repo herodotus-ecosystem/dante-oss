@@ -42,13 +42,9 @@ public class TagsToDoConverter implements Converter<Tags, TagsDo> {
 
     @Override
     public TagsDo convert(Tags tags) {
-        if (ObjectUtils.isNotEmpty(tags)) {
-            Map<String, String> maps = tags.get();
-            TagsDo entity = new TagsDo();
-            entity.setTags(maps);
-            return entity;
-        }
-
-        return new TagsDo();
+        Map<String, String> maps = tags.get();
+        TagsDo entity = new TagsDo();
+        entity.setTags(maps);
+        return entity;
     }
 }

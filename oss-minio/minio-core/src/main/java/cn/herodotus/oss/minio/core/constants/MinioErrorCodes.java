@@ -47,4 +47,6 @@ public interface MinioErrorCodes extends ErrorCodes {
     int OSS_XML_PARSER = OSS_SERVER + 1;
     int OSS_EXECUTION = OSS_XML_PARSER + 1;
     int OSS_INTERRUPTED = OSS_EXECUTION + 1;
+
+    int OSS_CONNECTION = OSS_MODULE_503_BEGIN + 1;
 }

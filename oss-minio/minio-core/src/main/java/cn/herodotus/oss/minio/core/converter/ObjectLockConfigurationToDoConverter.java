@@ -32,7 +32,6 @@ import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
 import io.minio.messages.ObjectLockConfiguration;
 import io.minio.messages.RetentionDuration;
 import io.minio.messages.RetentionMode;
-import io.minio.messages.Rule;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
@@ -47,19 +46,16 @@ public class ObjectLockConfigurationToDoConverter implements Converter<ObjectLoc
     public ObjectLockConfigurationDo convert(ObjectLockConfiguration configuration) {
         ObjectLockConfigurationDo configurationDo = new ObjectLockConfigurationDo();
 
-        if (ObjectUtils.isNotEmpty(configuration)) {
-            RetentionMode mode = configuration.mode();
-            RetentionDuration duration = configuration.duration();
-            if (ObjectUtils.isNotEmpty(mode) && ObjectUtils.isNotEmpty(duration)) {
-                configurationDo.setObjectLockEnabled("Enabled");
-                RuleDo ruleDo = new RuleDo();
-                ruleDo.setDurationMode(RetentionModeEnums.valueOf(mode.name()).getValue());
-                ruleDo.setDurationMode(RetentionDurationEnums.valueOf(duration.unit().name()).getValue());
-                ruleDo.setDuration(duration.duration());
-                configurationDo.setRule(ruleDo);
-            } else {
-                configurationDo.setObjectLockEnabled("Disabled");
-            }
+        RetentionMode mode = configuration.mode();
+        RetentionDuration duration = configuration.duration();
+        if (ObjectUtils.isNotEmpty(mode) && ObjectUtils.isNotEmpty(duration)) {
+            configurationDo.setObjectLockEnabled("Enabled");
+            RuleDo ruleDo = new RuleDo();
+            ruleDo.setDurationMode(RetentionModeEnums.valueOf(mode.name()).getValue());
+            ruleDo.setDurationMode(RetentionDurationEnums.valueOf(duration.unit().name()).getValue());
+            ruleDo.setDuration(duration.duration());
+            configurationDo.setRule(ruleDo);
+            return configurationDo;
         }
 
         return configurationDo;

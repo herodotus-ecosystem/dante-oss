@@ -23,25 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.converter;
+package cn.herodotus.oss.minio.core.exception;
 
-import cn.herodotus.oss.minio.core.enums.PolicyEnums;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
 
 /**
- * <p>Description: Minio Policy 转 PolicyEnums 转换器 </p>
+ * <p>Description: Minio 服务器连接失败 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 21:26
+ * @date : 2023/6/6 12:47
  */
-public class PolicyToDoConverter implements Converter<String, PolicyEnums> {
-    @Override
-    public PolicyEnums convert(String source) {
-        if (StringUtils.isNotBlank(source)) {
-            return PolicyEnums.valueOf(source);
-        }
+public class MinioConnectException extends PlatformException {
 
-        return PolicyEnums.PRIVATE;
+    public MinioConnectException() {
+        super();
+    }
+
+    public MinioConnectException(String message) {
+        super(message);
+    }
+
+    public MinioConnectException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public MinioConnectException(Throwable cause) {
+        super(cause);
+    }
+
+    protected MinioConnectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return FeedbackFactory.serviceUnavailable(MinioErrorCodes.OSS_CONNECTION, "Minio 服务器无法访问或未启动");
     }
 }
