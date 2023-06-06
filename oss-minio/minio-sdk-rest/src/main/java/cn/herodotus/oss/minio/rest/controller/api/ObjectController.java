@@ -77,7 +77,8 @@ public class ObjectController implements Controller {
                     @ApiResponse(description = "所有对象", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
                     @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
                     @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
-                    @ApiResponse(responseCode = "500", description = "查询失败")
+                    @ApiResponse(responseCode = "500", description = "查询失败"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
             })
     @Parameters({
             @Parameter(name = "request", required = true, in = ParameterIn.PATH, description = "ListObjectsRequest参数实体", schema = @Schema(implementation = ListObjectsRequest.class))
@@ -94,7 +95,8 @@ public class ObjectController implements Controller {
             responses = {
                     @ApiResponse(description = "Minio API无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
                     @ApiResponse(responseCode = "200", description = "操作成功"),
-                    @ApiResponse(responseCode = "500", description = "操作失败，具体查看错误信息内容")
+                    @ApiResponse(responseCode = "500", description = "操作失败，具体查看错误信息内容"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
             })
     @Parameters({
             @Parameter(name = "request", required = true, description = "RemoveObjectRequest参数实体", schema = @Schema(implementation = RemoveObjectRequest.class))
@@ -112,7 +114,8 @@ public class ObjectController implements Controller {
                     @ApiResponse(description = "返回删除操作出错对象的具体信息", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
                     @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
                     @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
-                    @ApiResponse(responseCode = "500", description = "查询失败")
+                    @ApiResponse(responseCode = "500", description = "查询失败"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
             })
     @Parameters({
             @Parameter(name = "request", required = true, description = "删除对象请求参数实体", schema = @Schema(implementation = RemoveObjectsRequest.class))

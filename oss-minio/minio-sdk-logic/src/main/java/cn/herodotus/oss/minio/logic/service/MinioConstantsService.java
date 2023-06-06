@@ -54,7 +54,7 @@ public class MinioConstantsService {
         map.put("policy", POLICY_ENUM);
         map.put("retentionDuration", RETENTION_DURATION_ENUM);
         map.put("retentionMode", RETENTION_MODE_ENUM);
-        map.put("SseConfigurationEnums", SSE_CONFIGURATION_ENUM);
+        map.put("sseConfiguration", SSE_CONFIGURATION_ENUM);
         return map;
     }
 }

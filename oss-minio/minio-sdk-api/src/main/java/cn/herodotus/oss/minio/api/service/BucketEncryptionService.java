@@ -27,18 +27,18 @@ package cn.herodotus.oss.minio.api.service;
 
 import cn.herodotus.oss.minio.api.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.api.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.converter.SseConfigurationToDoConverter;
 import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
 import cn.herodotus.oss.minio.core.exception.*;
+import com.google.common.base.Enums;
 import io.minio.DeleteBucketEncryptionArgs;
 import io.minio.GetBucketEncryptionArgs;
 import io.minio.MinioClient;
 import io.minio.SetBucketEncryptionArgs;
 import io.minio.errors.*;
 import io.minio.messages.SseConfiguration;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -56,11 +56,9 @@ import java.security.NoSuchAlgorithmException;
 public class BucketEncryptionService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketEncryptionService.class);
-    private final Converter<SseConfiguration, SseConfigurationEnums> toDo;
 
     public BucketEncryptionService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-        this.toDo = new SseConfigurationToDoConverter();
     }
 
     /**
@@ -73,7 +71,12 @@ public class BucketEncryptionService extends BaseMinioService {
         MinioClient minioClient = getMinioClient();
 
         try {
-            return toDo.convert(minioClient.getBucketEncryption(getBucketEncryptionArgs));
+            SseConfiguration sseConfiguration = minioClient.getBucketEncryption(getBucketEncryptionArgs);
+            if (ObjectUtils.isEmpty(sseConfiguration)) {
+                return SseConfigurationEnums.DISABLED;
+            } else {
+                return Enums.getIfPresent(SseConfigurationEnums.class, sseConfiguration.rule().sseAlgorithm().name()).or(SseConfigurationEnums.AES256);
+            }
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException("Minio response error.");
@@ -155,14 +158,6 @@ public class BucketEncryptionService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    public void deleteBucketEncryption(String bucketName) {
-        deleteBucketEncryption(DeleteBucketEncryptionArgs.builder().bucket(bucketName).build());
-    }
-
-    public void deleteBucketEncryption(String bucketName, String region) {
-        deleteBucketEncryption(DeleteBucketEncryptionArgs.builder().bucket(bucketName).region(region).build());
     }
 
     public void deleteBucketEncryption(DeleteBucketEncryptionArgs deleteBucketEncryptionArgs) {

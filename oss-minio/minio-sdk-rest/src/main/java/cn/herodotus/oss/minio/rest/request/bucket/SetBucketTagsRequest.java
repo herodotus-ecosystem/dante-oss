@@ -23,54 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain;
+package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.minio.core.domain.TagsDo;
+import cn.herodotus.oss.minio.rest.definition.BucketRequest;
+import io.minio.SetBucketTagsArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotNull;
 
 /**
- * <p>Description: Minio ObjectLockConfiguration 对应 Domain Object </p>
+ * <p>Description: 设置存储桶标签请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 20:55
+ * @date : 2023/6/6 22:32
  */
-public class ObjectLockConfigurationDo implements Entity {
+@Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
+public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
 
-    /**
-     * 保留模式
-     */
-    private Integer retentionMode;
+    @Schema(name = "存储桶标签")
+   @NotNull(message = "存储桶标签不能为空")
+    private TagsDo tags = new TagsDo();
 
-    /**
-     * 保留周期模式
-     */
-    private Integer durationMode;
-
-    /**
-     * 保留时长
-     */
-    private Integer duration;
-
-    public Integer getRetentionMode() {
-        return retentionMode;
+    public TagsDo getTags() {
+        return tags;
     }
 
-    public void setRetentionMode(Integer retentionMode) {
-        this.retentionMode = retentionMode;
+    public void setTags(TagsDo tags) {
+        this.tags = tags;
     }
 
-    public Integer getDurationMode() {
-        return durationMode;
+    @Override
+    public void prepare(SetBucketTagsArgs.Builder builder) {
+        builder.tags(getTags());
+        super.prepare(builder);
     }
 
-    public void setDurationMode(Integer durationMode) {
-        this.durationMode = durationMode;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    @Override
+    public SetBucketTagsArgs.Builder getBuilder() {
+        return SetBucketTagsArgs.builder();
     }
 }

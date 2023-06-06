@@ -23,54 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain;
+package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.minio.rest.definition.BucketRequest;
+import io.minio.DeleteBucketEncryptionArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Minio Tags 对应 Domain Object </p>
+ * <p>Description: 删除存储桶加密方式请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 21:42
+ * @date : 2023/6/6 22:05
  */
-public class RuleDo implements Entity {
-
-    /**
-     * 保留模式
-     */
-    private Integer retentionMode;
-
-    /**
-     * 保留周期模式
-     */
-    private Integer durationMode;
-
-    /**
-     * 保留时长
-     */
-    private Integer duration;
-
-    public Integer getRetentionMode() {
-        return retentionMode;
-    }
-
-    public void setRetentionMode(Integer retentionMode) {
-        this.retentionMode = retentionMode;
-    }
-
-    public Integer getDurationMode() {
-        return durationMode;
-    }
-
-    public void setDurationMode(Integer durationMode) {
-        this.durationMode = durationMode;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+@Schema(name = "删除存储桶加密方式请求参数实体", title = "删除存储桶加密方式请求参数实体")
+public class DeleteBucketEncryptionRequest  extends BucketRequest<DeleteBucketEncryptionArgs.Builder, DeleteBucketEncryptionArgs> {
+    @Override
+    public DeleteBucketEncryptionArgs.Builder getBuilder() {
+        return DeleteBucketEncryptionArgs.builder();
     }
 }

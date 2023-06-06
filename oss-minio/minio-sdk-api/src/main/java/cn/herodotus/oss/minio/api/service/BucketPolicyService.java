@@ -61,7 +61,7 @@ public class BucketPolicyService extends BaseMinioService {
     }
 
     /**
-     * 获取 Bucket 通知配置
+     * 获取 Bucket 访问策略配置
      *
      * @param getBucketPolicyArgs {@link GetBucketPolicyArgs}
      */
@@ -115,7 +115,7 @@ public class BucketPolicyService extends BaseMinioService {
     }
 
     /**
-     * 设置 Bucket 策略
+     * 设置 Bucket 访问策略
      *
      * @param setBucketPolicyArgs {@link SetBucketPolicyArgs}
      */
@@ -159,10 +159,6 @@ public class BucketPolicyService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    public void deleteBucketPolicy(String bucketName) {
-        deleteBucketPolicy(DeleteBucketPolicyArgs.builder().bucket(bucketName).build());
     }
 
     public void deleteBucketPolicy(DeleteBucketPolicyArgs deleteBucketPolicyArgs) {

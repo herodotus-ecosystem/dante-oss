@@ -23,29 +23,42 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.converter;
+package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
-import io.minio.messages.SseConfiguration;
-import io.minio.messages.SseConfigurationRule;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.minio.rest.definition.BucketRequest;
+import io.minio.SetBucketPolicyArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
 /**
- * <p>Description: Minio SseConfiguration 转 SseConfigurationEnums 转换器 </p>
+ * <p>Description: 设置存储桶访问策略请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 21:11
+ * @date : 2023/6/6 21:42
  */
-public class SseConfigurationToDoConverter implements Converter<SseConfiguration, SseConfigurationEnums> {
+@Schema(name = "设置存储桶访问策略请求参数实体", title = "设置存储桶访问策略请求参数实体")
+public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Builder, SetBucketPolicyArgs> {
+
+    @Schema(name = "访问策略配置")
+    @NotBlank(message = "访问策略配置不能为空")
+    private String config;
+
+    public String getConfig() {
+        return config;
+    }
+
+    public void setConfig(String config) {
+        this.config = config;
+    }
+
     @Override
-    public SseConfigurationEnums convert(SseConfiguration sseConfiguration) {
+    public void prepare(SetBucketPolicyArgs.Builder builder) {
+        builder.config(getConfig());
+        super.prepare(builder);
+    }
 
-        if (ObjectUtils.isNotEmpty(sseConfiguration.rule())) {
-            SseConfigurationRule rule = sseConfiguration.rule();
-            return SseConfigurationEnums.valueOf(rule.sseAlgorithm().name());
-        }
-
-        return SseConfigurationEnums.DISABLED;
+    @Override
+    public SetBucketPolicyArgs.Builder getBuilder() {
+        return SetBucketPolicyArgs.builder();
     }
 }

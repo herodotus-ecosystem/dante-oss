@@ -28,32 +28,41 @@ package cn.herodotus.oss.minio.core.converter;
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDo;
 import cn.herodotus.oss.minio.core.enums.RetentionDurationEnums;
 import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
-import io.minio.messages.ObjectLockConfiguration;
-import io.minio.messages.RetentionDuration;
-import io.minio.messages.RetentionMode;
+import com.google.common.base.Enums;
+import io.minio.messages.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio ObjectLockConfiguration 转 ObjectLockConfigurationDo 转换器 </p>
+ * <p>Description: Minio Request 转 ObjectLockConfiguration 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 21:32
+ * @date : 2023/6/6 23:06
  */
-public class ObjectLockConfigurationToDoConverter implements Converter<ObjectLockConfiguration, ObjectLockConfigurationDo> {
+public class RequestToObjectLockConfigurationConverter implements Converter<ObjectLockConfigurationDo, ObjectLockConfiguration> {
+
     @Override
-    public ObjectLockConfigurationDo convert(ObjectLockConfiguration configuration) {
-        ObjectLockConfigurationDo configurationDo = new ObjectLockConfigurationDo();
-
-        RetentionMode mode = configuration.mode();
-        RetentionDuration duration = configuration.duration();
-        if (ObjectUtils.isNotEmpty(mode) && ObjectUtils.isNotEmpty(duration)) {
-            configurationDo.setDurationMode(RetentionModeEnums.valueOf(mode.name()).getValue());
-            configurationDo.setDurationMode(RetentionDurationEnums.valueOf(duration.unit().name()).getValue());
-            configurationDo.setDuration(duration.duration());
-            return configurationDo;
+    public ObjectLockConfiguration convert(ObjectLockConfigurationDo source) {
+        if (ObjectUtils.isEmpty(source.getRetentionMode()) && ObjectUtils.isEmpty(source.getDurationMode())) {
+            return new ObjectLockConfiguration();
+        } else {
+            RetentionMode mode =  getRetentionMode(source.getRetentionMode());
+            RetentionDuration duration = getRetentionDuration(source.getDurationMode(), source.getDuration());
+            return new ObjectLockConfiguration(mode, duration);
         }
+    }
 
-        return configurationDo;
+    private RetentionMode getRetentionMode(Integer mode) {
+        RetentionModeEnums retentionMode = RetentionModeEnums.get(mode);
+        return Enums.getIfPresent(RetentionMode.class, retentionMode.name()).or(RetentionMode.GOVERNANCE);
+    }
+
+    private RetentionDuration getRetentionDuration(Integer durationMode, Integer duration) {
+        RetentionDurationEnums retentionDurationEnums = RetentionDurationEnums.get(durationMode);
+        if (retentionDurationEnums == RetentionDurationEnums.DAYS) {
+            return new RetentionDurationDays(duration);
+        } else {
+            return new RetentionDurationYears(duration);
+        }
     }
 }

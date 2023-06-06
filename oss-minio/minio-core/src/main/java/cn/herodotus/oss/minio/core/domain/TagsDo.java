@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * <p>Description: Minio Tags 对应 Domain Object </p>
@@ -35,18 +35,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2023/6/5 18:04
  */
-public class TagsDo implements Entity {
+public class TagsDo extends HashMap<String, String> implements Entity {
 
-    /**
-     * Tags 内容
-     */
-    private Map<String, String> tags;
 
-    public Map<String, String> getTags() {
-        return tags;
-    }
-
-    public void setTags(Map<String, String> tags) {
-        this.tags = tags;
-    }
 }
