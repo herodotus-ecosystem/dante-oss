@@ -38,17 +38,19 @@ import io.minio.errors.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Bucket 访问策略 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/6/30 15:44
  */
+@Service
 public class BucketPolicyService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketPolicyService.class);

@@ -42,7 +42,7 @@ import java.util.Map;
  * @date : 2023/6/5 22:41
  */
 @Service
-public class ConstantsService {
+public class MinioConstantsService {
 
     private static final List<Map<String, Object>> POLICY_ENUM = PolicyEnums.getPreprocessedJsonStructure();
     private static final List<Map<String, Object>> RETENTION_DURATION_ENUM = RetentionDurationEnums.getPreprocessedJsonStructure();

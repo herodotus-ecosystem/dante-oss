@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.rest.controller.assistant;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.oss.minio.logic.service.ConstantsService;
+import cn.herodotus.oss.minio.logic.service.MinioConstantsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.commons.collections4.MapUtils;
@@ -39,19 +39,19 @@ import java.util.Map;
 @RestController
 @RequestMapping("/oss/minio/constant")
 @Tag(name = "系统常量接口")
-public class ConstantsController {
+public class MinioConstantsController {
 
-    private final ConstantsService constantsService;
+    private final MinioConstantsService minioConstantsService;
 
-    public ConstantsController(ConstantsService constantsService) {
-        this.constantsService = constantsService;
+    public MinioConstantsController(MinioConstantsService minioConstantsService) {
+        this.minioConstantsService = minioConstantsService;
     }
 
     @Operation(summary = "获取服务使用常量", description = "获取服务涉及的常量以及信息")
     @GetMapping(value = "/enums")
     public Result<Map<String, Object>> findAllEnums() {
         Result<Map<String, Object>> result = new Result<>();
-        Map<String, Object> allEnums = constantsService.getAllEnums();
+        Map<String, Object> allEnums = minioConstantsService.getAllEnums();
         if (MapUtils.isNotEmpty(allEnums)) {
             return Result.success("获取服务常量成功", allEnums);
         } else {
