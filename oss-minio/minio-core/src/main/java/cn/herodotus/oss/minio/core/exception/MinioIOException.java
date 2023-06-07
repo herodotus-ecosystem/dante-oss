@@ -60,6 +60,6 @@ public class MinioIOException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_IO, "对象存储出现IO错误");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_IO, "对象存储出现IO错误");
     }
 }

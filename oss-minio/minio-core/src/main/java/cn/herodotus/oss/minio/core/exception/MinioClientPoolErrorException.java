@@ -60,6 +60,6 @@ public class MinioClientPoolErrorException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_CLIENT_POOL_ERROR, "无法从Oss对象池中获取对象");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_CLIENT_POOL_ERROR, "无法从Oss对象池中获取对象");
     }
 }

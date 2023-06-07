@@ -60,6 +60,6 @@ public class MinioXmlParserException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_XML_PARSER, "对象存储 XML 解析出现错误");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_XML_PARSER, "对象存储 XML 解析出现错误");
     }
 }

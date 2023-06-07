@@ -60,6 +60,6 @@ public class MinioInsufficientDataException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_INSUFFICIENT_DATA, "对象存储服务器返回数据不足");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_INSUFFICIENT_DATA, "对象存储服务器返回数据不足");
     }
 }

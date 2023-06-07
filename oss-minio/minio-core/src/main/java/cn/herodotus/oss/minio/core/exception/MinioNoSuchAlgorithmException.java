@@ -60,6 +60,6 @@ public class MinioNoSuchAlgorithmException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_NO_SUCH_ALGORITHM, "使用对象存储不支持算法错误");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_NO_SUCH_ALGORITHM, "使用对象存储不支持算法错误");
     }
 }

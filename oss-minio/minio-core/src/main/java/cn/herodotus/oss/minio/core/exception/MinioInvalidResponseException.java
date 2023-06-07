@@ -60,6 +60,6 @@ public class MinioInvalidResponseException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_INVALID_RESPONSE, "对象存储返回无效的响应");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_INVALID_RESPONSE, "对象存储返回无效的响应");
     }
 }

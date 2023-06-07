@@ -23,43 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.bucket;
+package cn.herodotus.oss.minio.core.domain.policy;
 
-import cn.herodotus.oss.minio.core.domain.TagsDo;
-import cn.herodotus.oss.minio.rest.definition.BucketRequest;
-import io.minio.SetBucketTagsArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 设置存储桶标签请求参数实体 </p>
+ * <p>Description: Minio 访问策略实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/6 22:32
+ * @date : 2023/6/7 17:42
  */
-@Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
-public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
+public class PolicyDo implements Entity {
 
-    @Schema(name = "存储桶标签")
-    @NotNull(message = "存储桶标签不能为空")
-    private TagsDo tags = new TagsDo();
+    @JsonProperty("Version")
+    private String version = "2012-10-17";
 
-    public TagsDo getTags() {
-        return tags;
+    @JsonProperty("Statement")
+    private List<StatementDo> statements = new ArrayList<>();
+
+    public String getVersion() {
+        return version;
     }
 
-    public void setTags(TagsDo tags) {
-        this.tags = tags;
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    @Override
-    public void prepare(SetBucketTagsArgs.Builder builder) {
-        builder.tags(getTags());
-        super.prepare(builder);
+    public List<StatementDo> getStatements() {
+        return statements;
     }
 
-    @Override
-    public SetBucketTagsArgs.Builder getBuilder() {
-        return SetBucketTagsArgs.builder();
+    public void setStatements(List<StatementDo> statements) {
+        this.statements = statements;
     }
 }

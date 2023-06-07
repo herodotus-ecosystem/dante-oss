@@ -79,35 +79,35 @@ public class BucketTagsService extends BaseMinioService {
             return tagsDo;
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException("Minio response error.");
+            throw new MinioErrorResponseException(e.getMessage());
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException("Minio insufficient data error.");
+            throw new MinioInsufficientDataException(e.getMessage());
         } catch (InternalException e) {
             log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException("Minio internal error.");
+            throw new MinioInternalException(e.getMessage());
         } catch (InvalidKeyException e) {
             log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException("Minio key invalid.");
+            throw new MinioInvalidKeyException(e.getMessage());
         } catch (InvalidResponseException e) {
             log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException("Minio response invalid.");
+            throw new MinioInvalidResponseException(e.getMessage());
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
                 throw new MinioConnectException(e.getMessage());
             } else {
-                throw new MinioIOException("Minio io error.");
+                throw new MinioIOException(e.getMessage());
             }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
+            throw new MinioNoSuchAlgorithmException(e.getMessage());
         } catch (ServerException e) {
             log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException("Minio server error.");
+            throw new MinioServerException(e.getMessage());
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio catch XmlParserException in createBucket.", e);
-            throw new MinioXmlParserException("Minio xml parser error.");
+            throw new MinioXmlParserException(e.getMessage());
         } finally {
             close(minioClient);
         }
@@ -126,35 +126,35 @@ public class BucketTagsService extends BaseMinioService {
             minioClient.setBucketTags(setBucketTagsArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException("Minio response error.");
+            throw new MinioErrorResponseException(e.getMessage());
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException("Minio insufficient data error.");
+            throw new MinioInsufficientDataException(e.getMessage());
         } catch (InternalException e) {
             log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException("Minio internal error.");
+            throw new MinioInternalException(e.getMessage());
         } catch (InvalidKeyException e) {
             log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException("Minio key invalid.");
+            throw new MinioInvalidKeyException(e.getMessage());
         } catch (InvalidResponseException e) {
             log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException("Minio response invalid.");
+            throw new MinioInvalidResponseException(e.getMessage());
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
                 throw new MinioConnectException(e.getMessage());
             } else {
-                throw new MinioIOException("Minio io error.");
+                throw new MinioIOException(e.getMessage());
             }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
+            throw new MinioNoSuchAlgorithmException(e.getMessage());
         } catch (ServerException e) {
             log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException("Minio server error.");
+            throw new MinioServerException(e.getMessage());
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException("Minio xml parser error.");
+            throw new MinioXmlParserException(e.getMessage());
         } finally {
             close(minioClient);
         }
@@ -173,35 +173,35 @@ public class BucketTagsService extends BaseMinioService {
             minioClient.deleteBucketTags(deleteBucketTagsArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException("Minio response error.");
+            throw new MinioErrorResponseException(e.getMessage());
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException("Minio insufficient data error.");
+            throw new MinioInsufficientDataException(e.getMessage());
         } catch (InternalException e) {
             log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException("Minio internal error.");
+            throw new MinioInternalException(e.getMessage());
         } catch (InvalidKeyException e) {
             log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException("Minio key invalid.");
+            throw new MinioInvalidKeyException(e.getMessage());
         } catch (InvalidResponseException e) {
             log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException("Minio response invalid.");
+            throw new MinioInvalidResponseException(e.getMessage());
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
                 throw new MinioConnectException(e.getMessage());
             } else {
-                throw new MinioIOException("Minio io error.");
+                throw new MinioIOException(e.getMessage());
             }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
+            throw new MinioNoSuchAlgorithmException(e.getMessage());
         } catch (ServerException e) {
             log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException("Minio server error.");
+            throw new MinioServerException(e.getMessage());
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException("Minio xml parser error.");
+            throw new MinioXmlParserException(e.getMessage());
         } finally {
             close(minioClient);
         }

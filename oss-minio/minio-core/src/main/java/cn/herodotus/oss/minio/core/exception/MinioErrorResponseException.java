@@ -60,6 +60,6 @@ public class MinioErrorResponseException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_ERROR_RESPONSE, "对象存储服务器返回错误响应");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_ERROR_RESPONSE, "对象存储服务器返回错误响应");
     }
 }

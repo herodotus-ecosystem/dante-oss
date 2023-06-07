@@ -78,7 +78,6 @@ public class BucketSettingService {
     }
 
 
-
     private SseConfigurationEnums getBucketEncryption(String bucketName, String region) {
         GetBucketEncryptionArgs.Builder builder = GetBucketEncryptionArgs.builder();
         builder.bucket(bucketName);

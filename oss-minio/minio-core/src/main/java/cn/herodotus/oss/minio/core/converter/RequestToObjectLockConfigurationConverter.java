@@ -46,7 +46,7 @@ public class RequestToObjectLockConfigurationConverter implements Converter<Obje
         if (ObjectUtils.isEmpty(source.getRetentionMode()) && ObjectUtils.isEmpty(source.getDurationMode())) {
             return new ObjectLockConfiguration();
         } else {
-            RetentionMode mode =  getRetentionMode(source.getRetentionMode());
+            RetentionMode mode = getRetentionMode(source.getRetentionMode());
             RetentionDuration duration = getRetentionDuration(source.getDurationMode(), source.getDuration());
             return new ObjectLockConfiguration(mode, duration);
         }

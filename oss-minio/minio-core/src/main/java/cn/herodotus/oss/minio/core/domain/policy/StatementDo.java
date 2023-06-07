@@ -23,43 +23,62 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.bucket;
+package cn.herodotus.oss.minio.core.domain.policy;
 
-import cn.herodotus.oss.minio.core.domain.TagsDo;
-import cn.herodotus.oss.minio.rest.definition.BucketRequest;
-import io.minio.SetBucketTagsArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
- * <p>Description: 设置存储桶标签请求参数实体 </p>
+ * <p>Description: Minio 策略 StatementDo </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/6 22:32
+ * @date : 2023/6/7 17:37
  */
-@Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
-public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
+public class StatementDo implements Entity {
 
-    @Schema(name = "存储桶标签")
-    @NotNull(message = "存储桶标签不能为空")
-    private TagsDo tags = new TagsDo();
+    @JsonProperty("Effect")
+    private String effect = "Allow";
 
-    public TagsDo getTags() {
-        return tags;
+    @JsonProperty("Action")
+    private List<String> actions;
+
+    @JsonProperty("Resource")
+    private List<String> resources;
+
+    @JsonProperty("Principal")
+    private PrincipalDo principal = new PrincipalDo();
+
+    public String getEffect() {
+        return effect;
     }
 
-    public void setTags(TagsDo tags) {
-        this.tags = tags;
+    public void setEffect(String effect) {
+        this.effect = effect;
     }
 
-    @Override
-    public void prepare(SetBucketTagsArgs.Builder builder) {
-        builder.tags(getTags());
-        super.prepare(builder);
+    public List<String> getActions() {
+        return actions;
     }
 
-    @Override
-    public SetBucketTagsArgs.Builder getBuilder() {
-        return SetBucketTagsArgs.builder();
+    public void setActions(List<String> actions) {
+        this.actions = actions;
+    }
+
+    public List<String> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<String> resources) {
+        this.resources = resources;
+    }
+
+    public PrincipalDo getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(PrincipalDo principalDo) {
+        this.principal = principalDo;
     }
 }
