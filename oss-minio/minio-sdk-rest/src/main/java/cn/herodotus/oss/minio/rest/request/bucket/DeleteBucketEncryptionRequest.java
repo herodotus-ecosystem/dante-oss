@@ -23,25 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.converter;
+package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.oss.minio.core.enums.PolicyEnums;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.minio.rest.definition.BucketRequest;
+import io.minio.DeleteBucketEncryptionArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Minio Policy 转 PolicyEnums 转换器 </p>
+ * <p>Description: 删除存储桶加密方式请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 21:26
+ * @date : 2023/6/6 22:05
  */
-public class PolicyToDoConverter implements Converter<String, PolicyEnums> {
+@Schema(name = "删除存储桶加密方式请求参数实体", title = "删除存储桶加密方式请求参数实体")
+public class DeleteBucketEncryptionRequest  extends BucketRequest<DeleteBucketEncryptionArgs.Builder, DeleteBucketEncryptionArgs> {
     @Override
-    public PolicyEnums convert(String source) {
-        if (StringUtils.isNotBlank(source)) {
-            return PolicyEnums.valueOf(source);
-        }
-
-        return PolicyEnums.PRIVATE;
+    public DeleteBucketEncryptionArgs.Builder getBuilder() {
+        return DeleteBucketEncryptionArgs.builder();
     }
 }

@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -85,7 +86,11 @@ public class BucketReplicationService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
@@ -128,7 +133,11 @@ public class BucketReplicationService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
@@ -170,7 +179,11 @@ public class BucketReplicationService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");

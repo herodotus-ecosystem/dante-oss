@@ -23,29 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.converter;
+package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
-import io.minio.messages.SseConfiguration;
-import io.minio.messages.SseConfigurationRule;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.minio.rest.definition.BucketRequest;
+import io.minio.DeleteBucketPolicyArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Minio SseConfiguration 转 SseConfigurationEnums 转换器 </p>
+ * <p>Description: 删除存储桶访问策略请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 21:11
+ * @date : 2023/6/6 21:53
  */
-public class SseConfigurationToDoConverter implements Converter<SseConfiguration, SseConfigurationEnums> {
+@Schema(name = "删除存储桶访问策略请求参数实体", title = "删除存储桶访问策略请求参数实体")
+public class DeleteBucketPolicyRequest extends BucketRequest<DeleteBucketPolicyArgs.Builder, DeleteBucketPolicyArgs> {
     @Override
-    public SseConfigurationEnums convert(SseConfiguration sseConfiguration) {
-
-        if (ObjectUtils.isNotEmpty(sseConfiguration) && ObjectUtils.isNotEmpty(sseConfiguration.rule())) {
-            SseConfigurationRule rule = sseConfiguration.rule();
-            return SseConfigurationEnums.valueOf(rule.sseAlgorithm().name());
-        }
-
-        return SseConfigurationEnums.DISABLED;
+    public DeleteBucketPolicyArgs.Builder getBuilder() {
+        return DeleteBucketPolicyArgs.builder();
     }
 }

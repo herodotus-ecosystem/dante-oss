@@ -23,54 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain;
+package cn.herodotus.oss.minio.core.exception;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
 
 /**
- * <p>Description: Minio ObjectLockConfiguration 对应 Domain Object </p>
+ * <p>Description: Minio 服务器连接失败 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 20:55
+ * @date : 2023/6/6 12:47
  */
-public class ObjectLockConfigurationDo implements Entity {
+public class MinioConnectException extends PlatformException {
 
-    /**
-     * 保留模式
-     */
-    private Integer retentionMode;
-
-    /**
-     * 保留周期模式
-     */
-    private Integer durationMode;
-
-    /**
-     * 保留时长
-     */
-    private Integer duration;
-
-    public Integer getRetentionMode() {
-        return retentionMode;
+    public MinioConnectException() {
+        super();
     }
 
-    public void setRetentionMode(Integer retentionMode) {
-        this.retentionMode = retentionMode;
+    public MinioConnectException(String message) {
+        super(message);
     }
 
-    public Integer getDurationMode() {
-        return durationMode;
+    public MinioConnectException(String message, Throwable cause) {
+        super(message, cause);
     }
 
-    public void setDurationMode(Integer durationMode) {
-        this.durationMode = durationMode;
+    public MinioConnectException(Throwable cause) {
+        super(cause);
     }
 
-    public Integer getDuration() {
-        return duration;
+    protected MinioConnectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    @Override
+    public Feedback getFeedback() {
+        return FeedbackFactory.serviceUnavailable(MinioErrorCodes.OSS_CONNECTION, "Minio 服务器无法访问或未启动");
     }
 }

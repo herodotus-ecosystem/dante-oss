@@ -42,7 +42,7 @@ import java.util.Map;
  * @date : 2023/6/5 22:41
  */
 @Service
-public class ConstantsService {
+public class MinioConstantsService {
 
     private static final List<Map<String, Object>> POLICY_ENUM = PolicyEnums.getPreprocessedJsonStructure();
     private static final List<Map<String, Object>> RETENTION_DURATION_ENUM = RetentionDurationEnums.getPreprocessedJsonStructure();
@@ -51,10 +51,10 @@ public class ConstantsService {
 
     public Map<String, Object> getAllEnums() {
         Map<String, Object> map = new HashMap<>(8);
-        map.put("status", POLICY_ENUM);
-        map.put("gender", RETENTION_DURATION_ENUM);
-        map.put("identity", RETENTION_MODE_ENUM);
-        map.put("organizationCategory", SSE_CONFIGURATION_ENUM);
+        map.put("policy", POLICY_ENUM);
+        map.put("retentionDuration", RETENTION_DURATION_ENUM);
+        map.put("retentionMode", RETENTION_MODE_ENUM);
+        map.put("sseConfiguration", SSE_CONFIGURATION_ENUM);
         return map;
     }
 }

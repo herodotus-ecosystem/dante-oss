@@ -27,7 +27,6 @@ package cn.herodotus.oss.minio.api.service;
 
 import cn.herodotus.oss.minio.api.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.api.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.converter.TagsToDoConverter;
 import cn.herodotus.oss.minio.core.domain.TagsDo;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.DeleteBucketTagsArgs;
@@ -36,15 +35,15 @@ import io.minio.MinioClient;
 import io.minio.SetBucketTagsArgs;
 import io.minio.errors.*;
 import io.minio.messages.Tags;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 /**
  * <p>Description: Bucket 标签服务 </p>
@@ -57,11 +56,9 @@ import java.util.Map;
 public class BucketTagsService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketPolicyService.class);
-    private final Converter<Tags, TagsDo> toTagsEntity;
 
     public BucketTagsService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-        this.toTagsEntity = new TagsToDoConverter();
     }
 
     /**
@@ -74,7 +71,12 @@ public class BucketTagsService extends BaseMinioService {
         MinioClient minioClient = getMinioClient();
 
         try {
-            return toTagsEntity.convert(minioClient.getBucketTags(getBucketTagsArgs));
+            TagsDo tagsDo = new TagsDo();
+            Tags tags = minioClient.getBucketTags(getBucketTagsArgs);
+            if (ObjectUtils.isNotEmpty(tags)) {
+                tagsDo.putAll(tags.get());
+            }
+            return tagsDo;
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException("Minio response error.");
@@ -92,7 +94,11 @@ public class BucketTagsService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
@@ -105,48 +111,6 @@ public class BucketTagsService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    /**
-     * 设置 Bucket 标签
-     *
-     * @param bucketName bucketName
-     * @param tags       {@link Tags}
-     */
-    public void setBucketTags(String bucketName, Tags tags) {
-        setBucketTags(SetBucketTagsArgs.builder().bucket(bucketName).tags(tags).build());
-    }
-
-    /**
-     * 设置 Bucket 标签
-     *
-     * @param bucketName bucketName
-     * @param region     region
-     * @param tags       tags
-     */
-    public void setBucketTags(String bucketName, String region, Tags tags) {
-        setBucketTags(SetBucketTagsArgs.builder().bucket(bucketName).region(region).tags(tags).build());
-    }
-
-    /**
-     * 设置 Bucket 标签
-     *
-     * @param bucketName bucketName
-     * @param tags       {@link Map}
-     */
-    public void setBucketTags(String bucketName, Map<String, String> tags) {
-        setBucketTags(SetBucketTagsArgs.builder().bucket(bucketName).tags(tags).build());
-    }
-
-    /**
-     * 设置 Bucket 标签
-     *
-     * @param bucketName bucketName
-     * @param region     region
-     * @param tags       {@link Map}
-     */
-    public void setBucketTags(String bucketName, String region, Map<String, String> tags) {
-        setBucketTags(SetBucketTagsArgs.builder().bucket(bucketName).region(region).tags(tags).build());
     }
 
     /**
@@ -177,7 +141,11 @@ public class BucketTagsService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
@@ -190,25 +158,6 @@ public class BucketTagsService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    /**
-     * 删除 Bucket 标签
-     *
-     * @param bucketName bucketName
-     */
-    public void deleteBucketTags(String bucketName) {
-        deleteBucketTags(DeleteBucketTagsArgs.builder().bucket(bucketName).build());
-    }
-
-    /**
-     * 删除 Bucket 标签
-     *
-     * @param bucketName bucketName
-     * @param region     region
-     */
-    public void deleteBucketTags(String bucketName, String region) {
-        deleteBucketTags(DeleteBucketTagsArgs.builder().bucket(bucketName).region(region).build());
     }
 
     /**
@@ -239,7 +188,11 @@ public class BucketTagsService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");

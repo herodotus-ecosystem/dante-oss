@@ -27,40 +27,41 @@ package cn.herodotus.oss.minio.api.service;
 
 import cn.herodotus.oss.minio.api.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.api.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.converter.PolicyToDoConverter;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.core.exception.*;
+import com.google.common.base.Enums;
 import io.minio.DeleteBucketPolicyArgs;
 import io.minio.GetBucketPolicyArgs;
 import io.minio.MinioClient;
 import io.minio.SetBucketPolicyArgs;
 import io.minio.errors.*;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Bucket 访问策略 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/6/30 15:44
  */
+@Service
 public class BucketPolicyService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketPolicyService.class);
-    private final Converter<String, PolicyEnums> toDo;
 
     public BucketPolicyService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-        this.toDo = new PolicyToDoConverter();
     }
 
     /**
-     * 获取 Bucket 通知配置
+     * 获取 Bucket 访问策略配置
      *
      * @param getBucketPolicyArgs {@link GetBucketPolicyArgs}
      */
@@ -69,7 +70,12 @@ public class BucketPolicyService extends BaseMinioService {
         MinioClient minioClient = getMinioClient();
 
         try {
-            return this.toDo.convert(minioClient.getBucketPolicy(getBucketPolicyArgs));
+            String policy = minioClient.getBucketPolicy(getBucketPolicyArgs);
+            if (StringUtils.isNotBlank(policy)) {
+                return Enums.getIfPresent(PolicyEnums.class, policy).or(PolicyEnums.PRIVATE);
+            } else {
+                return PolicyEnums.PRIVATE;
+            }
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException("Minio response error.");
@@ -87,7 +93,11 @@ public class BucketPolicyService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
@@ -105,7 +115,7 @@ public class BucketPolicyService extends BaseMinioService {
     }
 
     /**
-     * 设置 Bucket 策略
+     * 设置 Bucket 访问策略
      *
      * @param setBucketPolicyArgs {@link SetBucketPolicyArgs}
      */
@@ -132,7 +142,11 @@ public class BucketPolicyService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
@@ -145,10 +159,6 @@ public class BucketPolicyService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    public void deleteBucketPolicy(String bucketName) {
-        deleteBucketPolicy(DeleteBucketPolicyArgs.builder().bucket(bucketName).build());
     }
 
     public void deleteBucketPolicy(DeleteBucketPolicyArgs deleteBucketPolicyArgs) {
@@ -174,7 +184,11 @@ public class BucketPolicyService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");

@@ -23,32 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.converter;
+package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.oss.minio.core.domain.TagsDo;
-import io.minio.messages.Tags;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.core.convert.converter.Converter;
-
-import java.util.Map;
+import cn.herodotus.oss.minio.rest.definition.BucketRequest;
+import io.minio.DeleteObjectLockConfigurationArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Minio Tags 转 TagsDo 转换器 </p>
+ * <p>Description: 删除存储桶对象锁定配置请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 18:08
+ * @date : 2023/6/6 23:01
  */
-public class TagsToDoConverter implements Converter<Tags, TagsDo> {
-
+@Schema(name = "删除存储桶对象锁定配置请求参数实体", title = "删除存储桶对象锁定配置请求参数实体")
+public class DeleteObjectLockConfigurationRequest extends BucketRequest<DeleteObjectLockConfigurationArgs.Builder, DeleteObjectLockConfigurationArgs> {
     @Override
-    public TagsDo convert(Tags tags) {
-        if (ObjectUtils.isNotEmpty(tags)) {
-            Map<String, String> maps = tags.get();
-            TagsDo entity = new TagsDo();
-            entity.setTags(maps);
-            return entity;
-        }
-
-        return new TagsDo();
+    public DeleteObjectLockConfigurationArgs.Builder getBuilder() {
+        return DeleteObjectLockConfigurationArgs.builder();
     }
 }

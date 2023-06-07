@@ -36,14 +36,13 @@ import io.minio.MinioClient;
 import io.minio.SetObjectLockConfigurationArgs;
 import io.minio.errors.*;
 import io.minio.messages.ObjectLockConfiguration;
-import io.minio.messages.RetentionDuration;
-import io.minio.messages.RetentionMode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -76,8 +75,8 @@ public class ObjectLockConfigurationService extends BaseMinioService {
         try {
             return toDo.convert(minioClient.getObjectLockConfiguration(getObjectLockConfigurationArgs));
         } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException("Minio response error.");
+            // 如果没有设置过 ObjectLock getObjectLockConfiguration 方法会抛出 ErrorResponseException
+            return null;
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
             throw new MinioInsufficientDataException("Minio insufficient data error.");
@@ -92,7 +91,11 @@ public class ObjectLockConfigurationService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
@@ -105,50 +108,6 @@ public class ObjectLockConfigurationService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    /**
-     * 设置对象锁定
-     *
-     * @param bucketName        bucketName
-     * @param retentionMode     {@link RetentionMode}
-     * @param retentionDuration {@link RetentionDuration}
-     */
-    public void setObjectLockConfiguration(String bucketName, RetentionMode retentionMode, RetentionDuration retentionDuration) {
-        setObjectLockConfiguration(bucketName, new ObjectLockConfiguration(retentionMode, retentionDuration));
-    }
-
-    /**
-     * 设置对象锁定
-     *
-     * @param bucketName              bucketName
-     * @param objectLockConfiguration {@link ObjectLockConfiguration}
-     */
-    public void setObjectLockConfiguration(String bucketName, ObjectLockConfiguration objectLockConfiguration) {
-        setObjectLockConfiguration(SetObjectLockConfigurationArgs.builder().bucket(bucketName).config(objectLockConfiguration).build());
-    }
-
-    /**
-     * 设置对象锁定
-     *
-     * @param bucketName        bucketName
-     * @param region            region
-     * @param retentionMode     {@link RetentionMode}
-     * @param retentionDuration {@link RetentionDuration}
-     */
-    public void setObjectLockConfiguration(String bucketName, String region, RetentionMode retentionMode, RetentionDuration retentionDuration) {
-        setObjectLockConfiguration(bucketName, region, new ObjectLockConfiguration(retentionMode, retentionDuration));
-    }
-
-    /**
-     * 设置对象锁定
-     *
-     * @param bucketName              bucketName
-     * @param region                  region
-     * @param objectLockConfiguration {@link ObjectLockConfiguration}
-     */
-    public void setObjectLockConfiguration(String bucketName, String region, ObjectLockConfiguration objectLockConfiguration) {
-        setObjectLockConfiguration(SetObjectLockConfigurationArgs.builder().bucket(bucketName).region(region).config(objectLockConfiguration).build());
     }
 
     /**
@@ -179,7 +138,11 @@ public class ObjectLockConfigurationService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
@@ -192,25 +155,6 @@ public class ObjectLockConfigurationService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    /**
-     * 删除对象锁定
-     *
-     * @param bucketName bucketName
-     */
-    public void deleteObjectLockConfiguration(String bucketName) {
-        deleteObjectLockConfiguration(DeleteObjectLockConfigurationArgs.builder().bucket(bucketName).build());
-    }
-
-    /**
-     * 删除对象锁定
-     *
-     * @param bucketName bucketName
-     * @param region     region
-     */
-    public void deleteObjectLockConfiguration(String bucketName, String region) {
-        deleteObjectLockConfiguration(DeleteObjectLockConfigurationArgs.builder().bucket(bucketName).region(region).build());
     }
 
     /**
@@ -241,7 +185,11 @@ public class ObjectLockConfigurationService extends BaseMinioService {
             throw new MinioInvalidResponseException("Minio response invalid.");
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            throw new MinioIOException("Minio io error.");
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException("Minio io error.");
+            }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException("Minio no such algorithm.");
