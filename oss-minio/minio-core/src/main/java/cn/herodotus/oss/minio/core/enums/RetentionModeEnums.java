@@ -50,11 +50,6 @@ public enum RetentionModeEnums implements BaseUiEnum<Integer> {
     GOVERNANCE(0, "治理"),
     COMPLIANCE(1, "合规");
 
-    @Schema(title = "枚举值")
-    private final Integer value;
-    @Schema(name = "文字")
-    private final String description;
-
     private static final Map<Integer, RetentionModeEnums> INDEX_MAP = new HashMap<>();
     private static final List<Map<String, Object>> JSON_STRUCTURE = new ArrayList<>();
 
@@ -71,9 +66,22 @@ public enum RetentionModeEnums implements BaseUiEnum<Integer> {
         }
     }
 
+    @Schema(title = "枚举值")
+    private final Integer value;
+    @Schema(name = "文字")
+    private final String description;
+
     RetentionModeEnums(Integer value, String description) {
         this.value = value;
         this.description = description;
+    }
+
+    public static RetentionModeEnums get(Integer index) {
+        return INDEX_MAP.get(index);
+    }
+
+    public static List<Map<String, Object>> getPreprocessedJsonStructure() {
+        return JSON_STRUCTURE;
     }
 
     /**
@@ -93,13 +101,5 @@ public enum RetentionModeEnums implements BaseUiEnum<Integer> {
     @Override
     public String getDescription() {
         return description;
-    }
-
-    public static RetentionModeEnums get(Integer index) {
-        return INDEX_MAP.get(index);
-    }
-
-    public static List<Map<String, Object>> getPreprocessedJsonStructure() {
-        return JSON_STRUCTURE;
     }
 }

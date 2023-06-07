@@ -92,7 +92,7 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             if (e instanceof ConnectException) {
                 throw new MinioConnectException(e.getMessage());
             } else {
-                throw new MinioIOException("Minio io error.");
+                throw new MinioIOException(e.getMessage());
             }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);
@@ -180,7 +180,7 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             if (e instanceof ConnectException) {
                 throw new MinioConnectException(e.getMessage());
             } else {
-                throw new MinioIOException("Minio io error.");
+                throw new MinioIOException(e.getMessage());
             }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);
@@ -301,7 +301,7 @@ public class MultipartUploadService extends BaseMinioAsyncService {
             if (e instanceof ConnectException) {
                 throw new MinioConnectException(e.getMessage());
             } else {
-                throw new MinioIOException("Minio io error.");
+                throw new MinioIOException(e.getMessage());
             }
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio async catch NoSuchAlgorithmException in [{}].", function, e);

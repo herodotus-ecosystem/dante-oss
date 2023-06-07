@@ -59,6 +59,6 @@ public class MinioServerException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_SERVER, "对象存储服务器出现错误");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_SERVER, "对象存储服务器出现错误");
     }
 }

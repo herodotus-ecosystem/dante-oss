@@ -60,6 +60,6 @@ public class MinioExecutionException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_EXECUTION, "对象存储服务器异步执行错误");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_EXECUTION, "对象存储服务器异步执行错误");
     }
 }

@@ -23,43 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.bucket;
+package cn.herodotus.oss.minio.core.exception;
 
-import cn.herodotus.oss.minio.core.domain.TagsDo;
-import cn.herodotus.oss.minio.rest.definition.BucketRequest;
-import io.minio.SetBucketTagsArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
 
 /**
- * <p>Description: 设置存储桶标签请求参数实体 </p>
+ * <p>Description: 存储桶访问策略过大错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/6 22:32
+ * @date : 2023/6/7 21:36
  */
-@Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
-public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
+public class MinioBucketPolicyTooLargeException extends PlatformException {
 
-    @Schema(name = "存储桶标签")
-    @NotNull(message = "存储桶标签不能为空")
-    private TagsDo tags = new TagsDo();
-
-    public TagsDo getTags() {
-        return tags;
+    public MinioBucketPolicyTooLargeException() {
+        super();
     }
 
-    public void setTags(TagsDo tags) {
-        this.tags = tags;
+    public MinioBucketPolicyTooLargeException(String message) {
+        super(message);
+    }
+
+    public MinioBucketPolicyTooLargeException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public MinioBucketPolicyTooLargeException(Throwable cause) {
+        super(cause);
+    }
+
+    protected MinioBucketPolicyTooLargeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 
     @Override
-    public void prepare(SetBucketTagsArgs.Builder builder) {
-        builder.tags(getTags());
-        super.prepare(builder);
-    }
-
-    @Override
-    public SetBucketTagsArgs.Builder getBuilder() {
-        return SetBucketTagsArgs.builder();
+    public Feedback getFeedback() {
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_BUCKET_POLICY_TOO_LARGE, "存储桶访问策略过大");
     }
 }

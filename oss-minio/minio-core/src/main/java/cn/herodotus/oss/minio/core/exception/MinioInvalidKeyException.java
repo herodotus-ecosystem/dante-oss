@@ -60,6 +60,6 @@ public class MinioInvalidKeyException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_INVALID_KEY, "对象存储使用无效的秘钥");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_INVALID_KEY, "对象存储使用无效的秘钥");
     }
 }

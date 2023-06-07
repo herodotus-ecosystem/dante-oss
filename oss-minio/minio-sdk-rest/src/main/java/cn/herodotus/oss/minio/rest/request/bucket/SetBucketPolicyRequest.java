@@ -25,10 +25,17 @@
 
 package cn.herodotus.oss.minio.rest.request.bucket;
 
+import cn.herodotus.engine.assistant.core.json.jackson2.utils.Jackson2Utils;
+import cn.herodotus.oss.minio.core.domain.policy.PolicyDo;
+import cn.herodotus.oss.minio.core.domain.policy.StatementDo;
+import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
+import com.google.common.collect.Lists;
 import io.minio.SetBucketPolicyArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 /**
  * <p>Description: 设置存储桶访问策略请求参数实体 </p>
@@ -39,26 +46,75 @@ import jakarta.validation.constraints.NotBlank;
 @Schema(name = "设置存储桶访问策略请求参数实体", title = "设置存储桶访问策略请求参数实体")
 public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Builder, SetBucketPolicyArgs> {
 
-    @Schema(name = "访问策略配置")
-    @NotBlank(message = "访问策略配置不能为空")
-    private String config;
+    private static final String DEFAULT_RESOURCE_PREFIX = "arn:aws:s3:::";
+    private static final List<String> DEFAULT_ACTION_FOR_BUCKET = Lists.newArrayList("s3:GetBucketLocation", "s3:ListBucket", "s3:ListBucketMultipartUploads");
+    private static final List<String> DEFAULT_ACTION_FOR_OBJECT = Lists.newArrayList("s3:DeleteObject", "s3:GetObject", "s3:ListMultipartUploadParts", "s3:PutObject", "s3:AbortMultipartUpload");
 
-    public String getConfig() {
+    @Schema(name = "访问策略类型")
+    @NotNull(message = "访问策略配置不能为空")
+    private Integer type = 0;
+
+    @Schema(name = "访问策略配置", description = "如果为自定义类型那么必需输入配置信息")
+    private PolicyDo config;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public PolicyDo getConfig() {
         return config;
     }
 
-    public void setConfig(String config) {
+    public void setConfig(PolicyDo config) {
         this.config = config;
     }
 
     @Override
     public void prepare(SetBucketPolicyArgs.Builder builder) {
-        builder.config(getConfig());
+
+        PolicyEnums type = PolicyEnums.get(getType());
+
+        PolicyDo policyDo;
+
+        switch (type) {
+            case PUBLIC -> policyDo = getPublicPolicy();
+            case CUSTOM -> policyDo = getConfig();
+            default -> policyDo = getPrivatePolicy(getBucketName());
+        }
+
+        builder.config(Jackson2Utils.toJson(policyDo));
         super.prepare(builder);
     }
 
     @Override
     public SetBucketPolicyArgs.Builder getBuilder() {
         return SetBucketPolicyArgs.builder();
+    }
+
+    private PolicyDo getPublicPolicy() {
+        return new PolicyDo();
+    }
+
+    private PolicyDo getPrivatePolicy(String bucketName) {
+        StatementDo bucketStatement = new StatementDo();
+        bucketStatement.setActions(DEFAULT_ACTION_FOR_BUCKET);
+        bucketStatement.setResources(getDefaultResource(bucketName, true));
+
+        StatementDo objectStatement = new StatementDo();
+        objectStatement.setActions(DEFAULT_ACTION_FOR_OBJECT);
+        objectStatement.setResources(getDefaultResource(bucketName, false));
+
+        PolicyDo policy = new PolicyDo();
+        policy.setStatements(Lists.newArrayList(bucketStatement, objectStatement));
+        return policy;
+    }
+
+    private List<String> getDefaultResource(String bucketName, boolean isForBucket) {
+        String suffix = isForBucket ? "" : "/*";
+        return Lists.newArrayList(DEFAULT_RESOURCE_PREFIX + bucketName + suffix);
     }
 }

@@ -36,7 +36,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @date : 2023/6/6 22:05
  */
 @Schema(name = "删除存储桶加密方式请求参数实体", title = "删除存储桶加密方式请求参数实体")
-public class DeleteBucketEncryptionRequest  extends BucketRequest<DeleteBucketEncryptionArgs.Builder, DeleteBucketEncryptionArgs> {
+public class DeleteBucketEncryptionRequest extends BucketRequest<DeleteBucketEncryptionArgs.Builder, DeleteBucketEncryptionArgs> {
     @Override
     public DeleteBucketEncryptionArgs.Builder getBuilder() {
         return DeleteBucketEncryptionArgs.builder();

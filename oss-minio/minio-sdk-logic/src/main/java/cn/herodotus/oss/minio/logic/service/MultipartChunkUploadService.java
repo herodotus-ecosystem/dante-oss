@@ -39,7 +39,6 @@ import io.minio.http.Method;
 import io.minio.messages.Part;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 

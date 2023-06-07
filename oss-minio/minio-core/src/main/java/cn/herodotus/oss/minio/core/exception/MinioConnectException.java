@@ -60,6 +60,6 @@ public class MinioConnectException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.serviceUnavailable(MinioErrorCodes.OSS_CONNECTION, "Minio 服务器无法访问或未启动");
+        return FeedbackFactory.serviceUnavailable(MinioErrorCodes.MINIO_CONNECTION, "Minio 服务器无法访问或未启动");
     }
 }

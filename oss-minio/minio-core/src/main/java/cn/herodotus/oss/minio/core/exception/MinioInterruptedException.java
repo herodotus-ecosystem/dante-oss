@@ -60,6 +60,6 @@ public class MinioInterruptedException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.OSS_INTERRUPTED, "对象存储服务器异步执行中断错误");
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_INTERRUPTED, "对象存储服务器异步执行中断错误");
     }
 }
