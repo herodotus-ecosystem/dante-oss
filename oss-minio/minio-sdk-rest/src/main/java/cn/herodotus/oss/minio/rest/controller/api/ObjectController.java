@@ -44,6 +44,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -123,6 +124,10 @@ public class ObjectController implements Controller {
     @DeleteMapping("/multi")
     public Result<List<DeleteErrorEntity>> removeObjects(@Validated @RequestBody RemoveObjectsRequest request) {
         List<DeleteErrorEntity> items = objectService.removeObjects(request.build());
-        return result(items);
+        if (CollectionUtils.isEmpty(items)) {
+            return Result.success("批量删除成功！", items);
+        } else {
+            return Result.failure("批量删除失败！", items);
+        }
     }
 }

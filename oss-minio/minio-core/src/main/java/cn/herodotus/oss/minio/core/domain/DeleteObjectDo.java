@@ -23,9 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.domain;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.rest.request.multipart.BaseMultipartUpdatedRequest;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import com.google.common.base.MoreObjects;
 
 /**
@@ -34,7 +34,7 @@ import com.google.common.base.MoreObjects;
  * @author : gengwei.zheng
  * @date : 2023/5/30 22:54
  */
-public class DeleteObjectRequest extends BaseMultipartUpdatedRequest {
+public class DeleteObjectDo implements Entity {
 
     private String name;
 

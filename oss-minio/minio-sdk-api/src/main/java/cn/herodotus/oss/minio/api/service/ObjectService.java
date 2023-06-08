@@ -73,7 +73,9 @@ public class ObjectService extends BaseMinioService {
     public List<ObjectEntity> listObjects(ListObjectsArgs listObjectsArgs) {
         MinioClient minioClient = getMinioClient();
         Iterable<Result<Item>> results = minioClient.listObjects(listObjectsArgs);
-        return toEntities(results, new ObjectToEntityConverter());
+        List<ObjectEntity> entities = toEntities(results, new ObjectToEntityConverter());
+        close(minioClient);
+        return entities;
     }
 
     /**
@@ -85,7 +87,9 @@ public class ObjectService extends BaseMinioService {
     public List<DeleteErrorEntity> removeObjects(RemoveObjectsArgs removeObjectsArgs) {
         MinioClient minioClient = getMinioClient();
         Iterable<Result<DeleteError>> results = minioClient.removeObjects(removeObjectsArgs);
-        return toEntities(results, new DeleteErrorToEntityConverter());
+        List<DeleteErrorEntity> entities = toEntities(results, new DeleteErrorToEntityConverter());
+        close(minioClient);
+        return entities;
     }
 
     /**
