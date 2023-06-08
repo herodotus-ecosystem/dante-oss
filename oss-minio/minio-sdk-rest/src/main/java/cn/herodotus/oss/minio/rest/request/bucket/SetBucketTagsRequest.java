@@ -40,7 +40,7 @@ import jakarta.validation.constraints.NotNull;
 @Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
 public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
 
-    @Schema(name = "存储桶标签")
+    @Schema(name = "存储桶标签", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "存储桶标签不能为空")
     private TagsDo tags = new TagsDo();
 

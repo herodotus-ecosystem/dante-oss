@@ -45,6 +45,7 @@ public class SetObjectLockConfigurationRequest extends BucketRequest<SetObjectLo
 
     private final Converter<ObjectLockConfigurationDo, ObjectLockConfiguration> requestTo = new RequestToObjectLockConfigurationConverter();
 
+    @Schema(name = "对象锁定配置", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "对象锁定配置信息不能为空")
     private ObjectLockConfigurationDo objectLock;
 

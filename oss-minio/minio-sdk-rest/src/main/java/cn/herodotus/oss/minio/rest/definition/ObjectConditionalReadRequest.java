@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.rest.definition;
 
 import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
 import io.minio.ObjectConditionalReadArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,17 +41,21 @@ import org.apache.commons.lang3.StringUtils;
  */
 public abstract class ObjectConditionalReadRequest<B extends ObjectConditionalReadArgs.Builder<B, A>, A extends ObjectConditionalReadArgs> extends ObjectReadRequest<B, A> {
 
+    @Schema(name = "offset", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "offset 参数不能为空")
     @DecimalMin(value = "0", message = "offset 参数不能小于 0")
     private Long offset;
 
+    @Schema(name = "length", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "length 参数不能为空")
     @DecimalMin(value = "0", message = "length 参数不能小于 0")
     private Long length;
 
+    @Schema(name = "matchETag", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "matchETag 不能为null或者空")
     private String matchETag;
 
+    @Schema(name = "notMatchETag", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "notMatchETag 不能为null或者空")
     private String notMatchETag;
     private String modifiedSince;

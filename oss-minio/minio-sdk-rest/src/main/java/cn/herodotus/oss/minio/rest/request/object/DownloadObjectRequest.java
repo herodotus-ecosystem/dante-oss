@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.rest.request.object;
 
 import cn.herodotus.oss.minio.rest.definition.ObjectReadRequest;
 import io.minio.DownloadObjectArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
 /**
@@ -35,11 +36,15 @@ import jakarta.validation.constraints.NotBlank;
  * @author : gengwei.zheng
  * @date : 2023/5/30 23:49
  */
+@Schema(name = "下载对象请求参数实体", title = "下载对象请求参数实体")
 public class DownloadObjectRequest extends ObjectReadRequest<DownloadObjectArgs.Builder, DownloadObjectArgs> {
 
     @NotBlank(message = "filename 不能为空")
+    @Schema(name = "文件名", requiredMode = Schema.RequiredMode.REQUIRED)
     private String filename;
-    private Boolean overwrite;
+
+    @Schema(name = "是否覆盖")
+    private Boolean overwrite = false;
 
     public String getFilename() {
         return filename;

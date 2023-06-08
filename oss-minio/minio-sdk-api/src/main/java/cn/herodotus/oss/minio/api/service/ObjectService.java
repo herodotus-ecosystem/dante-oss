@@ -140,6 +140,53 @@ public class ObjectService extends BaseMinioService {
     }
 
     /**
+     * 将对象的数据下载到文件。
+     *
+     * @param downloadObjectArgs {@link DownloadObjectArgs}
+     */
+    public void downloadObject(DownloadObjectArgs downloadObjectArgs) {
+        String function = "downloadObject";
+        MinioClient minioClient = getMinioClient();
+
+        try {
+            minioClient.downloadObject(downloadObjectArgs);
+        } catch (ErrorResponseException e) {
+            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
+            throw new MinioErrorResponseException(e.getMessage());
+        } catch (InsufficientDataException e) {
+            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
+            throw new MinioInsufficientDataException(e.getMessage());
+        } catch (InternalException e) {
+            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
+            throw new MinioInternalException(e.getMessage());
+        } catch (InvalidKeyException e) {
+            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
+            throw new MinioInvalidKeyException(e.getMessage());
+        } catch (InvalidResponseException e) {
+            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
+            throw new MinioInvalidResponseException(e.getMessage());
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException(e.getMessage());
+            }
+        } catch (NoSuchAlgorithmException e) {
+            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
+            throw new MinioNoSuchAlgorithmException(e.getMessage());
+        } catch (ServerException e) {
+            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
+            throw new MinioServerException(e.getMessage());
+        } catch (XmlParserException e) {
+            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
+            throw new MinioXmlParserException(e.getMessage());
+        } finally {
+            close(minioClient);
+        }
+    }
+
+    /**
      * GetObject接口用于获取某个文件（Object）。此操作需要对此Object具有读权限。
      * <p>
      * 获取对象的数据。InputStream使用后返回必须关闭以释放网络资源。
@@ -301,53 +348,6 @@ public class ObjectService extends BaseMinioService {
 
         try {
             return minioClient.copyObject(copyObjectArgs);
-        } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException(e.getMessage());
-        } catch (InsufficientDataException e) {
-            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException(e.getMessage());
-        } catch (InternalException e) {
-            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException(e.getMessage());
-        } catch (InvalidKeyException e) {
-            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException(e.getMessage());
-        } catch (InvalidResponseException e) {
-            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException(e.getMessage());
-        } catch (IOException e) {
-            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
-            } else {
-                throw new MinioIOException(e.getMessage());
-            }
-        } catch (NoSuchAlgorithmException e) {
-            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException(e.getMessage());
-        } catch (ServerException e) {
-            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
-        } catch (XmlParserException e) {
-            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException(e.getMessage());
-        } finally {
-            close(minioClient);
-        }
-    }
-
-    /**
-     * 将对象的数据下载到文件。
-     *
-     * @param downloadObjectArgs {@link DownloadObjectArgs}
-     */
-    public void downloadObject(DownloadObjectArgs downloadObjectArgs) {
-        String function = "downloadObject";
-        MinioClient minioClient = getMinioClient();
-
-        try {
-            minioClient.downloadObject(downloadObjectArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException(e.getMessage());

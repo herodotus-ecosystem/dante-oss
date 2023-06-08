@@ -41,7 +41,7 @@ import jakarta.validation.constraints.Min;
 @Schema(name = "设置存储桶加密方式请求参数实体", title = "设置存储桶加密方式请求参数实体")
 public class SetBucketEncryptionRequest extends BucketRequest<SetBucketEncryptionArgs.Builder, SetBucketEncryptionArgs> {
 
-    @Schema(name = "服务端加密算法", description = "1：为AWS_KMS；2：为AES256")
+    @Schema(name = "服务端加密算法", description = "1：为AWS_KMS；2：为AES256", requiredMode = Schema.RequiredMode.REQUIRED)
     @Min(value = 1, message = "设置存储桶加密方式，必须为有效加密方式， 不能为 0 (Disabled)")
     private Integer serverSideEncryption;
 
