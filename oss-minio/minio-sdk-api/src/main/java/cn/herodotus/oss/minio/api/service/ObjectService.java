@@ -26,11 +26,11 @@
 package cn.herodotus.oss.minio.api.service;
 
 import cn.herodotus.oss.minio.api.converter.DeleteErrorToEntityConverter;
-import cn.herodotus.oss.minio.api.converter.ItemToEntityConverter;
+import cn.herodotus.oss.minio.api.converter.ObjectToEntityConverter;
 import cn.herodotus.oss.minio.api.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.api.definition.service.BaseMinioService;
 import cn.herodotus.oss.minio.api.entity.DeleteErrorEntity;
-import cn.herodotus.oss.minio.api.entity.ItemEntity;
+import cn.herodotus.oss.minio.api.entity.ObjectEntity;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.*;
 import io.minio.errors.*;
@@ -70,10 +70,10 @@ public class ObjectService extends BaseMinioService {
      * @param listObjectsArgs {@link ListObjectsArgs}
      * @return Iterable<Result < Item>>
      */
-    public List<ItemEntity> listObjects(ListObjectsArgs listObjectsArgs) {
+    public List<ObjectEntity> listObjects(ListObjectsArgs listObjectsArgs) {
         MinioClient minioClient = getMinioClient();
         Iterable<Result<Item>> results = minioClient.listObjects(listObjectsArgs);
-        return toResponses(results, new ItemToEntityConverter());
+        return toEntities(results, new ObjectToEntityConverter());
     }
 
     /**
@@ -85,7 +85,7 @@ public class ObjectService extends BaseMinioService {
     public List<DeleteErrorEntity> removeObjects(RemoveObjectsArgs removeObjectsArgs) {
         MinioClient minioClient = getMinioClient();
         Iterable<Result<DeleteError>> results = minioClient.removeObjects(removeObjectsArgs);
-        return toResponses(results, new DeleteErrorToEntityConverter());
+        return toEntities(results, new DeleteErrorToEntityConverter());
     }
 
     /**
@@ -571,7 +571,7 @@ public class ObjectService extends BaseMinioService {
         }
     }
 
-    private <T, R> List<R> toResponses(Iterable<Result<T>> results, Converter<Result<T>, R> toResponse) {
+    private <T, R> List<R> toEntities(Iterable<Result<T>> results, Converter<Result<T>, R> toResponse) {
         List<R> responses = new ArrayList<>();
         if (!IterableUtils.isEmpty(results)) {
             for (Result<T> result : results) {

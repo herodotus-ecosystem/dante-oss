@@ -30,7 +30,7 @@ import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.minio.api.entity.DeleteErrorEntity;
-import cn.herodotus.oss.minio.api.entity.ItemEntity;
+import cn.herodotus.oss.minio.api.entity.ObjectEntity;
 import cn.herodotus.oss.minio.api.service.ObjectService;
 import cn.herodotus.oss.minio.rest.request.object.ListObjectsRequest;
 import cn.herodotus.oss.minio.rest.request.object.RemoveObjectRequest;
@@ -84,8 +84,8 @@ public class ObjectController implements Controller {
             @Parameter(name = "request", required = true, in = ParameterIn.PATH, description = "ListObjectsRequest参数实体", schema = @Schema(implementation = ListObjectsRequest.class))
     })
     @GetMapping("/list")
-    public Result<List<ItemEntity>> list(@Validated ListObjectsRequest request) {
-        List<ItemEntity> items = objectService.listObjects(request.build());
+    public Result<List<ObjectEntity>> list(@Validated ListObjectsRequest request) {
+        List<ObjectEntity> items = objectService.listObjects(request.build());
         return result(items);
     }
 
