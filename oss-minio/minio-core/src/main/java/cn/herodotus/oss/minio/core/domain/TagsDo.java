@@ -37,5 +37,4 @@ import java.util.HashMap;
  */
 public class TagsDo extends HashMap<String, String> implements Entity {
 
-
 }

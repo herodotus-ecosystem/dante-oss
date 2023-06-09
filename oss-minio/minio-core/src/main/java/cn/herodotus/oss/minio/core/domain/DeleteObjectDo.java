@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * <p>Description: 删除对象参数 </p>
@@ -36,8 +37,10 @@ import com.google.common.base.MoreObjects;
  */
 public class DeleteObjectDo implements Entity {
 
+    @Schema(name = "对象名称")
     private String name;
 
+    @Schema(name = "对象版本ID")
     private String versionId;
 
     public String getName() {

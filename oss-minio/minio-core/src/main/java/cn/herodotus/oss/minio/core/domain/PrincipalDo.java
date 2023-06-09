@@ -23,55 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.domain;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.engine.rest.core.definition.dto.BaseDto;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.collect.Lists;
 
-import javax.crypto.SecretKey;
-import java.util.Map;
+import java.util.List;
 
 /**
- * <p>Description: ServerSideEncryptionCustomerKeyRequest </p>
+ * <p>Description: Minio 策略 PrincipalDo  </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 23:21
+ * @date : 2023/6/7 17:33
  */
-public class ServerSideEncryptionCustomerKeyRequest extends BaseDto {
+public class PrincipalDo implements Entity {
 
-    private Boolean isDestroyed = false;
-    private SecretKey secretKey;
-    private Map<String, String> headers;
-    private Map<String, String> copySourceHeaders;
+    @JsonProperty("AWS")
+    private List<String> aws = Lists.newArrayList("*");
 
-    public Boolean getDestroyed() {
-        return isDestroyed;
+    public List<String> getAws() {
+        return aws;
     }
 
-    public void setDestroyed(Boolean destroyed) {
-        isDestroyed = destroyed;
-    }
-
-    public SecretKey getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(SecretKey secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
-
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
-    }
-
-    public Map<String, String> getCopySourceHeaders() {
-        return copySourceHeaders;
-    }
-
-    public void setCopySourceHeaders(Map<String, String> copySourceHeaders) {
-        this.copySourceHeaders = copySourceHeaders;
+    public void setAws(List<String> aws) {
+        this.aws = aws;
     }
 }

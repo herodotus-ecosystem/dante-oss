@@ -46,7 +46,7 @@ public class CopySourceRequest extends ObjectConditionalReadRequest<CopySource.B
         this.setRegion(request.getRegion());
         this.setObjectName(request.getObjectName());
         this.setVersionId(request.getVersionId());
-        this.setServerSideEncryptionCustom(request.getServerSideEncryptionCustom());
+        this.setServerSideEncryptionCustomerKey(request.getServerSideEncryptionCustomerKey());
         this.setOffset(request.getOffset());
         this.setLength(request.getLength());
         this.setMatchETag(request.getMatchETag());

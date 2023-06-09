@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.rest.definition;
 
 import io.minio.ObjectVersionArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>Description: Minio 基础 Object Version Request  </p>
@@ -49,7 +50,9 @@ public abstract class ObjectVersionRequest<B extends ObjectVersionArgs.Builder<B
 
     @Override
     public void prepare(B builder) {
-        builder.object(getVersionId());
+        if (StringUtils.isNotBlank(getVersionId())) {
+            builder.versionId(getVersionId());
+        }
         super.prepare(builder);
     }
 }

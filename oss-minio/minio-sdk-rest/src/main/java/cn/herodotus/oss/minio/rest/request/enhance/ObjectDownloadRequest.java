@@ -23,41 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain.policy;
+package cn.herodotus.oss.minio.rest.request.enhance;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.ArrayList;
-import java.util.List;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Minio 访问策略实体 </p>
+ * <p>Description: 对象下载请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/7 17:42
+ * @date : 2023/6/9 16:41
  */
-public class PolicyDo implements Entity {
-
-    @JsonProperty("Version")
-    private String version = "2012-10-17";
-
-    @JsonProperty("Statement")
-    private List<StatementDo> statements = new ArrayList<>();
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public List<StatementDo> getStatements() {
-        return statements;
-    }
-
-    public void setStatements(List<StatementDo> statements) {
-        this.statements = statements;
-    }
+@Schema(name = "对象下载请求参数实体", title = "对象下载请求参数实体", description = "用于前后端交互方式的下载")
+public class ObjectDownloadRequest extends BaseOperationRequest {
 }

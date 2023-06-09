@@ -29,6 +29,7 @@ import cn.herodotus.oss.minio.rest.definition.ObjectReadRequest;
 import io.minio.DownloadObjectArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * <p>Description: DownloadObjectRequest </p>
@@ -44,7 +45,7 @@ public class DownloadObjectRequest extends ObjectReadRequest<DownloadObjectArgs.
     private String filename;
 
     @Schema(name = "是否覆盖")
-    private Boolean overwrite = false;
+    private Boolean overwrite;
 
     public String getFilename() {
         return filename;
@@ -65,7 +66,9 @@ public class DownloadObjectRequest extends ObjectReadRequest<DownloadObjectArgs.
     @Override
     public void prepare(DownloadObjectArgs.Builder builder) {
         builder.filename(getFilename());
-        builder.overwrite(getOverwrite());
+        if (ObjectUtils.isNotEmpty(getOverwrite())) {
+            builder.overwrite(getOverwrite());
+        }
         super.prepare(builder);
     }
 

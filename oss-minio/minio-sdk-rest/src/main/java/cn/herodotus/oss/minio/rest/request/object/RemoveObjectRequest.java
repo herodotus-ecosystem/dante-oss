@@ -28,6 +28,7 @@ package cn.herodotus.oss.minio.rest.request.object;
 import cn.herodotus.oss.minio.rest.definition.ObjectVersionRequest;
 import io.minio.RemoveObjectArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * <p>Description: 删除对象请求参数 </p>
@@ -39,7 +40,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 public class RemoveObjectRequest extends ObjectVersionRequest<RemoveObjectArgs.Builder, RemoveObjectArgs> {
 
     @Schema(name = "使用Governance模式")
-    private Boolean bypassGovernanceMode = false;
+    private Boolean bypassGovernanceMode;
 
     public Boolean getBypassGovernanceMode() {
         return bypassGovernanceMode;
@@ -51,7 +52,9 @@ public class RemoveObjectRequest extends ObjectVersionRequest<RemoveObjectArgs.B
 
     @Override
     public void prepare(RemoveObjectArgs.Builder builder) {
-        builder.bypassGovernanceMode(getBypassGovernanceMode());
+        if (ObjectUtils.isNotEmpty(getBypassGovernanceMode())) {
+            builder.bypassGovernanceMode(getBypassGovernanceMode());
+        }
         super.prepare(builder);
     }
 

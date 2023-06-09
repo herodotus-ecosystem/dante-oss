@@ -23,21 +23,24 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.converter;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.rest.request.domain.ServerSideEncryptionCustomerKeyRequest;
-import io.minio.ServerSideEncryptionCustomerKey;
+import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
+import com.google.common.base.Enums;
+import io.minio.messages.RetentionMode;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio Request 转 DeleteObject 转换器 </p>
+ * <p>Description: Minio Request 转 RetentionMode 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 23:06
+ * @date : 2023/6/8 22:42
  */
-public class RequestToServerSideEncryptionCustomerKeyConverter implements Converter<ServerSideEncryptionCustomerKeyRequest, ServerSideEncryptionCustomerKey> {
+public class RequestToRetentionModeConverter implements Converter<Integer, RetentionMode> {
     @Override
-    public ServerSideEncryptionCustomerKey convert(ServerSideEncryptionCustomerKeyRequest request) {
-        return null;
+    public RetentionMode convert(@NotNull Integer mode) {
+        RetentionModeEnums retentionMode = RetentionModeEnums.get(mode);
+        return Enums.getIfPresent(RetentionMode.class, retentionMode.name()).or(RetentionMode.GOVERNANCE);
     }
 }

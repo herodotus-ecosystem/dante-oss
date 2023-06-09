@@ -23,39 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.domain;
+package cn.herodotus.oss.minio.rest.request.enhance;
 
-import cn.herodotus.engine.rest.core.annotation.EnumeratedValue;
-import cn.herodotus.oss.minio.rest.definition.MinioRequest;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 
 /**
- * <p>Description: 对象保留设置请求参实体 </p>
+ * <p>Description: 创建分片上传Dto </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/2 22:22
+ * @date : 2022/7/4 15:14
  */
-public class RetentionRequest implements MinioRequest {
-    @EnumeratedValue(names = {"GOVERNANCE", "COMPLIANCE"}, message = "存储模式的值只能是大写 GOVERNANCE 或者 COMPLIANCE")
-    @Schema(name = "对象保留模式", title = "存储模式的值只能是大写 GOVERNANCE 或者 COMPLIANCE")
-    private String mode;
+@Schema(name = "创建分片上传请求参数实体", title = "创建分片上传请求参数实体")
+public class MultipartUploadCreateRequest extends BaseOperationRequest {
 
-    @Schema(name = "保留到日期", title = "对象保留到的日期")
-    private String retainUntilDate;
+    @Min(value = 1, message = "分片数量不能小于等于1")
+    @Schema(name = "分片数量")
+    private Integer size;
 
-    public String getMode() {
-        return mode;
+    public Integer getSize() {
+        return size;
     }
 
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
-
-    public String getRetainUntilDate() {
-        return retainUntilDate;
-    }
-
-    public void setRetainUntilDate(String retainUntilDate) {
-        this.retainUntilDate = retainUntilDate;
+    public void setSize(Integer size) {
+        this.size = size;
     }
 }

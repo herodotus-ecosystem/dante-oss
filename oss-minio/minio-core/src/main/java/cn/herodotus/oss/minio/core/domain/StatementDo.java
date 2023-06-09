@@ -23,30 +23,62 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain.policy;
+package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Lists;
 
 import java.util.List;
 
 /**
- * <p>Description: Minio 策略 PrincipalDo  </p>
+ * <p>Description: Minio 策略 StatementDo </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/7 17:33
+ * @date : 2023/6/7 17:37
  */
-public class PrincipalDo implements Entity {
+public class StatementDo implements Entity {
 
-    @JsonProperty("AWS")
-    private List<String> aws = Lists.newArrayList("*");
+    @JsonProperty("Effect")
+    private String effect = "Allow";
 
-    public List<String> getAws() {
-        return aws;
+    @JsonProperty("Action")
+    private List<String> actions;
+
+    @JsonProperty("Resource")
+    private List<String> resources;
+
+    @JsonProperty("Principal")
+    private PrincipalDo principal = new PrincipalDo();
+
+    public String getEffect() {
+        return effect;
     }
 
-    public void setAws(List<String> aws) {
-        this.aws = aws;
+    public void setEffect(String effect) {
+        this.effect = effect;
+    }
+
+    public List<String> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<String> actions) {
+        this.actions = actions;
+    }
+
+    public List<String> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<String> resources) {
+        this.resources = resources;
+    }
+
+    public PrincipalDo getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(PrincipalDo principalDo) {
+        this.principal = principalDo;
     }
 }

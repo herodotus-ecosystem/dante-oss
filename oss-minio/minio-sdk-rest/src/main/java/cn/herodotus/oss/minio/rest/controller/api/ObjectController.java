@@ -38,13 +38,14 @@ import cn.herodotus.oss.minio.rest.request.object.RemoveObjectsRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,6 +66,8 @@ import java.util.List;
 })
 public class ObjectController implements Controller {
 
+    private static final Logger log = LoggerFactory.getLogger(ObjectController.class);
+
     private final ObjectService objectService;
 
     public ObjectController(ObjectService objectService) {
@@ -82,7 +85,7 @@ public class ObjectController implements Controller {
                     @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, in = ParameterIn.PATH, description = "ListObjectsRequest参数实体", schema = @Schema(implementation = ListObjectsRequest.class))
+            @Parameter(name = "request", required = true, description = "ListObjectsRequest参数实体", schema = @Schema(implementation = ListObjectsRequest.class))
     })
     @GetMapping("/list")
     public Result<List<ObjectEntity>> list(@Validated ListObjectsRequest request) {

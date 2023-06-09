@@ -23,29 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.multipart;
+package cn.herodotus.oss.minio.core.converter;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Min;
+import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
+import cn.herodotus.oss.minio.core.domain.RetentionDo;
+import io.minio.messages.Retention;
+import io.minio.messages.RetentionMode;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.time.ZonedDateTime;
 
 /**
- * <p>Description: 创建分片上传Dto </p>
+ * <p>Description: Minio Request 转 Retention 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2023/6/8 23:01
  */
-@Schema(name = "创建分片上传请求参数实体", title = "创建分片上传请求参数实体")
-public class MultipartUploadCreateRequest extends BaseMultipartUpdatedRequest {
+public class RequestToRetentionConverter implements Converter<RetentionDo, Retention> {
 
-    @Min(value = 1, message = "分片数量不能小于等于1")
-    @Schema(name = "分片数量")
-    private Integer size;
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
+    private final Converter<Integer, RetentionMode> toRetentionMode = new RequestToRetentionModeConverter();
+    @Override
+    public Retention convert(RetentionDo retentionDo) {
+        RetentionMode mode = toRetentionMode.convert(retentionDo.getRetentionMode());
+        ZonedDateTime retainUntilDate = DateTimeUtils.stringToZonedDateTime(retentionDo.getRetainUntilDate());
+        if (ObjectUtils.isNotEmpty(mode)) {
+            return new Retention(mode, retainUntilDate);
+        } else {
+            return new Retention();
+        }
     }
 }

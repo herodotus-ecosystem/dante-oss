@@ -23,53 +23,39 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.multipart;
+package cn.herodotus.oss.minio.core.domain;
 
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-
-import java.io.Serializable;
 
 /**
- * <p>Description: 扩展 Minio 应用Dto </p>
+ * <p>Description: 对象保留域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 16:08
+ * @date : 2022/7/2 22:22
  */
-public class BaseMultipartUpdatedRequest implements Serializable {
+@Schema(name = "对象保留域对象")
+public class RetentionDo implements Entity {
 
-    @NotBlank(message = "存储桶名称不能为空")
-    @Schema(name = "存储桶名称")
-    private String bucketName;
+    @Schema(name = "保留模式")
+    private Integer retentionMode;
 
-    @Schema(name = "存储区域")
-    private String region;
+    @Schema(name = "保留到日期", title = "对象保留到的日期")
+    private String retainUntilDate;
 
-    @NotBlank(message = "对象名称不能为空")
-    @Schema(name = "对象名称")
-    private String objectName;
-
-    public String getBucketName() {
-        return bucketName;
+    public Integer getRetentionMode() {
+        return retentionMode;
     }
 
-    public void setBucketName(String bucketName) {
-        this.bucketName = bucketName;
+    public void setRetentionMode(Integer retentionMode) {
+        this.retentionMode = retentionMode;
     }
 
-    public String getRegion() {
-        return region;
+    public String getRetainUntilDate() {
+        return retainUntilDate;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getObjectName() {
-        return objectName;
-    }
-
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
+    public void setRetainUntilDate(String retainUntilDate) {
+        this.retainUntilDate = retainUntilDate;
     }
 }
