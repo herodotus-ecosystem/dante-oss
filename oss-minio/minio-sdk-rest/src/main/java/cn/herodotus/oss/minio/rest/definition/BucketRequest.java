@@ -41,7 +41,7 @@ import org.hibernate.validator.constraints.Length;
  */
 public abstract class BucketRequest<B extends BucketArgs.Builder<B, A>, A extends BucketArgs> extends BaseRequest<B, A> {
 
-    @Schema(name = "存储桶名称")
+    @Schema(name = "存储桶名称", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "存储桶名称不能为空")
     @Length(min = 3, max = 62, message = "存储桶名称不能少于3个字符，不能大于63个字符")
     @Pattern(regexp = RegexPool.DNS_COMPATIBLE, message = "存储桶名称无法与DNS兼容")

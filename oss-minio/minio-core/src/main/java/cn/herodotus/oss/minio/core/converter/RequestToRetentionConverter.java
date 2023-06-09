@@ -23,21 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.converter;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.rest.request.domain.ServerSideEncryptionCustomerKeyRequest;
-import io.minio.ServerSideEncryptionCustomerKey;
+import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
+import cn.herodotus.oss.minio.core.domain.RetentionDo;
+import io.minio.messages.Retention;
+import io.minio.messages.RetentionMode;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
+import java.time.ZonedDateTime;
+
 /**
- * <p>Description: Minio Request 转 DeleteObject 转换器 </p>
+ * <p>Description: Minio Request 转 Retention 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 23:06
+ * @date : 2023/6/8 23:01
  */
-public class RequestToServerSideEncryptionCustomerKeyConverter implements Converter<ServerSideEncryptionCustomerKeyRequest, ServerSideEncryptionCustomerKey> {
+public class RequestToRetentionConverter implements Converter<RetentionDo, Retention> {
+
+    private final Converter<Integer, RetentionMode> toRetentionMode = new RequestToRetentionModeConverter();
     @Override
-    public ServerSideEncryptionCustomerKey convert(ServerSideEncryptionCustomerKeyRequest request) {
-        return null;
+    public Retention convert(RetentionDo retentionDo) {
+        RetentionMode mode = toRetentionMode.convert(retentionDo.getRetentionMode());
+        ZonedDateTime retainUntilDate = DateTimeUtils.stringToZonedDateTime(retentionDo.getRetainUntilDate());
+        if (ObjectUtils.isNotEmpty(mode)) {
+            return new Retention(mode, retainUntilDate);
+        } else {
+            return new Retention();
+        }
     }
 }

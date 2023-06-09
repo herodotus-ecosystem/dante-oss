@@ -25,13 +25,13 @@
 
 package cn.herodotus.oss.minio.rest.request.object;
 
-import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
+import cn.herodotus.oss.minio.core.converter.RequestToRetentionConverter;
+import cn.herodotus.oss.minio.core.domain.RetentionDo;
 import cn.herodotus.oss.minio.rest.definition.ObjectVersionRequest;
-import cn.herodotus.oss.minio.rest.request.domain.RetentionRequest;
 import io.minio.SetObjectRetentionArgs;
 import io.minio.messages.Retention;
-import io.minio.messages.RetentionMode;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
  * <p>Description: SetObjectRetentionRequest </p>
@@ -41,15 +41,17 @@ import org.apache.commons.lang3.ObjectUtils;
  */
 public class SetObjectRetentionRequest extends ObjectVersionRequest<SetObjectRetentionArgs.Builder, SetObjectRetentionArgs> {
 
-    private RetentionRequest retention;
+    private final Converter<RetentionDo, Retention> toRetention = new RequestToRetentionConverter();
 
-    private Boolean bypassGovernanceMode = false;
+    private RetentionDo retention;
 
-    public RetentionRequest getRetention() {
+    private Boolean bypassGovernanceMode;
+
+    public RetentionDo getRetention() {
         return retention;
     }
 
-    public void setRetention(RetentionRequest retention) {
+    public void setRetention(RetentionDo retention) {
         this.retention = retention;
     }
 
@@ -64,10 +66,13 @@ public class SetObjectRetentionRequest extends ObjectVersionRequest<SetObjectRet
     @Override
     public void prepare(SetObjectRetentionArgs.Builder builder) {
         if (ObjectUtils.isNotEmpty(getRetention())) {
-            Retention retention = new Retention(RetentionMode.valueOf(getRetention().getMode()), DateTimeUtils.stringToZonedDateTime(getRetention().getRetainUntilDate()));
+            Retention retention = toRetention.convert(getRetention());
             builder.config(retention);
         }
-        builder.bypassGovernanceMode(getBypassGovernanceMode());
+
+        if (ObjectUtils.isNotEmpty(getBypassGovernanceMode())) {
+            builder.bypassGovernanceMode(getBypassGovernanceMode());
+        }
         super.prepare(builder);
     }
 

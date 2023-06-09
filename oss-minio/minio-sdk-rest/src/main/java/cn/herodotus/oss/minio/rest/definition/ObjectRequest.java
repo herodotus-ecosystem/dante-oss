@@ -38,7 +38,7 @@ import jakarta.validation.constraints.NotBlank;
 public abstract class ObjectRequest<B extends ObjectArgs.Builder<B, A>, A extends ObjectArgs> extends BucketRequest<B, A> {
 
     @NotBlank(message = "对象名称不能为空")
-    @Schema(name = "对象名称")
+    @Schema(name = "对象名称", requiredMode = Schema.RequiredMode.REQUIRED)
     private String objectName;
 
     public String getObjectName() {

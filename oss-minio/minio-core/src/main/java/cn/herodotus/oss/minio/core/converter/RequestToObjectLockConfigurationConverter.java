@@ -27,8 +27,6 @@ package cn.herodotus.oss.minio.core.converter;
 
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDo;
 import cn.herodotus.oss.minio.core.enums.RetentionDurationEnums;
-import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
-import com.google.common.base.Enums;
 import io.minio.messages.*;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
@@ -41,20 +39,17 @@ import org.springframework.core.convert.converter.Converter;
  */
 public class RequestToObjectLockConfigurationConverter implements Converter<ObjectLockConfigurationDo, ObjectLockConfiguration> {
 
+    private final Converter<Integer, RetentionMode> toRetentionMode = new RequestToRetentionModeConverter();
+
     @Override
     public ObjectLockConfiguration convert(ObjectLockConfigurationDo source) {
         if (ObjectUtils.isEmpty(source.getRetentionMode()) && ObjectUtils.isEmpty(source.getDurationMode())) {
             return new ObjectLockConfiguration();
         } else {
-            RetentionMode mode = getRetentionMode(source.getRetentionMode());
+            RetentionMode mode = toRetentionMode.convert(source.getRetentionMode());
             RetentionDuration duration = getRetentionDuration(source.getDurationMode(), source.getDuration());
             return new ObjectLockConfiguration(mode, duration);
         }
-    }
-
-    private RetentionMode getRetentionMode(Integer mode) {
-        RetentionModeEnums retentionMode = RetentionModeEnums.get(mode);
-        return Enums.getIfPresent(RetentionMode.class, retentionMode.name()).or(RetentionMode.GOVERNANCE);
     }
 
     private RetentionDuration getRetentionDuration(Integer durationMode, Integer duration) {

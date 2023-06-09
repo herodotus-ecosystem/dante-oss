@@ -36,7 +36,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2021/11/8 15:18
  */
-public class ItemEntity implements Entity {
+public class ObjectEntity implements Entity {
 
     private String etag;
     private String objectName;
@@ -44,9 +44,9 @@ public class ItemEntity implements Entity {
     private OwnerEntity owner;
     private Long size;
     private String storageClass;
-    private Boolean isLatest;
+    private Boolean latest;
     private Map<String, String> userMetadata;
-    private Boolean isDir;
+    private Boolean dir;
 
     public String getEtag() {
         return etag;
@@ -97,11 +97,11 @@ public class ItemEntity implements Entity {
     }
 
     public Boolean getLatest() {
-        return isLatest;
+        return latest;
     }
 
     public void setLatest(Boolean latest) {
-        isLatest = latest;
+        this.latest = latest;
     }
 
     public Map<String, String> getUserMetadata() {
@@ -113,11 +113,11 @@ public class ItemEntity implements Entity {
     }
 
     public Boolean getDir() {
-        return isDir;
+        return dir;
     }
 
     public void setDir(Boolean dir) {
-        isDir = dir;
+        this.dir = dir;
     }
 
     @Override
@@ -129,8 +129,8 @@ public class ItemEntity implements Entity {
                 .add("owner", owner)
                 .add("size", size)
                 .add("storageClass", storageClass)
-                .add("isLatest", isLatest)
-                .add("isDir", isDir)
+                .add("latest", latest)
+                .add("dir", dir)
                 .toString();
     }
 }

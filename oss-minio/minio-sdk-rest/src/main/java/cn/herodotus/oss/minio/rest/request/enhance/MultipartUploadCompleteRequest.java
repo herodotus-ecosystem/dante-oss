@@ -23,33 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.object;
+package cn.herodotus.oss.minio.rest.request.enhance;
 
-import cn.herodotus.oss.minio.rest.definition.ObjectConditionalReadRequest;
-import io.minio.GetObjectArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
 /**
- * <p>Description: GetObjectRequest </p>
+ * <p>Description: 完成分片上传 Dto </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 23:58
+ * @date : 2022/7/4 15:14
  */
-@Schema(name = "下载对象请求参数实体", title = "下载对象请求参数实体", description = "与前端交互使用")
-public class GetObjectRequest extends ObjectConditionalReadRequest<GetObjectArgs.Builder, GetObjectArgs> {
+@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
+public class MultipartUploadCompleteRequest extends BaseOperationRequest {
 
-    public GetObjectRequest(DownloadObjectRequest request) {
-        this.setExtraHeaders(request.getExtraHeaders());
-        this.setExtraQueryParams(request.getExtraQueryParams());
-        this.setBucketName(request.getBucketName());
-        this.setRegion(request.getRegion());
-        this.setObjectName(request.getObjectName());
-        this.setVersionId(request.getVersionId());
-        this.setServerSideEncryptionCustomerKey(request.getServerSideEncryptionCustomerKey());
+    @NotBlank(message = "分片上传ID不能为空")
+    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
+    private String uploadId;
+
+    public String getUploadId() {
+        return uploadId;
     }
 
-    @Override
-    public GetObjectArgs.Builder getBuilder() {
-        return GetObjectArgs.builder();
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
     }
 }

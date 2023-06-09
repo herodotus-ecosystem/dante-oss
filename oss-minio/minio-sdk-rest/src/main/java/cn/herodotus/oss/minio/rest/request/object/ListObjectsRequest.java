@@ -27,9 +27,12 @@ package cn.herodotus.oss.minio.rest.request.object;
 
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.ListObjectsArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>Description: 对象列表请求参数 </p>
@@ -37,48 +40,35 @@ import org.apache.commons.lang3.BooleanUtils;
  * @author : gengwei.zheng
  * @date : 2023/4/16 21:51
  */
+@Schema(name = "对象列表请求参数实体", title = "对象列表请求参数实体")
 public class ListObjectsRequest extends BucketRequest<ListObjectsArgs.Builder, ListObjectsArgs> {
 
-    /**
-     * 分隔符
-     */
+    @Schema(name = "分隔符", description = "如果recursive为true，那么默认值为'', 否则默认值为'/'")
     private String delimiter = "";
-    /**
-     * 使用 UrlEncoding
-     */
+    @Schema(name = "使用UrlEncoding", description = "默认开启，默认值为 true")
     private Boolean useUrlEncodingType = true;
-    /**
-     * 'marker' for ListObjectsV1 and 'startAfter' for ListObjectsV2.
-     */
+    @Schema(name = "关键字")
     private String keyMarker;
-    private String startAfter;
     @Min(value = 1, message = "maxKeys 值不能小于 1")
     @Max(value = 1000, message = "maxKeys 值不能大于 1000")
+    @Schema(name = "最大关键字数量", description = "关键字数量必须大于1，同时小于等于1000, 默认值 1000")
     private Integer maxKeys = 1000;
+    @Schema(name = "前缀")
     private String prefix;
-
-    /**
-     * only for ListObjectsV2.
-     */
-    private String continuationToken;
-    /**
-     * only for ListObjectsV2.
-     */
-    private Boolean fetchOwner;
-    /**
-     * only for GetObjectVersions.
-     */
-    private String versionIdMarker;
-    /**
-     * MinIO extension applicable to ListObjectsV2.
-     */
-    private Boolean includeUserMetadata;
-    /**
-     * 是否递归
-     */
-    private Boolean recursive = false;
+    @Schema(name = "是否递归", description = "当前默认设置为 false")
+    private Boolean recursive;
+    @Schema(name = "是否使用V1 版本API", description = "当前默认设置为 true")
     private Boolean useApiVersion1;
-    private Boolean includeVersions = false;
+    @Schema(name = "是否包含版本信息", description = "当前默认设置为 false")
+    private Boolean includeVersions;
+    @Schema(name = "持续集成Token", description = "仅当使用 V2 版本 API 时需要，即 useApiVersion1 == false")
+    private String continuationToken;
+    @Schema(name = "获取Owner信息", description = "仅当使用 V2 版本 API 时需要，即 useApiVersion1 == false")
+    private Boolean fetchOwner;
+    @Schema(name = "包含用户扩展自定义信息", description = "仅当使用 V2 版本 API 时需要，即 useApiVersion1 == false")
+    private Boolean includeUserMetadata;
+    @Schema(name = "版本ID标记", description = "仅在GetObjectVersions情况下使用")
+    private String versionIdMarker;
 
     public String getDelimiter() {
         return delimiter;
@@ -104,14 +94,6 @@ public class ListObjectsRequest extends BucketRequest<ListObjectsArgs.Builder, L
         this.keyMarker = keyMarker;
     }
 
-    public String getStartAfter() {
-        return startAfter;
-    }
-
-    public void setStartAfter(String startAfter) {
-        this.startAfter = startAfter;
-    }
-
     public Integer getMaxKeys() {
         return maxKeys;
     }
@@ -126,38 +108,6 @@ public class ListObjectsRequest extends BucketRequest<ListObjectsArgs.Builder, L
 
     public void setPrefix(String prefix) {
         this.prefix = prefix;
-    }
-
-    public String getContinuationToken() {
-        return continuationToken;
-    }
-
-    public void setContinuationToken(String continuationToken) {
-        this.continuationToken = continuationToken;
-    }
-
-    public Boolean getFetchOwner() {
-        return fetchOwner;
-    }
-
-    public void setFetchOwner(Boolean fetchOwner) {
-        this.fetchOwner = fetchOwner;
-    }
-
-    public String getVersionIdMarker() {
-        return versionIdMarker;
-    }
-
-    public void setVersionIdMarker(String versionIdMarker) {
-        this.versionIdMarker = versionIdMarker;
-    }
-
-    public Boolean getIncludeUserMetadata() {
-        return includeUserMetadata;
-    }
-
-    public void setIncludeUserMetadata(Boolean includeUserMetadata) {
-        this.includeUserMetadata = includeUserMetadata;
     }
 
     public Boolean getRecursive() {
@@ -184,6 +134,38 @@ public class ListObjectsRequest extends BucketRequest<ListObjectsArgs.Builder, L
         this.includeVersions = includeVersions;
     }
 
+    public String getContinuationToken() {
+        return continuationToken;
+    }
+
+    public void setContinuationToken(String continuationToken) {
+        this.continuationToken = continuationToken;
+    }
+
+    public Boolean getFetchOwner() {
+        return fetchOwner;
+    }
+
+    public void setFetchOwner(Boolean fetchOwner) {
+        this.fetchOwner = fetchOwner;
+    }
+
+    public Boolean getIncludeUserMetadata() {
+        return includeUserMetadata;
+    }
+
+    public void setIncludeUserMetadata(Boolean includeUserMetadata) {
+        this.includeUserMetadata = includeUserMetadata;
+    }
+
+    public String getVersionIdMarker() {
+        return versionIdMarker;
+    }
+
+    public void setVersionIdMarker(String versionIdMarker) {
+        this.versionIdMarker = versionIdMarker;
+    }
+
     @Override
     public void prepare(ListObjectsArgs.Builder builder) {
 
@@ -191,24 +173,40 @@ public class ListObjectsRequest extends BucketRequest<ListObjectsArgs.Builder, L
         builder.useUrlEncodingType(getUseUrlEncodingType());
         builder.maxKeys(getMaxKeys());
         builder.prefix(getPrefix());
-        builder.recursive(getRecursive());
+
+        if (ObjectUtils.isNotEmpty(getRecursive())) {
+            builder.recursive(getRecursive());
+        }
+
+        if (StringUtils.isNotBlank(getKeyMarker())) {
+            builder.keyMarker(getKeyMarker());
+        }
+
+        if (ObjectUtils.isNotEmpty(getIncludeVersions())) {
+            builder.recursive(getIncludeVersions());
+        }
 
         if (BooleanUtils.isTrue(getUseApiVersion1())) {
-            builder.keyMarker(getKeyMarker());
-            builder.includeVersions(getIncludeVersions());
             builder.continuationToken(null);
             builder.fetchOwner(false);
             builder.includeUserMetadata(false);
         } else {
-            builder.startAfter(getStartAfter());
-            builder.continuationToken(getContinuationToken());
-            builder.fetchOwner(getFetchOwner());
-            builder.includeUserMetadata(getIncludeUserMetadata());
-            builder.keyMarker(null);
-            builder.includeVersions(false);
+            if (StringUtils.isNotBlank(getContinuationToken())) {
+                builder.continuationToken(getContinuationToken());
+            }
+
+            if (ObjectUtils.isNotEmpty(getFetchOwner())) {
+                builder.fetchOwner(getFetchOwner());
+            }
+
+            if (ObjectUtils.isNotEmpty(getIncludeUserMetadata())) {
+                builder.includeUserMetadata(getIncludeUserMetadata());
+            }
         }
 
-        builder.versionIdMarker(getVersionIdMarker());
+        if (StringUtils.isNotBlank(getVersionIdMarker())) {
+            builder.continuationToken(getVersionIdMarker());
+        }
 
         super.prepare(builder);
     }

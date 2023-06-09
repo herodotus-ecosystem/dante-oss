@@ -23,62 +23,62 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain.policy;
+package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.List;
+import java.util.Map;
 
 /**
- * <p>Description: Minio 策略 StatementDo </p>
+ * <p>Description: 服务端加密域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/7 17:37
+ * @date : 2023/6/9 12:39
  */
-public class StatementDo implements Entity {
+public class ServerSideEncryptionDo implements Entity {
 
-    @JsonProperty("Effect")
-    private String effect = "Allow";
+    @Schema(name = "服务端加密方式类型", description = "1:SSE_KMS, 2:SSE_S3, 3: 自定义")
+    private Integer type;
 
-    @JsonProperty("Action")
-    private List<String> actions;
+    @Schema(name = "自定义服务端加密方式加密Key", description = "Minio 默认仅支持 256 位 AES")
+    private String customerKey;
 
-    @JsonProperty("Resource")
-    private List<String> resources;
+    @Schema(name = "KMS加密MasterKeyId", description = "可选参数，主要用于AWS_KMS加密算法")
+    private String keyId;
 
-    @JsonProperty("Principal")
-    private PrincipalDo principal = new PrincipalDo();
+    @Schema(name = "KMS加密context", description = "可选参数，主要用于AWS_KMS加密算法")
+    private Map<String, String> context;
 
-    public String getEffect() {
-        return effect;
+    public Integer getType() {
+        return type;
     }
 
-    public void setEffect(String effect) {
-        this.effect = effect;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
-    public List<String> getActions() {
-        return actions;
+    public String getCustomerKey() {
+        return customerKey;
     }
 
-    public void setActions(List<String> actions) {
-        this.actions = actions;
+    public void setCustomerKey(String customerKey) {
+        this.customerKey = customerKey;
     }
 
-    public List<String> getResources() {
-        return resources;
+    public String getKeyId() {
+        return keyId;
     }
 
-    public void setResources(List<String> resources) {
-        this.resources = resources;
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
     }
 
-    public PrincipalDo getPrincipal() {
-        return principal;
+    public Map<String, String> getContext() {
+        return context;
     }
 
-    public void setPrincipal(PrincipalDo principalDo) {
-        this.principal = principalDo;
+    public void setContext(Map<String, String> context) {
+        this.context = context;
     }
 }

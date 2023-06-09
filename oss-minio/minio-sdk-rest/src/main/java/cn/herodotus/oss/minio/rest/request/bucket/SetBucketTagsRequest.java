@@ -30,6 +30,7 @@ import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.SetBucketTagsArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * <p>Description: 设置存储桶标签请求参数实体 </p>
@@ -40,9 +41,9 @@ import jakarta.validation.constraints.NotNull;
 @Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
 public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
 
-    @Schema(name = "存储桶标签")
+    @Schema(name = "存储桶标签", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "存储桶标签不能为空")
-    private TagsDo tags = new TagsDo();
+    private TagsDo tags;
 
     public TagsDo getTags() {
         return tags;
@@ -54,7 +55,9 @@ public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builde
 
     @Override
     public void prepare(SetBucketTagsArgs.Builder builder) {
-        builder.tags(getTags());
+        if (ObjectUtils.isNotEmpty(getTags())) {
+            builder.tags(getTags());
+        }
         super.prepare(builder);
     }
 

@@ -23,53 +23,62 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.multipart;
+package cn.herodotus.oss.minio.core.domain;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.io.Serializable;
+import java.util.List;
 
 /**
- * <p>Description: 扩展 Minio 应用Dto </p>
+ * <p>Description: Minio 策略 StatementDo </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 16:08
+ * @date : 2023/6/7 17:37
  */
-public class BaseMultipartUpdatedRequest implements Serializable {
+public class StatementDo implements Entity {
 
-    @NotBlank(message = "存储桶名称不能为空")
-    @Schema(name = "存储桶名称")
-    private String bucketName;
+    @JsonProperty("Effect")
+    private String effect = "Allow";
 
-    @Schema(name = "存储区域")
-    private String region;
+    @JsonProperty("Action")
+    private List<String> actions;
 
-    @NotBlank(message = "对象名称不能为空")
-    @Schema(name = "对象名称")
-    private String objectName;
+    @JsonProperty("Resource")
+    private List<String> resources;
 
-    public String getBucketName() {
-        return bucketName;
+    @JsonProperty("Principal")
+    private PrincipalDo principal = new PrincipalDo();
+
+    public String getEffect() {
+        return effect;
     }
 
-    public void setBucketName(String bucketName) {
-        this.bucketName = bucketName;
+    public void setEffect(String effect) {
+        this.effect = effect;
     }
 
-    public String getRegion() {
-        return region;
+    public List<String> getActions() {
+        return actions;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
+    public void setActions(List<String> actions) {
+        this.actions = actions;
     }
 
-    public String getObjectName() {
-        return objectName;
+    public List<String> getResources() {
+        return resources;
     }
 
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
+    public void setResources(List<String> resources) {
+        this.resources = resources;
+    }
+
+    public PrincipalDo getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(PrincipalDo principalDo) {
+        this.principal = principalDo;
     }
 }

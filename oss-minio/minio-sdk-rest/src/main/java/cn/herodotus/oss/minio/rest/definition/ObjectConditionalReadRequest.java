@@ -27,9 +27,9 @@ package cn.herodotus.oss.minio.rest.definition;
 
 import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
 import io.minio.ObjectConditionalReadArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -40,18 +40,18 @@ import org.apache.commons.lang3.StringUtils;
  */
 public abstract class ObjectConditionalReadRequest<B extends ObjectConditionalReadArgs.Builder<B, A>, A extends ObjectConditionalReadArgs> extends ObjectReadRequest<B, A> {
 
-    @NotNull(message = "offset 参数不能为空")
+    @Schema(name = "offset")
     @DecimalMin(value = "0", message = "offset 参数不能小于 0")
     private Long offset;
 
-    @NotNull(message = "length 参数不能为空")
+    @Schema(name = "length")
     @DecimalMin(value = "0", message = "length 参数不能小于 0")
     private Long length;
 
-    @NotBlank(message = "matchETag 不能为null或者空")
+    @Schema(name = "matchETag")
     private String matchETag;
 
-    @NotBlank(message = "notMatchETag 不能为null或者空")
+    @Schema(name = "notMatchETag")
     private String notMatchETag;
     private String modifiedSince;
     private String unmodifiedSince;
@@ -106,10 +106,23 @@ public abstract class ObjectConditionalReadRequest<B extends ObjectConditionalRe
 
     @Override
     public void prepare(B builder) {
-        builder.length(getLength());
-        builder.offset(getOffset());
-        builder.matchETag(getMatchETag());
-        builder.notMatchETag(getNotMatchETag());
+
+        if (ObjectUtils.isNotEmpty(getLength()) && getLength() >= 0) {
+            builder.length(getLength());
+        }
+
+        if (ObjectUtils.isNotEmpty(getOffset()) && getOffset() >= 0) {
+            builder.length(getOffset());
+        }
+
+        if (StringUtils.isNotBlank(getMatchETag())) {
+            builder.matchETag(getMatchETag());
+        }
+
+        if (StringUtils.isNotBlank(getNotMatchETag())) {
+            builder.matchETag(getNotMatchETag());
+        }
+
         if (StringUtils.isNotBlank(getModifiedSince())) {
             builder.modifiedSince(DateTimeUtils.stringToZonedDateTime(getModifiedSince()));
         }

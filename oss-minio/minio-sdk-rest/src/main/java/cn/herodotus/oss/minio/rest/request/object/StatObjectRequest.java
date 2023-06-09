@@ -46,7 +46,7 @@ public class StatObjectRequest extends ObjectConditionalReadRequest<StatObjectAr
         this.setRegion(request.getRegion());
         this.setObjectName(request.getObjectName());
         this.setVersionId(request.getVersionId());
-        this.setServerSideEncryptionCustom(request.getServerSideEncryptionCustom());
+        this.setServerSideEncryptionCustomerKey(request.getServerSideEncryptionCustomerKey());
     }
 
     @Override

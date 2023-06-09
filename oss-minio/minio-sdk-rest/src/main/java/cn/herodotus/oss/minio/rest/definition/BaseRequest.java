@@ -26,6 +26,7 @@
 package cn.herodotus.oss.minio.rest.definition;
 
 import io.minio.BaseArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.collections4.MapUtils;
 
 import java.util.Map;
@@ -38,8 +39,10 @@ import java.util.Map;
  */
 public abstract class BaseRequest<B extends BaseArgs.Builder<B, A>, A extends BaseArgs> implements MinioRequestBuilder<B, A> {
 
+    @Schema(name = "额外的请求")
     private Map<String, String> extraHeaders;
 
+    @Schema(name = "额外的Query参数")
     private Map<String, String> extraQueryParams;
 
     public Map<String, String> getExtraHeaders() {

@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.api.converter;
 
 import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
-import cn.herodotus.oss.minio.api.entity.ItemEntity;
+import cn.herodotus.oss.minio.api.entity.ObjectEntity;
 import cn.herodotus.oss.minio.api.entity.OwnerEntity;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.Result;
@@ -43,28 +43,28 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * <p>Description: Result<Item> 转 ItemEntity 转换器 </p>
+ * <p>Description: Result<Item> 转 ObjectEntity 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/5/30 21:33
  */
-public class ItemToEntityConverter implements Converter<Result<Item>, ItemEntity> {
+public class ObjectToEntityConverter implements Converter<Result<Item>, ObjectEntity> {
 
-    private static final Logger log = LoggerFactory.getLogger(ItemToEntityConverter.class);
+    private static final Logger log = LoggerFactory.getLogger(ObjectToEntityConverter.class);
     private final Converter<Owner, OwnerEntity> toEntity;
 
-    public ItemToEntityConverter() {
+    public ObjectToEntityConverter() {
         this.toEntity = new OwnerToEntityConverter();
     }
 
     @Override
-    public ItemEntity convert(Result<Item> result) {
+    public ObjectEntity convert(Result<Item> result) {
 
         String function = "convert";
 
         try {
             Item item = result.get();
-            ItemEntity entity = new ItemEntity();
+            ObjectEntity entity = new ObjectEntity();
             entity.setEtag(item.etag());
             entity.setObjectName(item.objectName());
             entity.setLastModified(DateTimeUtils.zonedDateTimeToString(item.lastModified()));

@@ -26,8 +26,8 @@
 package cn.herodotus.oss.minio.rest.request.bucket;
 
 import cn.herodotus.engine.assistant.core.json.jackson2.utils.Jackson2Utils;
-import cn.herodotus.oss.minio.core.domain.policy.PolicyDo;
-import cn.herodotus.oss.minio.core.domain.policy.StatementDo;
+import cn.herodotus.oss.minio.core.domain.PolicyDo;
+import cn.herodotus.oss.minio.core.domain.StatementDo;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import com.google.common.collect.Lists;
@@ -50,7 +50,7 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
     private static final List<String> DEFAULT_ACTION_FOR_BUCKET = Lists.newArrayList("s3:GetBucketLocation", "s3:ListBucket", "s3:ListBucketMultipartUploads");
     private static final List<String> DEFAULT_ACTION_FOR_OBJECT = Lists.newArrayList("s3:DeleteObject", "s3:GetObject", "s3:ListMultipartUploadParts", "s3:PutObject", "s3:AbortMultipartUpload");
 
-    @Schema(name = "访问策略类型")
+    @Schema(name = "访问策略类型", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "访问策略配置不能为空")
     private Integer type = 0;
 

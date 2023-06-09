@@ -25,16 +25,19 @@
 
 package cn.herodotus.oss.minio.rest.definition;
 
-import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
-import cn.herodotus.oss.minio.rest.request.domain.RetentionRequest;
+import cn.herodotus.oss.minio.core.converter.RequestToRetentionConverter;
+import cn.herodotus.oss.minio.core.converter.RequestToServerSideEncryptionConverter;
+import cn.herodotus.oss.minio.core.domain.RetentionDo;
+import cn.herodotus.oss.minio.core.domain.ServerSideEncryptionDo;
+import cn.herodotus.oss.minio.core.domain.TagsDo;
 import io.minio.ObjectWriteArgs;
 import io.minio.ServerSideEncryption;
 import io.minio.messages.Retention;
-import io.minio.messages.RetentionMode;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
-import java.time.ZonedDateTime;
 import java.util.Map;
 
 /**
@@ -45,17 +48,30 @@ import java.util.Map;
  */
 public abstract class ObjectWriteRequest<B extends ObjectWriteArgs.Builder<B, A>, A extends ObjectWriteArgs> extends ObjectRequest<B, A> {
 
+    private final Converter<RetentionDo, Retention> toRetention = new RequestToRetentionConverter();
+    private final Converter<ServerSideEncryptionDo, ServerSideEncryption> toServerSideEncryption = new RequestToServerSideEncryptionConverter();
+
+    @Schema(name = "自定义 Header 信息")
     private Map<String, String> headers;
 
+    @Schema(name = "用户信息")
     private Map<String, String> userMetadata;
 
-    private ServerSideEncryption serverSideEncryption;
+    @Schema(name = "服务端加密")
+    private ServerSideEncryptionDo serverSideEncryption;
 
-    private Map<String, String> tags;
+    @Schema(name = "标签")
+    private TagsDo tags;
 
-    private RetentionRequest retention;
+    @Schema(name = "保留配置")
+    private RetentionDo retention;
 
+    @Schema(name = "合法持有")
     private Boolean legalHold;
+
+    public Converter<RetentionDo, Retention> getToRetention() {
+        return toRetention;
+    }
 
     public Map<String, String> getHeaders() {
         return headers;
@@ -73,27 +89,27 @@ public abstract class ObjectWriteRequest<B extends ObjectWriteArgs.Builder<B, A>
         this.userMetadata = userMetadata;
     }
 
-    public ServerSideEncryption getServerSideEncryption() {
+    public ServerSideEncryptionDo getServerSideEncryption() {
         return serverSideEncryption;
     }
 
-    public void setServerSideEncryption(ServerSideEncryption serverSideEncryption) {
+    public void setServerSideEncryption(ServerSideEncryptionDo serverSideEncryption) {
         this.serverSideEncryption = serverSideEncryption;
     }
 
-    public Map<String, String> getTags() {
+    public TagsDo getTags() {
         return tags;
     }
 
-    public void setTags(Map<String, String> tags) {
+    public void setTags(TagsDo tags) {
         this.tags = tags;
     }
 
-    public RetentionRequest getRetention() {
+    public RetentionDo getRetention() {
         return retention;
     }
 
-    public void setRetention(RetentionRequest retention) {
+    public void setRetention(RetentionDo retention) {
         this.retention = retention;
     }
 
@@ -119,16 +135,21 @@ public abstract class ObjectWriteRequest<B extends ObjectWriteArgs.Builder<B, A>
             builder.headers(getTags());
         }
 
-        builder.legalHold(getLegalHold());
+        builder.tags(getTags());
 
         if (ObjectUtils.isNotEmpty(getServerSideEncryption())) {
-            builder.sse(getServerSideEncryption());
+            ServerSideEncryption encryption = toServerSideEncryption.convert(getServerSideEncryption());
+            if (ObjectUtils.isNotEmpty(encryption)) {
+                builder.sse(encryption);
+            }
         }
 
         if (ObjectUtils.isNotEmpty(getRetention())) {
-            RetentionMode mode = RetentionMode.valueOf(getRetention().getMode());
-            ZonedDateTime retainUntilDate = DateTimeUtils.stringToZonedDateTime(getRetention().getRetainUntilDate());
-            builder.retention(new Retention(mode, retainUntilDate));
+            builder.retention(toRetention.convert(getRetention()));
+        }
+
+        if (ObjectUtils.isNotEmpty(getLegalHold())) {
+            builder.legalHold(getLegalHold());
         }
 
         super.prepare(builder);

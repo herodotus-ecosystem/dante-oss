@@ -23,30 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain.policy;
+package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.google.common.collect.Lists;
-
-import java.util.List;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Minio 策略 PrincipalDo  </p>
+ * <p>Description: 删除对象参数 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/7 17:33
+ * @date : 2023/5/30 22:54
  */
-public class PrincipalDo implements Entity {
+public class DeleteObjectDo implements Entity {
 
-    @JsonProperty("AWS")
-    private List<String> aws = Lists.newArrayList("*");
+    @Schema(name = "对象名称")
+    private String name;
 
-    public List<String> getAws() {
-        return aws;
+    @Schema(name = "对象版本ID")
+    private String versionId;
+
+    public String getName() {
+        return name;
     }
 
-    public void setAws(List<String> aws) {
-        this.aws = aws;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("versionId", versionId)
+                .toString();
     }
 }

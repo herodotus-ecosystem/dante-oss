@@ -23,44 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.domain;
+package cn.herodotus.oss.minio.rest.request.enhance;
 
-import cn.herodotus.oss.minio.rest.request.multipart.BaseMultipartUpdatedRequest;
-import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 删除对象参数 </p>
+ * <p>Description: 对象下载请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 22:54
+ * @date : 2023/6/9 16:41
  */
-public class DeleteObjectRequest extends BaseMultipartUpdatedRequest {
-
-    private String name;
-
-    private String versionId;
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVersionId() {
-        return versionId;
-    }
-
-    public void setVersionId(String versionId) {
-        this.versionId = versionId;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("name", name)
-                .add("versionId", versionId)
-                .toString();
-    }
+@Schema(name = "对象下载请求参数实体", title = "对象下载请求参数实体", description = "用于前后端交互方式的下载")
+public class ObjectDownloadRequest extends BaseOperationRequest {
 }

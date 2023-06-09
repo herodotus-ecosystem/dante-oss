@@ -23,32 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.domain;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.engine.rest.core.annotation.EnumeratedValue;
-import cn.herodotus.oss.minio.rest.definition.MinioRequest;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 对象保留设置请求参实体 </p>
+ * <p>Description: 对象保留域对象 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/7/2 22:22
  */
-public class RetentionRequest implements MinioRequest {
-    @EnumeratedValue(names = {"GOVERNANCE", "COMPLIANCE"}, message = "存储模式的值只能是大写 GOVERNANCE 或者 COMPLIANCE")
-    @Schema(name = "对象保留模式", title = "存储模式的值只能是大写 GOVERNANCE 或者 COMPLIANCE")
-    private String mode;
+@Schema(name = "对象保留域对象")
+public class RetentionDo implements Entity {
+
+    @Schema(name = "保留模式")
+    private Integer retentionMode;
 
     @Schema(name = "保留到日期", title = "对象保留到的日期")
     private String retainUntilDate;
 
-    public String getMode() {
-        return mode;
+    public Integer getRetentionMode() {
+        return retentionMode;
     }
 
-    public void setMode(String mode) {
-        this.mode = mode;
+    public void setRetentionMode(Integer retentionMode) {
+        this.retentionMode = retentionMode;
     }
 
     public String getRetainUntilDate() {

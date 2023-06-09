@@ -30,7 +30,7 @@ import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.minio.api.entity.DeleteErrorEntity;
-import cn.herodotus.oss.minio.api.entity.ItemEntity;
+import cn.herodotus.oss.minio.api.entity.ObjectEntity;
 import cn.herodotus.oss.minio.api.service.ObjectService;
 import cn.herodotus.oss.minio.rest.request.object.ListObjectsRequest;
 import cn.herodotus.oss.minio.rest.request.object.RemoveObjectRequest;
@@ -38,12 +38,14 @@ import cn.herodotus.oss.minio.rest.request.object.RemoveObjectsRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import org.apache.commons.collections4.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +66,8 @@ import java.util.List;
 })
 public class ObjectController implements Controller {
 
+    private static final Logger log = LoggerFactory.getLogger(ObjectController.class);
+
     private final ObjectService objectService;
 
     public ObjectController(ObjectService objectService) {
@@ -81,11 +85,11 @@ public class ObjectController implements Controller {
                     @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, in = ParameterIn.PATH, description = "ListObjectsRequest参数实体", schema = @Schema(implementation = ListObjectsRequest.class))
+            @Parameter(name = "request", required = true, description = "ListObjectsRequest参数实体", schema = @Schema(implementation = ListObjectsRequest.class))
     })
     @GetMapping("/list")
-    public Result<List<ItemEntity>> list(@Validated ListObjectsRequest request) {
-        List<ItemEntity> items = objectService.listObjects(request.build());
+    public Result<List<ObjectEntity>> list(@Validated ListObjectsRequest request) {
+        List<ObjectEntity> items = objectService.listObjects(request.build());
         return result(items);
     }
 
@@ -123,6 +127,10 @@ public class ObjectController implements Controller {
     @DeleteMapping("/multi")
     public Result<List<DeleteErrorEntity>> removeObjects(@Validated @RequestBody RemoveObjectsRequest request) {
         List<DeleteErrorEntity> items = objectService.removeObjects(request.build());
-        return result(items);
+        if (CollectionUtils.isEmpty(items)) {
+            return Result.success("批量删除成功！", items);
+        } else {
+            return Result.failure("批量删除失败！", items);
+        }
     }
 }

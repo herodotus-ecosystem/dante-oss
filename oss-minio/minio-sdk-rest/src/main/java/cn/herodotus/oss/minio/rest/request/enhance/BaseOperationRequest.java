@@ -23,33 +23,53 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.object;
+package cn.herodotus.oss.minio.rest.request.enhance;
 
-import cn.herodotus.oss.minio.rest.definition.ObjectConditionalReadRequest;
-import io.minio.GetObjectArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+
+import java.io.Serializable;
 
 /**
- * <p>Description: GetObjectRequest </p>
+ * <p>Description: 扩展 Minio 应用Dto </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 23:58
+ * @date : 2022/7/4 16:08
  */
-@Schema(name = "下载对象请求参数实体", title = "下载对象请求参数实体", description = "与前端交互使用")
-public class GetObjectRequest extends ObjectConditionalReadRequest<GetObjectArgs.Builder, GetObjectArgs> {
+public class BaseOperationRequest implements Serializable {
 
-    public GetObjectRequest(DownloadObjectRequest request) {
-        this.setExtraHeaders(request.getExtraHeaders());
-        this.setExtraQueryParams(request.getExtraQueryParams());
-        this.setBucketName(request.getBucketName());
-        this.setRegion(request.getRegion());
-        this.setObjectName(request.getObjectName());
-        this.setVersionId(request.getVersionId());
-        this.setServerSideEncryptionCustomerKey(request.getServerSideEncryptionCustomerKey());
+    @NotBlank(message = "存储桶名称不能为空")
+    @Schema(name = "存储桶名称")
+    private String bucketName;
+
+    @Schema(name = "存储区域")
+    private String region;
+
+    @NotBlank(message = "对象名称不能为空")
+    @Schema(name = "对象名称")
+    private String objectName;
+
+    public String getBucketName() {
+        return bucketName;
     }
 
-    @Override
-    public GetObjectArgs.Builder getBuilder() {
-        return GetObjectArgs.builder();
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
     }
 }
