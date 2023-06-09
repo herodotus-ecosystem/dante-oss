@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.0-blue.svg?logo=spring" alt="Spring Boot 3.1.0"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-0.2.0-red.svg?logo=spring" alt="Version 0.2.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-0.3.0-red.svg?logo=spring" alt="Version 0.3.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -118,7 +118,7 @@ dante-oss
 | 统一常量接口           | 将涉及的 Enums、常量以统一接口的方式返回给前端，方便展示使用， 包括 Service、REST API 和前端展示         |
 | Minio Client 对象池 | 实现 Minio Client 对象池，减少 Minio Client 的反复创建和销毁，提升访问 Minio Server性能     |
 | Bucket 设置        | 统一 Bucket 设置： Bucket 标签设置、访问策略、加密方式、对象锁定等， 包括 Service、REST API 和前端展示 |
-| Object 下载(流模式)   | Minio 对象下载，采用流模式支持vue前端下载， 包括 Service、REST API 和前端展示                 |
+| Object 下载(流模式)   | Minio 对象下载，采用流模式支持vue前端post方式下载， 包括 Service、REST API 和前端展示           |
 | 超轻量级反向代理         | 实现轻量级反向代理解决 PresignedObjectUrl 方式直接向前端暴露 Minio Server地址问题            |
 
 
