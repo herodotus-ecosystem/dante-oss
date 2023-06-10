@@ -23,43 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.api.entity;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.api.definition.entity.GenericEntity;
-import com.google.common.base.MoreObjects;
+import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
+import cn.herodotus.oss.minio.core.domain.RetentionDo;
+import io.minio.messages.Retention;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: ObjectWriteEntity </p>
+ * <p>Description: Minio Retention 转 RetentionDo 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/1 21:50
+ * @date : 2023/6/10 15:35
  */
-public class ObjectWriteEntity extends GenericEntity {
-
-    private String etag;
-    private String versionId;
-
-    public String getEtag() {
-        return etag;
-    }
-
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
-
-    public String getVersionId() {
-        return versionId;
-    }
-
-    public void setVersionId(String versionId) {
-        this.versionId = versionId;
-    }
-
+public class RetentionToDoConverter implements Converter<Retention, RetentionDo> {
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("etag", etag)
-                .add("versionId", versionId)
-                .toString();
+    public RetentionDo convert(Retention retention) {
+
+        RetentionDo retentionDo = new RetentionDo();
+        if (ObjectUtils.isNotEmpty(retention)) {
+            retentionDo.setRetentionMode(retention.mode().ordinal());
+            if (ObjectUtils.isNotEmpty(retention.retainUntilDate())) {
+                retentionDo.setRetainUntilDate(DateTimeUtils.zonedDateTimeToString(retention.retainUntilDate()));
+            }
+        }
+        return retentionDo;
     }
 }

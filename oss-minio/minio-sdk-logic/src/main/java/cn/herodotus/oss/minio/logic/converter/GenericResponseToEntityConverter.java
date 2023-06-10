@@ -23,44 +23,42 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.api.entity;
+package cn.herodotus.oss.minio.logic.converter;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import com.google.common.base.MoreObjects;
+import cn.herodotus.oss.minio.logic.entity.GenericEntity;
+import io.minio.GenericResponse;
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.util.StringUtils;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
- * <p>Description: RetentionEntity </p>
+ * <p>Description: GenericResponse 转 GenericEntity 转换器</p>
  *
  * @author : gengwei.zheng
- * @date : 2023/4/18 16:41
+ * @date : 2023/6/1 21:51
  */
-public class RetentionEntity implements Entity {
+public class GenericResponseToEntityConverter implements Converter<GenericResponse, GenericEntity> {
+    public static Map<String, String> toMap(Map<String, List<String>> multimap) {
 
-    private String mode;
+        if (MapUtils.isNotEmpty(multimap)) {
+            return multimap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> StringUtils.collectionToCommaDelimitedString(entry.getValue())));
+        }
 
-    private String retainUntilDate;
-
-    public String getMode() {
-        return mode;
-    }
-
-    public void setMode(String mode) {
-        this.mode = mode;
-    }
-
-    public String getRetainUntilDate() {
-        return retainUntilDate;
-    }
-
-    public void setRetainUntilDate(String retainUntilDate) {
-        this.retainUntilDate = retainUntilDate;
+        return new HashMap<>();
     }
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("mode", mode)
-                .add("retainUntilDate", retainUntilDate)
-                .toString();
+    public GenericEntity convert(GenericResponse response) {
+        GenericEntity entity = new GenericEntity();
+        entity.setHeaders(toMap(response.headers().toMultimap()));
+        entity.setBucket(response.bucket());
+        entity.setRegion(response.region());
+        entity.setObject(response.object());
+        return entity;
     }
 }

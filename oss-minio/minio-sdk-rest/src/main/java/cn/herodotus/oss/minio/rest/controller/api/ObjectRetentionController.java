@@ -26,24 +26,23 @@
 package cn.herodotus.oss.minio.rest.controller.api;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.api.entity.RetentionEntity;
 import cn.herodotus.oss.minio.api.service.ObjectRetentionService;
-import cn.herodotus.oss.minio.rest.request.object.GetObjectRetentionRequest;
 import cn.herodotus.oss.minio.rest.request.object.SetObjectRetentionRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
-import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>Description: 对象存储对象管理接口 </p>
@@ -64,17 +63,6 @@ public class ObjectRetentionController implements Controller {
 
     public ObjectRetentionController(ObjectRetentionService objectRetentionService) {
         this.objectRetentionService = objectRetentionService;
-    }
-
-    @AccessLimited
-    @Operation(summary = "获取对象的保留配置", description = "获取对象的保留配置")
-    @Parameters({
-            @Parameter(name = "request", required = true, in = ParameterIn.PATH, description = "获取对象保留配置请求参数实体", schema = @Schema(implementation = GetObjectRetentionRequest.class))
-    })
-    @GetMapping
-    public Result<RetentionEntity> get(@Validated GetObjectRetentionRequest request) {
-        RetentionEntity response = objectRetentionService.getObjectRetention(request.build());
-        return result(response);
     }
 
     @Idempotent

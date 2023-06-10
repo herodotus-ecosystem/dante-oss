@@ -23,42 +23,66 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.api.converter;
+package cn.herodotus.oss.minio.logic.entity;
 
-import cn.herodotus.oss.minio.api.definition.entity.GenericEntity;
-import io.minio.GenericResponse;
-import org.apache.commons.collections4.MapUtils;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.util.StringUtils;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.google.common.base.MoreObjects;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
- * <p>Description: GenericResponse 转 GenericEntity 转换器</p>
+ * <p>Description: Minio GenericResponse 转换后实体 </p>
+ * <p>
+ * 没有命名为 GenericResponse 而改用 GenericEntity，主要是避免冲突
  *
  * @author : gengwei.zheng
- * @date : 2023/6/1 21:51
+ * @date : 2023/6/1 21:47
  */
-public class GenericResponseToEntityConverter implements Converter<GenericResponse, GenericEntity> {
-    public static Map<String, String> toMap(Map<String, List<String>> multimap) {
+public class GenericEntity implements Entity {
 
-        if (MapUtils.isNotEmpty(multimap)) {
-            return multimap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, entry -> StringUtils.collectionToCommaDelimitedString(entry.getValue())));
-        }
+    private Map<String, String> headers;
+    private String bucket;
+    private String region;
+    private String object;
 
-        return new HashMap<>();
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public void setHeaders(Map<String, String> headers) {
+        this.headers = headers;
+    }
+
+    public String getBucket() {
+        return bucket;
+    }
+
+    public void setBucket(String bucket) {
+        this.bucket = bucket;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getObject() {
+        return object;
+    }
+
+    public void setObject(String object) {
+        this.object = object;
     }
 
     @Override
-    public GenericEntity convert(GenericResponse response) {
-        GenericEntity entity = new GenericEntity();
-        entity.setHeaders(toMap(response.headers().toMultimap()));
-        entity.setBucket(response.bucket());
-        entity.setRegion(response.region());
-        entity.setObject(response.object());
-        return entity;
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("bucket", bucket)
+                .add("region", region)
+                .add("object", object)
+                .toString();
     }
 }

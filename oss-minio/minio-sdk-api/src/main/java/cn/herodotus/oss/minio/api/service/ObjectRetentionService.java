@@ -25,19 +25,19 @@
 
 package cn.herodotus.oss.minio.api.service;
 
-import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
 import cn.herodotus.oss.minio.api.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.api.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.api.entity.RetentionEntity;
+import cn.herodotus.oss.minio.core.converter.RetentionToDoConverter;
+import cn.herodotus.oss.minio.core.domain.RetentionDo;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.GetObjectRetentionArgs;
 import io.minio.MinioClient;
 import io.minio.SetObjectRetentionArgs;
 import io.minio.errors.*;
 import io.minio.messages.Retention;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -55,11 +55,147 @@ import java.security.NoSuchAlgorithmException;
 public class ObjectRetentionService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectRetentionService.class);
+    private final Converter<Retention, RetentionDo> toDo;
 
     public ObjectRetentionService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
+        this.toDo = new RetentionToDoConverter();
     }
 
+    /**
+     * 获取对象的保留配置
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @return 自定义保留域对象
+     */
+    public RetentionDo getObjectRetention(String bucketName, String objectName) {
+        return getObjectRetention(bucketName, null, objectName);
+    }
+
+    /**
+     * 获取对象的保留配置
+     * @param bucketName 存储桶名称
+     * @param region 区域
+     * @param objectName 对象名称
+     * @return 自定义保留域对象
+     */
+    public RetentionDo getObjectRetention(String bucketName, String region, String objectName) {
+        return getObjectRetention(bucketName, region, objectName, null);
+    }
+
+    /**
+     * 获取对象的保留配置
+     * @param bucketName 存储桶名称
+     * @param region 区域
+     * @param objectName 对象名称
+     * @param versionId 版本ID
+     * @return 自定义保留域对象
+     */
+    public RetentionDo getObjectRetention(String bucketName, String region, String objectName, String versionId) {
+        return getObjectRetention(GetObjectRetentionArgs.builder().bucket(bucketName).region(region).object(objectName).versionId(versionId).build());
+    }
+
+    /**
+     * 获取对象的保留配置
+     *
+     * @param getObjectRetentionArgs {@link GetObjectRetentionArgs}
+     * @return {@link RetentionDo}
+     */
+    public RetentionDo getObjectRetention(GetObjectRetentionArgs getObjectRetentionArgs) {
+        String function = "getObjectRetention";
+        MinioClient minioClient = getMinioClient();
+
+        try {
+            Retention retention = minioClient.getObjectRetention(getObjectRetentionArgs);
+            return toDo.convert(retention);
+        } catch (ErrorResponseException e) {
+            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
+            throw new MinioErrorResponseException(e.getMessage());
+        } catch (InsufficientDataException e) {
+            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
+            throw new MinioInsufficientDataException(e.getMessage());
+        } catch (InternalException e) {
+            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
+            throw new MinioInternalException(e.getMessage());
+        } catch (InvalidKeyException e) {
+            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
+            throw new MinioInvalidKeyException(e.getMessage());
+        } catch (InvalidResponseException e) {
+            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
+            throw new MinioInvalidResponseException(e.getMessage());
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException(e.getMessage());
+            }
+        } catch (NoSuchAlgorithmException e) {
+            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
+            throw new MinioNoSuchAlgorithmException(e.getMessage());
+        } catch (ServerException e) {
+            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
+            throw new MinioServerException(e.getMessage());
+        } catch (XmlParserException e) {
+            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
+            throw new MinioXmlParserException(e.getMessage());
+        } finally {
+            close(minioClient);
+        }
+    }
+
+    /**
+     * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param config 保留配置 {@link Retention}
+     */
+    public void setObjectRetention(String bucketName, String objectName, Retention config) {
+        setObjectRetention(bucketName, objectName, config, false);
+    }
+
+    /**
+     * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param config 保留配置 {@link Retention}
+     * @param bypassGovernanceMode 使用 Governance 模式
+     */
+    public void setObjectRetention(String bucketName, String objectName, Retention config, boolean bypassGovernanceMode) {
+        setObjectRetention(bucketName, null, objectName, config, bypassGovernanceMode);
+    }
+
+    /**
+     * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
+     * @param bucketName 存储桶名称
+     * @param region 区域
+     * @param objectName 对象名称
+     * @param config 保留配置 {@link Retention}
+     * @param bypassGovernanceMode 使用 Governance 模式
+     */
+    public void setObjectRetention(String bucketName, String region, String objectName, Retention config, boolean bypassGovernanceMode) {
+        setObjectRetention(bucketName, region, objectName, config, bypassGovernanceMode, null);
+    }
+
+    /**
+     * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
+     * @param bucketName 存储桶名称
+     * @param region 区域
+     * @param objectName 对象名称
+     * @param config 保留配置 {@link Retention}
+     * @param bypassGovernanceMode 使用 Governance 模式
+     * @param versionId 版本ID
+     */
+    public void setObjectRetention(String bucketName, String region, String objectName, Retention config, boolean bypassGovernanceMode, String versionId) {
+        setObjectRetention(SetObjectRetentionArgs.builder()
+                .bucket(bucketName)
+                .region(region)
+                .object(objectName)
+                .config(config)
+                .bypassGovernanceMode(bypassGovernanceMode)
+                .versionId(versionId)
+                .build());
+    }
     /**
      * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
      *
@@ -106,66 +242,4 @@ public class ObjectRetentionService extends BaseMinioService {
             close(minioClient);
         }
     }
-
-    /**
-     * 获取对象的保留配置
-     *
-     * @param getObjectRetentionArgs {@link GetObjectRetentionArgs}
-     * @return {@link RetentionEntity}
-     */
-    public RetentionEntity getObjectRetention(GetObjectRetentionArgs getObjectRetentionArgs) {
-        String function = "getObjectRetention";
-        MinioClient minioClient = getMinioClient();
-
-        try {
-            Retention retention = minioClient.getObjectRetention(getObjectRetentionArgs);
-            return toRetentionResponse(retention);
-        } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException(e.getMessage());
-        } catch (InsufficientDataException e) {
-            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException(e.getMessage());
-        } catch (InternalException e) {
-            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException(e.getMessage());
-        } catch (InvalidKeyException e) {
-            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException(e.getMessage());
-        } catch (InvalidResponseException e) {
-            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException(e.getMessage());
-        } catch (IOException e) {
-            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
-            } else {
-                throw new MinioIOException(e.getMessage());
-            }
-        } catch (NoSuchAlgorithmException e) {
-            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException(e.getMessage());
-        } catch (ServerException e) {
-            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
-        } catch (XmlParserException e) {
-            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException(e.getMessage());
-        } finally {
-            close(minioClient);
-        }
-    }
-
-    private RetentionEntity toRetentionResponse(Retention retention) {
-        RetentionEntity retentionEntity = new RetentionEntity();
-        if (ObjectUtils.isNotEmpty(retention)) {
-            retentionEntity.setMode(retention.mode().name());
-            if (ObjectUtils.isNotEmpty(retention.retainUntilDate())) {
-                retentionEntity.setRetainUntilDate(DateTimeUtils.zonedDateTimeToString(retention.retainUntilDate()));
-            }
-        }
-        return retentionEntity;
-    }
-
-
 }

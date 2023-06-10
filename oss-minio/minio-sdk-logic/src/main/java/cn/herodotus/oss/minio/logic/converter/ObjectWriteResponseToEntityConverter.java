@@ -23,9 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.api.converter;
+package cn.herodotus.oss.minio.logic.converter;
 
-import cn.herodotus.oss.minio.api.entity.ObjectWriteEntity;
+import cn.herodotus.oss.minio.logic.entity.ObjectWriteEntity;
 import io.minio.ObjectWriteResponse;
 import org.springframework.core.convert.converter.Converter;
 

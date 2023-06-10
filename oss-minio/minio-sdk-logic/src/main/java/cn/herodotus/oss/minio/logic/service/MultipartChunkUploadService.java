@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.minio.api.converter.ObjectWriteResponseToEntityConverter;
-import cn.herodotus.oss.minio.api.entity.MultipartCreateEntity;
-import cn.herodotus.oss.minio.api.entity.ObjectWriteEntity;
+import cn.herodotus.oss.minio.logic.converter.ObjectWriteResponseToEntityConverter;
+import cn.herodotus.oss.minio.logic.entity.MultipartCreateEntity;
+import cn.herodotus.oss.minio.logic.entity.ObjectWriteEntity;
 import cn.herodotus.oss.minio.api.service.MultipartUploadService;
 import cn.herodotus.oss.minio.api.service.PresignedObjectUrlService;
 import cn.herodotus.oss.minio.logic.proxy.MinioProxyAddressConverter;

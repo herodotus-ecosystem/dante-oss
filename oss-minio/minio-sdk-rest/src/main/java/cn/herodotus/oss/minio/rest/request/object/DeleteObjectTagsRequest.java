@@ -23,47 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.api.entity;
+package cn.herodotus.oss.minio.rest.request.object;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-
-import java.util.ArrayList;
-import java.util.List;
+import cn.herodotus.oss.minio.rest.definition.ObjectVersionRequest;
+import io.minio.DeleteObjectTagsArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 创建分配上传实体 </p>
+ * <p>Description: 删除对象标签请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 11:25
+ * @date : 2023/6/10 15:20
  */
-public class MultipartCreateEntity implements Entity {
-
-    private String uploadId;
-
-    private List<String> chunkUploadUrls;
-
-    public MultipartCreateEntity(String uploadId) {
-        this.uploadId = uploadId;
-        this.chunkUploadUrls = new ArrayList<>();
-    }
-
-    public String getUploadId() {
-        return uploadId;
-    }
-
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
-    }
-
-    public List<String> getChunkUploadUrls() {
-        return chunkUploadUrls;
-    }
-
-    public void setChunkUploadUrls(List<String> chunkUploadUrls) {
-        this.chunkUploadUrls = chunkUploadUrls;
-    }
-
-    public void appendChunk(String chunk) {
-        chunkUploadUrls.add(chunkUploadUrls.size(), chunk);
+@Schema(name = "删除对象标签请求参数实体", title = "删除对象桶标签请求参数实体")
+public class DeleteObjectTagsRequest extends ObjectVersionRequest<DeleteObjectTagsArgs.Builder, DeleteObjectTagsArgs> {
+    @Override
+    public DeleteObjectTagsArgs.Builder getBuilder() {
+        return DeleteObjectTagsArgs.builder();
     }
 }

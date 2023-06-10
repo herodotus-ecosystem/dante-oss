@@ -23,66 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.api.definition.entity;
+package cn.herodotus.oss.minio.logic.entity;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import com.google.common.base.MoreObjects;
 
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: Minio GenericResponse 转换后实体 </p>
- * <p>
- * 没有命名为 GenericResponse 而改用 GenericEntity，主要是避免冲突
+ * <p>Description: 创建分配上传实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/1 21:47
+ * @date : 2022/7/4 11:25
  */
-public class GenericEntity implements Entity {
+public class MultipartCreateEntity implements Entity {
 
-    private Map<String, String> headers;
-    private String bucket;
-    private String region;
-    private String object;
+    private String uploadId;
 
-    public Map<String, String> getHeaders() {
-        return headers;
+    private List<String> chunkUploadUrls;
+
+    public MultipartCreateEntity(String uploadId) {
+        this.uploadId = uploadId;
+        this.chunkUploadUrls = new ArrayList<>();
     }
 
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
+    public String getUploadId() {
+        return uploadId;
     }
 
-    public String getBucket() {
-        return bucket;
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
     }
 
-    public void setBucket(String bucket) {
-        this.bucket = bucket;
+    public List<String> getChunkUploadUrls() {
+        return chunkUploadUrls;
     }
 
-    public String getRegion() {
-        return region;
+    public void setChunkUploadUrls(List<String> chunkUploadUrls) {
+        this.chunkUploadUrls = chunkUploadUrls;
     }
 
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getObject() {
-        return object;
-    }
-
-    public void setObject(String object) {
-        this.object = object;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("bucket", bucket)
-                .add("region", region)
-                .add("object", object)
-                .toString();
+    public void appendChunk(String chunk) {
+        chunkUploadUrls.add(chunkUploadUrls.size(), chunk);
     }
 }

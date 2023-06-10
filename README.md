@@ -103,6 +103,11 @@ dante-oss
 | Object 批量删除     | 批量删除 Object，包括 Service、REST API 和前端展示处理                  |
 | Object 元信息获取    | 获取 Object Stat，包括 Service、                               |
 | Object 下载(服务端)  | Object 下载(服务端下载，非流模式)，包括 Service、                        |
+| Object 标签获取     | 获取 Object Tags，包括 Service、REST API                       |
+| Object 修改标签     | 修改 Object Tags，包括 Service、REST API                       |
+| Object 删除标签     | 删除 Object Tags，包括 Service、REST API                       |
+| Object 获取保留设置   | 获取 Object Retention，包括 Service、REST API                  |
+| Object 修改保留设置   | 修改 Object Retention，包括 Service、REST API                  |
 | 其它功能            | 正逐步完善，主要涉及前后端交互、以及可用性验证和前端相关功能的开发，敬请期待，欢迎 PR             |
 
 
@@ -118,6 +123,7 @@ dante-oss
 | 统一常量接口           | 将涉及的 Enums、常量以统一接口的方式返回给前端，方便展示使用， 包括 Service、REST API 和前端展示         |
 | Minio Client 对象池 | 实现 Minio Client 对象池，减少 Minio Client 的反复创建和销毁，提升访问 Minio Server性能     |
 | Bucket 设置        | 统一 Bucket 设置： Bucket 标签设置、访问策略、加密方式、对象锁定等， 包括 Service、REST API 和前端展示 |
+| Object 设置        | 统一 Object 设置： Bucket 标签设置， 包括 Service、REST API 和前端展示                 |
 | Object 下载(流模式)   | Minio 对象下载，采用流模式支持vue前端post方式下载， 包括 Service、REST API 和前端展示           |
 | 超轻量级反向代理         | 实现轻量级反向代理解决 PresignedObjectUrl 方式直接向前端暴露 Minio Server地址问题            |
 
