@@ -63,6 +63,27 @@ public class BucketPolicyService extends BaseMinioService {
     /**
      * 获取 Bucket 访问策略配置
      *
+     * @param bucketName 存储桶名称
+     * @return 自定义策略枚举 {@link PolicyEnums}
+     */
+    public PolicyEnums getBucketPolicy(String bucketName) {
+        return getBucketPolicy(bucketName, null);
+    }
+
+    /**
+     * 获取 Bucket 访问策略配置
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @return 自定义策略枚举 {@link PolicyEnums}
+     */
+    public PolicyEnums getBucketPolicy(String bucketName, String region) {
+        return getBucketPolicy(GetBucketPolicyArgs.builder().bucket(bucketName).region(region).build());
+    }
+
+    /**
+     * 获取 Bucket 访问策略配置
+     *
      * @param getBucketPolicyArgs {@link GetBucketPolicyArgs}
      */
     public PolicyEnums getBucketPolicy(GetBucketPolicyArgs getBucketPolicyArgs) {
@@ -118,6 +139,27 @@ public class BucketPolicyService extends BaseMinioService {
     /**
      * 设置 Bucket 访问策略
      *
+     * @param bucketName 存储桶名称
+     * @param config     策略配置
+     */
+    public void setBucketPolicy(String bucketName, String config) {
+        setBucketPolicy(bucketName, null, config);
+    }
+
+    /**
+     * 设置 Bucket 访问策略
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param config     策略配置
+     */
+    public void setBucketPolicy(String bucketName, String region, String config) {
+        setBucketPolicy(SetBucketPolicyArgs.builder().bucket(bucketName).region(region).config(config).build());
+    }
+
+    /**
+     * 设置 Bucket 访问策略
+     *
      * @param setBucketPolicyArgs {@link SetBucketPolicyArgs}
      */
     public void setBucketPolicy(SetBucketPolicyArgs setBucketPolicyArgs) {
@@ -162,6 +204,30 @@ public class BucketPolicyService extends BaseMinioService {
         }
     }
 
+    /**
+     * 删除 Bucket 访问策略
+     *
+     * @param bucketName 存储桶名称
+     */
+    public void deleteBucketPolicy(String bucketName) {
+        deleteBucketPolicy(bucketName, null);
+    }
+
+    /**
+     * 删除 Bucket 访问策略
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     */
+    public void deleteBucketPolicy(String bucketName, String region) {
+        deleteBucketPolicy(DeleteBucketPolicyArgs.builder().bucket(bucketName).region(region).build());
+    }
+
+    /**
+     * 删除 Bucket 访问策略
+     *
+     * @param deleteBucketPolicyArgs {@link DeleteBucketPolicyArgs}
+     */
     public void deleteBucketPolicy(DeleteBucketPolicyArgs deleteBucketPolicyArgs) {
         String function = "deleteBucketPolicy";
         MinioClient minioClient = getMinioClient();

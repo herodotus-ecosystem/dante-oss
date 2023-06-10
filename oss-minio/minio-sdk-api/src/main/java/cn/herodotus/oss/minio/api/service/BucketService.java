@@ -68,6 +68,15 @@ public class BucketService extends BaseMinioService {
     /**
      * 查询所有存储桶
      *
+     * @return Bucket 列表
+     */
+    public List<BucketEntity> listBuckets() {
+        return listBuckets(null);
+    }
+
+    /**
+     * 查询所有存储桶
+     *
      * @param args {@link ListBucketsArgs}
      * @return Bucket 列表
      */
@@ -82,7 +91,12 @@ public class BucketService extends BaseMinioService {
             } else {
                 buckets = minioClient.listBuckets();
             }
-            return toEntities(buckets);
+
+            if (CollectionUtils.isNotEmpty(buckets)) {
+                return buckets.stream().map(toResult::convert).collect(Collectors.toList());
+            } else {
+                return new ArrayList<>();
+            }
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException(e.getMessage());
@@ -117,6 +131,27 @@ public class BucketService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
+    }
+
+    /**
+     * 存储桶是否存在
+     *
+     * @param bucketName 存储桶名称
+     * @return 是否存在，true 存在，false 不存在
+     */
+    public boolean bucketExists(String bucketName) {
+        return bucketExists(bucketName, null);
+    }
+
+    /**
+     * 存储桶是否存在
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @return 是否存在，true 存在，false 不存在
+     */
+    public boolean bucketExists(String bucketName, String region) {
+        return bucketExists(BucketExistsArgs.builder().bucket(bucketName).region(region).build());
     }
 
     /**
@@ -165,6 +200,25 @@ public class BucketService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
+    }
+
+    /**
+     * 创建存储桶
+     *
+     * @param bucketName 存储桶名称
+     */
+    public void makeBucket(String bucketName) {
+        makeBucket(bucketName, null);
+    }
+
+    /**
+     * 创建存储桶
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     */
+    public void makeBucket(String bucketName, String region) {
+        makeBucket(MakeBucketArgs.builder().bucket(bucketName).region(region).build());
     }
 
     /**
@@ -219,6 +273,25 @@ public class BucketService extends BaseMinioService {
     /**
      * 删除一个空的存储桶 如果存储桶存在对象不为空时，删除会报错。
      *
+     * @param bucketName 存储桶名称
+     */
+    public void removeBucket(String bucketName) {
+        removeBucket(bucketName, null);
+    }
+
+    /**
+     * 删除一个空的存储桶 如果存储桶存在对象不为空时，删除会报错。
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     */
+    public void removeBucket(String bucketName, String region) {
+        removeBucket(RemoveBucketArgs.builder().bucket(bucketName).region(region).build());
+    }
+
+    /**
+     * 删除一个空的存储桶 如果存储桶存在对象不为空时，删除会报错。
+     *
      * @param removeBucketArgs {@link RemoveBucketArgs}
      */
     public void removeBucket(RemoveBucketArgs removeBucketArgs) {
@@ -260,14 +333,6 @@ public class BucketService extends BaseMinioService {
             throw new MinioXmlParserException(e.getMessage());
         } finally {
             close(minioClient);
-        }
-    }
-
-    private List<BucketEntity> toEntities(List<io.minio.messages.Bucket> buckets) {
-        if (CollectionUtils.isNotEmpty(buckets)) {
-            return buckets.stream().map(toResult::convert).collect(Collectors.toList());
-        } else {
-            return new ArrayList<>();
         }
     }
 }

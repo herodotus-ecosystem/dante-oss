@@ -26,9 +26,6 @@
 package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.api.service.ObjectService;
-import io.minio.GetObjectArgs;
-import io.minio.GetObjectResponse;
-import io.minio.StatObjectArgs;
 import io.minio.StatObjectResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
@@ -67,24 +64,14 @@ public class ObjectDownloadService {
      * @throws IOException 输入输出错误。
      */
     public void download(String bucketName, String objectName, HttpServletResponse response) throws IOException {
-        StatObjectResponse statObject = getStatObject(bucketName, objectName);
+        StatObjectResponse statObject = objectService.statObject(bucketName, objectName);
 
         response.setContentType(statObject.contentType());
         response.setCharacterEncoding(StandardCharsets.UTF_8.name());
         response.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + URLEncoder.encode(objectName, StandardCharsets.UTF_8));
 
-        InputStream is = getObjectInputStream(bucketName, objectName);
+        InputStream is = objectService.getObject(bucketName, objectName);
         IOUtils.copy(is, response.getOutputStream());
         IOUtils.closeQuietly(is);
-    }
-
-    private StatObjectResponse getStatObject (String bucketName, String objectName)  {
-        StatObjectArgs statObjectArgs = StatObjectArgs.builder().bucket(bucketName).object(objectName).build();
-        return objectService.statObject(statObjectArgs);
-    }
-
-    private GetObjectResponse getObjectInputStream(String bucketName, String objectName) {
-        GetObjectArgs getObjectArgs = GetObjectArgs.builder().bucket(bucketName).object(objectName).build();
-        return objectService.getObject(getObjectArgs);
     }
 }

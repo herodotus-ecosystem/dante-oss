@@ -64,7 +64,29 @@ public class BucketTagsService extends BaseMinioService {
     /**
      * 获取 Bucket 标签配置
      *
+     * @param bucketName 存储桶名称
+     * @return 自定义 tag 域对象 {@link TagsDo}
+     */
+    public TagsDo getBucketTags(String bucketName) {
+        return getBucketTags(bucketName, null);
+    }
+
+    /**
+     * 获取 Bucket 标签配置
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @return 自定义 tag 域对象 {@link TagsDo}
+     */
+    public TagsDo getBucketTags(String bucketName, String region) {
+        return getBucketTags(GetBucketTagsArgs.builder().bucket(bucketName).region(region).build());
+    }
+
+    /**
+     * 获取 Bucket 标签配置
+     *
      * @param getBucketTagsArgs {@link GetBucketTagsArgs}
+     * @return 自定义 tag 域对象 {@link TagsDo}
      */
     public TagsDo getBucketTags(GetBucketTagsArgs getBucketTagsArgs) {
         String function = "getBucketTags";
@@ -116,6 +138,27 @@ public class BucketTagsService extends BaseMinioService {
     /**
      * 设置 Bucket 标签
      *
+     * @param bucketName 存储桶名称
+     * @param tags       标签
+     */
+    public void setBucketTags(String bucketName, Tags tags) {
+        setBucketTags(bucketName, null, tags);
+    }
+
+    /**
+     * 设置 Bucket 标签
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param tags       标签
+     */
+    public void setBucketTags(String bucketName, String region, Tags tags) {
+        setBucketTags(SetBucketTagsArgs.builder().bucket(bucketName).region(region).tags(tags).build());
+    }
+
+    /**
+     * 设置 Bucket 标签
+     *
      * @param setBucketTagsArgs {@link SetBucketTagsArgs}
      */
     public void setBucketTags(SetBucketTagsArgs setBucketTagsArgs) {
@@ -158,6 +201,25 @@ public class BucketTagsService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
+    }
+
+    /**
+     * 删除 Bucket 标签配置
+     *
+     * @param bucketName 存储桶名称
+     */
+    public void deleteBucketTags(String bucketName) {
+        deleteBucketTags(bucketName, null);
+    }
+
+    /**
+     * 删除 Bucket 标签配置
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     */
+    public void deleteBucketTags(String bucketName, String region) {
+        deleteBucketTags(DeleteBucketTagsArgs.builder().bucket(bucketName).region(region).build());
     }
 
     /**

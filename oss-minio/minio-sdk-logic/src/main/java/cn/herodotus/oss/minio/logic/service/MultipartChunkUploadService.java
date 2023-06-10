@@ -29,7 +29,7 @@ import cn.herodotus.oss.minio.api.converter.ObjectWriteResponseToEntityConverter
 import cn.herodotus.oss.minio.api.entity.MultipartCreateEntity;
 import cn.herodotus.oss.minio.api.entity.ObjectWriteEntity;
 import cn.herodotus.oss.minio.api.service.MultipartUploadService;
-import cn.herodotus.oss.minio.api.service.PresignedService;
+import cn.herodotus.oss.minio.api.service.PresignedObjectUrlService;
 import cn.herodotus.oss.minio.logic.proxy.MinioProxyAddressConverter;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.GetPresignedObjectUrlArgs;
@@ -57,12 +57,12 @@ import java.util.concurrent.TimeUnit;
 public class MultipartChunkUploadService {
 
     private final MultipartUploadService multipartUploadService;
-    private final PresignedService presignedService;
+    private final PresignedObjectUrlService presignedObjectUrlService;
     private final MinioProxyAddressConverter converter;
 
-    public MultipartChunkUploadService(MultipartUploadService multipartUploadService, PresignedService presignedService, MinioProxyAddressConverter converter) {
+    public MultipartChunkUploadService(MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
         this.multipartUploadService = multipartUploadService;
-        this.presignedService = presignedService;
+        this.presignedObjectUrlService = presignedObjectUrlService;
         this.converter = converter;
     }
 
@@ -102,7 +102,7 @@ public class MultipartChunkUploadService {
                 .extraQueryParams(extraQueryParams)
                 .expiry(1, TimeUnit.HOURS)
                 .build();
-        return presignedService.getPresignedObjectUrl(args);
+        return presignedObjectUrlService.getPresignedObjectUrl(args);
     }
 
     /**

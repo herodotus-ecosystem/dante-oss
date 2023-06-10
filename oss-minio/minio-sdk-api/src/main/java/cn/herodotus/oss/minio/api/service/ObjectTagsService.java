@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.api.service;
 
 import cn.herodotus.oss.minio.api.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.api.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.core.domain.TagsDo;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.DeleteObjectTagsArgs;
 import io.minio.GetObjectTagsArgs;
@@ -34,6 +35,7 @@ import io.minio.MinioClient;
 import io.minio.SetObjectTagsArgs;
 import io.minio.errors.*;
 import io.minio.messages.Tags;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -42,7 +44,6 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Map;
 
 /**
  * <p>Description: Minio 对象标签服务 </p>
@@ -60,38 +61,128 @@ public class ObjectTagsService extends BaseMinioService {
     }
 
     /**
-     * 为对象设置标签
+     * 获取对象的标签
      *
      * @param bucketName bucketName
      * @param objectName objectName
-     * @param tags       {@link Map}
+     * @return 自定义标签域对象 {@link TagsDo}
      */
-    public void setObjectTags(String bucketName, String objectName, Map<String, String> tags) {
-        setObjectTags(SetObjectTagsArgs.builder().bucket(bucketName).object(objectName).tags(tags).build());
+    public TagsDo getObjectTags(String bucketName, String objectName) {
+        return getObjectTags(bucketName, null, objectName);
     }
 
     /**
-     * 为对象设置标签
+     * 获取对象的标签
      *
      * @param bucketName bucketName
      * @param objectName objectName
-     * @param versionId  versionId
-     * @param tags       {@link Map}
+     * @param region     region
+     * @return 自定义标签域对象 {@link TagsDo}
      */
-    public void setObjectTags(String bucketName, String objectName, String versionId, Map<String, String> tags) {
-        setObjectTags(SetObjectTagsArgs.builder().bucket(bucketName).object(objectName).versionId(versionId).tags(tags).build());
+    public TagsDo getObjectTags(String bucketName, String region, String objectName) {
+        return getObjectTags(bucketName, region, objectName, null);
     }
 
     /**
-     * 为对象设置标签
+     * 获取对象的标签
      *
      * @param bucketName bucketName
      * @param objectName objectName
      * @param region     region
      * @param versionId  versionId
-     * @param tags       {@link Map}
+     * @return 自定义标签域对象 {@link TagsDo}
      */
-    public void setObjectTags(String bucketName, String objectName, String region, String versionId, Map<String, String> tags) {
+    public TagsDo getObjectTags(String bucketName, String region, String objectName, String versionId) {
+        return getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).region(region).versionId(versionId).build());
+    }
+
+    /**
+     * 获取对象的标签。
+     *
+     * @param getObjectTagsArgs {@link GetObjectTagsArgs}
+     * @return 自定义标签域对象 {@link TagsDo}
+     */
+    public TagsDo getObjectTags(GetObjectTagsArgs getObjectTagsArgs) {
+        String function = "getObjectTags";
+        MinioClient minioClient = getMinioClient();
+
+        try {
+            TagsDo tagsDo = new TagsDo();
+            Tags tags = minioClient.getObjectTags(getObjectTagsArgs);
+            ;
+            if (ObjectUtils.isNotEmpty(tags)) {
+                tagsDo.putAll(tags.get());
+            }
+            return tagsDo;
+        } catch (ErrorResponseException e) {
+            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
+            throw new MinioErrorResponseException(e.getMessage());
+        } catch (InsufficientDataException e) {
+            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
+            throw new MinioInsufficientDataException(e.getMessage());
+        } catch (InternalException e) {
+            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
+            throw new MinioInternalException(e.getMessage());
+        } catch (InvalidKeyException e) {
+            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
+            throw new MinioInvalidKeyException(e.getMessage());
+        } catch (InvalidResponseException e) {
+            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
+            throw new MinioInvalidResponseException(e.getMessage());
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException(e.getMessage());
+            }
+        } catch (NoSuchAlgorithmException e) {
+            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
+            throw new MinioNoSuchAlgorithmException(e.getMessage());
+        } catch (ServerException e) {
+            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
+            throw new MinioServerException(e.getMessage());
+        } catch (XmlParserException e) {
+            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
+            throw new MinioXmlParserException(e.getMessage());
+        } finally {
+            close(minioClient);
+        }
+    }
+
+    /**
+     * 为对象设置标签
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param tags       标签 {@link Tags}
+     */
+    public void setObjectTags(String bucketName, String objectName, Tags tags) {
+        setObjectTags(bucketName, null, objectName, tags);
+    }
+
+    /**
+     * 为对象设置标签
+     *
+     * @param bucketName 存储桶名称
+     * @param region     存储桶区域
+     * @param objectName 对象名称
+     * @param tags       标签 {@link Tags}
+     */
+    public void setObjectTags(String bucketName, String region, String objectName, Tags tags) {
+        setObjectTags(bucketName, region, objectName, tags, null);
+    }
+
+    /**
+     * 为对象设置标签
+     *
+     * @param bucketName 存储桶名称
+     * @param region     存储桶区域
+     * @param objectName 对象名称
+     * @param tags       标签 {@link Tags}
+     * @param versionId  版本ID
+     */
+    public void setObjectTags(String bucketName, String region, String objectName, Tags tags, String versionId) {
         setObjectTags(SetObjectTagsArgs.builder().bucket(bucketName).object(objectName).region(region).versionId(versionId).tags(tags).build());
     }
 
@@ -143,120 +234,41 @@ public class ObjectTagsService extends BaseMinioService {
     }
 
     /**
-     * 获取对象的标签
+     * 清空对象设置标签
      *
-     * @param bucketName bucketName
-     * @param objectName objectName
-     */
-    public Tags getObjectTags(String bucketName, String objectName) {
-        return getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
-    }
-
-    /**
-     * 获取对象的标签
-     *
-     * @param bucketName bucketName
-     * @param objectName objectName
-     * @param versionId  versionId
-     */
-    public Tags getObjectTags(String bucketName, String objectName, String versionId) {
-        return getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).versionId(versionId).build());
-    }
-
-    /**
-     * 获取对象的标签
-     *
-     * @param bucketName bucketName
-     * @param objectName objectName
-     * @param region     region
-     * @param versionId  versionId
-     */
-    public Tags getObjectTags(String bucketName, String objectName, String region, String versionId) {
-        return getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).region(region).versionId(versionId).build());
-    }
-
-    /**
-     * 获取对象的标签。
-     *
-     * @param getObjectTagsArgs {@link GetObjectTagsArgs}
-     */
-    public Tags getObjectTags(GetObjectTagsArgs getObjectTagsArgs) {
-        String function = "getObjectTags";
-        MinioClient minioClient = getMinioClient();
-
-        try {
-            return minioClient.getObjectTags(getObjectTagsArgs);
-        } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException(e.getMessage());
-        } catch (InsufficientDataException e) {
-            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException(e.getMessage());
-        } catch (InternalException e) {
-            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException(e.getMessage());
-        } catch (InvalidKeyException e) {
-            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException(e.getMessage());
-        } catch (InvalidResponseException e) {
-            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException(e.getMessage());
-        } catch (IOException e) {
-            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
-            } else {
-                throw new MinioIOException(e.getMessage());
-            }
-        } catch (NoSuchAlgorithmException e) {
-            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException(e.getMessage());
-        } catch (ServerException e) {
-            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
-        } catch (XmlParserException e) {
-            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException(e.getMessage());
-        } finally {
-            close(minioClient);
-        }
-    }
-
-    /**
-     * 删除对象设置标签
-     *
-     * @param bucketName bucketName
-     * @param objectName objectName
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
      */
     public void deleteObjectTags(String bucketName, String objectName) {
-        deleteObjectTags(DeleteObjectTagsArgs.builder().bucket(bucketName).object(objectName).build());
+        deleteObjectTags(bucketName, null, objectName);
     }
 
     /**
-     * 删除对象设置标签
+     * 清空对象设置标签
      *
-     * @param bucketName bucketName
-     * @param objectName objectName
-     * @param versionId  versionId
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
      */
-    public void deleteObjectTags(String bucketName, String objectName, String versionId) {
-        deleteObjectTags(DeleteObjectTagsArgs.builder().bucket(bucketName).object(objectName).versionId(versionId).build());
+    public void deleteObjectTags(String bucketName, String region, String objectName) {
+        deleteObjectTags(bucketName, region, objectName, null);
     }
 
+
     /**
-     * 删除对象设置标签
+     * 清空对象设置标签
      *
-     * @param bucketName bucketName
-     * @param objectName objectName
-     * @param region     region
-     * @param versionId  versionId
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param versionId  版本ID
      */
-    public void deleteObjectTags(String bucketName, String objectName, String region, String versionId) {
+    public void deleteObjectTags(String bucketName, String region, String objectName, String versionId) {
         deleteObjectTags(DeleteObjectTagsArgs.builder().bucket(bucketName).object(objectName).region(region).versionId(versionId).build());
     }
 
     /**
-     * 删除对象标签
+     * 清空对象设置标签
      *
      * @param deleteObjectTagsArgs {@link DeleteObjectTagsArgs}
      */

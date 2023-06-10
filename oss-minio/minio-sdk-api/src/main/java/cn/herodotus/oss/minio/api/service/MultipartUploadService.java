@@ -63,6 +63,42 @@ public class MultipartUploadService extends BaseMinioAsyncService {
     }
 
     /**
+     * 创建分片上传请求
+     *
+     * @param bucketName 存储桶
+     * @param objectName 对象名
+     * @return {@link CreateMultipartUploadResponse}
+     */
+    public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String objectName) {
+        return createMultipartUpload(bucketName, null, objectName);
+    }
+
+    /**
+     * 创建分片上传请求
+     *
+     * @param bucketName 存储桶
+     * @param region     区域
+     * @param objectName 对象名
+     * @return {@link CreateMultipartUploadResponse}
+     */
+    public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String region, String objectName) {
+        return createMultipartUpload(bucketName, region, objectName, null);
+    }
+
+    /**
+     * 创建分片上传请求
+     *
+     * @param bucketName   存储桶
+     * @param region       区域
+     * @param objectName   对象名
+     * @param extraHeaders 消息头
+     * @return {@link CreateMultipartUploadResponse}
+     */
+    public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String region, String objectName, Multimap<String, String> extraHeaders) {
+        return createMultipartUpload(bucketName, region, objectName, extraHeaders, null);
+    }
+
+    /**
      * 创建分片上传请求, 返回 UploadId
      *
      * @param bucketName       存储桶
@@ -112,39 +148,75 @@ public class MultipartUploadService extends BaseMinioAsyncService {
     }
 
     /**
-     * 创建分片上传请求
+     * 查询分片数据
      *
-     * @param bucketName   存储桶
-     * @param region       区域
-     * @param objectName   对象名
-     * @param extraHeaders 消息头
-     * @return {@link CreateMultipartUploadResponse}
+     * @param bucketName       存储桶
+     * @param region           区域
+     * @param objectName       对象名
+     * @param maxParts         抓取的最大分片数量.
+     * @param partNumberMarker 分片数量创建器.
+     * @param uploadId         上传ID
+     * @param extraHeaders     额外消息头
+     * @return {@link ListPartsResponse}
      */
-    public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String region, String objectName, Multimap<String, String> extraHeaders) {
-        return createMultipartUpload(bucketName, region, objectName, extraHeaders, null);
+    public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId, Multimap<String, String> extraHeaders) {
+        return listParts(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, extraHeaders, null);
     }
 
     /**
-     * 创建分片上传请求
+     * 查询分片数据
+     *
+     * @param bucketName 存储桶
+     * @param objectName 对象名
+     * @param uploadId   上传ID
+     * @return {@link ListPartsResponse}
+     */
+    public ListPartsResponse listParts(String bucketName, String objectName, String uploadId) {
+        return listParts(bucketName, null, objectName, uploadId);
+    }
+
+    /**
+     * 查询分片数据
      *
      * @param bucketName 存储桶
      * @param region     区域
      * @param objectName 对象名
-     * @return {@link CreateMultipartUploadResponse}
+     * @param uploadId   上传ID
+     * @return {@link ListPartsResponse}
      */
-    public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String region, String objectName) {
-        return createMultipartUpload(bucketName, region, objectName, null);
+    public ListPartsResponse listParts(String bucketName, String region, String objectName, String uploadId) {
+        return listParts(bucketName, region, objectName, null, uploadId);
     }
 
+
     /**
-     * 创建分片上传请求
+     * 查询分片数据
      *
      * @param bucketName 存储桶
+     * @param region     区域
      * @param objectName 对象名
-     * @return {@link CreateMultipartUploadResponse}
+     * @param maxParts   抓取的最大分片数量.
+     * @param uploadId   上传ID
+     * @return {@link ListPartsResponse}
      */
-    public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String objectName) {
-        return createMultipartUpload(bucketName, null, objectName);
+    public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, String uploadId) {
+        return listParts(bucketName, region, objectName, maxParts, null, uploadId);
+    }
+
+
+    /**
+     * 查询分片数据
+     *
+     * @param bucketName       存储桶
+     * @param region           区域
+     * @param objectName       对象名
+     * @param maxParts         抓取的最大分片数量.
+     * @param partNumberMarker 分片数量创建器.
+     * @param uploadId         上传ID
+     * @return {@link ListPartsResponse}
+     */
+    public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId) {
+        return listParts(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, null);
     }
 
     /**
@@ -200,73 +272,58 @@ public class MultipartUploadService extends BaseMinioAsyncService {
     }
 
     /**
-     * 查询分片数据
-     *
-     * @param bucketName       存储桶
-     * @param region           区域
-     * @param objectName       对象名
-     * @param maxParts         抓取的最大分片数量.
-     * @param partNumberMarker 分片数量创建器.
-     * @param uploadId         上传ID
-     * @param extraHeaders     额外消息头
-     * @return {@link ListPartsResponse}
-     */
-    public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId, Multimap<String, String> extraHeaders) {
-        return listParts(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, extraHeaders, null);
-    }
-
-    /**
-     * 查询分片数据
-     *
-     * @param bucketName       存储桶
-     * @param region           区域
-     * @param objectName       对象名
-     * @param maxParts         抓取的最大分片数量.
-     * @param partNumberMarker 分片数量创建器.
-     * @param uploadId         上传ID
-     * @return {@link ListPartsResponse}
-     */
-    public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId) {
-        return listParts(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, null);
-    }
-
-    /**
-     * 查询分片数据
+     * 完成分片上传，执行合并文件
      *
      * @param bucketName 存储桶
-     * @param region     区域
      * @param objectName 对象名
-     * @param maxParts   抓取的最大分片数量.
      * @param uploadId   上传ID
-     * @return {@link ListPartsResponse}
+     * @param parts      {@link Part}
+     * @return {@link ObjectWriteResponse}
      */
-    public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, String uploadId) {
-        return listParts(bucketName, region, objectName, maxParts, null, uploadId);
+    public ObjectWriteResponse completeMultipartUpload(String bucketName, String objectName, String uploadId, Part[] parts) {
+        return completeMultipartUpload(bucketName, null, objectName, uploadId, parts);
     }
 
     /**
-     * 查询分片数据
+     * 完成分片上传，执行合并文件
      *
      * @param bucketName 存储桶
      * @param region     区域
      * @param objectName 对象名
      * @param uploadId   上传ID
-     * @return {@link ListPartsResponse}
+     * @return {@link ObjectWriteResponse}
      */
-    public ListPartsResponse listParts(String bucketName, String region, String objectName, String uploadId) {
-        return listParts(bucketName, region, objectName, null, uploadId);
+    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId) {
+        return completeMultipartUpload(bucketName, region, objectName, uploadId, null);
     }
 
     /**
-     * 查询分片数据
+     * 完成分片上传，执行合并文件
      *
      * @param bucketName 存储桶
+     * @param region     区域
      * @param objectName 对象名
      * @param uploadId   上传ID
-     * @return {@link ListPartsResponse}
+     * @param parts      {@link Part}
+     * @return {@link ObjectWriteResponse}
      */
-    public ListPartsResponse listParts(String bucketName, String objectName, String uploadId) {
-        return listParts(bucketName, null, objectName, uploadId);
+    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId, Part[] parts) {
+        return completeMultipartUpload(bucketName, region, objectName, uploadId, parts, null);
+    }
+
+    /**
+     * 完成分片上传，执行合并文件
+     *
+     * @param bucketName   存储桶
+     * @param region       区域
+     * @param objectName   对象名
+     * @param uploadId     上传ID
+     * @param parts        {@link Part}
+     * @param extraHeaders 额外消息头
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId, Part[] parts, Multimap<String, String> extraHeaders) {
+        return completeMultipartUpload(bucketName, region, objectName, uploadId, parts, extraHeaders, null);
     }
 
     /**
@@ -318,60 +375,5 @@ public class MultipartUploadService extends BaseMinioAsyncService {
         } finally {
             close(minioAsyncClient);
         }
-    }
-
-    /**
-     * 完成分片上传，执行合并文件
-     *
-     * @param bucketName   存储桶
-     * @param region       区域
-     * @param objectName   对象名
-     * @param uploadId     上传ID
-     * @param parts        {@link Part}
-     * @param extraHeaders 额外消息头
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId, Part[] parts, Multimap<String, String> extraHeaders) {
-        return completeMultipartUpload(bucketName, region, objectName, uploadId, parts, extraHeaders, null);
-    }
-
-    /**
-     * 完成分片上传，执行合并文件
-     *
-     * @param bucketName 存储桶
-     * @param region     区域
-     * @param objectName 对象名
-     * @param uploadId   上传ID
-     * @param parts      {@link Part}
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId, Part[] parts) {
-        return completeMultipartUpload(bucketName, region, objectName, uploadId, parts, null);
-    }
-
-    /**
-     * 完成分片上传，执行合并文件
-     *
-     * @param bucketName 存储桶
-     * @param region     区域
-     * @param objectName 对象名
-     * @param uploadId   上传ID
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId) {
-        return completeMultipartUpload(bucketName, region, objectName, uploadId, null);
-    }
-
-    /**
-     * 完成分片上传，执行合并文件
-     *
-     * @param bucketName 存储桶
-     * @param objectName 对象名
-     * @param uploadId   上传ID
-     * @param parts      {@link Part}
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse completeMultipartUpload(String bucketName, String objectName, String uploadId, Part[] parts) {
-        return completeMultipartUpload(bucketName, null, objectName, uploadId, parts);
     }
 }

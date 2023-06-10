@@ -65,6 +65,27 @@ public class ObjectLockConfigurationService extends BaseMinioService {
     /**
      * 获取对象锁定配置
      *
+     * @param bucketName 存储桶名称
+     * @return 自定义 ObjectLockConfiguration 域对象
+     */
+    public ObjectLockConfigurationDo getObjectLockConfiguration(String bucketName) {
+        return getObjectLockConfiguration(bucketName, null);
+    }
+
+    /**
+     * 获取对象锁定配置
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @return 自定义 ObjectLockConfiguration 域对象
+     */
+    public ObjectLockConfigurationDo getObjectLockConfiguration(String bucketName, String region) {
+        return getObjectLockConfiguration(GetObjectLockConfigurationArgs.builder().bucket(bucketName).region(region).build());
+    }
+
+    /**
+     * 获取对象锁定配置
+     *
      * @param getObjectLockConfigurationArgs {@link GetObjectLockConfigurationArgs}
      * @return {@link ObjectLockConfiguration}
      */
@@ -113,6 +134,27 @@ public class ObjectLockConfigurationService extends BaseMinioService {
     /**
      * 设置对象锁定
      *
+     * @param bucketName 存储桶名称
+     * @param config     对象锁定配置 {@link ObjectLockConfiguration}
+     */
+    public void setObjectLockConfiguration(String bucketName, ObjectLockConfiguration config) {
+        setObjectLockConfiguration(bucketName, null, config);
+    }
+
+    /**
+     * 设置对象锁定
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param config     对象锁定配置 {@link ObjectLockConfiguration}
+     */
+    public void setObjectLockConfiguration(String bucketName, String region, ObjectLockConfiguration config) {
+        setObjectLockConfiguration(SetObjectLockConfigurationArgs.builder().bucket(bucketName).region(region).config(config).build());
+    }
+
+    /**
+     * 设置对象锁定
+     *
      * @param setObjectLockConfigurationArgs {@link SetObjectLockConfigurationArgs}
      */
     public void setObjectLockConfiguration(SetObjectLockConfigurationArgs setObjectLockConfigurationArgs) {
@@ -155,6 +197,25 @@ public class ObjectLockConfigurationService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
+    }
+
+    /**
+     * 删除对象锁定配置
+     *
+     * @param bucketName 存储桶名称
+     */
+    public void deleteObjectLockConfiguration(String bucketName) {
+        deleteObjectLockConfiguration(bucketName, null);
+    }
+
+    /**
+     * 删除对象锁定配置
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     */
+    public void deleteObjectLockConfiguration(String bucketName, String region) {
+        deleteObjectLockConfiguration(DeleteObjectLockConfigurationArgs.builder().bucket(bucketName).region(region).build());
     }
 
     /**

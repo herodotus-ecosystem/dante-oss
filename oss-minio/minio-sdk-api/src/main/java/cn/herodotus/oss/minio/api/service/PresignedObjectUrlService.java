@@ -32,6 +32,7 @@ import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PostPolicy;
 import io.minio.errors.*;
+import io.minio.http.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,7 @@ import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>Description: Presigned 相关操作 </p>
@@ -49,11 +51,11 @@ import java.util.Map;
  * @date : 2023/4/16 15:57
  */
 @Service
-public class PresignedService extends BaseMinioService {
+public class PresignedObjectUrlService extends BaseMinioService {
 
-    private static final Logger log = LoggerFactory.getLogger(PresignedService.class);
+    private static final Logger log = LoggerFactory.getLogger(PresignedObjectUrlService.class);
 
-    public PresignedService(MinioClientObjectPool minioClientObjectPool) {
+    public PresignedObjectUrlService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
     }
 
@@ -105,6 +107,86 @@ public class PresignedService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     * <p>
+     * 默认有效期 7 天, GET 类型 URL
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @return url string
+     */
+    public String getPresignedObjectUrl(String bucketName, String objectName) {
+        return getPresignedObjectUrl(bucketName, null, objectName);
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     * <p>
+     * 默认有效期 7 天, GET 类型 URL
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @return url string
+     */
+    public String getPresignedObjectUrl(String bucketName, String region, String objectName) {
+        return getPresignedObjectUrl(bucketName, region, objectName, Method.GET);
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     * <p>
+     * 默认有效期 7 天
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param method     方法类型 {@link Method}
+     * @return url string
+     */
+    public String getPresignedObjectUrl(String bucketName, String region, String objectName, Method method) {
+        return getPresignedObjectUrl(bucketName, region, objectName, method, 7, TimeUnit.DAYS);
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param method     方法类型 {@link Method}
+     * @param duration   过期时间
+     * @param unit       过期时间单位
+     * @return url string
+     */
+    public String getPresignedObjectUrl(String bucketName, String region, String objectName, Method method, int duration, TimeUnit unit) {
+        return getPresignedObjectUrl(bucketName, region, objectName, method, duration, unit, null);
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param method     方法类型 {@link Method}
+     * @param duration   过期时间
+     * @param unit       过期时间单位
+     * @param versionId  版本ID
+     * @return url string
+     */
+    public String getPresignedObjectUrl(String bucketName, String region, String objectName, Method method, int duration, TimeUnit unit, String versionId) {
+        return getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                .bucket(bucketName)
+                .region(region)
+                .object(objectName)
+                .method(method)
+                .expiry(duration, unit)
+                .versionId(versionId)
+                .build());
     }
 
     /**

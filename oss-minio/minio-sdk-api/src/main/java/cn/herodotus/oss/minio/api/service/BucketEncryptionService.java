@@ -64,6 +64,27 @@ public class BucketEncryptionService extends BaseMinioService {
     /**
      * 获取 Bucket 加密配置
      *
+     * @param bucketName 存储桶名称
+     * @return 自定义 SseConfiguration 枚举 {@link SseConfigurationEnums}
+     */
+    public SseConfigurationEnums getBucketEncryption(String bucketName) {
+        return getBucketEncryption(bucketName, null);
+    }
+
+    /**
+     * 获取 Bucket 加密配置
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @return 自定义 SseConfiguration 枚举 {@link SseConfigurationEnums}
+     */
+    public SseConfigurationEnums getBucketEncryption(String bucketName, String region) {
+        return getBucketEncryption(GetBucketEncryptionArgs.builder().bucket(bucketName).region(region).build());
+    }
+
+    /**
+     * 获取 Bucket 加密配置
+     *
      * @param getBucketEncryptionArgs {@link GetBucketEncryptionArgs}
      */
     public SseConfigurationEnums getBucketEncryption(GetBucketEncryptionArgs getBucketEncryptionArgs) {
@@ -116,6 +137,28 @@ public class BucketEncryptionService extends BaseMinioService {
     /**
      * 设置 Bucket 加密
      *
+     * @param bucketName 存储桶名称
+     * @param config     加密配置 {@link SseConfiguration}
+     */
+    public void setBucketEncryption(String bucketName, SseConfiguration config) {
+        setBucketEncryption(bucketName, null, config);
+    }
+
+    /**
+     * 设置 Bucket 加密
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param config     加密配置 {@link SseConfiguration}
+     */
+    public void setBucketEncryption(String bucketName, String region, SseConfiguration config) {
+        setBucketEncryption(SetBucketEncryptionArgs.builder().bucket(bucketName).region(region).config(config).build());
+    }
+
+
+    /**
+     * 设置 Bucket 加密
+     *
      * @param setBucketEncryptionArgs {@link SetBucketEncryptionArgs}
      */
     public void setBucketEncryption(SetBucketEncryptionArgs setBucketEncryptionArgs) {
@@ -160,7 +203,30 @@ public class BucketEncryptionService extends BaseMinioService {
         }
     }
 
+    /**
+     * 删除 Bucket 加密配置
+     *
+     * @param bucketName 存储桶名称
+     */
+    public void deleteBucketEncryption(String bucketName) {
+        deleteBucketEncryption(bucketName, null);
+    }
 
+    /**
+     * 删除 Bucket 加密配置
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     */
+    public void deleteBucketEncryption(String bucketName, String region) {
+        deleteBucketEncryption(DeleteBucketEncryptionArgs.builder().bucket(bucketName).region(region).build());
+    }
+
+    /**
+     * 删除 Bucket 加密配置
+     *
+     * @param deleteBucketEncryptionArgs {@link DeleteBucketEncryptionArgs}
+     */
     public void deleteBucketEncryption(DeleteBucketEncryptionArgs deleteBucketEncryptionArgs) {
         String function = "deleteBucketEncryption";
         MinioClient minioClient = getMinioClient();
@@ -202,4 +268,6 @@ public class BucketEncryptionService extends BaseMinioService {
             close(minioClient);
         }
     }
+
+
 }
