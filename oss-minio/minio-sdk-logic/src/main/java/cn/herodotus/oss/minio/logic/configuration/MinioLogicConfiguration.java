@@ -25,13 +25,18 @@
 
 package cn.herodotus.oss.minio.logic.configuration;
 
-import cn.herodotus.engine.rest.client.configuration.RestTemplateConfiguration;
+import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClientObjectPool;
+import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
+import cn.herodotus.oss.minio.logic.properties.MinioProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * <p>Description: Minio Logic 模块配置 </p>
@@ -40,13 +45,7 @@ import org.springframework.context.annotation.Import;
  * @date : 2023/6/5 15:04
  */
 @AutoConfiguration
-@Import({
-        RestTemplateConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.logic.proxy",
-        "cn.herodotus.oss.minio.logic.service"
-})
+@EnableConfigurationProperties(MinioProperties.class)
 public class MinioLogicConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(MinioLogicConfiguration.class);
@@ -54,5 +53,29 @@ public class MinioLogicConfiguration {
     @PostConstruct
     public void postConstruct() {
         log.debug("[Herodotus] |- SDK [Minio Logic] Auto Configure.");
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MinioClientObjectPool minioClientPool(MinioProperties minioProperties) {
+        MinioClientObjectPool minioClientObjectPool = new MinioClientObjectPool(minioProperties);
+        log.trace("[Herodotus] |- Bean [Minio Client Pool] Auto Configure.");
+        return minioClientObjectPool;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MinioAsyncClientObjectPool minioAsyncClientPool(MinioProperties minioProperties) {
+        MinioAsyncClientObjectPool minioAsyncClientObjectPool = new MinioAsyncClientObjectPool(minioProperties);
+        log.trace("[Herodotus] |- Bean [Minio Async Client Pool] Auto Configure.");
+        return minioAsyncClientObjectPool;
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ComponentScan(basePackages = {
+            "cn.herodotus.oss.minio.logic.service",
+    })
+    static class MinioServiceConfiguration {
+
     }
 }

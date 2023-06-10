@@ -32,18 +32,18 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>dante-oss</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0</version>
     </parent>
 
     <artifactId>oss-minio</artifactId>
-    <version>0.3.0</version>
+    <version>0.4.0</version>
     <packaging>pom</packaging>
 
     <modules>
         <module>minio-core</module>
-        <module>minio-sdk-api</module>
         <module>minio-sdk-logic</module>
         <module>minio-sdk-rest</module>
+        <module>minio-sdk-scenario</module>
         <module>minio-spring-boot-starter</module>
     </modules>
 

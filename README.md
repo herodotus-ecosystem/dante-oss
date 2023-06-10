@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.0-blue.svg?logo=spring" alt="Spring Boot 3.1.0"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-0.3.0-red.svg?logo=spring" alt="Version 0.3.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-0.4.0-red.svg?logo=spring" alt="Version 0.4.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -70,10 +70,11 @@ dante-oss
 ├── oss-bom -- 工程Maven顶级依赖，统一控制版本和依赖
 ├── oss-minio -- Minio 模块
 ├    ├── minio-core -- Minio 通用代码包
-├    ├── minio-sdk-api -- Minio 基础API封装模块
-├    ├── minio-sdk-logic -- 基于Minio扩展应用模块
-├    ├── minio-sdk-rest -- 基于Minio扩展的REST接口模块
-└──  └── minio-spring-boot-starter -- Minio Starter
+├    ├── minio-sdk-logic -- Minio 基础 API 模块
+├    ├── minio-sdk-rest -- Minio 基础 REST API模块
+├    ├── minio-sdk-scenario -- Minio 扩展及应用方案整合模块
+├    └── minio-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
+└── oss-spring-boot-starter -- 完整的、包含所有内容的 Starter
 ```
 
 ## 功能 | function
@@ -139,12 +140,14 @@ dante-oss
 
 ## 使用 | How to use
 
+### 一、基本使用
+
 1. maven 中引入
 
 ```xml
 <dependency>
     <groupId>cn.herodotus.oss</groupId>
-    <artifactId>minio-spring-boot-starter</artifactId>
+    <artifactId>oss-spring-boot-starter</artifactId>
     <version>最新版本</version>
 </dependency>
 ```
@@ -159,6 +162,7 @@ herodotus:
       access-key: xxxxxx
       secret-key: xxxxxx
 ```
+> 结合实际需求配置数据源
 
 3. 统一错误处理
 
@@ -175,6 +179,28 @@ public static Result<String> exception(Exception ex， HttpServletRequest reques
     ······
 }
 ```
+
+4. 交互性错误信息反馈
+
+```java
+// 在系统统一错误处，调用以下代码即可返回包含自定义错误码的、更具交互性错误信息。
+if (ex instanceof HerodotusException exception) {
+    Result<String> result = exception.getResult();
+    result.path(path);
+    log.error("[Herodotus] |- Global Exception Handler, Error is : {}", result);
+    return result;
+}
+```
+
+### 二、选择使用
+
+除了 `minio-core` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
+
+- **minio-sdk-logic**: 仅包含对 Minio 基础 API 封装的 Service 代码。使用注解 `@EnableHerodotusMinioLogic` 可开启相关内容。
+- **minio-sdk-rest**: 包含对 Minio 基于 API 封装的 Service 以及 REST 代码。使用注解 `@EnableHerodotusMinioRest` 可开启相关内容。
+- **minio-sdk-scenario**: 包含扩展应用以及各OSS常规场景应用， 注意：不包含 `minio-sdk-rest` 内容。使用注解 `@EnableHerodotusMinioScenario` 可开启相关内容。
+- **minio-spring-boot-starter**: 包含 `minio-sdk-logic` 和 `minio-sdk-rest` 两部分内容，可直接引入使用。
+- **oss-spring-boot-starter**: 包含所有内容，注意：需要依赖数据库等相关内容。
 
 ## 贡献 | Committer
 
