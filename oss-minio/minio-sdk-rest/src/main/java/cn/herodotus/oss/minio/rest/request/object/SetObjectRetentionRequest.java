@@ -30,6 +30,7 @@ import cn.herodotus.oss.minio.core.domain.RetentionDo;
 import cn.herodotus.oss.minio.rest.definition.ObjectVersionRequest;
 import io.minio.SetObjectRetentionArgs;
 import io.minio.messages.Retention;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
@@ -39,12 +40,15 @@ import org.springframework.core.convert.converter.Converter;
  * @author : gengwei.zheng
  * @date : 2023/4/18 16:03
  */
+@Schema(name = "设置对象保留请求参数实体", title = "设置对象保留请求参数实体")
 public class SetObjectRetentionRequest extends ObjectVersionRequest<SetObjectRetentionArgs.Builder, SetObjectRetentionArgs> {
 
     private final Converter<RetentionDo, Retention> toRetention = new RequestToRetentionConverter();
 
+    @Schema(name = "保留配置")
     private RetentionDo retention;
 
+    @Schema(name = "使用Governance模式")
     private Boolean bypassGovernanceMode;
 
     public RetentionDo getRetention() {

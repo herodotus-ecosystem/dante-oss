@@ -39,9 +39,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @AutoConfiguration
 @ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.rest.controller.api",
-        "cn.herodotus.oss.minio.rest.controller.assistant",
-        "cn.herodotus.oss.minio.rest.controller.logic",
+        "cn.herodotus.oss.minio.rest.controller",
 })
 public class MinioRestConfiguration {
 
