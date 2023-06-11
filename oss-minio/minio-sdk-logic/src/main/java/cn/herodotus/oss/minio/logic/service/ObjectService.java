@@ -25,24 +25,23 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.converter.DeleteErrorToEntityConverter;
 import cn.herodotus.oss.minio.logic.converter.ObjectToEntityConverter;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
 import cn.herodotus.oss.minio.logic.entity.DeleteErrorEntity;
 import cn.herodotus.oss.minio.logic.entity.ObjectEntity;
-import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.*;
 import io.minio.errors.*;
-import io.minio.messages.DeleteError;
-import io.minio.messages.DeleteObject;
-import io.minio.messages.Item;
+import io.minio.messages.*;
 import org.apache.commons.collections4.IterableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
@@ -1176,6 +1175,179 @@ public class ObjectService extends BaseMinioService {
         }
     }
 
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param stream     文件流
+     * @param objectSize 对象大小
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String objectName, BufferedInputStream stream, long objectSize) {
+        return putObject(bucketName, null, objectName, stream, objectSize, -1);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param stream     文件流
+     * @param objectSize 对象大小
+     * @param partSize   分片大小
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String objectName, BufferedInputStream stream, long objectSize, long partSize) {
+        return putObject(bucketName, null, objectName, stream, objectSize, partSize);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param stream     文件流
+     * @param objectSize 对象大小
+     * @param partSize   分片大小
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, null);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, false);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, null);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, retention, null);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @param tags        标签
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention, Tags tags) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, retention, tags, null);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @param tags        标签
+     * @param sse         服务加密
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention, Tags tags, ServerSideEncryption sse) {
+        return putObject(PutObjectArgs.builder()
+                .bucket(bucketName)
+                .region(region)
+                .object(objectName)
+                .stream(stream, objectSize, partSize)
+                .contentType(contentType)
+                .sse(sse)
+                .legalHold(legalHold)
+                .tags(tags)
+                .retention(retention)
+                .build());
+    }
 
     /**
      * 上传文件
@@ -1229,6 +1401,175 @@ public class ObjectService extends BaseMinioService {
         }
     }
 
+    /**
+     * 将文件中的内容作为存储桶中的对象上传
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param fileName   具体文件，完整的路径
+     * @return {@link ObjectWriteResponse}
+     * @throws IOException 读取文件失败
+     */
+    public ObjectWriteResponse uploadObject(String bucketName, String objectName, String fileName) throws IOException {
+        return uploadObject(bucketName, null, objectName, fileName);
+    }
+
+    /**
+     * 将文件中的内容作为存储桶中的对象上传
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param fileName   具体文件，完整的路径
+     * @return {@link ObjectWriteResponse}
+     * @throws IOException 读取文件失败
+     */
+    public ObjectWriteResponse uploadObject(String bucketName, String region, String objectName, String fileName) throws IOException {
+        return uploadObject(bucketName, region, objectName, fileName, null);
+    }
+
+    /**
+     * 将文件中的内容作为存储桶中的对象上传
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param fileName    具体文件，完整的路径
+     * @param contentType 内容类型
+     * @return {@link ObjectWriteResponse}
+     * @throws IOException 读取文件失败
+     */
+    public ObjectWriteResponse uploadObject(String bucketName, String region, String objectName, String fileName, String contentType) throws IOException {
+        return uploadObject(bucketName, region, objectName, fileName, contentType, false);
+    }
+
+    /**
+     * 将文件中的内容作为存储桶中的对象上传
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param fileName    具体文件，完整的路径
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @return {@link ObjectWriteResponse}
+     * @throws IOException 读取文件失败
+     */
+    public ObjectWriteResponse uploadObject(String bucketName, String region, String objectName, String fileName, String contentType, boolean legalHold) throws IOException {
+        return uploadObject(bucketName, region, objectName, fileName, contentType, legalHold, null);
+    }
+
+    /**
+     * 将文件中的内容作为存储桶中的对象上传
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param fileName    具体文件，完整的路径
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @return {@link ObjectWriteResponse}
+     * @throws IOException 读取文件失败
+     */
+    public ObjectWriteResponse uploadObject(String bucketName, String region, String objectName, String fileName, String contentType, boolean legalHold, Retention retention) throws IOException {
+        return uploadObject(bucketName, region, objectName, fileName, contentType, legalHold, retention, null);
+    }
+
+    /**
+     * 将文件中的内容作为存储桶中的对象上传
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param fileName    具体文件，完整的路径
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @param tags        标签
+     * @return {@link ObjectWriteResponse}
+     * @throws IOException 读取文件失败
+     */
+    public ObjectWriteResponse uploadObject(String bucketName, String region, String objectName, String fileName, String contentType, boolean legalHold, Retention retention, Tags tags) throws IOException {
+        return uploadObject(bucketName, region, objectName, fileName, contentType, legalHold, retention, tags, null);
+    }
+
+    /**
+     * 将文件中的内容作为存储桶中的对象上传
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param fileName    具体文件，完整的路径
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @param tags        标签
+     * @param sse         服务加密
+     * @return {@link ObjectWriteResponse}
+     * @throws IOException 读取文件失败
+     */
+    public ObjectWriteResponse uploadObject(String bucketName, String region, String objectName, String fileName, String contentType, boolean legalHold, Retention retention, Tags tags, ServerSideEncryption sse) throws IOException {
+        return uploadObject(UploadObjectArgs.builder()
+                .bucket(bucketName)
+                .region(region)
+                .object(objectName)
+                .filename(fileName)
+                .contentType(contentType)
+                .sse(sse)
+                .legalHold(legalHold)
+                .tags(tags)
+                .retention(retention)
+                .build());
+    }
+
+    /**
+     * 将文件中的内容作为存储桶中的对象上传
+     *
+     * @param uploadObjectArgs {@link UploadObjectArgs}
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse uploadObject(UploadObjectArgs uploadObjectArgs) {
+        String function = "uploadObject";
+        MinioClient minioClient = getMinioClient();
+
+        try {
+            return minioClient.uploadObject(uploadObjectArgs);
+        } catch (ErrorResponseException e) {
+            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
+            throw new MinioErrorResponseException(e.getMessage());
+        } catch (InsufficientDataException e) {
+            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
+            throw new MinioInsufficientDataException(e.getMessage());
+        } catch (InternalException e) {
+            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
+            throw new MinioInternalException(e.getMessage());
+        } catch (InvalidKeyException e) {
+            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
+            throw new MinioInvalidKeyException(e.getMessage());
+        } catch (InvalidResponseException e) {
+            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
+            throw new MinioInvalidResponseException(e.getMessage());
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException(e.getMessage());
+            }
+        } catch (NoSuchAlgorithmException e) {
+            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
+            throw new MinioNoSuchAlgorithmException(e.getMessage());
+        } catch (ServerException e) {
+            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
+            throw new MinioServerException(e.getMessage());
+        } catch (XmlParserException e) {
+            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
+            throw new MinioXmlParserException(e.getMessage());
+        } finally {
+            close(minioClient);
+        }
+    }
 
     /**
      * 通过服务器端从另一个对象复制数据来创建一个对象
@@ -1289,54 +1630,6 @@ public class ObjectService extends BaseMinioService {
 
         try {
             minioClient.restoreObject(args);
-        } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException(e.getMessage());
-        } catch (InsufficientDataException e) {
-            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException(e.getMessage());
-        } catch (InternalException e) {
-            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException(e.getMessage());
-        } catch (InvalidKeyException e) {
-            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException(e.getMessage());
-        } catch (InvalidResponseException e) {
-            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException(e.getMessage());
-        } catch (IOException e) {
-            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
-            } else {
-                throw new MinioIOException(e.getMessage());
-            }
-        } catch (NoSuchAlgorithmException e) {
-            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException(e.getMessage());
-        } catch (ServerException e) {
-            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
-        } catch (XmlParserException e) {
-            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException(e.getMessage());
-        } finally {
-            close(minioClient);
-        }
-    }
-
-    /**
-     * 将文件中的内容作为存储桶中的对象上传
-     *
-     * @param uploadObjectArgs {@link UploadObjectArgs}
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse uploadObject(UploadObjectArgs uploadObjectArgs) {
-        String function = "uploadObject";
-        MinioClient minioClient = getMinioClient();
-
-        try {
-            return minioClient.uploadObject(uploadObjectArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException(e.getMessage());

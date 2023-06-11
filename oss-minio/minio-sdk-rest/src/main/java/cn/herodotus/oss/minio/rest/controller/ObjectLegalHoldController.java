@@ -28,9 +28,9 @@ package cn.herodotus.oss.minio.rest.controller;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.logic.service.ObjectTagsService;
-import cn.herodotus.oss.minio.rest.request.object.DeleteObjectTagsRequest;
-import cn.herodotus.oss.minio.rest.request.object.SetObjectTagsRequest;
+import cn.herodotus.oss.minio.logic.service.ObjectLegalHoldService;
+import cn.herodotus.oss.minio.rest.request.object.DisableObjectLegalHoldRequest;
+import cn.herodotus.oss.minio.rest.request.object.EnableObjectLegalHoldRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -40,31 +40,34 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * <p>Description: Minio 对象桶标签管理接口 </p>
+ * <p>Description: Minio 对象LegalHold管理接口 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/10 15:13
+ * @date : 2023/6/11 10:14
  */
 @RestController
-@RequestMapping("/oss/minio/bucket/tags")
+@RequestMapping("/oss/minio/object/legal-hold")
 @Tags({
         @Tag(name = "对象存储管理接口"),
         @Tag(name = "Minio 对象存储管理接口"),
-        @Tag(name = "Minio 对象桶标签管理接口")
+        @Tag(name = "Minio 对象LegalHold管理接口")
 })
-public class ObjectTagsController implements Controller {
+public class ObjectLegalHoldController  implements Controller {
 
-    private final ObjectTagsService objectTagsService;
+    private final ObjectLegalHoldService objectLegalHoldService;
 
-    public ObjectTagsController(ObjectTagsService objectTagsService) {
-        this.objectTagsService = objectTagsService;
+    public ObjectLegalHoldController(ObjectLegalHoldService objectLegalHoldService) {
+        this.objectLegalHoldService = objectLegalHoldService;
     }
 
     @Idempotent
-    @Operation(summary = "设置对象标签", description = "设置对象标签",
+    @Operation(summary = "设置开启对象持有配置", description = "设置开启对象持有配置",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
@@ -73,16 +76,16 @@ public class ObjectTagsController implements Controller {
                     @ApiResponse(responseCode = "503", description = "Minio Server 无法访问或未启动")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, description = "SetObjectTagsRequest请求参数实体", schema = @Schema(implementation = SetObjectTagsRequest.class))
+            @Parameter(name = "request", required = true, description = "EnableObjectLegalHoldRequest请求参数实体", schema = @Schema(implementation = EnableObjectLegalHoldRequest.class))
     })
-    @PutMapping
-    public Result<Boolean> set(@Validated @RequestBody SetObjectTagsRequest request) {
-        objectTagsService.setObjectTags(request.build());
+    @PutMapping("/enable")
+    public Result<Boolean> enable(@Validated @RequestBody EnableObjectLegalHoldRequest request) {
+        objectLegalHoldService.enableObjectLegalHold(request.build());
         return result(true);
     }
 
     @Idempotent
-    @Operation(summary = "清空对象标签", description = "利用Tags的增减就可以实现Tags的删除，所以这个删除应该理解成清空",
+    @Operation(summary = "设置关闭对象持有配置", description = "设置关闭对象持有配置",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
@@ -91,11 +94,11 @@ public class ObjectTagsController implements Controller {
                     @ApiResponse(responseCode = "503", description = "Minio Server 无法访问或未启动")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, description = "DeleteObjectTagsRequest请求参数实体", schema = @Schema(implementation = DeleteObjectTagsRequest.class))
+            @Parameter(name = "request", required = true, description = "DisableObjectLegalHoldRequest请求参数实体", schema = @Schema(implementation = DisableObjectLegalHoldRequest.class))
     })
-    @DeleteMapping
-    public Result<Boolean> delete(@Validated @RequestBody DeleteObjectTagsRequest request) {
-        objectTagsService.deleteObjectTags(request.build());
+    @PutMapping("/disable")
+    public Result<Boolean> disable(@Validated @RequestBody DisableObjectLegalHoldRequest request) {
+        objectLegalHoldService.disableObjectLegalHold(request.build());
         return result(true);
     }
 }

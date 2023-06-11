@@ -109,6 +109,8 @@ dante-oss
 | Object 删除标签     | 删除 Object Tags，包括 Service、REST API                       |
 | Object 获取保留设置   | 获取 Object Retention，包括 Service、REST API                  |
 | Object 修改保留设置   | 修改 Object Retention，包括 Service、REST API                  |
+| Object 开启持有设置   | 获取 Object LegalHold，包括 Service、REST API                  |
+| Object 关闭持有设置   | 修改 Object LegalHold，包括 Service、REST API                  |
 | 其它功能            | 正逐步完善，主要涉及前后端交互、以及可用性验证和前端相关功能的开发，敬请期待，欢迎 PR             |
 
 

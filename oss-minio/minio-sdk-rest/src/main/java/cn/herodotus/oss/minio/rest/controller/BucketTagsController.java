@@ -82,7 +82,7 @@ public class BucketTagsController implements Controller {
     }
 
     @Idempotent
-    @Operation(summary = "删除存储桶标签", description = "删除存储桶标签",
+    @Operation(summary = "清空存储桶标签", description = "利用Tags的增减就可以实现Tags的删除，所以这个删除应该理解成清空",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
