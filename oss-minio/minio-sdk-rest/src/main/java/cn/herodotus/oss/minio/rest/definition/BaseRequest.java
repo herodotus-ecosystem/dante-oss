@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public abstract class BaseRequest<B extends BaseArgs.Builder<B, A>, A extends BaseArgs> implements MinioRequestBuilder<B, A> {
 
-    @Schema(name = "额外的请求")
+    @Schema(name = "额外的请求头")
     private Map<String, String> extraHeaders;
 
     @Schema(name = "额外的Query参数")

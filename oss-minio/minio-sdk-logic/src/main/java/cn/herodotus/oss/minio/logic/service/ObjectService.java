@@ -31,10 +31,8 @@ import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.*;
-import org.apache.commons.collections4.IterableUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
@@ -43,8 +41,6 @@ import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>Description: Minio 对象操作服务 </p>
@@ -1706,16 +1702,5 @@ public class ObjectService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    private <T, R> List<R> toEntities(Iterable<Result<T>> results, Converter<Result<T>, R> toResponse) {
-        List<R> responses = new ArrayList<>();
-        if (!IterableUtils.isEmpty(results)) {
-            for (Result<T> result : results) {
-                R response = toResponse.convert(result);
-                responses.add(response);
-            }
-        }
-        return responses;
     }
 }

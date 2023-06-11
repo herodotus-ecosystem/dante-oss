@@ -25,8 +25,6 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.minio.core.converter.BucketToDomainConverter;
-import cn.herodotus.oss.minio.core.domain.BucketDomain;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
@@ -36,7 +34,6 @@ import io.minio.messages.Bucket;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -55,11 +52,9 @@ import java.util.List;
 public class BucketService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketService.class);
-    private final Converter<Bucket, BucketDomain> toDomain;
 
     public BucketService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-        this.toDomain = new BucketToDomainConverter();
     }
 
     /**
