@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.minio.core.domain.RetentionDomain;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.converter.RetentionToDoConverter;
-import cn.herodotus.oss.minio.core.domain.RetentionDo;
+import cn.herodotus.oss.minio.core.converter.retention.RetentionToDomainConverter;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.GetObjectRetentionArgs;
 import io.minio.MinioClient;
@@ -55,11 +55,11 @@ import java.security.NoSuchAlgorithmException;
 public class ObjectRetentionService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectRetentionService.class);
-    private final Converter<Retention, RetentionDo> toDo;
+    private final Converter<Retention, RetentionDomain> toDo;
 
     public ObjectRetentionService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-        this.toDo = new RetentionToDoConverter();
+        this.toDo = new RetentionToDomainConverter();
     }
 
     /**
@@ -68,7 +68,7 @@ public class ObjectRetentionService extends BaseMinioService {
      * @param objectName 对象名称
      * @return 自定义保留域对象
      */
-    public RetentionDo getObjectRetention(String bucketName, String objectName) {
+    public RetentionDomain getObjectRetention(String bucketName, String objectName) {
         return getObjectRetention(bucketName, null, objectName);
     }
 
@@ -79,7 +79,7 @@ public class ObjectRetentionService extends BaseMinioService {
      * @param objectName 对象名称
      * @return 自定义保留域对象
      */
-    public RetentionDo getObjectRetention(String bucketName, String region, String objectName) {
+    public RetentionDomain getObjectRetention(String bucketName, String region, String objectName) {
         return getObjectRetention(bucketName, region, objectName, null);
     }
 
@@ -91,7 +91,7 @@ public class ObjectRetentionService extends BaseMinioService {
      * @param versionId 版本ID
      * @return 自定义保留域对象
      */
-    public RetentionDo getObjectRetention(String bucketName, String region, String objectName, String versionId) {
+    public RetentionDomain getObjectRetention(String bucketName, String region, String objectName, String versionId) {
         return getObjectRetention(GetObjectRetentionArgs.builder().bucket(bucketName).region(region).object(objectName).versionId(versionId).build());
     }
 
@@ -99,9 +99,9 @@ public class ObjectRetentionService extends BaseMinioService {
      * 获取对象的保留配置
      *
      * @param getObjectRetentionArgs {@link GetObjectRetentionArgs}
-     * @return {@link RetentionDo}
+     * @return {@link RetentionDomain}
      */
-    public RetentionDo getObjectRetention(GetObjectRetentionArgs getObjectRetentionArgs) {
+    public RetentionDomain getObjectRetention(GetObjectRetentionArgs getObjectRetentionArgs) {
         String function = "getObjectRetention";
         MinioClient minioClient = getMinioClient();
 

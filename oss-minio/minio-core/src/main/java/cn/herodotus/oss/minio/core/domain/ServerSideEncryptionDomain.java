@@ -23,47 +23,62 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.bucket;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.rest.definition.BucketRequest;
-import io.minio.SetBucketTagsArgs;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.Map;
 
 /**
- * <p>Description: 设置存储桶标签请求参数实体 </p>
+ * <p>Description: 服务端加密域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/6 22:32
+ * @date : 2023/6/9 12:39
  */
-@Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
-public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
+public class ServerSideEncryptionDomain implements Entity {
 
-    @Schema(name = "存储桶标签", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotEmpty(message = "存储桶标签不能为空")
-    private Map<String, String> tags;
+    @Schema(name = "服务端加密方式类型", description = "1:SSE_KMS, 2:SSE_S3, 3: 自定义")
+    private Integer type;
 
-    public Map<String, String> getTags() {
-        return tags;
+    @Schema(name = "自定义服务端加密方式加密Key", description = "Minio 默认仅支持 256 位 AES")
+    private String customerKey;
+
+    @Schema(name = "KMS加密MasterKeyId", description = "可选参数，主要用于AWS_KMS加密算法")
+    private String keyId;
+
+    @Schema(name = "KMS加密context", description = "可选参数，主要用于AWS_KMS加密算法")
+    private Map<String, String> context;
+
+    public Integer getType() {
+        return type;
     }
 
-    public void setTags(Map<String, String> tags) {
-        this.tags = tags;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
-    @Override
-    public void prepare(SetBucketTagsArgs.Builder builder) {
-        if (ObjectUtils.isNotEmpty(getTags())) {
-            builder.tags(getTags());
-        }
-        super.prepare(builder);
+    public String getCustomerKey() {
+        return customerKey;
     }
 
-    @Override
-    public SetBucketTagsArgs.Builder getBuilder() {
-        return SetBucketTagsArgs.builder();
+    public void setCustomerKey(String customerKey) {
+        this.customerKey = customerKey;
+    }
+
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
+    }
+
+    public Map<String, String> getContext() {
+        return context;
+    }
+
+    public void setContext(Map<String, String> context) {
+        this.context = context;
     }
 }

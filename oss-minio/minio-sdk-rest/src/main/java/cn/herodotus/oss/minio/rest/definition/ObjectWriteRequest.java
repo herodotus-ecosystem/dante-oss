@@ -25,11 +25,10 @@
 
 package cn.herodotus.oss.minio.rest.definition;
 
-import cn.herodotus.oss.minio.core.converter.RequestToRetentionConverter;
+import cn.herodotus.oss.minio.core.converter.retention.DomainToRetentionConverter;
 import cn.herodotus.oss.minio.core.converter.RequestToServerSideEncryptionConverter;
-import cn.herodotus.oss.minio.core.domain.RetentionDo;
-import cn.herodotus.oss.minio.core.domain.ServerSideEncryptionDo;
-import cn.herodotus.oss.minio.core.domain.TagsDo;
+import cn.herodotus.oss.minio.core.domain.RetentionDomain;
+import cn.herodotus.oss.minio.core.domain.ServerSideEncryptionDomain;
 import io.minio.ObjectWriteArgs;
 import io.minio.ServerSideEncryption;
 import io.minio.messages.Retention;
@@ -48,8 +47,8 @@ import java.util.Map;
  */
 public abstract class ObjectWriteRequest<B extends ObjectWriteArgs.Builder<B, A>, A extends ObjectWriteArgs> extends ObjectRequest<B, A> {
 
-    private final Converter<RetentionDo, Retention> toRetention = new RequestToRetentionConverter();
-    private final Converter<ServerSideEncryptionDo, ServerSideEncryption> toServerSideEncryption = new RequestToServerSideEncryptionConverter();
+    private final Converter<RetentionDomain, Retention> toRetention = new DomainToRetentionConverter();
+    private final Converter<ServerSideEncryptionDomain, ServerSideEncryption> toServerSideEncryption = new RequestToServerSideEncryptionConverter();
 
     @Schema(name = "自定义 Header 信息")
     private Map<String, String> headers;
@@ -58,18 +57,18 @@ public abstract class ObjectWriteRequest<B extends ObjectWriteArgs.Builder<B, A>
     private Map<String, String> userMetadata;
 
     @Schema(name = "服务端加密")
-    private ServerSideEncryptionDo serverSideEncryption;
+    private ServerSideEncryptionDomain serverSideEncryption;
 
     @Schema(name = "标签")
-    private TagsDo tags;
+    private Map<String, String> tags;
 
     @Schema(name = "保留配置")
-    private RetentionDo retention;
+    private RetentionDomain retention;
 
     @Schema(name = "合法持有")
     private Boolean legalHold;
 
-    public Converter<RetentionDo, Retention> getToRetention() {
+    public Converter<RetentionDomain, Retention> getToRetention() {
         return toRetention;
     }
 
@@ -89,27 +88,27 @@ public abstract class ObjectWriteRequest<B extends ObjectWriteArgs.Builder<B, A>
         this.userMetadata = userMetadata;
     }
 
-    public ServerSideEncryptionDo getServerSideEncryption() {
+    public ServerSideEncryptionDomain getServerSideEncryption() {
         return serverSideEncryption;
     }
 
-    public void setServerSideEncryption(ServerSideEncryptionDo serverSideEncryption) {
+    public void setServerSideEncryption(ServerSideEncryptionDomain serverSideEncryption) {
         this.serverSideEncryption = serverSideEncryption;
     }
 
-    public TagsDo getTags() {
+    public Map<String, String> getTags() {
         return tags;
     }
 
-    public void setTags(TagsDo tags) {
+    public void setTags(Map<String, String> tags) {
         this.tags = tags;
     }
 
-    public RetentionDo getRetention() {
+    public RetentionDomain getRetention() {
         return retention;
     }
 
-    public void setRetention(RetentionDo retention) {
+    public void setRetention(RetentionDomain retention) {
         this.retention = retention;
     }
 

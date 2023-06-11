@@ -25,17 +25,15 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.domain.TagsDo;
-import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.DeleteObjectTagsArgs;
 import io.minio.GetObjectTagsArgs;
 import io.minio.MinioClient;
 import io.minio.SetObjectTagsArgs;
 import io.minio.errors.*;
 import io.minio.messages.Tags;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -65,9 +63,9 @@ public class ObjectTagsService extends BaseMinioService {
      *
      * @param bucketName bucketName
      * @param objectName objectName
-     * @return 自定义标签域对象 {@link TagsDo}
+     * @return {@link Tags}
      */
-    public TagsDo getObjectTags(String bucketName, String objectName) {
+    public Tags getObjectTags(String bucketName, String objectName) {
         return getObjectTags(bucketName, null, objectName);
     }
 
@@ -77,9 +75,9 @@ public class ObjectTagsService extends BaseMinioService {
      * @param bucketName bucketName
      * @param objectName objectName
      * @param region     region
-     * @return 自定义标签域对象 {@link TagsDo}
+     * @return {@link Tags}
      */
-    public TagsDo getObjectTags(String bucketName, String region, String objectName) {
+    public Tags getObjectTags(String bucketName, String region, String objectName) {
         return getObjectTags(bucketName, region, objectName, null);
     }
 
@@ -90,9 +88,9 @@ public class ObjectTagsService extends BaseMinioService {
      * @param objectName objectName
      * @param region     region
      * @param versionId  versionId
-     * @return 自定义标签域对象 {@link TagsDo}
+     * @return {@link Tags}
      */
-    public TagsDo getObjectTags(String bucketName, String region, String objectName, String versionId) {
+    public Tags getObjectTags(String bucketName, String region, String objectName, String versionId) {
         return getObjectTags(GetObjectTagsArgs.builder().bucket(bucketName).object(objectName).region(region).versionId(versionId).build());
     }
 
@@ -100,20 +98,14 @@ public class ObjectTagsService extends BaseMinioService {
      * 获取对象的标签。
      *
      * @param getObjectTagsArgs {@link GetObjectTagsArgs}
-     * @return 自定义标签域对象 {@link TagsDo}
+     * @return {@link Tags}
      */
-    public TagsDo getObjectTags(GetObjectTagsArgs getObjectTagsArgs) {
+    public Tags getObjectTags(GetObjectTagsArgs getObjectTagsArgs) {
         String function = "getObjectTags";
         MinioClient minioClient = getMinioClient();
 
         try {
-            TagsDo tagsDo = new TagsDo();
-            Tags tags = minioClient.getObjectTags(getObjectTagsArgs);
-            ;
-            if (ObjectUtils.isNotEmpty(tags)) {
-                tagsDo.putAll(tags.get());
-            }
-            return tagsDo;
+            return minioClient.getObjectTags(getObjectTagsArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException(e.getMessage());

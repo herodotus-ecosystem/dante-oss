@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.rest.request.object;
 
-import cn.herodotus.oss.minio.core.domain.DeleteObjectDo;
+import cn.herodotus.oss.minio.core.domain.DeleteObjectDomain;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.RemoveObjectsArgs;
 import io.minio.messages.DeleteObject;
@@ -48,7 +48,7 @@ public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builde
     private Boolean bypassGovernanceMode;
 
     @Size(min = 1, message = "至少传入一项")
-    private List<DeleteObjectDo> objects;
+    private List<DeleteObjectDomain> objects;
 
     public Boolean getBypassGovernanceMode() {
         return bypassGovernanceMode;
@@ -58,11 +58,11 @@ public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builde
         this.bypassGovernanceMode = bypassGovernanceMode;
     }
 
-    public List<DeleteObjectDo> getObjects() {
+    public List<DeleteObjectDomain> getObjects() {
         return objects;
     }
 
-    public void setObjects(List<DeleteObjectDo> objects) {
+    public void setObjects(List<DeleteObjectDomain> objects) {
         this.objects = objects;
     }
 

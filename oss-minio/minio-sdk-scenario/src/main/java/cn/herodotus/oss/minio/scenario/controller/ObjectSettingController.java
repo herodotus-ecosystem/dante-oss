@@ -28,9 +28,7 @@ package cn.herodotus.oss.minio.scenario.controller;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.scenario.entity.BucketSettingEntity;
-import cn.herodotus.oss.minio.scenario.entity.ObjectSettingEntity;
-import cn.herodotus.oss.minio.scenario.service.BucketSettingService;
+import cn.herodotus.oss.minio.scenario.bo.ObjectSettingBusiness;
 import cn.herodotus.oss.minio.scenario.service.ObjectSettingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -70,7 +68,7 @@ public class ObjectSettingController implements Controller {
     @Operation(summary = "获取对象设置信息", description = "获取对象桶设置信息",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "存储桶设置信息", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ObjectSettingEntity.class))),
+                    @ApiResponse(description = "存储桶设置信息", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ObjectSettingBusiness.class))),
                     @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
                     @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
                     @ApiResponse(responseCode = "500", description = "查询失败")
@@ -81,8 +79,8 @@ public class ObjectSettingController implements Controller {
             @Parameter(name = "region", description = "区域"),
     })
     @GetMapping
-    public Result<ObjectSettingEntity> get(@RequestParam(value = "bucketName") String bucketName, @RequestParam(value = "objectName") String objectName, @RequestParam(value = "region", required = false) String region) {
-        ObjectSettingEntity entity = settingService.get(bucketName, region, objectName);
+    public Result<ObjectSettingBusiness> get(@RequestParam(value = "bucketName") String bucketName, @RequestParam(value = "objectName") String objectName, @RequestParam(value = "region", required = false) String region) {
+        ObjectSettingBusiness entity = settingService.get(bucketName, region, objectName);
         return result(entity);
     }
 }

@@ -23,47 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.bucket;
+package cn.herodotus.oss.minio.core.converter.retention;
 
-import cn.herodotus.oss.minio.rest.definition.BucketRequest;
-import io.minio.SetBucketTagsArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
+import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
+import cn.herodotus.oss.minio.core.domain.RetentionDomain;
+import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
+import io.minio.messages.Retention;
+import io.minio.messages.RetentionMode;
 import org.apache.commons.lang3.ObjectUtils;
-
-import java.util.Map;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 设置存储桶标签请求参数实体 </p>
+ * <p>Description: Minio Retention 转 RetentionDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/6 22:32
+ * @date : 2023/6/10 15:35
  */
-@Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
-public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
+public class RetentionToDomainConverter implements Converter<Retention, RetentionDomain> {
 
-    @Schema(name = "存储桶标签", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotEmpty(message = "存储桶标签不能为空")
-    private Map<String, String> tags;
+    private final Converter<RetentionMode, RetentionModeEnums> toEnums;
 
-    public Map<String, String> getTags() {
-        return tags;
-    }
-
-    public void setTags(Map<String, String> tags) {
-        this.tags = tags;
+    public RetentionToDomainConverter() {
+        this.toEnums = new RetentionModeToEnumConverter();
     }
 
     @Override
-    public void prepare(SetBucketTagsArgs.Builder builder) {
-        if (ObjectUtils.isNotEmpty(getTags())) {
-            builder.tags(getTags());
+    public RetentionDomain convert(Retention retention) {
+
+        RetentionDomain retentionDomain = new RetentionDomain();
+        if (ObjectUtils.isNotEmpty(retention)) {
+            retentionDomain.setRetentionMode(toEnums.convert(retention.mode()));
+            if (ObjectUtils.isNotEmpty(retention.retainUntilDate())) {
+                retentionDomain.setRetainUntilDate(DateTimeUtils.zonedDateTimeToString(retention.retainUntilDate()));
+            }
+        } else {
+            retentionDomain.setRetentionMode(RetentionModeEnums.NONE);
         }
-        super.prepare(builder);
-    }
 
-    @Override
-    public SetBucketTagsArgs.Builder getBuilder() {
-        return SetBucketTagsArgs.builder();
+        return retentionDomain;
     }
 }

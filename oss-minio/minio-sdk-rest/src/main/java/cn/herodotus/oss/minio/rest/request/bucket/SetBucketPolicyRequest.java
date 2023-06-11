@@ -26,8 +26,8 @@
 package cn.herodotus.oss.minio.rest.request.bucket;
 
 import cn.herodotus.engine.assistant.core.json.jackson2.utils.Jackson2Utils;
-import cn.herodotus.oss.minio.core.domain.PolicyDo;
-import cn.herodotus.oss.minio.core.domain.StatementDo;
+import cn.herodotus.oss.minio.core.domain.policy.PolicyDomain;
+import cn.herodotus.oss.minio.core.domain.policy.StatementDomain;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import com.google.common.collect.Lists;
@@ -55,7 +55,7 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
     private Integer type = 0;
 
     @Schema(name = "访问策略配置", description = "如果为自定义类型那么必需输入配置信息")
-    private PolicyDo config;
+    private PolicyDomain config;
 
     public Integer getType() {
         return type;
@@ -65,11 +65,11 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
         this.type = type;
     }
 
-    public PolicyDo getConfig() {
+    public PolicyDomain getConfig() {
         return config;
     }
 
-    public void setConfig(PolicyDo config) {
+    public void setConfig(PolicyDomain config) {
         this.config = config;
     }
 
@@ -78,15 +78,15 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
 
         PolicyEnums type = PolicyEnums.get(getType());
 
-        PolicyDo policyDo;
+        PolicyDomain policyDomain;
 
         switch (type) {
-            case PUBLIC -> policyDo = getPublicPolicy();
-            case CUSTOM -> policyDo = getConfig();
-            default -> policyDo = getPrivatePolicy(getBucketName());
+            case PUBLIC -> policyDomain = getPublicPolicy();
+            case CUSTOM -> policyDomain = getConfig();
+            default -> policyDomain = getPrivatePolicy(getBucketName());
         }
 
-        builder.config(Jackson2Utils.toJson(policyDo));
+        builder.config(Jackson2Utils.toJson(policyDomain));
         super.prepare(builder);
     }
 
@@ -95,20 +95,20 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
         return SetBucketPolicyArgs.builder();
     }
 
-    private PolicyDo getPublicPolicy() {
-        return new PolicyDo();
+    private PolicyDomain getPublicPolicy() {
+        return new PolicyDomain();
     }
 
-    private PolicyDo getPrivatePolicy(String bucketName) {
-        StatementDo bucketStatement = new StatementDo();
+    private PolicyDomain getPrivatePolicy(String bucketName) {
+        StatementDomain bucketStatement = new StatementDomain();
         bucketStatement.setActions(DEFAULT_ACTION_FOR_BUCKET);
         bucketStatement.setResources(getDefaultResource(bucketName, true));
 
-        StatementDo objectStatement = new StatementDo();
+        StatementDomain objectStatement = new StatementDomain();
         objectStatement.setActions(DEFAULT_ACTION_FOR_OBJECT);
         objectStatement.setResources(getDefaultResource(bucketName, false));
 
-        PolicyDo policy = new PolicyDo();
+        PolicyDomain policy = new PolicyDomain();
         policy.setStatements(Lists.newArrayList(bucketStatement, objectStatement));
         return policy;
     }

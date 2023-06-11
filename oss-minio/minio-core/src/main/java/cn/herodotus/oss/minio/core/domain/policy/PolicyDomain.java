@@ -23,30 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.request;
+package cn.herodotus.oss.minio.core.domain.policy;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 完成分片上传 Dto </p>
+ * <p>Description: Minio 访问策略实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2023/6/7 17:42
  */
-@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseDomain {
+public class PolicyDomain implements Entity {
 
-    @NotBlank(message = "分片上传ID不能为空")
-    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
-    private String uploadId;
+    @JsonProperty("Version")
+    private String version = "2012-10-17";
 
-    public String getUploadId() {
-        return uploadId;
+    @JsonProperty("Statement")
+    private List<StatementDomain> statements = new ArrayList<>();
+
+    public String getVersion() {
+        return version;
     }
 
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public List<StatementDomain> getStatements() {
+        return statements;
+    }
+
+    public void setStatements(List<StatementDomain> statements) {
+        this.statements = statements;
     }
 }

@@ -23,30 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.request;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 
 /**
- * <p>Description: 完成分片上传 Dto </p>
+ * <p>Description: 删除对象参数 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2023/5/30 22:54
  */
-@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseDomain {
+public class DeleteObjectDomain implements Entity {
 
-    @NotBlank(message = "分片上传ID不能为空")
-    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
-    private String uploadId;
+    @Schema(name = "对象名称")
+    private String name;
 
-    public String getUploadId() {
-        return uploadId;
+    @Schema(name = "对象版本ID")
+    private String versionId;
+
+    public String getName() {
+        return name;
     }
 
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", name)
+                .add("versionId", versionId)
+                .toString();
     }
 }

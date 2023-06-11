@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.converter.ObjectLockConfigurationToDoConverter;
-import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDo;
+import cn.herodotus.oss.minio.core.converter.retention.ObjectLockConfigurationToDomainConverter;
 import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.DeleteObjectLockConfigurationArgs;
 import io.minio.GetObjectLockConfigurationArgs;
@@ -55,11 +55,11 @@ import java.security.NoSuchAlgorithmException;
 @Service
 public class ObjectLockConfigurationService extends BaseMinioService {
     private static final Logger log = LoggerFactory.getLogger(ObjectLockConfigurationService.class);
-    private final Converter<ObjectLockConfiguration, ObjectLockConfigurationDo> toDo;
+    private final Converter<ObjectLockConfiguration, ObjectLockConfigurationDomain> toDo;
 
     public ObjectLockConfigurationService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-        this.toDo = new ObjectLockConfigurationToDoConverter();
+        this.toDo = new ObjectLockConfigurationToDomainConverter();
     }
 
     /**
@@ -68,7 +68,7 @@ public class ObjectLockConfigurationService extends BaseMinioService {
      * @param bucketName 存储桶名称
      * @return 自定义 ObjectLockConfiguration 域对象
      */
-    public ObjectLockConfigurationDo getObjectLockConfiguration(String bucketName) {
+    public ObjectLockConfigurationDomain getObjectLockConfiguration(String bucketName) {
         return getObjectLockConfiguration(bucketName, null);
     }
 
@@ -79,7 +79,7 @@ public class ObjectLockConfigurationService extends BaseMinioService {
      * @param region     区域
      * @return 自定义 ObjectLockConfiguration 域对象
      */
-    public ObjectLockConfigurationDo getObjectLockConfiguration(String bucketName, String region) {
+    public ObjectLockConfigurationDomain getObjectLockConfiguration(String bucketName, String region) {
         return getObjectLockConfiguration(GetObjectLockConfigurationArgs.builder().bucket(bucketName).region(region).build());
     }
 
@@ -89,7 +89,7 @@ public class ObjectLockConfigurationService extends BaseMinioService {
      * @param getObjectLockConfigurationArgs {@link GetObjectLockConfigurationArgs}
      * @return {@link ObjectLockConfiguration}
      */
-    public ObjectLockConfigurationDo getObjectLockConfiguration(GetObjectLockConfigurationArgs getObjectLockConfigurationArgs) {
+    public ObjectLockConfigurationDomain getObjectLockConfiguration(GetObjectLockConfigurationArgs getObjectLockConfigurationArgs) {
         String function = "getObjectLockConfiguration";
         MinioClient minioClient = getMinioClient();
 

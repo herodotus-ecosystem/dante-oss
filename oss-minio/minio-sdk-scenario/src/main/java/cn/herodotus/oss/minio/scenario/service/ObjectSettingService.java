@@ -25,11 +25,14 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.oss.minio.core.domain.RetentionDo;
-import cn.herodotus.oss.minio.core.domain.TagsDo;
-import cn.herodotus.oss.minio.logic.service.ObjectRetentionService;
+import cn.herodotus.oss.minio.core.converter.ResponseToStatObjectDomainConverter;
+import cn.herodotus.oss.minio.core.domain.StatObjectDomain;
+import cn.herodotus.oss.minio.logic.service.ObjectService;
 import cn.herodotus.oss.minio.logic.service.ObjectTagsService;
-import cn.herodotus.oss.minio.scenario.entity.ObjectSettingEntity;
+import cn.herodotus.oss.minio.scenario.bo.ObjectSettingBusiness;
+import io.minio.StatObjectResponse;
+import io.minio.messages.Tags;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 /**
@@ -41,22 +44,34 @@ import org.springframework.stereotype.Service;
 @Service
 public class ObjectSettingService {
 
-    private final ObjectTagsService objectTagsService;
-    private final ObjectRetentionService objectRetentionService;
+    private final Converter<StatObjectResponse, StatObjectDomain> toStatObjectDomain;
 
-    public ObjectSettingService(ObjectTagsService objectTagsService, ObjectRetentionService objectRetentionService) {
+    private final ObjectService objectService;
+    private final ObjectTagsService objectTagsService;
+
+    public ObjectSettingService(ObjectService objectService, ObjectTagsService objectTagsService) {
+        this.objectService = objectService;
         this.objectTagsService = objectTagsService;
-        this.objectRetentionService = objectRetentionService;
+        this.toStatObjectDomain = new ResponseToStatObjectDomainConverter();
     }
 
-    public ObjectSettingEntity get(String bucketName, String region, String objectName) {
-        TagsDo tags = objectTagsService.getObjectTags(bucketName, region, objectName);
-        RetentionDo retention = objectRetentionService.getObjectRetention(bucketName, region, objectName);
+    public ObjectSettingBusiness get(String bucketName, String region, String objectName) {
+        StatObjectResponse statObjectResponse = objectService.statObject(bucketName, region, objectName);
+        StatObjectDomain statObjectDomain = toStatObjectDomain.convert(statObjectResponse);
 
-        ObjectSettingEntity entity = new ObjectSettingEntity();
-        entity.setTags(tags);
-        entity.setRetention(retention);
+        Tags tags = objectTagsService.getObjectTags(bucketName, region, objectName);
 
-        return entity;
+        ObjectSettingBusiness business = new ObjectSettingBusiness();
+        business.setTags(tags.get());
+        business.setRetentionMode(statObjectDomain.getRetentionMode());
+        business.setRetentionRetainUntilDate(statObjectDomain.getRetentionRetainUntilDate());
+        business.setLegalHold(statObjectDomain.getLegalHold());
+        business.setDeleteMarker(statObjectDomain.getDeleteMarker());
+        business.setEtag(statObjectDomain.getEtag());
+        business.setLastModified(statObjectDomain.getLastModified());
+        business.setSize(statObjectDomain.getSize());
+        business.setUserMetadata(statObjectDomain.getUserMetadata());
+
+        return business;
     }
 }

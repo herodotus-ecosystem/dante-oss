@@ -29,12 +29,17 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.logic.entity.DeleteErrorEntity;
-import cn.herodotus.oss.minio.logic.entity.ObjectEntity;
+import cn.herodotus.oss.minio.core.converter.ResultDeleteErrorToDomainConverter;
+import cn.herodotus.oss.minio.core.converter.ResultItemToDomainConverter;
+import cn.herodotus.oss.minio.core.domain.DeleteErrorDomain;
+import cn.herodotus.oss.minio.core.domain.ObjectDomain;
+import cn.herodotus.oss.minio.core.utils.ConverterUtils;
 import cn.herodotus.oss.minio.logic.service.ObjectService;
 import cn.herodotus.oss.minio.rest.request.object.ListObjectsRequest;
 import cn.herodotus.oss.minio.rest.request.object.RemoveObjectRequest;
 import cn.herodotus.oss.minio.rest.request.object.RemoveObjectsRequest;
+import io.minio.messages.DeleteError;
+import io.minio.messages.Item;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -88,9 +93,10 @@ public class ObjectController implements Controller {
             @Parameter(name = "request", required = true, description = "ListObjectsRequest参数实体", schema = @Schema(implementation = ListObjectsRequest.class))
     })
     @GetMapping("/list")
-    public Result<List<ObjectEntity>> list(@Validated ListObjectsRequest request) {
-        List<ObjectEntity> items = objectService.listObjects(request.build());
-        return result(items);
+    public Result<List<ObjectDomain>> list(@Validated ListObjectsRequest request) {
+        Iterable<io.minio.Result<Item>> items = objectService.listObjects(request.build());
+        List<ObjectDomain> domains = ConverterUtils.toDomains(items, new ResultItemToDomainConverter());
+        return result(domains);
     }
 
     @Idempotent
@@ -125,12 +131,13 @@ public class ObjectController implements Controller {
             @Parameter(name = "request", required = true, description = "删除对象请求参数实体", schema = @Schema(implementation = RemoveObjectsRequest.class))
     })
     @DeleteMapping("/multi")
-    public Result<List<DeleteErrorEntity>> removeObjects(@Validated @RequestBody RemoveObjectsRequest request) {
-        List<DeleteErrorEntity> items = objectService.removeObjects(request.build());
-        if (CollectionUtils.isEmpty(items)) {
-            return Result.success("批量删除成功！", items);
+    public Result<List<DeleteErrorDomain>> removeObjects(@Validated @RequestBody RemoveObjectsRequest request) {
+        Iterable<io.minio.Result<DeleteError>> deleteErrors = objectService.removeObjects(request.build());
+        List<DeleteErrorDomain> domains = ConverterUtils.toDomains(deleteErrors, new ResultDeleteErrorToDomainConverter());
+        if (CollectionUtils.isEmpty(domains)) {
+            return Result.success("批量删除成功！", domains);
         } else {
-            return Result.failure("批量删除失败！", items);
+            return Result.failure("批量删除失败！", domains);
         }
     }
 }

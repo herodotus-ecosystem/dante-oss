@@ -23,30 +23,57 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.request;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.minio.core.enums.RetentionDurationEnums;
+import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
+import io.minio.messages.RetentionMode;
 
 /**
- * <p>Description: 完成分片上传 Dto </p>
+ * <p>Description: Minio ObjectLockConfiguration 对应 Domain Object </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2023/6/5 20:55
  */
-@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseDomain {
+public class ObjectLockConfigurationDomain implements Entity {
 
-    @NotBlank(message = "分片上传ID不能为空")
-    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
-    private String uploadId;
+    /**
+     * 保留模式
+     */
+    private RetentionModeEnums retentionMode;
 
-    public String getUploadId() {
-        return uploadId;
+    /**
+     * 保留周期模式
+     */
+    private RetentionDurationEnums durationMode;
+
+    /**
+     * 保留时长
+     */
+    private Integer duration;
+
+    public RetentionModeEnums getRetentionMode() {
+        return retentionMode;
     }
 
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    public void setRetentionMode(RetentionModeEnums retentionMode) {
+        this.retentionMode = retentionMode;
+    }
+
+    public RetentionDurationEnums getDurationMode() {
+        return durationMode;
+    }
+
+    public void setDurationMode(RetentionDurationEnums durationMode) {
+        this.durationMode = durationMode;
+    }
+
+    public Integer getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Integer duration) {
+        this.duration = duration;
     }
 }

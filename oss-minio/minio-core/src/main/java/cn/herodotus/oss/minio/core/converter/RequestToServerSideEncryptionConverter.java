@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.core.domain.ServerSideEncryptionDo;
+import cn.herodotus.oss.minio.core.domain.ServerSideEncryptionDomain;
 import cn.herodotus.oss.minio.core.enums.ServerSideEncryptionEnums;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import io.minio.ServerSideEncryption;
@@ -44,13 +44,13 @@ import org.springframework.core.convert.converter.Converter;
  * @author : gengwei.zheng
  * @date : 2023/6/9 12:45
  */
-public class RequestToServerSideEncryptionConverter implements Converter<ServerSideEncryptionDo, ServerSideEncryption> {
+public class RequestToServerSideEncryptionConverter implements Converter<ServerSideEncryptionDomain, ServerSideEncryption> {
 
     private static final Logger log = LoggerFactory.getLogger(RequestToServerSideEncryptionConverter.class);
     private final Converter<String, ServerSideEncryptionCustomerKey> toCustomerKey = new RequestToServerSideEncryptionCustomerKeyConverter();
 
     @Override
-    public ServerSideEncryption convert(ServerSideEncryptionDo source) {
+    public ServerSideEncryption convert(ServerSideEncryptionDomain source) {
 
         if (ObjectUtils.isNotEmpty(source.getType())) {
             ServerSideEncryptionEnums type = ServerSideEncryptionEnums.get(source.getType());

@@ -23,30 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.request;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
+import cn.herodotus.oss.minio.core.utils.ConverterUtils;
+import io.minio.ObjectWriteResponse;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 完成分片上传 Dto </p>
+ * <p>Description: ObjectWriteResponse 转 Entity 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2023/6/1 22:04
  */
-@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseDomain {
-
-    @NotBlank(message = "分片上传ID不能为空")
-    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
-    private String uploadId;
-
-    public String getUploadId() {
-        return uploadId;
-    }
-
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+public class ResponseToObjectWriteDomainConverter implements Converter<ObjectWriteResponse, ObjectWriteDomain> {
+    @Override
+    public ObjectWriteDomain convert(ObjectWriteResponse response) {
+        ObjectWriteDomain domain = new ObjectWriteDomain();
+        domain.setEtag(response.etag());
+        domain.setVersionId(response.versionId());
+        domain.setHeaders(ConverterUtils.toMap(response.headers().toMultimap()));
+        domain.setBucketName(response.bucket());
+        domain.setRegion(response.region());
+        domain.setObjectName(response.object());
+        return domain;
     }
 }

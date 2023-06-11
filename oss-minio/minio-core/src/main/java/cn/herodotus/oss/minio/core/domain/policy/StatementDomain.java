@@ -23,30 +23,62 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.request;
+package cn.herodotus.oss.minio.core.domain.policy;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
- * <p>Description: 完成分片上传 Dto </p>
+ * <p>Description: Minio 策略 StatementDomain </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2023/6/7 17:37
  */
-@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseDomain {
+public class StatementDomain implements Entity {
 
-    @NotBlank(message = "分片上传ID不能为空")
-    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
-    private String uploadId;
+    @JsonProperty("Effect")
+    private String effect = "Allow";
 
-    public String getUploadId() {
-        return uploadId;
+    @JsonProperty("Action")
+    private List<String> actions;
+
+    @JsonProperty("Resource")
+    private List<String> resources;
+
+    @JsonProperty("Principal")
+    private PrincipalDomain principal = new PrincipalDomain();
+
+    public String getEffect() {
+        return effect;
     }
 
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    public void setEffect(String effect) {
+        this.effect = effect;
+    }
+
+    public List<String> getActions() {
+        return actions;
+    }
+
+    public void setActions(List<String> actions) {
+        this.actions = actions;
+    }
+
+    public List<String> getResources() {
+        return resources;
+    }
+
+    public void setResources(List<String> resources) {
+        this.resources = resources;
+    }
+
+    public PrincipalDomain getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(PrincipalDomain principalDomain) {
+        this.principal = principalDomain;
     }
 }

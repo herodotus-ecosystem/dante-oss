@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.scenario.controller;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.scenario.entity.BucketSettingEntity;
+import cn.herodotus.oss.minio.scenario.bo.BucketSettingBusiness;
 import cn.herodotus.oss.minio.scenario.service.BucketSettingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -68,7 +68,7 @@ public class BucketSettingController implements Controller {
     @Operation(summary = "获取存储桶设置信息", description = "获取存储桶设置信息",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "存储桶设置信息", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BucketSettingEntity.class))),
+                    @ApiResponse(description = "存储桶设置信息", content = @Content(mediaType = "application/json", schema = @Schema(implementation = BucketSettingBusiness.class))),
                     @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
                     @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
                     @ApiResponse(responseCode = "500", description = "查询失败")
@@ -78,8 +78,8 @@ public class BucketSettingController implements Controller {
             @Parameter(name = "region", description = "区域"),
     })
     @GetMapping
-    public Result<BucketSettingEntity> get(@RequestParam(value = "bucketName") String bucketName, @RequestParam(value = "region", required = false) String region) {
-        BucketSettingEntity entity = settingService.get(bucketName, region);
+    public Result<BucketSettingBusiness> get(@RequestParam(value = "bucketName") String bucketName, @RequestParam(value = "region", required = false) String region) {
+        BucketSettingBusiness entity = settingService.get(bucketName, region);
         return result(entity);
     }
 }

@@ -23,30 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.request;
+package cn.herodotus.oss.minio.core.converter.retention;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
+import com.google.common.base.Enums;
+import io.minio.messages.RetentionMode;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 完成分片上传 Dto </p>
+ * <p>Description: RetentionModeEnums 转 RetentionMode 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2023/6/11 18:43
  */
-@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseDomain {
+public class EnumToRetentionModeConverter implements Converter<RetentionModeEnums, RetentionMode> {
+    @Override
+    public RetentionMode convert(RetentionModeEnums enums) {
+        if (ObjectUtils.isNotEmpty(enums) && enums != RetentionModeEnums.NONE) {
+            return Enums.getIfPresent(RetentionMode.class, enums.name()).orNull();
+        }
 
-    @NotBlank(message = "分片上传ID不能为空")
-    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
-    private String uploadId;
-
-    public String getUploadId() {
-        return uploadId;
-    }
-
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+        return null;
     }
 }

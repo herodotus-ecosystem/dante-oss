@@ -25,15 +25,15 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDo;
-import cn.herodotus.oss.minio.core.domain.TagsDo;
+import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
 import cn.herodotus.oss.minio.logic.service.BucketEncryptionService;
 import cn.herodotus.oss.minio.logic.service.BucketPolicyService;
 import cn.herodotus.oss.minio.logic.service.BucketTagsService;
 import cn.herodotus.oss.minio.logic.service.ObjectLockConfigurationService;
-import cn.herodotus.oss.minio.scenario.entity.BucketSettingEntity;
+import cn.herodotus.oss.minio.scenario.bo.BucketSettingBusiness;
+import io.minio.messages.Tags;
 import org.springframework.stereotype.Service;
 
 /**
@@ -57,15 +57,15 @@ public class BucketSettingService {
         this.objectLockConfigurationService = objectLockConfigurationService;
     }
 
-    public BucketSettingEntity get(String bucketName, String region) {
+    public BucketSettingBusiness get(String bucketName, String region) {
         SseConfigurationEnums serverSideEncryption = bucketEncryptionService.getBucketEncryption(bucketName, region);
-        TagsDo tags = bucketTagsService.getBucketTags(bucketName, region);
+        Tags tags = bucketTagsService.getBucketTags(bucketName, region);
         PolicyEnums policy = bucketPolicyService.getBucketPolicy(bucketName, region);
-        ObjectLockConfigurationDo objectLockConfiguration = objectLockConfigurationService.getObjectLockConfiguration(bucketName, region);
+        ObjectLockConfigurationDomain objectLockConfiguration = objectLockConfigurationService.getObjectLockConfiguration(bucketName, region);
 
-        BucketSettingEntity entity = new BucketSettingEntity();
+        BucketSettingBusiness entity = new BucketSettingBusiness();
         entity.setServerSideEncryption(serverSideEncryption.getValue());
-        entity.setTags(tags);
+        entity.setTags(tags.get());
         entity.setPolicy(policy.getValue());
         entity.setObjectLock(objectLockConfiguration);
 

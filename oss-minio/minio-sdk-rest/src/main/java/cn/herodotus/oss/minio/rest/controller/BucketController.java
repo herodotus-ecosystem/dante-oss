@@ -29,12 +29,15 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.logic.entity.BucketEntity;
+import cn.herodotus.oss.minio.core.converter.BucketToDomainConverter;
+import cn.herodotus.oss.minio.core.domain.BucketDomain;
+import cn.herodotus.oss.minio.core.utils.ConverterUtils;
 import cn.herodotus.oss.minio.logic.service.BucketService;
 import cn.herodotus.oss.minio.rest.request.bucket.BucketExistsRequest;
 import cn.herodotus.oss.minio.rest.request.bucket.ListBucketsRequest;
 import cn.herodotus.oss.minio.rest.request.bucket.MakeBucketRequest;
 import cn.herodotus.oss.minio.rest.request.bucket.RemoveBucketRequest;
+import io.minio.messages.Bucket;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -84,9 +87,10 @@ public class BucketController implements Controller {
             @Parameter(name = "request", required = true, description = "ListBucketsRequest请求参数对象", schema = @Schema(implementation = ListBucketsRequest.class))
     })
     @GetMapping("/list")
-    public Result<List<BucketEntity>> list(ListBucketsRequest request) {
-        List<BucketEntity> bucketRespons = bucketService.listBuckets(ObjectUtils.isNotEmpty(request) ? request.build() : null);
-        return result(bucketRespons);
+    public Result<List<BucketDomain>> list(ListBucketsRequest request) {
+        List<Bucket> buckets = bucketService.listBuckets(ObjectUtils.isNotEmpty(request) ? request.build() : null);
+        List<BucketDomain> domains = ConverterUtils.toDomains(buckets, new BucketToDomainConverter());
+        return result(domains);
     }
 
     @AccessLimited

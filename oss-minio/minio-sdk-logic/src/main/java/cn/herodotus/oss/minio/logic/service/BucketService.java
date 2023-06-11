@@ -25,15 +25,14 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.minio.logic.converter.BucketToEntityConverter;
+import cn.herodotus.oss.minio.core.converter.BucketToDomainConverter;
+import cn.herodotus.oss.minio.core.domain.BucketDomain;
+import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.logic.entity.BucketEntity;
-import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Bucket;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,9 +43,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * <p>Description: Minio Bucket 存储通基础操作服务 Service </p>
@@ -58,11 +55,11 @@ import java.util.stream.Collectors;
 public class BucketService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketService.class);
-    private final Converter<Bucket, BucketEntity> toResult;
+    private final Converter<Bucket, BucketDomain> toDomain;
 
     public BucketService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-        this.toResult = new BucketToEntityConverter();
+        this.toDomain = new BucketToDomainConverter();
     }
 
     /**
@@ -70,7 +67,7 @@ public class BucketService extends BaseMinioService {
      *
      * @return Bucket 列表
      */
-    public List<BucketEntity> listBuckets() {
+    public List<Bucket> listBuckets() {
         return listBuckets(null);
     }
 
@@ -80,23 +77,18 @@ public class BucketService extends BaseMinioService {
      * @param args {@link ListBucketsArgs}
      * @return Bucket 列表
      */
-    public List<BucketEntity> listBuckets(ListBucketsArgs args) {
+    public List<Bucket> listBuckets(ListBucketsArgs args) {
         String function = "listBuckets";
         MinioClient minioClient = getMinioClient();
 
         try {
-            List<io.minio.messages.Bucket> buckets;
+            List<Bucket> buckets;
             if (ObjectUtils.isNotEmpty(args)) {
                 buckets = minioClient.listBuckets(args);
             } else {
                 buckets = minioClient.listBuckets();
             }
-
-            if (CollectionUtils.isNotEmpty(buckets)) {
-                return buckets.stream().map(toResult::convert).collect(Collectors.toList());
-            } else {
-                return new ArrayList<>();
-            }
+            return buckets;
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException(e.getMessage());

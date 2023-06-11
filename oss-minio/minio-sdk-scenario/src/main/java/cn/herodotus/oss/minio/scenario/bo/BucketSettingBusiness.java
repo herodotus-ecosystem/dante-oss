@@ -23,31 +23,62 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.bucket;
+package cn.herodotus.oss.minio.scenario.bo;
 
-import cn.herodotus.oss.minio.core.converter.retention.DomainToObjectLockConfigurationConverter;
+
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
-import cn.herodotus.oss.minio.rest.definition.BucketRequest;
-import io.minio.SetObjectLockConfigurationArgs;
-import io.minio.messages.ObjectLockConfiguration;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import org.springframework.core.convert.converter.Converter;
+import com.google.common.base.MoreObjects;
+
+import java.util.Map;
 
 /**
- * <p>Description: 设置存储桶对象锁定配置请求参数实体 </p>
+ * <p>Description: 存储桶基础信息返回实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/6 23:01
+ * @date : 2023/6/5 20:41
  */
-@Schema(name = "设置存储桶对象锁定配置请求参数实体", title = "设置存储桶对象锁定配置请求参数实体")
-public class SetObjectLockConfigurationRequest extends BucketRequest<SetObjectLockConfigurationArgs.Builder, SetObjectLockConfigurationArgs> {
+public class BucketSettingBusiness implements Entity {
 
-    private final Converter<ObjectLockConfigurationDomain, ObjectLockConfiguration> requestTo = new DomainToObjectLockConfigurationConverter();
+    /**
+     * 服务端加密方式
+     */
+    private Integer serverSideEncryption;
 
-    @Schema(name = "对象锁定配置", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "对象锁定配置信息不能为空")
+    private Integer policy;
+    /**
+     * 标签
+     */
+    private Map<String, String> tags;
+
+    /**
+     * 对象锁定是否开启
+     */
     private ObjectLockConfigurationDomain objectLock;
+
+    public Integer getServerSideEncryption() {
+        return serverSideEncryption;
+    }
+
+    public void setServerSideEncryption(Integer serverSideEncryption) {
+        this.serverSideEncryption = serverSideEncryption;
+    }
+
+    public Integer getPolicy() {
+        return policy;
+    }
+
+    public void setPolicy(Integer policy) {
+        this.policy = policy;
+    }
+
+    public Map<String, String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Map<String, String> tags) {
+        this.tags = tags;
+    }
 
     public ObjectLockConfigurationDomain getObjectLock() {
         return objectLock;
@@ -58,13 +89,9 @@ public class SetObjectLockConfigurationRequest extends BucketRequest<SetObjectLo
     }
 
     @Override
-    public void prepare(SetObjectLockConfigurationArgs.Builder builder) {
-        builder.config(requestTo.convert(getObjectLock()));
-        super.prepare(builder);
-    }
-
-    @Override
-    public SetObjectLockConfigurationArgs.Builder getBuilder() {
-        return SetObjectLockConfigurationArgs.builder();
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("tags", tags)
+                .toString();
     }
 }

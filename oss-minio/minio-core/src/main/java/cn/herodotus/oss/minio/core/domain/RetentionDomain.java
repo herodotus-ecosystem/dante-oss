@@ -23,30 +23,39 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.request;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 
 /**
- * <p>Description: 完成分片上传 Dto </p>
+ * <p>Description: 对象保留域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2022/7/2 22:22
  */
-@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseDomain {
+@Schema(name = "对象保留域对象")
+public class RetentionDomain implements Entity {
 
-    @NotBlank(message = "分片上传ID不能为空")
-    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
-    private String uploadId;
+    @Schema(name = "保留模式")
+    private RetentionModeEnums retentionMode;
+    @Schema(name = "保留截止日期")
+    private String retainUntilDate;
 
-    public String getUploadId() {
-        return uploadId;
+    public RetentionModeEnums getRetentionMode() {
+        return retentionMode;
     }
 
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    public void setRetentionMode(RetentionModeEnums retentionMode) {
+        this.retentionMode = retentionMode;
+    }
+
+    public String getRetainUntilDate() {
+        return retainUntilDate;
+    }
+
+    public void setRetainUntilDate(String retainUntilDate) {
+        this.retainUntilDate = retainUntilDate;
     }
 }
