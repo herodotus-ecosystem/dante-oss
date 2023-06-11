@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.converter;
+package cn.herodotus.oss.minio.core.converter.sse;
 
 import cn.herodotus.oss.minio.core.domain.ServerSideEncryptionDomain;
 import cn.herodotus.oss.minio.core.enums.ServerSideEncryptionEnums;
@@ -53,7 +53,7 @@ public class RequestToServerSideEncryptionConverter implements Converter<ServerS
     public ServerSideEncryption convert(ServerSideEncryptionDomain source) {
 
         if (ObjectUtils.isNotEmpty(source.getType())) {
-            ServerSideEncryptionEnums type = ServerSideEncryptionEnums.get(source.getType());
+            ServerSideEncryptionEnums type = source.getType();
             switch (type) {
                 case CUSTOM -> {
                     if (StringUtils.isNotBlank(source.getCustomerKey())) {

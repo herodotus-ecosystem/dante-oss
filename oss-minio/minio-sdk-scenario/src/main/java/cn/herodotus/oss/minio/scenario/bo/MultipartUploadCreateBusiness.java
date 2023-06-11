@@ -36,13 +36,13 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2022/7/4 11:25
  */
-public class MultipartCreateBusiness implements Entity {
+public class MultipartUploadCreateBusiness implements Entity {
 
     private String uploadId;
 
     private List<String> chunkUploadUrls;
 
-    public MultipartCreateBusiness(String uploadId) {
+    public MultipartUploadCreateBusiness(String uploadId) {
         this.uploadId = uploadId;
         this.chunkUploadUrls = new ArrayList<>();
     }

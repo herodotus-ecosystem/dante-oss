@@ -26,6 +26,7 @@
 package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.minio.core.enums.ServerSideEncryptionEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Map;
@@ -39,7 +40,7 @@ import java.util.Map;
 public class ServerSideEncryptionDomain implements Entity {
 
     @Schema(name = "服务端加密方式类型", description = "1:SSE_KMS, 2:SSE_S3, 3: 自定义")
-    private Integer type;
+    private ServerSideEncryptionEnums type;
 
     @Schema(name = "自定义服务端加密方式加密Key", description = "Minio 默认仅支持 256 位 AES")
     private String customerKey;
@@ -50,11 +51,11 @@ public class ServerSideEncryptionDomain implements Entity {
     @Schema(name = "KMS加密context", description = "可选参数，主要用于AWS_KMS加密算法")
     private Map<String, String> context;
 
-    public Integer getType() {
+    public ServerSideEncryptionEnums getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(ServerSideEncryptionEnums type) {
         this.type = type;
     }
 

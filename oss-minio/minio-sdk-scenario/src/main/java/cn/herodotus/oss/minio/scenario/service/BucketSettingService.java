@@ -25,6 +25,8 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
+import cn.herodotus.oss.minio.core.converter.retention.ObjectLockConfigurationToDomainConverter;
+import cn.herodotus.oss.minio.core.converter.sse.SseConfigurationToEnumConverter;
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
@@ -33,7 +35,10 @@ import cn.herodotus.oss.minio.logic.service.BucketPolicyService;
 import cn.herodotus.oss.minio.logic.service.BucketTagsService;
 import cn.herodotus.oss.minio.logic.service.ObjectLockConfigurationService;
 import cn.herodotus.oss.minio.scenario.bo.BucketSettingBusiness;
+import io.minio.messages.ObjectLockConfiguration;
+import io.minio.messages.SseConfiguration;
 import io.minio.messages.Tags;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 /**
@@ -45,6 +50,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class BucketSettingService {
 
+    private final Converter<SseConfiguration, SseConfigurationEnums> toSseConfigurationEnums;
+    private final Converter<ObjectLockConfiguration, ObjectLockConfigurationDomain> toObjectLockDomain;
+
     private final BucketEncryptionService bucketEncryptionService;
     private final BucketPolicyService bucketPolicyService;
     private final BucketTagsService bucketTagsService;
@@ -55,19 +63,22 @@ public class BucketSettingService {
         this.bucketPolicyService = bucketPolicyService;
         this.bucketTagsService = bucketTagsService;
         this.objectLockConfigurationService = objectLockConfigurationService;
+        this.toSseConfigurationEnums = new SseConfigurationToEnumConverter();
+        this.toObjectLockDomain = new ObjectLockConfigurationToDomainConverter();
     }
 
     public BucketSettingBusiness get(String bucketName, String region) {
-        SseConfigurationEnums serverSideEncryption = bucketEncryptionService.getBucketEncryption(bucketName, region);
+
+        SseConfiguration sseConfiguration = bucketEncryptionService.getBucketEncryption(bucketName, region);
         Tags tags = bucketTagsService.getBucketTags(bucketName, region);
         PolicyEnums policy = bucketPolicyService.getBucketPolicy(bucketName, region);
-        ObjectLockConfigurationDomain objectLockConfiguration = objectLockConfigurationService.getObjectLockConfiguration(bucketName, region);
+        ObjectLockConfiguration objectLockConfiguration = objectLockConfigurationService.getObjectLockConfiguration(bucketName, region);
 
         BucketSettingBusiness entity = new BucketSettingBusiness();
-        entity.setServerSideEncryption(serverSideEncryption.getValue());
+        entity.setSseConfiguration(toSseConfigurationEnums.convert(sseConfiguration));
         entity.setTags(tags.get());
-        entity.setPolicy(policy.getValue());
-        entity.setObjectLock(objectLockConfiguration);
+        entity.setPolicy(policy);
+        entity.setObjectLock(toObjectLockDomain.convert(objectLockConfiguration));
 
         return entity;
     }

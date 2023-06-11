@@ -51,17 +51,16 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
     private static final List<String> DEFAULT_ACTION_FOR_OBJECT = Lists.newArrayList("s3:DeleteObject", "s3:GetObject", "s3:ListMultipartUploadParts", "s3:PutObject", "s3:AbortMultipartUpload");
 
     @Schema(name = "访问策略类型", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "访问策略配置不能为空")
-    private Integer type = 0;
+    private PolicyEnums type;
 
     @Schema(name = "访问策略配置", description = "如果为自定义类型那么必需输入配置信息")
     private PolicyDomain config;
 
-    public Integer getType() {
+    public PolicyEnums getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(PolicyEnums type) {
         this.type = type;
     }
 
@@ -76,11 +75,9 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
     @Override
     public void prepare(SetBucketPolicyArgs.Builder builder) {
 
-        PolicyEnums type = PolicyEnums.get(getType());
-
         PolicyDomain policyDomain;
 
-        switch (type) {
+        switch (getType()) {
             case PUBLIC -> policyDomain = getPublicPolicy();
             case CUSTOM -> policyDomain = getConfig();
             default -> policyDomain = getPrivatePolicy(getBucketName());

@@ -65,9 +65,9 @@ public class BucketEncryptionService extends BaseMinioService {
      * 获取 Bucket 加密配置
      *
      * @param bucketName 存储桶名称
-     * @return 自定义 SseConfiguration 枚举 {@link SseConfigurationEnums}
+     * @return 自定义 SseConfiguration 枚举 {@link SseConfiguration}
      */
-    public SseConfigurationEnums getBucketEncryption(String bucketName) {
+    public SseConfiguration getBucketEncryption(String bucketName) {
         return getBucketEncryption(bucketName, null);
     }
 
@@ -76,9 +76,9 @@ public class BucketEncryptionService extends BaseMinioService {
      *
      * @param bucketName 存储桶名称
      * @param region     区域
-     * @return 自定义 SseConfiguration 枚举 {@link SseConfigurationEnums}
+     * @return 自定义 SseConfiguration 枚举 {@link SseConfiguration}
      */
-    public SseConfigurationEnums getBucketEncryption(String bucketName, String region) {
+    public SseConfiguration getBucketEncryption(String bucketName, String region) {
         return getBucketEncryption(GetBucketEncryptionArgs.builder().bucket(bucketName).region(region).build());
     }
 
@@ -87,17 +87,12 @@ public class BucketEncryptionService extends BaseMinioService {
      *
      * @param getBucketEncryptionArgs {@link GetBucketEncryptionArgs}
      */
-    public SseConfigurationEnums getBucketEncryption(GetBucketEncryptionArgs getBucketEncryptionArgs) {
+    public SseConfiguration getBucketEncryption(GetBucketEncryptionArgs getBucketEncryptionArgs) {
         String function = "getBucketEncryption";
         MinioClient minioClient = getMinioClient();
 
         try {
-            SseConfiguration sseConfiguration = minioClient.getBucketEncryption(getBucketEncryptionArgs);
-            if (ObjectUtils.isEmpty(sseConfiguration.rule())) {
-                return SseConfigurationEnums.DISABLED;
-            } else {
-                return Enums.getIfPresent(SseConfigurationEnums.class, sseConfiguration.rule().sseAlgorithm().name()).or(SseConfigurationEnums.AES256);
-            }
+            return minioClient.getBucketEncryption(getBucketEncryptionArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException(e.getMessage());

@@ -28,6 +28,9 @@ package cn.herodotus.oss.minio.scenario.bo;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
+import cn.herodotus.oss.minio.core.enums.PolicyEnums;
+import cn.herodotus.oss.minio.core.enums.ServerSideEncryptionEnums;
+import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
 import com.google.common.base.MoreObjects;
 
 import java.util.Map;
@@ -43,9 +46,9 @@ public class BucketSettingBusiness implements Entity {
     /**
      * 服务端加密方式
      */
-    private Integer serverSideEncryption;
+    private SseConfigurationEnums sseConfiguration;
 
-    private Integer policy;
+    private PolicyEnums policy;
     /**
      * 标签
      */
@@ -56,19 +59,19 @@ public class BucketSettingBusiness implements Entity {
      */
     private ObjectLockConfigurationDomain objectLock;
 
-    public Integer getServerSideEncryption() {
-        return serverSideEncryption;
+    public SseConfigurationEnums getSseConfiguration() {
+        return sseConfiguration;
     }
 
-    public void setServerSideEncryption(Integer serverSideEncryption) {
-        this.serverSideEncryption = serverSideEncryption;
+    public void setSseConfiguration(SseConfigurationEnums sseConfiguration) {
+        this.sseConfiguration = sseConfiguration;
     }
 
-    public Integer getPolicy() {
+    public PolicyEnums getPolicy() {
         return policy;
     }
 
-    public void setPolicy(Integer policy) {
+    public void setPolicy(PolicyEnums policy) {
         this.policy = policy;
     }
 
@@ -91,7 +94,9 @@ public class BucketSettingBusiness implements Entity {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("tags", tags)
+                .add("sseConfiguration", sseConfiguration)
+                .add("policy", policy)
+                .add("objectLock", objectLock)
                 .toString();
     }
 }

@@ -29,7 +29,7 @@ import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.scenario.bo.MultipartCreateBusiness;
+import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
 import cn.herodotus.oss.minio.scenario.proxy.MinioPresignedObjectUrlProxy;
 import cn.herodotus.oss.minio.scenario.service.MultipartChunkUploadService;
@@ -75,7 +75,7 @@ public class MultipartChunkUploadController implements Controller {
     @Operation(summary = "创建分片上传信息", description = "创建分片上传信息",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "uploadId 和 预下载地址", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MultipartCreateBusiness.class))),
+                    @ApiResponse(description = "uploadId 和 预下载地址", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MultipartUploadCreateBusiness.class))),
                     @ApiResponse(responseCode = "200", description = "操作成功"),
                     @ApiResponse(responseCode = "204", description = "无结果"),
                     @ApiResponse(responseCode = "500", description = "操作失败")
@@ -84,8 +84,8 @@ public class MultipartChunkUploadController implements Controller {
             @Parameter(name = "request", required = true, description = "MultipartUploadCreateRequest参数实体", schema = @Schema(implementation = MultipartUploadCreateRequest.class))
     })
     @PostMapping("/create")
-    public Result<MultipartCreateBusiness> createMultipartUpload(@Validated @RequestBody MultipartUploadCreateRequest request) {
-        MultipartCreateBusiness result = multipartChunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
+    public Result<MultipartUploadCreateBusiness> createMultipartUpload(@Validated @RequestBody MultipartUploadCreateRequest request) {
+        MultipartUploadCreateBusiness result = multipartChunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
         return result(result);
     }
 

@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.converter;
+package cn.herodotus.oss.minio.core.converter.sse;
 
 import cn.herodotus.oss.minio.core.exception.MinioInvalidKeyException;
 import cn.herodotus.oss.minio.core.exception.MinioNoSuchAlgorithmException;

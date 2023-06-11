@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.scenario.service;
 
 import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
-import cn.herodotus.oss.minio.scenario.bo.MultipartCreateBusiness;
+import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
 import cn.herodotus.oss.minio.logic.service.MultipartUploadService;
 import cn.herodotus.oss.minio.logic.service.PresignedObjectUrlService;
@@ -129,11 +129,11 @@ public class MultipartChunkUploadService {
      * @param region     区域
      * @param objectName 对象名称
      * @param totalParts 分片总数
-     * @return {@link MultipartCreateBusiness}
+     * @return {@link MultipartUploadCreateBusiness}
      */
-    private MultipartCreateBusiness createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
+    private MultipartUploadCreateBusiness createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
         String uploadId = createUploadId(bucketName, region, objectName);
-        MultipartCreateBusiness entity = new MultipartCreateBusiness(uploadId);
+        MultipartUploadCreateBusiness entity = new MultipartUploadCreateBusiness(uploadId);
 
         for (int i = 0; i < totalParts; i++) {
             String uploadUrl = createPresignedObjectUrl(bucketName, region, objectName, uploadId, i);
@@ -148,9 +148,9 @@ public class MultipartChunkUploadService {
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      * @param totalParts 分片总数
-     * @return {@link MultipartCreateBusiness}
+     * @return {@link MultipartUploadCreateBusiness}
      */
-    public MultipartCreateBusiness createMultipartUpload(String bucketName, String objectName, int totalParts) {
+    public MultipartUploadCreateBusiness createMultipartUpload(String bucketName, String objectName, int totalParts) {
         return createMultipartUpload(bucketName, null, objectName, totalParts);
     }
 
