@@ -94,7 +94,7 @@ public class BucketController implements Controller {
     }
 
     @AccessLimited
-    @Operation(summary = "查询存储桶是否存在", description = "根据BucketName和Region查询Bucket是否存在",
+    @Operation(summary = "查询存储桶是否存在", description = "根据BucketName和Region查询存储桶是否存在",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "是否Bucket存在", content = @Content(mediaType = "application/json")),
