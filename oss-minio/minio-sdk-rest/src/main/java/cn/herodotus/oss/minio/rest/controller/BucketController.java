@@ -112,7 +112,7 @@ public class BucketController implements Controller {
     }
 
     @Idempotent
-    @Operation(summary = "创建Bucket", description = "创建Bucket接口，该接口仅是创建，不包含是否已存在检查",
+    @Operation(summary = "创建存储桶", description = "创建存储桶接口，该接口仅是创建，不包含是否已存在检查",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
