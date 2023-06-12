@@ -75,11 +75,10 @@ public class BucketSettingController implements Controller {
             })
     @Parameters({
             @Parameter(name = "bucketName", required = true, description = "存储桶名称"),
-            @Parameter(name = "region", description = "区域"),
     })
     @GetMapping
-    public Result<BucketSettingBusiness> get(@RequestParam(value = "bucketName") String bucketName, @RequestParam(value = "region", required = false) String region) {
-        BucketSettingBusiness entity = settingService.get(bucketName, region);
+    public Result<BucketSettingBusiness> get(@RequestParam(value = "bucketName") String bucketName) {
+        BucketSettingBusiness entity = settingService.get(bucketName);
         return result(entity);
     }
 }

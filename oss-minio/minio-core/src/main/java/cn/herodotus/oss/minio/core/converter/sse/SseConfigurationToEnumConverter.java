@@ -40,7 +40,7 @@ import org.springframework.core.convert.converter.Converter;
 public class SseConfigurationToEnumConverter implements Converter<SseConfiguration, SseConfigurationEnums> {
     @Override
     public SseConfigurationEnums convert(SseConfiguration configuration) {
-        if (ObjectUtils.isNotEmpty(configuration)) {
+        if (ObjectUtils.isNotEmpty(configuration) && ObjectUtils.isNotEmpty(configuration.rule())) {
             return Enums.getIfPresent(SseConfigurationEnums.class, configuration.rule().sseAlgorithm().name()).or(SseConfigurationEnums.AES256);
         }
 

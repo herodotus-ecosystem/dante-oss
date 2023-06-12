@@ -67,6 +67,10 @@ public class BucketSettingService {
         this.toObjectLockDomain = new ObjectLockConfigurationToDomainConverter();
     }
 
+    public BucketSettingBusiness get(String bucketName) {
+        return get(bucketName, null);
+    }
+
     public BucketSettingBusiness get(String bucketName, String region) {
 
         SseConfiguration sseConfiguration = bucketEncryptionService.getBucketEncryption(bucketName, region);

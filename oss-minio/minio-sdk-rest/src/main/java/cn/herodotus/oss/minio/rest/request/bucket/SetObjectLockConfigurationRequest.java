@@ -32,6 +32,7 @@ import io.minio.SetObjectLockConfigurationArgs;
 import io.minio.messages.ObjectLockConfiguration;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -59,7 +60,10 @@ public class SetObjectLockConfigurationRequest extends BucketRequest<SetObjectLo
 
     @Override
     public void prepare(SetObjectLockConfigurationArgs.Builder builder) {
-        builder.config(requestTo.convert(getObjectLock()));
+        ObjectLockConfiguration objectLockConfiguration = requestTo.convert(getObjectLock());
+        if (ObjectUtils.isNotEmpty(objectLockConfiguration)) {
+            builder.config(objectLockConfiguration);
+        }
         super.prepare(builder);
     }
 

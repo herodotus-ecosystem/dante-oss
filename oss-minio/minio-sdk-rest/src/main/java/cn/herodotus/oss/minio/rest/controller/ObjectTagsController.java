@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.*;
  * @date : 2023/6/10 15:13
  */
 @RestController
-@RequestMapping("/oss/minio/bucket/tags")
+@RequestMapping("/oss/minio/object/tags")
 @Tags({
         @Tag(name = "对象存储管理接口"),
         @Tag(name = "Minio 对象存储管理接口"),
