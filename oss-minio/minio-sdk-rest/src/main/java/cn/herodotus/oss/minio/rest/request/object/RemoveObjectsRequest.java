@@ -30,6 +30,7 @@ import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.RemoveObjectsArgs;
 import io.minio.messages.DeleteObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -44,10 +45,10 @@ import java.util.List;
 @Schema(name = "批量删除对象请求参数实体", title = "批量删除对象请求参数实体")
 public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builder, RemoveObjectsArgs> {
 
-    @Schema(name = "删除对象请求参数实体", title = "删除对象请求参数实体")
+    @Schema(name = "使用治理模式进行删除", description = "治理模式用户不能覆盖或删除对象版本或更改其锁定设置，可通过设置该参数进行强制操作")
     private Boolean bypassGovernanceMode;
 
-    @Size(min = 1, message = "至少传入一项")
+    @NotEmpty(message = "删除对象不能为空")
     private List<DeleteObjectDomain> objects;
 
     public Boolean getBypassGovernanceMode() {
