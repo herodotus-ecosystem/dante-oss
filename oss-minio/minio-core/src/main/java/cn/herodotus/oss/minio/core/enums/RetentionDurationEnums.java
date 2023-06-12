@@ -47,8 +47,9 @@ public enum RetentionDurationEnums implements BaseUiEnum<Integer> {
     /**
      * enum
      */
-    DAYS(0, "天"),
-    YEARS(1, "年");
+    NONE(0, "未设置"),
+    DAYS(1, "天"),
+    YEARS(2, "年");
 
     private static final Map<Integer, RetentionDurationEnums> INDEX_MAP = new HashMap<>();
     private static final List<Map<String, Object>> JSON_STRUCTURE = new ArrayList<>();

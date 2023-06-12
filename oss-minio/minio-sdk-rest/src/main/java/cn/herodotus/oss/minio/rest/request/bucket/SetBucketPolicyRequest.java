@@ -26,14 +26,13 @@
 package cn.herodotus.oss.minio.rest.request.bucket;
 
 import cn.herodotus.engine.assistant.core.json.jackson2.utils.Jackson2Utils;
-import cn.herodotus.oss.minio.core.domain.PolicyDo;
-import cn.herodotus.oss.minio.core.domain.StatementDo;
+import cn.herodotus.oss.minio.core.domain.policy.PolicyDomain;
+import cn.herodotus.oss.minio.core.domain.policy.StatementDomain;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import com.google.common.collect.Lists;
 import io.minio.SetBucketPolicyArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -51,42 +50,39 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
     private static final List<String> DEFAULT_ACTION_FOR_OBJECT = Lists.newArrayList("s3:DeleteObject", "s3:GetObject", "s3:ListMultipartUploadParts", "s3:PutObject", "s3:AbortMultipartUpload");
 
     @Schema(name = "访问策略类型", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "访问策略配置不能为空")
-    private Integer type = 0;
+    private PolicyEnums type;
 
     @Schema(name = "访问策略配置", description = "如果为自定义类型那么必需输入配置信息")
-    private PolicyDo config;
+    private PolicyDomain config;
 
-    public Integer getType() {
+    public PolicyEnums getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(PolicyEnums type) {
         this.type = type;
     }
 
-    public PolicyDo getConfig() {
+    public PolicyDomain getConfig() {
         return config;
     }
 
-    public void setConfig(PolicyDo config) {
+    public void setConfig(PolicyDomain config) {
         this.config = config;
     }
 
     @Override
     public void prepare(SetBucketPolicyArgs.Builder builder) {
 
-        PolicyEnums type = PolicyEnums.get(getType());
+        PolicyDomain policyDomain;
 
-        PolicyDo policyDo;
-
-        switch (type) {
-            case PUBLIC -> policyDo = getPublicPolicy();
-            case CUSTOM -> policyDo = getConfig();
-            default -> policyDo = getPrivatePolicy(getBucketName());
+        switch (getType()) {
+            case PUBLIC -> policyDomain = getPublicPolicy();
+            case CUSTOM -> policyDomain = getConfig();
+            default -> policyDomain = getPrivatePolicy(getBucketName());
         }
 
-        builder.config(Jackson2Utils.toJson(policyDo));
+        builder.config(Jackson2Utils.toJson(policyDomain));
         super.prepare(builder);
     }
 
@@ -95,20 +91,20 @@ public class SetBucketPolicyRequest extends BucketRequest<SetBucketPolicyArgs.Bu
         return SetBucketPolicyArgs.builder();
     }
 
-    private PolicyDo getPublicPolicy() {
-        return new PolicyDo();
+    private PolicyDomain getPublicPolicy() {
+        return new PolicyDomain();
     }
 
-    private PolicyDo getPrivatePolicy(String bucketName) {
-        StatementDo bucketStatement = new StatementDo();
+    private PolicyDomain getPrivatePolicy(String bucketName) {
+        StatementDomain bucketStatement = new StatementDomain();
         bucketStatement.setActions(DEFAULT_ACTION_FOR_BUCKET);
         bucketStatement.setResources(getDefaultResource(bucketName, true));
 
-        StatementDo objectStatement = new StatementDo();
+        StatementDomain objectStatement = new StatementDomain();
         objectStatement.setActions(DEFAULT_ACTION_FOR_OBJECT);
         objectStatement.setResources(getDefaultResource(bucketName, false));
 
-        PolicyDo policy = new PolicyDo();
+        PolicyDomain policy = new PolicyDomain();
         policy.setStatements(Lists.newArrayList(bucketStatement, objectStatement));
         return policy;
     }

@@ -25,12 +25,12 @@
 
 package cn.herodotus.oss.minio.rest.request.object;
 
-import cn.herodotus.oss.minio.core.domain.DeleteObjectDo;
+import cn.herodotus.oss.minio.core.domain.DeleteObjectDomain;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.RemoveObjectsArgs;
 import io.minio.messages.DeleteObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
@@ -44,11 +44,11 @@ import java.util.List;
 @Schema(name = "批量删除对象请求参数实体", title = "批量删除对象请求参数实体")
 public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builder, RemoveObjectsArgs> {
 
-    @Schema(name = "删除对象请求参数实体", title = "删除对象请求参数实体")
+    @Schema(name = "使用治理模式进行删除", description = "治理模式用户不能覆盖或删除对象版本或更改其锁定设置，可通过设置该参数进行强制操作")
     private Boolean bypassGovernanceMode;
 
-    @Size(min = 1, message = "至少传入一项")
-    private List<DeleteObjectDo> objects;
+    @NotEmpty(message = "删除对象不能为空")
+    private List<DeleteObjectDomain> objects;
 
     public Boolean getBypassGovernanceMode() {
         return bypassGovernanceMode;
@@ -58,11 +58,11 @@ public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builde
         this.bypassGovernanceMode = bypassGovernanceMode;
     }
 
-    public List<DeleteObjectDo> getObjects() {
+    public List<DeleteObjectDomain> getObjects() {
         return objects;
     }
 
-    public void setObjects(List<DeleteObjectDo> objects) {
+    public void setObjects(List<DeleteObjectDomain> objects) {
         this.objects = objects;
     }
 

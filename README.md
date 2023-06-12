@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.0-blue.svg?logo=spring" alt="Spring Boot 3.1.0"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-0.4.0-red.svg?logo=spring" alt="Version 0.4.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-0.5.0-red.svg?logo=spring" alt="Version 0.5.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -109,6 +109,8 @@ dante-oss
 | Object 删除标签     | 删除 Object Tags，包括 Service、REST API                       |
 | Object 获取保留设置   | 获取 Object Retention，包括 Service、REST API                  |
 | Object 修改保留设置   | 修改 Object Retention，包括 Service、REST API                  |
+| Object 开启持有设置   | 获取 Object LegalHold，包括 Service、REST API                  |
+| Object 关闭持有设置   | 修改 Object LegalHold，包括 Service、REST API                  |
 | 其它功能            | 正逐步完善，主要涉及前后端交互、以及可用性验证和前端相关功能的开发，敬请期待，欢迎 PR             |
 
 

@@ -25,19 +25,31 @@
 
 package cn.herodotus.oss.minio.rest.request.object;
 
+import cn.herodotus.oss.minio.core.exception.MinioConnectException;
+import cn.herodotus.oss.minio.core.exception.MinioIOException;
 import cn.herodotus.oss.minio.rest.definition.PutObjectBaseRequest;
 import io.minio.UploadObjectArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.net.ConnectException;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 上传对象请求参数实体 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/5/31 16:14
  */
+@Schema(name = "上传对象请求参数实体")
 public class UploadObjectRequest extends PutObjectBaseRequest<UploadObjectArgs.Builder, UploadObjectArgs> {
 
+    private static final Logger log = LoggerFactory.getLogger(UploadObjectRequest.class);
+
+    @Schema(name = "文件", description = "可以被访问到的，完整的文件路径")
+    @NotEmpty(message = "filename 参数不能为空")
     private String filename;
 
     public String getFilename() {
@@ -53,7 +65,12 @@ public class UploadObjectRequest extends PutObjectBaseRequest<UploadObjectArgs.B
         try {
             builder.filename(getFilename(), getPartSize());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            log.error("[Herodotus] |- Minio catch IOException in UploadObjectRequest.", e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException(e.getMessage());
+            }
         }
 
         builder.contentType(getContentType());

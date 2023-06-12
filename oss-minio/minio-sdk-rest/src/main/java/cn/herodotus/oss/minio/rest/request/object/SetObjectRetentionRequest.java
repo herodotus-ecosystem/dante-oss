@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.minio.rest.request.object;
 
-import cn.herodotus.oss.minio.core.converter.RequestToRetentionConverter;
-import cn.herodotus.oss.minio.core.domain.RetentionDo;
+import cn.herodotus.oss.minio.core.converter.retention.DomainToRetentionConverter;
+import cn.herodotus.oss.minio.core.domain.RetentionDomain;
 import cn.herodotus.oss.minio.rest.definition.ObjectVersionRequest;
 import io.minio.SetObjectRetentionArgs;
 import io.minio.messages.Retention;
@@ -43,19 +43,19 @@ import org.springframework.core.convert.converter.Converter;
 @Schema(name = "设置对象保留请求参数实体", title = "设置对象保留请求参数实体")
 public class SetObjectRetentionRequest extends ObjectVersionRequest<SetObjectRetentionArgs.Builder, SetObjectRetentionArgs> {
 
-    private final Converter<RetentionDo, Retention> toRetention = new RequestToRetentionConverter();
+    private final Converter<RetentionDomain, Retention> toRetention = new DomainToRetentionConverter();
 
     @Schema(name = "保留配置")
-    private RetentionDo retention;
+    private RetentionDomain retention;
 
     @Schema(name = "使用Governance模式")
     private Boolean bypassGovernanceMode;
 
-    public RetentionDo getRetention() {
+    public RetentionDomain getRetention() {
         return retention;
     }
 
-    public void setRetention(RetentionDo retention) {
+    public void setRetention(RetentionDomain retention) {
         this.retention = retention;
     }
 

@@ -49,7 +49,7 @@ import org.springframework.web.bind.annotation.*;
  * @date : 2023/6/10 15:13
  */
 @RestController
-@RequestMapping("/oss/minio/bucket/tags")
+@RequestMapping("/oss/minio/object/tags")
 @Tags({
         @Tag(name = "对象存储管理接口"),
         @Tag(name = "Minio 对象存储管理接口"),
@@ -82,7 +82,7 @@ public class ObjectTagsController implements Controller {
     }
 
     @Idempotent
-    @Operation(summary = "删除对象标签", description = "删除对象标签",
+    @Operation(summary = "清空对象标签", description = "利用Tags的增减就可以实现Tags的删除，所以这个删除应该理解成清空",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),

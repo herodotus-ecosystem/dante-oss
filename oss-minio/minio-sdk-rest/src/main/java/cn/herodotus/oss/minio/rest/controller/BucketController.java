@@ -29,12 +29,15 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.logic.entity.BucketEntity;
+import cn.herodotus.oss.minio.core.converter.BucketToDomainConverter;
+import cn.herodotus.oss.minio.core.domain.BucketDomain;
+import cn.herodotus.oss.minio.core.utils.ConverterUtils;
 import cn.herodotus.oss.minio.logic.service.BucketService;
 import cn.herodotus.oss.minio.rest.request.bucket.BucketExistsRequest;
 import cn.herodotus.oss.minio.rest.request.bucket.ListBucketsRequest;
 import cn.herodotus.oss.minio.rest.request.bucket.MakeBucketRequest;
 import cn.herodotus.oss.minio.rest.request.bucket.RemoveBucketRequest;
+import io.minio.messages.Bucket;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -84,13 +87,14 @@ public class BucketController implements Controller {
             @Parameter(name = "request", required = true, description = "ListBucketsRequest请求参数对象", schema = @Schema(implementation = ListBucketsRequest.class))
     })
     @GetMapping("/list")
-    public Result<List<BucketEntity>> list(ListBucketsRequest request) {
-        List<BucketEntity> bucketRespons = bucketService.listBuckets(ObjectUtils.isNotEmpty(request) ? request.build() : null);
-        return result(bucketRespons);
+    public Result<List<BucketDomain>> list(ListBucketsRequest request) {
+        List<Bucket> buckets = bucketService.listBuckets(ObjectUtils.isNotEmpty(request) ? request.build() : null);
+        List<BucketDomain> domains = ConverterUtils.toDomains(buckets, new BucketToDomainConverter());
+        return result(domains);
     }
 
     @AccessLimited
-    @Operation(summary = "查询存储桶是否存在", description = "根据BucketName和Region查询Bucket是否存在",
+    @Operation(summary = "查询存储桶是否存在", description = "根据BucketName和Region查询存储桶是否存在",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "是否Bucket存在", content = @Content(mediaType = "application/json")),
@@ -108,7 +112,7 @@ public class BucketController implements Controller {
     }
 
     @Idempotent
-    @Operation(summary = "创建Bucket", description = "创建Bucket接口，该接口仅是创建，不包含是否已存在检查",
+    @Operation(summary = "创建存储桶", description = "创建存储桶接口，该接口仅是创建，不包含是否已存在检查",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
@@ -126,7 +130,7 @@ public class BucketController implements Controller {
     }
 
     @Idempotent
-    @Operation(summary = "删除Bucket", description = "根据Bucket 名称删除数据，可指定 Region",
+    @Operation(summary = "删除存储桶", description = "根据存储桶名称删除数据，可指定 Region",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),

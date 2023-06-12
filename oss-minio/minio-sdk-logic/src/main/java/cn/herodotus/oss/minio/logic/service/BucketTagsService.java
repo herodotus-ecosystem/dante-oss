@@ -25,17 +25,15 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.domain.TagsDo;
-import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.DeleteBucketTagsArgs;
 import io.minio.GetBucketTagsArgs;
 import io.minio.MinioClient;
 import io.minio.SetBucketTagsArgs;
 import io.minio.errors.*;
 import io.minio.messages.Tags;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -65,9 +63,9 @@ public class BucketTagsService extends BaseMinioService {
      * 获取 Bucket 标签配置
      *
      * @param bucketName 存储桶名称
-     * @return 自定义 tag 域对象 {@link TagsDo}
+     * @return {@link Tags}
      */
-    public TagsDo getBucketTags(String bucketName) {
+    public Tags getBucketTags(String bucketName) {
         return getBucketTags(bucketName, null);
     }
 
@@ -76,9 +74,9 @@ public class BucketTagsService extends BaseMinioService {
      *
      * @param bucketName 存储桶名称
      * @param region     区域
-     * @return 自定义 tag 域对象 {@link TagsDo}
+     * @return {@link Tags}
      */
-    public TagsDo getBucketTags(String bucketName, String region) {
+    public Tags getBucketTags(String bucketName, String region) {
         return getBucketTags(GetBucketTagsArgs.builder().bucket(bucketName).region(region).build());
     }
 
@@ -86,19 +84,14 @@ public class BucketTagsService extends BaseMinioService {
      * 获取 Bucket 标签配置
      *
      * @param getBucketTagsArgs {@link GetBucketTagsArgs}
-     * @return 自定义 tag 域对象 {@link TagsDo}
+     * @return {@link Tags}
      */
-    public TagsDo getBucketTags(GetBucketTagsArgs getBucketTagsArgs) {
+    public Tags getBucketTags(GetBucketTagsArgs getBucketTagsArgs) {
         String function = "getBucketTags";
         MinioClient minioClient = getMinioClient();
 
         try {
-            TagsDo tagsDo = new TagsDo();
-            Tags tags = minioClient.getBucketTags(getBucketTagsArgs);
-            if (ObjectUtils.isNotEmpty(tags)) {
-                tagsDo.putAll(tags.get());
-            }
-            return tagsDo;
+            return minioClient.getBucketTags(getBucketTagsArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException(e.getMessage());

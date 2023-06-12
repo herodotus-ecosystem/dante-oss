@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.oss.minio.scenario.converter.ObjectWriteResponseToEntityConverter;
-import cn.herodotus.oss.minio.scenario.entity.MultipartCreateEntity;
-import cn.herodotus.oss.minio.scenario.entity.ObjectWriteEntity;
+import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
+import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
 import cn.herodotus.oss.minio.logic.service.MultipartUploadService;
 import cn.herodotus.oss.minio.logic.service.PresignedObjectUrlService;
+import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioProxyAddressConverter;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.GetPresignedObjectUrlArgs;
@@ -129,11 +129,11 @@ public class MultipartChunkUploadService {
      * @param region     区域
      * @param objectName 对象名称
      * @param totalParts 分片总数
-     * @return {@link MultipartCreateEntity}
+     * @return {@link MultipartUploadCreateBusiness}
      */
-    private MultipartCreateEntity createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
+    private MultipartUploadCreateBusiness createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
         String uploadId = createUploadId(bucketName, region, objectName);
-        MultipartCreateEntity entity = new MultipartCreateEntity(uploadId);
+        MultipartUploadCreateBusiness entity = new MultipartUploadCreateBusiness(uploadId);
 
         for (int i = 0; i < totalParts; i++) {
             String uploadUrl = createPresignedObjectUrl(bucketName, region, objectName, uploadId, i);
@@ -148,9 +148,9 @@ public class MultipartChunkUploadService {
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      * @param totalParts 分片总数
-     * @return {@link MultipartCreateEntity}
+     * @return {@link MultipartUploadCreateBusiness}
      */
-    public MultipartCreateEntity createMultipartUpload(String bucketName, String objectName, int totalParts) {
+    public MultipartUploadCreateBusiness createMultipartUpload(String bucketName, String objectName, int totalParts) {
         return createMultipartUpload(bucketName, null, objectName, totalParts);
     }
 
@@ -161,15 +161,15 @@ public class MultipartChunkUploadService {
      * @param region     区域
      * @param objectName 对象名称
      * @param uploadId   第一步中创建的 UploadId
-     * @return {@link ObjectWriteEntity}
+     * @return {@link ObjectWriteDomain}
      */
-    private ObjectWriteEntity completeMultipartUpload(String bucketName, String region, String objectName, String uploadId) {
+    private ObjectWriteDomain completeMultipartUpload(String bucketName, String region, String objectName, String uploadId) {
         Part[] parts = listParts(bucketName, region, objectName, uploadId);
         if (ArrayUtils.isNotEmpty(parts)) {
             ObjectWriteResponse response = multipartUploadService.completeMultipartUpload(bucketName, region, objectName, uploadId, parts);
-            Converter<ObjectWriteResponse, ObjectWriteEntity> toEntity = new ObjectWriteResponseToEntityConverter();
+            Converter<ObjectWriteResponse, ObjectWriteDomain> toDomain = new ResponseToObjectWriteDomainConverter();
             if (ObjectUtils.isNotEmpty(response)) {
-                return toEntity.convert(response);
+                return toDomain.convert(response);
             }
         }
 
@@ -182,9 +182,9 @@ public class MultipartChunkUploadService {
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      * @param uploadId   第一步中创建的 UploadId
-     * @return {@link ObjectWriteEntity}
+     * @return {@link ObjectWriteDomain}
      */
-    public ObjectWriteEntity completeMultipartUpload(String bucketName, String objectName, String uploadId) {
+    public ObjectWriteDomain completeMultipartUpload(String bucketName, String objectName, String uploadId) {
         return completeMultipartUpload(bucketName, null, objectName, uploadId);
     }
 }

@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.minio.scenario.request;
 
+import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
@@ -35,7 +36,7 @@ import jakarta.validation.constraints.NotBlank;
  * @date : 2022/7/4 15:14
  */
 @Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseOperationRequest {
+public class MultipartUploadCompleteRequest extends BaseDomain {
 
     @NotBlank(message = "分片上传ID不能为空")
     @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")

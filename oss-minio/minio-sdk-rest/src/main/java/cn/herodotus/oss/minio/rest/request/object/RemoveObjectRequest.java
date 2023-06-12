@@ -39,7 +39,7 @@ import org.apache.commons.lang3.ObjectUtils;
 @Schema(name = "删除对象请求参数实体", title = "删除对象请求参数实体")
 public class RemoveObjectRequest extends ObjectVersionRequest<RemoveObjectArgs.Builder, RemoveObjectArgs> {
 
-    @Schema(name = "使用Governance模式")
+    @Schema(name = "使用治理模式进行删除", description = "治理模式用户不能覆盖或删除对象版本或更改其锁定设置，可通过设置该参数进行强制操作")
     private Boolean bypassGovernanceMode;
 
     public Boolean getBypassGovernanceMode() {

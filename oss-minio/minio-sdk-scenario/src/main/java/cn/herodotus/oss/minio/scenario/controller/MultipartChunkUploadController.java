@@ -29,12 +29,12 @@ import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.scenario.entity.MultipartCreateEntity;
-import cn.herodotus.oss.minio.scenario.entity.ObjectWriteEntity;
+import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
+import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioPresignedObjectUrlProxy;
-import cn.herodotus.oss.minio.scenario.service.MultipartChunkUploadService;
 import cn.herodotus.oss.minio.scenario.request.MultipartUploadCompleteRequest;
 import cn.herodotus.oss.minio.scenario.request.MultipartUploadCreateRequest;
+import cn.herodotus.oss.minio.scenario.service.MultipartChunkUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -75,7 +75,7 @@ public class MultipartChunkUploadController implements Controller {
     @Operation(summary = "创建分片上传信息", description = "创建分片上传信息",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "uploadId 和 预下载地址", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MultipartCreateEntity.class))),
+                    @ApiResponse(description = "uploadId 和 预下载地址", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MultipartUploadCreateBusiness.class))),
                     @ApiResponse(responseCode = "200", description = "操作成功"),
                     @ApiResponse(responseCode = "204", description = "无结果"),
                     @ApiResponse(responseCode = "500", description = "操作失败")
@@ -84,8 +84,8 @@ public class MultipartChunkUploadController implements Controller {
             @Parameter(name = "request", required = true, description = "MultipartUploadCreateRequest参数实体", schema = @Schema(implementation = MultipartUploadCreateRequest.class))
     })
     @PostMapping("/create")
-    public Result<MultipartCreateEntity> createMultipartUpload(@Validated @RequestBody MultipartUploadCreateRequest request) {
-        MultipartCreateEntity result = multipartChunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
+    public Result<MultipartUploadCreateBusiness> createMultipartUpload(@Validated @RequestBody MultipartUploadCreateRequest request) {
+        MultipartUploadCreateBusiness result = multipartChunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
         return result(result);
     }
 
@@ -93,7 +93,7 @@ public class MultipartChunkUploadController implements Controller {
     @Operation(summary = "完成分片上传", description = "完成分片上传，Minio将上传完成的分片信息进行合并",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "操作结果", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ObjectWriteEntity.class))),
+                    @ApiResponse(description = "操作结果", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ObjectWriteDomain.class))),
                     @ApiResponse(responseCode = "200", description = "操作成功"),
                     @ApiResponse(responseCode = "204", description = "无结果"),
                     @ApiResponse(responseCode = "500", description = "操作失败")
@@ -102,8 +102,8 @@ public class MultipartChunkUploadController implements Controller {
             @Parameter(name = "request", required = true, description = "MultipartUploadCompleteRequest参数实体", schema = @Schema(implementation = MultipartUploadCompleteRequest.class))
     })
     @PostMapping("/complete")
-    public Result<ObjectWriteEntity> completeMultipartUpload(@Validated @RequestBody MultipartUploadCompleteRequest request) {
-        ObjectWriteEntity entity = multipartChunkUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
+    public Result<ObjectWriteDomain> completeMultipartUpload(@Validated @RequestBody MultipartUploadCompleteRequest request) {
+        ObjectWriteDomain entity = multipartChunkUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
         return result(entity);
     }
 

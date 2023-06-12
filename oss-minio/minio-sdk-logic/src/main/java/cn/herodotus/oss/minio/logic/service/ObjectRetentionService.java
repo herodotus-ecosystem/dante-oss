@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.minio.core.converter.retention.RetentionToDomainConverter;
+import cn.herodotus.oss.minio.core.domain.RetentionDomain;
+import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.converter.RetentionToDoConverter;
-import cn.herodotus.oss.minio.core.domain.RetentionDo;
-import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.GetObjectRetentionArgs;
 import io.minio.MinioClient;
 import io.minio.SetObjectRetentionArgs;
@@ -55,43 +55,46 @@ import java.security.NoSuchAlgorithmException;
 public class ObjectRetentionService extends BaseMinioService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectRetentionService.class);
-    private final Converter<Retention, RetentionDo> toDo;
+    private final Converter<Retention, RetentionDomain> toDo;
 
     public ObjectRetentionService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
-        this.toDo = new RetentionToDoConverter();
+        this.toDo = new RetentionToDomainConverter();
     }
 
     /**
      * 获取对象的保留配置
+     *
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      * @return 自定义保留域对象
      */
-    public RetentionDo getObjectRetention(String bucketName, String objectName) {
+    public RetentionDomain getObjectRetention(String bucketName, String objectName) {
         return getObjectRetention(bucketName, null, objectName);
     }
 
     /**
      * 获取对象的保留配置
+     *
      * @param bucketName 存储桶名称
-     * @param region 区域
+     * @param region     区域
      * @param objectName 对象名称
      * @return 自定义保留域对象
      */
-    public RetentionDo getObjectRetention(String bucketName, String region, String objectName) {
+    public RetentionDomain getObjectRetention(String bucketName, String region, String objectName) {
         return getObjectRetention(bucketName, region, objectName, null);
     }
 
     /**
      * 获取对象的保留配置
+     *
      * @param bucketName 存储桶名称
-     * @param region 区域
+     * @param region     区域
      * @param objectName 对象名称
-     * @param versionId 版本ID
+     * @param versionId  版本ID
      * @return 自定义保留域对象
      */
-    public RetentionDo getObjectRetention(String bucketName, String region, String objectName, String versionId) {
+    public RetentionDomain getObjectRetention(String bucketName, String region, String objectName, String versionId) {
         return getObjectRetention(GetObjectRetentionArgs.builder().bucket(bucketName).region(region).object(objectName).versionId(versionId).build());
     }
 
@@ -99,9 +102,9 @@ public class ObjectRetentionService extends BaseMinioService {
      * 获取对象的保留配置
      *
      * @param getObjectRetentionArgs {@link GetObjectRetentionArgs}
-     * @return {@link RetentionDo}
+     * @return {@link RetentionDomain}
      */
-    public RetentionDo getObjectRetention(GetObjectRetentionArgs getObjectRetentionArgs) {
+    public RetentionDomain getObjectRetention(GetObjectRetentionArgs getObjectRetentionArgs) {
         String function = "getObjectRetention";
         MinioClient minioClient = getMinioClient();
 
@@ -146,9 +149,10 @@ public class ObjectRetentionService extends BaseMinioService {
 
     /**
      * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
+     *
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
-     * @param config 保留配置 {@link Retention}
+     * @param config     保留配置 {@link Retention}
      */
     public void setObjectRetention(String bucketName, String objectName, Retention config) {
         setObjectRetention(bucketName, objectName, config, false);
@@ -156,9 +160,10 @@ public class ObjectRetentionService extends BaseMinioService {
 
     /**
      * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
-     * @param bucketName 存储桶名称
-     * @param objectName 对象名称
-     * @param config 保留配置 {@link Retention}
+     *
+     * @param bucketName           存储桶名称
+     * @param objectName           对象名称
+     * @param config               保留配置 {@link Retention}
      * @param bypassGovernanceMode 使用 Governance 模式
      */
     public void setObjectRetention(String bucketName, String objectName, Retention config, boolean bypassGovernanceMode) {
@@ -167,10 +172,11 @@ public class ObjectRetentionService extends BaseMinioService {
 
     /**
      * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
-     * @param bucketName 存储桶名称
-     * @param region 区域
-     * @param objectName 对象名称
-     * @param config 保留配置 {@link Retention}
+     *
+     * @param bucketName           存储桶名称
+     * @param region               区域
+     * @param objectName           对象名称
+     * @param config               保留配置 {@link Retention}
      * @param bypassGovernanceMode 使用 Governance 模式
      */
     public void setObjectRetention(String bucketName, String region, String objectName, Retention config, boolean bypassGovernanceMode) {
@@ -179,12 +185,13 @@ public class ObjectRetentionService extends BaseMinioService {
 
     /**
      * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
-     * @param bucketName 存储桶名称
-     * @param region 区域
-     * @param objectName 对象名称
-     * @param config 保留配置 {@link Retention}
+     *
+     * @param bucketName           存储桶名称
+     * @param region               区域
+     * @param objectName           对象名称
+     * @param config               保留配置 {@link Retention}
      * @param bypassGovernanceMode 使用 Governance 模式
-     * @param versionId 版本ID
+     * @param versionId            版本ID
      */
     public void setObjectRetention(String bucketName, String region, String objectName, Retention config, boolean bypassGovernanceMode, String versionId) {
         setObjectRetention(SetObjectRetentionArgs.builder()
@@ -196,6 +203,7 @@ public class ObjectRetentionService extends BaseMinioService {
                 .versionId(versionId)
                 .build());
     }
+
     /**
      * 添加对象的保留配置，存储桶需要设置为对象锁定模式，并且没有开启版本控制，否则会报错收蠕虫保护。
      *

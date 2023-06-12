@@ -30,7 +30,7 @@ import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.SetBucketEncryptionArgs;
 import io.minio.messages.SseConfiguration;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Min;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * <p>Description: 设置存储桶加密方式请求参数实体 </p>
@@ -42,18 +42,18 @@ import jakarta.validation.constraints.Min;
 public class SetBucketEncryptionRequest extends BucketRequest<SetBucketEncryptionArgs.Builder, SetBucketEncryptionArgs> {
 
     @Schema(name = "服务端加密算法", description = "1：为AWS_KMS；2：为AES256", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Min(value = 1, message = "设置存储桶加密方式，必须为有效加密方式， 不能为 0 (Disabled)")
-    private Integer serverSideEncryption;
+//    @EnumeratedValue(names = {"AWS_KMS", "AES256"}, message = "设置存储桶加密方式，必须为有效加密方式， 不能为 0 (Disabled)")
+    private SseConfigurationEnums sseConfiguration;
 
     @Schema(name = "KMS加密MasterKeyId", description = "可选参数，主要用于AWS_KMS加密算法")
     private String kmsMasterKeyId;
 
-    public Integer getServerSideEncryption() {
-        return serverSideEncryption;
+    public SseConfigurationEnums getSseConfiguration() {
+        return sseConfiguration;
     }
 
-    public void setServerSideEncryption(Integer serverSideEncryption) {
-        this.serverSideEncryption = serverSideEncryption;
+    public void setSseConfiguration(SseConfigurationEnums sseConfiguration) {
+        this.sseConfiguration = sseConfiguration;
     }
 
     public String getKmsMasterKeyId() {
@@ -66,11 +66,13 @@ public class SetBucketEncryptionRequest extends BucketRequest<SetBucketEncryptio
 
     @Override
     public void prepare(SetBucketEncryptionArgs.Builder builder) {
-        SseConfigurationEnums enums = SseConfigurationEnums.get(getServerSideEncryption());
-        if (enums == SseConfigurationEnums.AES256) {
-            builder.config(SseConfiguration.newConfigWithSseS3Rule());
-        } else {
-            builder.config(SseConfiguration.newConfigWithSseKmsRule(getKmsMasterKeyId()));
+        SseConfigurationEnums enums = getSseConfiguration();
+        if (ObjectUtils.isNotEmpty(enums)) {
+            if (enums == SseConfigurationEnums.AES256) {
+                builder.config(SseConfiguration.newConfigWithSseS3Rule());
+            } else {
+                builder.config(SseConfiguration.newConfigWithSseKmsRule(getKmsMasterKeyId()));
+            }
         }
         super.prepare(builder);
     }

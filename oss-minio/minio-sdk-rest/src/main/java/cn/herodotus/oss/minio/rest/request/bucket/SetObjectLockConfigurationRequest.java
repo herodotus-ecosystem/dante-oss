@@ -25,13 +25,14 @@
 
 package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.oss.minio.core.converter.RequestToObjectLockConfigurationConverter;
-import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDo;
+import cn.herodotus.oss.minio.core.converter.retention.DomainToObjectLockConfigurationConverter;
+import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.SetObjectLockConfigurationArgs;
 import io.minio.messages.ObjectLockConfiguration;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -43,23 +44,26 @@ import org.springframework.core.convert.converter.Converter;
 @Schema(name = "设置存储桶对象锁定配置请求参数实体", title = "设置存储桶对象锁定配置请求参数实体")
 public class SetObjectLockConfigurationRequest extends BucketRequest<SetObjectLockConfigurationArgs.Builder, SetObjectLockConfigurationArgs> {
 
-    private final Converter<ObjectLockConfigurationDo, ObjectLockConfiguration> requestTo = new RequestToObjectLockConfigurationConverter();
+    private final Converter<ObjectLockConfigurationDomain, ObjectLockConfiguration> requestTo = new DomainToObjectLockConfigurationConverter();
 
     @Schema(name = "对象锁定配置", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "对象锁定配置信息不能为空")
-    private ObjectLockConfigurationDo objectLock;
+    private ObjectLockConfigurationDomain objectLock;
 
-    public ObjectLockConfigurationDo getObjectLock() {
+    public ObjectLockConfigurationDomain getObjectLock() {
         return objectLock;
     }
 
-    public void setObjectLock(ObjectLockConfigurationDo objectLock) {
+    public void setObjectLock(ObjectLockConfigurationDomain objectLock) {
         this.objectLock = objectLock;
     }
 
     @Override
     public void prepare(SetObjectLockConfigurationArgs.Builder builder) {
-        builder.config(requestTo.convert(getObjectLock()));
+        ObjectLockConfiguration objectLockConfiguration = requestTo.convert(getObjectLock());
+        if (ObjectUtils.isNotEmpty(objectLockConfiguration)) {
+            builder.config(objectLockConfiguration);
+        }
         super.prepare(builder);
     }
 

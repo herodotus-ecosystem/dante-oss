@@ -28,6 +28,7 @@ package cn.herodotus.oss.minio.rest.request.bucket;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.MakeBucketArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
  * <p>Description: 创建桶是参数实体 </p>
@@ -39,6 +40,25 @@ import io.swagger.v3.oas.annotations.media.Schema;
  */
 @Schema(name = "创建桶是参数实体", title = "创建桶是参数实体")
 public class MakeBucketRequest extends BucketRequest<MakeBucketArgs.Builder, MakeBucketArgs> {
+
+    @Schema(name = "开启对象锁定")
+    private Boolean objectLock;
+
+    public Boolean getObjectLock() {
+        return objectLock;
+    }
+
+    public void setObjectLock(Boolean objectLock) {
+        this.objectLock = objectLock;
+    }
+
+    @Override
+    public void prepare(MakeBucketArgs.Builder builder) {
+        if (ObjectUtils.isNotEmpty(getObjectLock())) {
+            builder.objectLock(getObjectLock());
+        }
+        super.prepare(builder);
+    }
 
     @Override
     public MakeBucketArgs.Builder getBuilder() {

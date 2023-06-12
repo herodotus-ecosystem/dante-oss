@@ -25,12 +25,12 @@
 
 package cn.herodotus.oss.minio.rest.request.object;
 
-import cn.herodotus.oss.minio.core.domain.TagsDo;
 import cn.herodotus.oss.minio.rest.definition.ObjectVersionRequest;
 import io.minio.SetObjectTagsArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
-import org.apache.commons.lang3.ObjectUtils;
+import jakarta.validation.constraints.NotEmpty;
+
+import java.util.Map;
 
 /**
  * <p>Description: 设置对象标签请求参数实体 </p>
@@ -42,22 +42,20 @@ import org.apache.commons.lang3.ObjectUtils;
 public class SetObjectTagsRequest extends ObjectVersionRequest<SetObjectTagsArgs.Builder, SetObjectTagsArgs> {
 
     @Schema(name = "对象标签", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "对象标签不能为空")
-    private TagsDo tags;
+    @NotEmpty(message = "对象标签不能为空")
+    private Map<String, String> tags;
 
-    public TagsDo getTags() {
+    public Map<String, String> getTags() {
         return tags;
     }
 
-    public void setTags(TagsDo tags) {
+    public void setTags(Map<String, String> tags) {
         this.tags = tags;
     }
 
     @Override
     public void prepare(SetObjectTagsArgs.Builder builder) {
-        if (ObjectUtils.isNotEmpty(getTags())) {
-            builder.tags(getTags());
-        }
+        builder.tags(getTags());
         super.prepare(builder);
     }
 

@@ -30,12 +30,12 @@ import io.minio.ListBucketsArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 列出所有bucket信息请求实体 </p>
+ * <p>Description: 查询存储桶列表请求参数实体 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/5/30 9:58
  */
-@Schema(name = "列出所有bucket信息请求实体", title = "列出所有bucket信息请求实体")
+@Schema(name = "查询存储桶列表请求参数实体", title = "查询存储桶列表请求参数实体")
 public class ListBucketsRequest extends BaseRequest<ListBucketsArgs.Builder, ListBucketsArgs> {
 
     @Override

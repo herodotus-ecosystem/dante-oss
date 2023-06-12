@@ -26,6 +26,10 @@
 package cn.herodotus.oss.minio.rest.definition;
 
 import io.minio.PutObjectBaseArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * <p>Description: PutObjectBaseRequest </p>
@@ -34,11 +38,19 @@ import io.minio.PutObjectBaseArgs;
  * @date : 2022/7/2 22:31
  */
 public abstract class PutObjectBaseRequest<B extends PutObjectBaseArgs.Builder<B, A>, A extends PutObjectBaseArgs> extends ObjectWriteRequest<B, A> {
+
+    @Schema(name = "对象的大小", description = "对象的大小最大不能超过 5T")
+    @NotNull(message = "必须设置对象大小")
+    @Max(value = PutObjectBaseArgs.MAX_OBJECT_SIZE, message = "对象允许的最大 Size 为 5TiB")
     protected Long objectSize;
+
+    @Schema(name = "分片的大小", description = "分片的大小只能 >= 5M 同时 <= 5G")
+    @Min(value = PutObjectBaseArgs.MIN_MULTIPART_SIZE, message = "分片最小Size不能小于 5MiB")
+    @Max(value = PutObjectBaseArgs.MAX_PART_SIZE, message = "分片最小Size不能超过 is 5GiB ")
     protected Long partSize;
-    protected Integer partCount;
+
+    @Schema(name = "Content Type", description = "Minio Content Type 获取途径：1.本参数；2. Header 中的 Content-Type 头；3. 从 file 的 content type; 4. 默认为 application/octet-stream ")
     protected String contentType;
-    protected Boolean preloadData;
 
     public Long getObjectSize() {
         return objectSize;
@@ -56,27 +68,11 @@ public abstract class PutObjectBaseRequest<B extends PutObjectBaseArgs.Builder<B
         this.partSize = partSize;
     }
 
-    public Integer getPartCount() {
-        return partCount;
-    }
-
-    public void setPartCount(Integer partCount) {
-        this.partCount = partCount;
-    }
-
     public String getContentType() {
         return contentType;
     }
 
     public void setContentType(String contentType) {
         this.contentType = contentType;
-    }
-
-    public Boolean getPreloadData() {
-        return preloadData;
-    }
-
-    public void setPreloadData(Boolean preloadData) {
-        this.preloadData = preloadData;
     }
 }

@@ -25,31 +25,22 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.minio.logic.converter.DeleteErrorToEntityConverter;
-import cn.herodotus.oss.minio.logic.converter.ObjectToEntityConverter;
+import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.logic.entity.DeleteErrorEntity;
-import cn.herodotus.oss.minio.logic.entity.ObjectEntity;
-import cn.herodotus.oss.minio.core.exception.*;
 import io.minio.*;
 import io.minio.errors.*;
-import io.minio.messages.DeleteError;
-import io.minio.messages.DeleteObject;
-import io.minio.messages.Item;
-import org.apache.commons.collections4.IterableUtils;
+import io.minio.messages.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * <p>Description: Minio 对象操作服务 </p>
@@ -70,9 +61,9 @@ public class ObjectService extends BaseMinioService {
      * 列出桶的对象信息. 仅用于 only for ListObjectsV1
      *
      * @param bucketName 存储桶名称
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName) {
+    public Iterable<Result<Item>> listObjects(String bucketName) {
         return listObjects(bucketName, null);
     }
 
@@ -81,9 +72,9 @@ public class ObjectService extends BaseMinioService {
      *
      * @param bucketName 存储桶名称
      * @param region     区域
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region) {
         return listObjects(bucketName, region, null);
     }
 
@@ -93,9 +84,9 @@ public class ObjectService extends BaseMinioService {
      * @param bucketName 存储桶名称
      * @param region     区域
      * @param delimiter  分隔符
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region, String delimiter) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter) {
         return listObjects(bucketName, region, delimiter, false);
     }
 
@@ -106,9 +97,9 @@ public class ObjectService extends BaseMinioService {
      * @param region     区域
      * @param delimiter  分隔符
      * @param recursive  是否递归
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region, String delimiter, boolean recursive) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive) {
         return listObjects(bucketName, region, delimiter, recursive, null);
     }
 
@@ -120,9 +111,9 @@ public class ObjectService extends BaseMinioService {
      * @param delimiter  分隔符
      * @param recursive  是否递归
      * @param keyMarker  关键字
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region, String delimiter, boolean recursive, String keyMarker) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, String keyMarker) {
         return listObjects(bucketName, region, delimiter, recursive, keyMarker, null);
     }
 
@@ -135,9 +126,9 @@ public class ObjectService extends BaseMinioService {
      * @param recursive  是否递归
      * @param keyMarker  关键字
      * @param prefix     前缀
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region, String delimiter, boolean recursive, String keyMarker, String prefix) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, String keyMarker, String prefix) {
         return listObjects(bucketName, region, delimiter, recursive, true, keyMarker, prefix);
     }
 
@@ -151,9 +142,9 @@ public class ObjectService extends BaseMinioService {
      * @param useUrlEncodingType 是否使用 UrlEncoding
      * @param keyMarker          关键字
      * @param prefix             前缀
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, String prefix) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, String prefix) {
         return listObjects(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, 1000, prefix);
     }
 
@@ -168,9 +159,9 @@ public class ObjectService extends BaseMinioService {
      * @param keyMarker          关键字
      * @param maxKeys            最大关键字
      * @param prefix             前缀
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix) {
         return listObjects(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, false);
     }
 
@@ -186,9 +177,9 @@ public class ObjectService extends BaseMinioService {
      * @param maxKeys            最大关键字
      * @param prefix             前缀
      * @param includeVersions    是否包含版本
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions) {
         return listObjects(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, null);
     }
 
@@ -205,9 +196,9 @@ public class ObjectService extends BaseMinioService {
      * @param prefix             前缀
      * @param includeVersions    是否包含版本
      * @param versionIdMarker    版本关键字
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker) {
         return listObjects(ListObjectsArgs.builder()
                 .bucket(bucketName)
                 .region(region)
@@ -227,9 +218,9 @@ public class ObjectService extends BaseMinioService {
      * 列出桶的对象信息. 仅用于 only for ListObjectsV2
      *
      * @param bucketName 存储桶名称
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName) {
         return listObjectsV2(bucketName, null);
     }
 
@@ -238,9 +229,9 @@ public class ObjectService extends BaseMinioService {
      *
      * @param bucketName 存储桶名称
      * @param region     区域
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region) {
         return listObjectsV2(bucketName, region, null);
     }
 
@@ -250,9 +241,9 @@ public class ObjectService extends BaseMinioService {
      * @param bucketName 存储桶名称
      * @param region     区域
      * @param delimiter  分隔符
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter) {
         return listObjectsV2(bucketName, region, delimiter, false);
     }
 
@@ -263,9 +254,9 @@ public class ObjectService extends BaseMinioService {
      * @param region     区域
      * @param delimiter  分隔符
      * @param recursive  是否递归
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive) {
         return listObjectsV2(bucketName, region, delimiter, recursive, null);
     }
 
@@ -277,9 +268,9 @@ public class ObjectService extends BaseMinioService {
      * @param delimiter  分隔符
      * @param recursive  是否递归
      * @param keyMarker  关键字
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, String keyMarker) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, String keyMarker) {
         return listObjectsV2(bucketName, region, delimiter, recursive, true, keyMarker);
     }
 
@@ -292,9 +283,9 @@ public class ObjectService extends BaseMinioService {
      * @param recursive          是否递归
      * @param useUrlEncodingType 是否使用 UrlEncoding
      * @param keyMarker          关键字
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, 1000);
     }
 
@@ -308,9 +299,9 @@ public class ObjectService extends BaseMinioService {
      * @param useUrlEncodingType 是否使用 UrlEncoding
      * @param keyMarker          关键字
      * @param maxKeys            最大关键字
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, null);
     }
 
@@ -325,9 +316,9 @@ public class ObjectService extends BaseMinioService {
      * @param keyMarker          关键字
      * @param maxKeys            最大关键字
      * @param prefix             前缀
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, false);
     }
 
@@ -343,9 +334,9 @@ public class ObjectService extends BaseMinioService {
      * @param maxKeys            最大关键字
      * @param prefix             前缀
      * @param includeVersions    是否包含版本
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, null);
     }
 
@@ -362,9 +353,9 @@ public class ObjectService extends BaseMinioService {
      * @param prefix             前缀
      * @param includeVersions    是否包含版本
      * @param versionIdMarker    版本关键字
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, versionIdMarker, null);
     }
 
@@ -382,9 +373,9 @@ public class ObjectService extends BaseMinioService {
      * @param includeVersions    是否包含版本
      * @param versionIdMarker    版本关键字
      * @param continuationToken  持续集成 Token
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, versionIdMarker, continuationToken, false);
     }
 
@@ -403,9 +394,9 @@ public class ObjectService extends BaseMinioService {
      * @param versionIdMarker    版本关键字
      * @param continuationToken  持续集成 Token
      * @param fetchOwner         获取 Owner
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, versionIdMarker, continuationToken, fetchOwner, false);
     }
 
@@ -425,9 +416,9 @@ public class ObjectService extends BaseMinioService {
      * @param continuationToken   持续集成 Token
      * @param fetchOwner          获取 Owner
      * @param includeUserMetadata 包含用户自定义信息
-     * @return 自定义对象列表
+     * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner, boolean includeUserMetadata) {
+    public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner, boolean includeUserMetadata) {
         return listObjects(ListObjectsArgs.builder()
                 .bucket(bucketName)
                 .region(region)
@@ -452,12 +443,11 @@ public class ObjectService extends BaseMinioService {
      * @param listObjectsArgs {@link ListObjectsArgs}
      * @return Iterable<Result < Item>>
      */
-    public List<ObjectEntity> listObjects(ListObjectsArgs listObjectsArgs) {
+    public Iterable<Result<Item>> listObjects(ListObjectsArgs listObjectsArgs) {
         MinioClient minioClient = getMinioClient();
-        Iterable<Result<Item>> results = minioClient.listObjects(listObjectsArgs);
-        List<ObjectEntity> entities = toEntities(results, new ObjectToEntityConverter());
+        Iterable<Result<Item>> items = minioClient.listObjects(listObjectsArgs);
         close(minioClient);
-        return entities;
+        return items;
     }
 
     /**
@@ -467,7 +457,7 @@ public class ObjectService extends BaseMinioService {
      * @param objects    待删除对象
      * @return 自定义删除错误列表。列表 Size 为 0，表明全部正常删除；不为 0，则返回具体错误对象以及相关信息
      */
-    public List<DeleteErrorEntity> removeObjects(String bucketName, Iterable<DeleteObject> objects) {
+    public Iterable<Result<DeleteError>> removeObjects(String bucketName, Iterable<DeleteObject> objects) {
         return removeObjects(bucketName, null, objects);
     }
 
@@ -479,7 +469,7 @@ public class ObjectService extends BaseMinioService {
      * @param objects    待删除对象
      * @return 自定义删除错误列表。列表 Size 为 0，表明全部正常删除；不为 0，则返回具体错误对象以及相关信息
      */
-    public List<DeleteErrorEntity> removeObjects(String bucketName, String region, Iterable<DeleteObject> objects) {
+    public Iterable<Result<DeleteError>> removeObjects(String bucketName, String region, Iterable<DeleteObject> objects) {
         return removeObjects(bucketName, region, objects, false);
     }
 
@@ -492,7 +482,7 @@ public class ObjectService extends BaseMinioService {
      * @param bypassGovernanceMode 使用 Governance 模式
      * @return 自定义删除错误列表。列表 Size 为 0，表明全部正常删除；不为 0，则返回具体错误对象以及相关信息
      */
-    public List<DeleteErrorEntity> removeObjects(String bucketName, String region, Iterable<DeleteObject> objects, boolean bypassGovernanceMode) {
+    public Iterable<Result<DeleteError>> removeObjects(String bucketName, String region, Iterable<DeleteObject> objects, boolean bypassGovernanceMode) {
         return removeObjects(RemoveObjectsArgs.builder().bucket(bucketName).region(region).objects(objects).bypassGovernanceMode(bypassGovernanceMode).build());
     }
 
@@ -502,12 +492,11 @@ public class ObjectService extends BaseMinioService {
      * @param removeObjectsArgs {@link RemoveObjectsArgs}
      * @return 自定义删除错误列表。列表 Size 为 0，表明全部正常删除；不为 0，则返回具体错误对象以及相关信息
      */
-    public List<DeleteErrorEntity> removeObjects(RemoveObjectsArgs removeObjectsArgs) {
+    public Iterable<Result<DeleteError>> removeObjects(RemoveObjectsArgs removeObjectsArgs) {
         MinioClient minioClient = getMinioClient();
         Iterable<Result<DeleteError>> results = minioClient.removeObjects(removeObjectsArgs);
-        List<DeleteErrorEntity> entities = toEntities(results, new DeleteErrorToEntityConverter());
         close(minioClient);
-        return entities;
+        return results;
     }
 
     /**
@@ -554,126 +543,6 @@ public class ObjectService extends BaseMinioService {
 
         try {
             minioClient.removeObject(removeObjectArgs);
-        } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException(e.getMessage());
-        } catch (InsufficientDataException e) {
-            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException(e.getMessage());
-        } catch (InternalException e) {
-            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException(e.getMessage());
-        } catch (InvalidKeyException e) {
-            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException(e.getMessage());
-        } catch (InvalidResponseException e) {
-            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException(e.getMessage());
-        } catch (IOException e) {
-            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
-            } else {
-                throw new MinioIOException(e.getMessage());
-            }
-        } catch (NoSuchAlgorithmException e) {
-            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException(e.getMessage());
-        } catch (ServerException e) {
-            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
-        } catch (XmlParserException e) {
-            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException(e.getMessage());
-        } finally {
-            close(minioClient);
-        }
-    }
-
-    /**
-     * 将对象的数据下载到文件。主要用于在服务端下载(非流方式)
-     *
-     * @param bucketName 存储桶名称
-     * @param objectName 对象名称
-     * @param fileName   具体保存的文件名，包括路径
-     */
-    public void downloadObject(String bucketName, String objectName, String fileName) {
-        downloadObject(bucketName, objectName, fileName, false);
-    }
-
-    /**
-     * 将对象的数据下载到文件。主要用于在服务端下载(非流方式)
-     *
-     * @param bucketName 存储桶名称
-     * @param objectName 对象名称
-     * @param fileName   具体保存的文件名，包括路径
-     * @param overwrite  是否覆盖
-     */
-    public void downloadObject(String bucketName, String objectName, String fileName, boolean overwrite) {
-        downloadObject(bucketName, null, objectName, fileName, overwrite);
-    }
-
-    /**
-     * 将对象的数据下载到文件。主要用于在服务端下载(非流方式)
-     *
-     * @param bucketName 存储桶名称
-     * @param region     区域
-     * @param objectName 对象名称
-     * @param fileName   具体保存的文件名，包括路径
-     * @param overwrite  是否覆盖
-     */
-    public void downloadObject(String bucketName, String region, String objectName, String fileName, boolean overwrite) {
-        downloadObject(bucketName, region, objectName, fileName, overwrite, null);
-    }
-
-    /**
-     * 将对象的数据下载到文件。主要用于在服务端下载(非流方式)
-     *
-     * @param bucketName                      存储桶名称
-     * @param region                          区域
-     * @param objectName                      对象名称
-     * @param fileName                        具体保存的文件名，包括路径
-     * @param overwrite                       是否覆盖
-     * @param serverSideEncryptionCustomerKey 服务端加密自定义KEY，目前 Minio 仅支持 256位 AES.
-     */
-    public void downloadObject(String bucketName, String region, String objectName, String fileName, boolean overwrite, ServerSideEncryptionCustomerKey serverSideEncryptionCustomerKey) {
-        downloadObject(bucketName, region, objectName, fileName, overwrite, serverSideEncryptionCustomerKey, null);
-    }
-
-    /**
-     * 将对象的数据下载到文件。主要用于在服务端下载(非流方式)
-     *
-     * @param bucketName                      存储桶名称
-     * @param region                          区域
-     * @param objectName                      对象名称
-     * @param fileName                        具体保存的文件名，包括路径
-     * @param overwrite                       是否覆盖
-     * @param serverSideEncryptionCustomerKey 服务端加密自定义KEY，目前 Minio 仅支持 256位 AES.
-     * @param versionId                       版本ID
-     */
-    public void downloadObject(String bucketName, String region, String objectName, String fileName, boolean overwrite, ServerSideEncryptionCustomerKey serverSideEncryptionCustomerKey, String versionId) {
-        downloadObject(DownloadObjectArgs.builder()
-                .bucket(bucketName)
-                .region(region)
-                .object(objectName)
-                .filename(fileName)
-                .overwrite(overwrite)
-                .ssec(serverSideEncryptionCustomerKey)
-                .versionId(versionId)
-                .build());
-    }
-
-    /**
-     * 将对象的数据下载到文件。主要用于在服务端下载
-     *
-     * @param downloadObjectArgs {@link DownloadObjectArgs}
-     */
-    public void downloadObject(DownloadObjectArgs downloadObjectArgs) {
-        String function = "downloadObject";
-        MinioClient minioClient = getMinioClient();
-
-        try {
-            minioClient.downloadObject(downloadObjectArgs);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new MinioErrorResponseException(e.getMessage());
@@ -1008,7 +877,7 @@ public class ObjectService extends BaseMinioService {
      * @return {@link GetObjectResponse}
      */
     public StatObjectResponse statObject(String bucketName, String region, String objectName, String matchETag, String notMatchETag, ZonedDateTime modifiedSince, ZonedDateTime unmodifiedSince) {
-        return statObject(bucketName, region, objectName, null, null, matchETag, notMatchETag, modifiedSince, unmodifiedSince, null);
+        return statObject(bucketName, region, objectName, null, null, matchETag, notMatchETag, modifiedSince, unmodifiedSince);
     }
 
     /**
@@ -1129,53 +998,178 @@ public class ObjectService extends BaseMinioService {
     }
 
     /**
-     * 通过使用服务器端副本组合来自不同源对象的数据来创建对象，比如可以将文件分片上传，然后将他们合并为一个文件
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
      *
-     * @param composeObjectArgs {@link ComposeObjectArgs}
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param stream     文件流
+     * @param objectSize 对象大小
      * @return {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse composeObject(ComposeObjectArgs composeObjectArgs) {
-        String function = "composeObject";
-        MinioClient minioClient = getMinioClient();
-
-        try {
-            return minioClient.composeObject(composeObjectArgs);
-        } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException(e.getMessage());
-        } catch (InsufficientDataException e) {
-            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException(e.getMessage());
-        } catch (InternalException e) {
-            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException(e.getMessage());
-        } catch (InvalidKeyException e) {
-            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException(e.getMessage());
-        } catch (InvalidResponseException e) {
-            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException(e.getMessage());
-        } catch (IOException e) {
-            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
-            } else {
-                throw new MinioIOException(e.getMessage());
-            }
-        } catch (NoSuchAlgorithmException e) {
-            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException(e.getMessage());
-        } catch (ServerException e) {
-            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
-        } catch (XmlParserException e) {
-            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException(e.getMessage());
-        } finally {
-            close(minioClient);
-        }
+    public ObjectWriteResponse putObject(String bucketName, String objectName, BufferedInputStream stream, long objectSize) {
+        return putObject(bucketName, null, objectName, stream, objectSize, -1);
     }
 
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param stream     文件流
+     * @param objectSize 对象大小
+     * @param partSize   分片大小
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String objectName, BufferedInputStream stream, long objectSize, long partSize) {
+        return putObject(bucketName, null, objectName, stream, objectSize, partSize);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param stream     文件流
+     * @param objectSize 对象大小
+     * @param partSize   分片大小
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, null);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, false);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, null);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, retention, null);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @param tags        标签
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention, Tags tags) {
+        return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, retention, tags, null);
+    }
+
+    /**
+     * 上传文件
+     * <p>
+     * · 添加的Object大小不能超过5 TB。
+     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
+     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
+     *
+     * @param bucketName  存储桶名称
+     * @param region      区域
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
+     * @param legalHold   是否保持
+     * @param retention   保存设置
+     * @param tags        标签
+     * @param sse         服务加密
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention, Tags tags, ServerSideEncryption sse) {
+        return putObject(PutObjectArgs.builder()
+                .bucket(bucketName)
+                .region(region)
+                .object(objectName)
+                .stream(stream, objectSize, partSize)
+                .contentType(contentType)
+                .sse(sse)
+                .legalHold(legalHold)
+                .tags(tags)
+                .retention(retention)
+                .build());
+    }
 
     /**
      * 上传文件
@@ -1229,6 +1223,53 @@ public class ObjectService extends BaseMinioService {
         }
     }
 
+    /**
+     * 通过使用服务器端副本组合来自不同源对象的数据来创建对象，比如可以将文件分片上传，然后将他们合并为一个文件
+     *
+     * @param composeObjectArgs {@link ComposeObjectArgs}
+     * @return {@link ObjectWriteResponse}
+     */
+    public ObjectWriteResponse composeObject(ComposeObjectArgs composeObjectArgs) {
+        String function = "composeObject";
+        MinioClient minioClient = getMinioClient();
+
+        try {
+            return minioClient.composeObject(composeObjectArgs);
+        } catch (ErrorResponseException e) {
+            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
+            throw new MinioErrorResponseException(e.getMessage());
+        } catch (InsufficientDataException e) {
+            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
+            throw new MinioInsufficientDataException(e.getMessage());
+        } catch (InternalException e) {
+            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
+            throw new MinioInternalException(e.getMessage());
+        } catch (InvalidKeyException e) {
+            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
+            throw new MinioInvalidKeyException(e.getMessage());
+        } catch (InvalidResponseException e) {
+            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
+            throw new MinioInvalidResponseException(e.getMessage());
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new MinioConnectException(e.getMessage());
+            } else {
+                throw new MinioIOException(e.getMessage());
+            }
+        } catch (NoSuchAlgorithmException e) {
+            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
+            throw new MinioNoSuchAlgorithmException(e.getMessage());
+        } catch (ServerException e) {
+            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
+            throw new MinioServerException(e.getMessage());
+        } catch (XmlParserException e) {
+            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
+            throw new MinioXmlParserException(e.getMessage());
+        } finally {
+            close(minioClient);
+        }
+    }
 
     /**
      * 通过服务器端从另一个对象复制数据来创建一个对象
@@ -1326,54 +1367,6 @@ public class ObjectService extends BaseMinioService {
     }
 
     /**
-     * 将文件中的内容作为存储桶中的对象上传
-     *
-     * @param uploadObjectArgs {@link UploadObjectArgs}
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse uploadObject(UploadObjectArgs uploadObjectArgs) {
-        String function = "uploadObject";
-        MinioClient minioClient = getMinioClient();
-
-        try {
-            return minioClient.uploadObject(uploadObjectArgs);
-        } catch (ErrorResponseException e) {
-            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
-            throw new MinioErrorResponseException(e.getMessage());
-        } catch (InsufficientDataException e) {
-            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
-            throw new MinioInsufficientDataException(e.getMessage());
-        } catch (InternalException e) {
-            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
-            throw new MinioInternalException(e.getMessage());
-        } catch (InvalidKeyException e) {
-            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
-            throw new MinioInvalidKeyException(e.getMessage());
-        } catch (InvalidResponseException e) {
-            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
-            throw new MinioInvalidResponseException(e.getMessage());
-        } catch (IOException e) {
-            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
-            if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
-            } else {
-                throw new MinioIOException(e.getMessage());
-            }
-        } catch (NoSuchAlgorithmException e) {
-            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
-            throw new MinioNoSuchAlgorithmException(e.getMessage());
-        } catch (ServerException e) {
-            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
-        } catch (XmlParserException e) {
-            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
-            throw new MinioXmlParserException(e.getMessage());
-        } finally {
-            close(minioClient);
-        }
-    }
-
-    /**
      * 通过 SQL 表达式选择对象的内容
      *
      * @param selectObjectContentArgs {@link SelectObjectContentArgs}
@@ -1419,16 +1412,5 @@ public class ObjectService extends BaseMinioService {
         } finally {
             close(minioClient);
         }
-    }
-
-    private <T, R> List<R> toEntities(Iterable<Result<T>> results, Converter<Result<T>, R> toResponse) {
-        List<R> responses = new ArrayList<>();
-        if (!IterableUtils.isEmpty(results)) {
-            for (Result<T> result : results) {
-                R response = toResponse.convert(result);
-                responses.add(response);
-            }
-        }
-        return responses;
     }
 }
