@@ -58,7 +58,7 @@ import org.springframework.web.bind.annotation.RestController;
         @Tag(name = "Minio 对象存储管理接口"),
         @Tag(name = "Minio 对象LegalHold管理接口")
 })
-public class ObjectLegalHoldController  implements Controller {
+public class ObjectLegalHoldController implements Controller {
 
     private final ObjectLegalHoldService objectLegalHoldService;
 

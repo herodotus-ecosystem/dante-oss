@@ -38,17 +38,19 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 /**
- * <p>Description: Object 下载处理 </p>
+ * <p>Description: Object 流式处理服务 </p>
+ * <p>
+ * 对与以流方式处理上传和下载的操作，统一归并至该服务。
  *
  * @author : gengwei.zheng
  * @date : 2023/6/9 15:27
  */
 @Service
-public class ObjectDownloadService {
+public class ObjectStreamService {
 
     private final ObjectService objectService;
 
-    public ObjectDownloadService(ObjectService objectService) {
+    public ObjectStreamService(ObjectService objectService) {
         this.objectService = objectService;
     }
 

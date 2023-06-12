@@ -25,18 +25,15 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
-import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
-import cn.herodotus.oss.minio.core.exception.*;
-import com.google.common.base.Enums;
 import io.minio.DeleteBucketEncryptionArgs;
 import io.minio.GetBucketEncryptionArgs;
 import io.minio.MinioClient;
 import io.minio.SetBucketEncryptionArgs;
 import io.minio.errors.*;
 import io.minio.messages.SseConfiguration;
-import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.core.exception.*;
+import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
 import com.google.common.base.Enums;
 import io.minio.DeleteBucketPolicyArgs;
 import io.minio.GetBucketPolicyArgs;

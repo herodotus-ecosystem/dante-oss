@@ -25,8 +25,6 @@
 
 package cn.herodotus.oss.minio.core.domain.base;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
-
 import java.util.Map;
 
 /**

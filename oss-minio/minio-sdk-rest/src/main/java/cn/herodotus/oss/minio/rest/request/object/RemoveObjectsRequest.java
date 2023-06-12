@@ -31,7 +31,6 @@ import io.minio.RemoveObjectsArgs;
 import io.minio.messages.DeleteObject;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;

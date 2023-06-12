@@ -26,10 +26,10 @@
 package cn.herodotus.oss.minio.scenario.service;
 
 import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
-import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
 import cn.herodotus.oss.minio.logic.service.MultipartUploadService;
 import cn.herodotus.oss.minio.logic.service.PresignedObjectUrlService;
+import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioProxyAddressConverter;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.GetPresignedObjectUrlArgs;

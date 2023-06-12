@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.minio.logic.definition.pool;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
 import cn.herodotus.oss.minio.core.exception.MinioClientPoolErrorException;
+import cn.herodotus.oss.minio.logic.properties.MinioProperties;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;

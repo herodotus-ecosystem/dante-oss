@@ -44,6 +44,7 @@ import java.time.ZonedDateTime;
 public class DomainToRetentionConverter implements Converter<RetentionDomain, Retention> {
 
     private final Converter<RetentionModeEnums, RetentionMode> toRetentionMode = new EnumToRetentionModeConverter();
+
     @Override
     public Retention convert(RetentionDomain retentionDomain) {
         RetentionMode mode = toRetentionMode.convert(retentionDomain.getRetentionMode());

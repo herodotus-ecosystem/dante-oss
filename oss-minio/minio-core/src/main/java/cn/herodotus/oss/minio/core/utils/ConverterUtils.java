@@ -26,7 +26,6 @@
 package cn.herodotus.oss.minio.core.utils;
 
 import io.minio.Result;
-import io.minio.messages.Bucket;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.collections4.MapUtils;

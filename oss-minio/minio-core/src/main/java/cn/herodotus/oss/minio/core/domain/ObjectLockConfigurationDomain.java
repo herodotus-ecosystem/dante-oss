@@ -28,7 +28,6 @@ package cn.herodotus.oss.minio.core.domain;
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import cn.herodotus.oss.minio.core.enums.RetentionDurationEnums;
 import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
-import io.minio.messages.RetentionMode;
 
 /**
  * <p>Description: Minio ObjectLockConfiguration 对应 Domain Object </p>

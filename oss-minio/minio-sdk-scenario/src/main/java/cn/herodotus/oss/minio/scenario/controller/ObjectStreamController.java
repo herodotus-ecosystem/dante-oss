@@ -26,8 +26,8 @@
 package cn.herodotus.oss.minio.scenario.controller;
 
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
-import cn.herodotus.oss.minio.scenario.service.ObjectDownloadService;
 import cn.herodotus.oss.minio.scenario.request.ObjectDownloadRequest;
+import cn.herodotus.oss.minio.scenario.service.ObjectStreamService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -54,20 +54,20 @@ import java.io.IOException;
  * @date : 2023/6/9 16:44
  */
 @RestController
-@RequestMapping("/oss/minio/object/download")
+@RequestMapping("/oss/minio/object/stream")
 @Tags({
         @Tag(name = "对象存储管理接口"),
         @Tag(name = "Minio 对象存储管理接口"),
         @Tag(name = "Minio 对象下载接口")
 })
-public class ObjectDownloadController {
+public class ObjectStreamController {
 
-    private static final Logger log = LoggerFactory.getLogger(ObjectDownloadController.class);
+    private static final Logger log = LoggerFactory.getLogger(ObjectStreamController.class);
 
-    private final ObjectDownloadService objectDownloadService;
+    private final ObjectStreamService objectStreamService;
 
-    public ObjectDownloadController(ObjectDownloadService objectDownloadService) {
-        this.objectDownloadService = objectDownloadService;
+    public ObjectStreamController(ObjectStreamService objectStreamService) {
+        this.objectStreamService = objectStreamService;
     }
 
     @Idempotent
@@ -82,10 +82,10 @@ public class ObjectDownloadController {
     @Parameters({
             @Parameter(name = "request", required = true, description = "ObjectDownloadRequest请求参数实体", schema = @Schema(implementation = ObjectDownloadRequest.class))
     })
-    @PostMapping
+    @PostMapping("/download")
     public void download(@Validated @RequestBody ObjectDownloadRequest request, HttpServletResponse response) {
         try {
-            objectDownloadService.download(request.getBucketName(), request.getObjectName(), response);
+            objectStreamService.download(request.getBucketName(), request.getObjectName(), response);
         } catch (IOException e) {
             log.error("[Herodotus] |- Download file from minio catch error", e);
         }

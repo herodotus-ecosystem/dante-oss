@@ -29,7 +29,6 @@ package cn.herodotus.oss.minio.scenario.bo;
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
-import cn.herodotus.oss.minio.core.enums.ServerSideEncryptionEnums;
 import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
 import com.google.common.base.MoreObjects;
 
