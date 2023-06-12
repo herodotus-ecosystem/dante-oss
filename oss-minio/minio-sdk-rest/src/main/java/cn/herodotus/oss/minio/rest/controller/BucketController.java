@@ -130,7 +130,7 @@ public class BucketController implements Controller {
     }
 
     @Idempotent
-    @Operation(summary = "删除Bucket", description = "根据Bucket 名称删除数据，可指定 Region",
+    @Operation(summary = "删除存储桶", description = "根据存储桶名称删除数据，可指定 Region",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
                     @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
