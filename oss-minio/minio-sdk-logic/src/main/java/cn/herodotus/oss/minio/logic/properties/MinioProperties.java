@@ -67,12 +67,12 @@ public class MinioProperties {
     /**
      * 是否启用代理，防止前端直接访问
      */
-    private Boolean openProxy = true;
+    private Boolean useProxy = true;
 
     /**
-     * 应用服务真实地址。
+     * 代理请求发送源地址。例如：前端 http://localhost:3000。注意如果有前端有配置代理需要加上
      */
-    private String serverEndpoint;
+    private String proxySourceEndpoint;
 
     private Pool pool = new Pool();
 
@@ -116,20 +116,20 @@ public class MinioProperties {
         this.timestampFormat = timestampFormat;
     }
 
-    public Boolean getOpenProxy() {
-        return openProxy;
+    public Boolean getUseProxy() {
+        return useProxy;
     }
 
-    public void setOpenProxy(Boolean openProxy) {
-        this.openProxy = openProxy;
+    public void setUseProxy(Boolean useProxy) {
+        this.useProxy = useProxy;
     }
 
-    public String getServerEndpoint() {
-        return serverEndpoint;
+    public String getProxySourceEndpoint() {
+        return proxySourceEndpoint;
     }
 
-    public void setServerEndpoint(String serverEndpoint) {
-        this.serverEndpoint = serverEndpoint;
+    public void setProxySourceEndpoint(String proxySourceEndpoint) {
+        this.proxySourceEndpoint = proxySourceEndpoint;
     }
 
     public Pool getPool() {

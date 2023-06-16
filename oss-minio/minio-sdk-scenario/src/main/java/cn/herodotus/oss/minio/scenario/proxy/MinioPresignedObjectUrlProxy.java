@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.scenario.proxy;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.*;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
 import org.springframework.util.StreamUtils;
@@ -53,9 +54,13 @@ public class MinioPresignedObjectUrlProxy {
     private final MinioProxyAddressConverter converter;
     private final RestTemplate restTemplate;
 
-    public MinioPresignedObjectUrlProxy(MinioProxyAddressConverter converter, RestTemplate restTemplate) {
+    public MinioPresignedObjectUrlProxy(MinioProxyAddressConverter converter) {
         this.converter = converter;
-        this.restTemplate = restTemplate;
+        this.restTemplate = createRestTemplate();
+    }
+
+    private RestTemplate createRestTemplate() {
+        return new RestTemplate(new SimpleClientHttpRequestFactory());
     }
 
     public ResponseEntity<String> delegate(HttpServletRequest request) {
@@ -67,6 +72,8 @@ public class MinioPresignedObjectUrlProxy {
             return new ResponseEntity<>("Delegate ERROR", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+
 
     /**
      * 创建请求
@@ -112,6 +119,11 @@ public class MinioPresignedObjectUrlProxy {
                 headers.add(headerName, headerValue);
             }
         }
+
+        // TODO: 如果传递 OAuth2 Token 会导致转发上传失败。猜测是因为 Minio Server 也是采用 OAuth2 认证，体系不一致导致。
+        // 目前先临时将外部传入的 Token 取消，等摸清楚 Minio 认证体系集成方式后再行完善。
+        headers.remove(HttpHeaders.AUTHORIZATION);
+
         return headers;
     }
 }

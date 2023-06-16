@@ -52,8 +52,8 @@ public class MinioProxyAddressConverter {
     }
 
     public String toServiceUrl(String presignedObjectUrl) {
-        if (minioProperties.getOpenProxy()) {
-            String endpoint = minioProperties.getServerEndpoint() + DefaultConstants.PRESIGNED_OBJECT_URL_PROXY;
+        if (minioProperties.getUseProxy()) {
+            String endpoint = minioProperties.getProxySourceEndpoint() + DefaultConstants.PRESIGNED_OBJECT_URL_PROXY;
             String target = StringUtils.replace(presignedObjectUrl, minioProperties.getEndpoint(), endpoint);
             log.debug("[Herodotus] |- Convert presignedObjectUrl [{}] to [{}].", endpoint, target);
             return target;
