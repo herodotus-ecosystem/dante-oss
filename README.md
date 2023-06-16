@@ -257,7 +257,7 @@ if (ex instanceof HerodotusException exception) {
 
 ## 反馈 | Feedback
 
-- 欢迎提交[ISSUS](https://gitee.com/herodotus/dante-oss/issues) ，请写清楚问题的具体原因，重现步骤和环境
+- 欢迎提交[ISSUE](https://gitee.com/herodotus/dante-oss/issues) ，请写清楚问题的具体原因，重现步骤和环境
 
 ## 演示 | Example
 

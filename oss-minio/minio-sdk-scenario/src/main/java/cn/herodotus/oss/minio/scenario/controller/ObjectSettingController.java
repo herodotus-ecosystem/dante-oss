@@ -76,11 +76,10 @@ public class ObjectSettingController implements Controller {
     @Parameters({
             @Parameter(name = "bucketName", required = true, description = "存储桶名称"),
             @Parameter(name = "objectName", required = true, description = "对象名称"),
-            @Parameter(name = "region", description = "区域"),
     })
     @GetMapping
-    public Result<ObjectSettingBusiness> get(@RequestParam(value = "bucketName") String bucketName, @RequestParam(value = "objectName") String objectName, @RequestParam(value = "region", required = false) String region) {
-        ObjectSettingBusiness entity = settingService.get(bucketName, region, objectName);
+    public Result<ObjectSettingBusiness> get(@RequestParam(value = "bucketName") String bucketName, @RequestParam(value = "objectName") String objectName) {
+        ObjectSettingBusiness entity = settingService.get(bucketName, null, objectName);
         return result(entity);
     }
 }

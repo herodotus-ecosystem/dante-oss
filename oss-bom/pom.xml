@@ -89,7 +89,7 @@
         <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
 
         <spring-boot-dependencies.version>3.1.0</spring-boot-dependencies.version>
-        <dante-bom.version>3.1.0.5</dante-bom.version>
+        <dante-bom.version>3.1.0.6</dante-bom.version>
     </properties>
 
     <dependencyManagement>
