@@ -59,18 +59,21 @@ public class ResultItemToDomainConverter implements Converter<Result<Item>, Obje
         try {
             Item item = result.get();
             ObjectDomain entity = new ObjectDomain();
-            entity.setEtag(item.etag());
             entity.setObjectName(item.objectName());
-            entity.setLastModified(DateTimeUtils.zonedDateTimeToString(item.lastModified()));
-            if (ObjectUtils.isNotEmpty(item.owner())) {
-                entity.setOwnerId(item.owner().id());
-                entity.setOwnerDisplayName(item.owner().displayName());
-            }
-            entity.setSize(item.size());
-            entity.setStorageClass(item.storageClass());
             entity.setLatest(item.isLatest());
-            entity.setUserMetadata(item.userMetadata());
             entity.setDir(item.isDir());
+            if (!item.isDir()) {
+                entity.setEtag(item.etag());
+                entity.setLastModified(DateTimeUtils.zonedDateTimeToString(item.lastModified()));
+                if (ObjectUtils.isNotEmpty(item.owner())) {
+                    entity.setOwnerId(item.owner().id());
+                    entity.setOwnerDisplayName(item.owner().displayName());
+                }
+                entity.setSize(item.size());
+                entity.setStorageClass(item.storageClass());
+                entity.setUserMetadata(item.userMetadata());
+            }
+
             return entity;
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
