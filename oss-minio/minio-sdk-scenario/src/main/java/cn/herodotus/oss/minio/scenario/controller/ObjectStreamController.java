@@ -26,6 +26,7 @@
 package cn.herodotus.oss.minio.scenario.controller;
 
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
+import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
 import cn.herodotus.oss.minio.scenario.request.ObjectDownloadRequest;
 import cn.herodotus.oss.minio.scenario.service.ObjectStreamService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,14 +37,13 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
@@ -89,5 +89,23 @@ public class ObjectStreamController {
         } catch (IOException e) {
             log.error("[Herodotus] |- Download file from minio catch error", e);
         }
+    }
+
+    @Idempotent
+    @Operation(summary = "文件上传", description = "普通的文件上传操作接口",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
+            responses = {
+                    @ApiResponse(description = "所有对象", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ObjectWriteDomain.class))),
+                    @ApiResponse(responseCode = "200", description = "操作成功"),
+                    @ApiResponse(responseCode = "500", description = "操作失败"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
+            })
+    @Parameters({
+            @Parameter(name = "bucketName", required = true, description = "存储桶名称"),
+            @Parameter(name = "file", required = true, description = "文件", schema = @Schema(implementation = MultipartFile.class))
+    })
+    @PostMapping("/upload")
+    public ObjectWriteDomain upload(@RequestParam(value = "bucketName") String bucketName, @RequestPart(value = "file") MultipartFile file, HttpServletRequest request) {
+        return objectStreamService.upload(bucketName, file);
     }
 }

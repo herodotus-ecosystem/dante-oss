@@ -37,6 +37,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -1004,14 +1005,15 @@ public class ObjectService extends BaseMinioService {
      * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
      * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
      *
-     * @param bucketName 存储桶名称
-     * @param objectName 对象名称
-     * @param stream     文件流
-     * @param objectSize 对象大小
+     * @param bucketName  存储桶名称
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param contentType 内容类型
      * @return {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse putObject(String bucketName, String objectName, BufferedInputStream stream, long objectSize) {
-        return putObject(bucketName, null, objectName, stream, objectSize, -1);
+    public ObjectWriteResponse putObject(String bucketName, String objectName, InputStream stream, long objectSize, String contentType) {
+        return putObject(bucketName, null, objectName, stream, objectSize, -1 , contentType);
     }
 
     /**
@@ -1021,34 +1023,16 @@ public class ObjectService extends BaseMinioService {
      * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
      * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
      *
-     * @param bucketName 存储桶名称
-     * @param objectName 对象名称
-     * @param stream     文件流
-     * @param objectSize 对象大小
-     * @param partSize   分片大小
+     * @param bucketName  存储桶名称
+     * @param objectName  对象名称
+     * @param stream      文件流
+     * @param objectSize  对象大小
+     * @param partSize    分片大小
+     * @param contentType 内容类型
      * @return {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse putObject(String bucketName, String objectName, BufferedInputStream stream, long objectSize, long partSize) {
-        return putObject(bucketName, null, objectName, stream, objectSize, partSize);
-    }
-
-    /**
-     * 上传文件
-     * <p>
-     * · 添加的Object大小不能超过5 TB。
-     * · 默认情况下，如果已存在同名Object且对该Object有访问权限，则新添加的Object将覆盖原有的Object，并返回200 OK。
-     * · OSS没有文件夹的概念，所有资源都是以文件来存储，但您可以通过创建一个以正斜线（/）结尾，大小为0的Object来创建模拟文件夹。
-     *
-     * @param bucketName 存储桶名称
-     * @param region     区域
-     * @param objectName 对象名称
-     * @param stream     文件流
-     * @param objectSize 对象大小
-     * @param partSize   分片大小
-     * @return {@link ObjectWriteResponse}
-     */
-    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize) {
-        return putObject(bucketName, region, objectName, stream, objectSize, partSize, null);
+    public ObjectWriteResponse putObject(String bucketName, String objectName, InputStream stream, long objectSize, long partSize, String contentType) {
+        return putObject(bucketName, null, objectName, stream, objectSize, partSize, contentType);
     }
 
     /**
@@ -1067,7 +1051,7 @@ public class ObjectService extends BaseMinioService {
      * @param contentType 内容类型
      * @return {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType) {
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, InputStream stream, long objectSize, long partSize, String contentType) {
         return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, false);
     }
 
@@ -1088,7 +1072,7 @@ public class ObjectService extends BaseMinioService {
      * @param legalHold   是否保持
      * @return {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold) {
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, InputStream stream, long objectSize, long partSize, String contentType, boolean legalHold) {
         return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, null);
     }
 
@@ -1110,7 +1094,7 @@ public class ObjectService extends BaseMinioService {
      * @param retention   保存设置
      * @return {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention) {
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, InputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention) {
         return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, retention, null);
     }
 
@@ -1133,7 +1117,7 @@ public class ObjectService extends BaseMinioService {
      * @param tags        标签
      * @return {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention, Tags tags) {
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, InputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention, Tags tags) {
         return putObject(bucketName, region, objectName, stream, objectSize, partSize, contentType, legalHold, retention, tags, null);
     }
 
@@ -1157,7 +1141,7 @@ public class ObjectService extends BaseMinioService {
      * @param sse         服务加密
      * @return {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, BufferedInputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention, Tags tags, ServerSideEncryption sse) {
+    public ObjectWriteResponse putObject(String bucketName, String region, String objectName, InputStream stream, long objectSize, long partSize, String contentType, boolean legalHold, Retention retention, Tags tags, ServerSideEncryption sse) {
         return putObject(PutObjectArgs.builder()
                 .bucket(bucketName)
                 .region(region)

@@ -25,12 +25,20 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
+import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
+import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
+import cn.herodotus.oss.minio.core.exception.MinioIOException;
 import cn.herodotus.oss.minio.logic.service.ObjectService;
+import io.minio.ObjectWriteResponse;
 import io.minio.StatObjectResponse;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,10 +56,14 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class ObjectStreamService {
 
+    private static final Logger log = LoggerFactory.getLogger(ObjectStreamService.class);
+
     private final ObjectService objectService;
+    private final Converter<ObjectWriteResponse, ObjectWriteDomain> toObjectWriteDomain;
 
     public ObjectStreamService(ObjectService objectService) {
         this.objectService = objectService;
+        this.toObjectWriteDomain = new ResponseToObjectWriteDomainConverter();
     }
 
     /**
@@ -75,5 +87,22 @@ public class ObjectStreamService {
         InputStream is = objectService.getObject(bucketName, objectName);
         IOUtils.copy(is, response.getOutputStream());
         IOUtils.closeQuietly(is);
+    }
+
+    /**
+     * 普通文件上传
+     *
+     * @param bucketName 存储桶名称
+     * @param file       文件 {@link MultipartFile}
+     * @return 上传结果实体 {@link ObjectWriteDomain}
+     */
+    public ObjectWriteDomain upload(String bucketName, MultipartFile file) {
+        try {
+            ObjectWriteResponse response = objectService.putObject(bucketName, file.getOriginalFilename(), file.getInputStream(), file.getSize(), file.getContentType());
+            return toObjectWriteDomain.convert(response);
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio upload catch IOException.", e);
+            throw new MinioIOException(e.getMessage());
+        }
     }
 }

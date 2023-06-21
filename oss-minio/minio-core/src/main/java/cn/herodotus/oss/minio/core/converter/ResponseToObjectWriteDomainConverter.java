@@ -28,6 +28,7 @@ package cn.herodotus.oss.minio.core.converter;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
 import cn.herodotus.oss.minio.core.utils.ConverterUtils;
 import io.minio.ObjectWriteResponse;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -39,13 +40,17 @@ import org.springframework.core.convert.converter.Converter;
 public class ResponseToObjectWriteDomainConverter implements Converter<ObjectWriteResponse, ObjectWriteDomain> {
     @Override
     public ObjectWriteDomain convert(ObjectWriteResponse response) {
-        ObjectWriteDomain domain = new ObjectWriteDomain();
-        domain.setEtag(response.etag());
-        domain.setVersionId(response.versionId());
-        domain.setHeaders(ConverterUtils.toMap(response.headers().toMultimap()));
-        domain.setBucketName(response.bucket());
-        domain.setRegion(response.region());
-        domain.setObjectName(response.object());
-        return domain;
+        if (ObjectUtils.isNotEmpty(response)) {
+            ObjectWriteDomain domain = new ObjectWriteDomain();
+            domain.setEtag(response.etag());
+            domain.setVersionId(response.versionId());
+            domain.setHeaders(ConverterUtils.toMap(response.headers().toMultimap()));
+            domain.setBucketName(response.bucket());
+            domain.setRegion(response.region());
+            domain.setObjectName(response.object());
+            return domain;
+        }
+
+        return null;
     }
 }
