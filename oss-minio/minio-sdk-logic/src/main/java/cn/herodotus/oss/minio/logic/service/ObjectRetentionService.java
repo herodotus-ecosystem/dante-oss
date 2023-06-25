@@ -29,7 +29,7 @@ import cn.herodotus.oss.minio.core.converter.retention.RetentionToDomainConverte
 import cn.herodotus.oss.minio.core.domain.RetentionDomain;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.GetObjectRetentionArgs;
 import io.minio.MinioClient;
 import io.minio.SetObjectRetentionArgs;
@@ -52,7 +52,7 @@ import java.security.NoSuchAlgorithmException;
  * @date : 2022/6/30 21:08
  */
 @Service
-public class ObjectRetentionService extends BaseMinioService {
+public class ObjectRetentionService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectRetentionService.class);
     private final Converter<Retention, RetentionDomain> toDo;

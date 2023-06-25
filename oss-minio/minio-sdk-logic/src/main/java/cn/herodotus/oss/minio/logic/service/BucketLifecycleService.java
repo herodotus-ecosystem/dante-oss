@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.DeleteBucketLifecycleArgs;
 import io.minio.GetBucketLifecycleArgs;
 import io.minio.MinioClient;
@@ -56,7 +56,7 @@ import java.util.List;
  * @date : 2022/6/30 15:39
  */
 @Service
-public class BucketLifecycleService extends BaseMinioService {
+public class BucketLifecycleService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketLifecycleService.class);
 

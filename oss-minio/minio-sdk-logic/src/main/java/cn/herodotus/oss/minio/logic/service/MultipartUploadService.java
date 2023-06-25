@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.logic.service;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClient;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAsyncService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAsyncClientService;
 import com.google.common.collect.Multimap;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.ListPartsResponse;
@@ -54,7 +54,7 @@ import java.util.concurrent.ExecutionException;
  * @date : 2022/7/3 20:45
  */
 @Service
-public class MultipartUploadService extends BaseMinioAsyncService {
+public class MultipartUploadService extends BaseMinioAsyncClientService {
 
     private static final Logger log = LoggerFactory.getLogger(MultipartUploadService.class);
 
@@ -110,7 +110,7 @@ public class MultipartUploadService extends BaseMinioAsyncService {
      */
     public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String region, String objectName, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
         String function = "createMultipartUpload";
-        MinioAsyncClient minioAsyncClient = getMinioClient();
+        MinioAsyncClient minioAsyncClient = getMinioAsyncClient();
 
         try {
             return minioAsyncClient.createMultipartUploadAsync(bucketName, region, objectName, extraHeaders, extraQueryParams).get();
@@ -234,7 +234,7 @@ public class MultipartUploadService extends BaseMinioAsyncService {
      */
     public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
         String function = "listParts";
-        MinioAsyncClient minioAsyncClient = getMinioClient();
+        MinioAsyncClient minioAsyncClient = getMinioAsyncClient();
 
         try {
             return minioAsyncClient.listPartsAsync(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, extraHeaders, extraQueryParams).get();
@@ -340,7 +340,7 @@ public class MultipartUploadService extends BaseMinioAsyncService {
      */
     public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId, Part[] parts, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
         String function = "completeMultipartUploadAsync";
-        MinioAsyncClient minioAsyncClient = getMinioClient();
+        MinioAsyncClient minioAsyncClient = getMinioAsyncClient();
 
         try {
             return minioAsyncClient.completeMultipartUploadAsync(bucketName, region, objectName, uploadId, parts, extraHeaders, extraQueryParams).get();

@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.logic.definition.pool;
 
 import cn.herodotus.oss.minio.core.exception.MinioClientPoolErrorException;
 import cn.herodotus.oss.minio.logic.properties.MinioProperties;
+import io.minio.admin.MinioAdminClient;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -34,21 +35,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * <p>Description: Minio 异步 Client 对象池 </p>
+ * <p>Description: Minio Admin Client 对象池 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/3 20:29
+ * @date : 2023/6/24 17:46
  */
-public class MinioAsyncClientObjectPool {
+public class MinioAdminClientObjectPool {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioAsyncClientObjectPool.class);
+    private static final Logger log = LoggerFactory.getLogger(MinioAdminClientObjectPool.class);
 
-    private final GenericObjectPool<MinioAsyncClient> genericObjectPool;
+    private final GenericObjectPool<MinioAdminClient> genericObjectPool;
 
-    public MinioAsyncClientObjectPool(MinioProperties minioProperties) {
-        MinioAsyncClientPooledObjectFactory factory = new MinioAsyncClientPooledObjectFactory(minioProperties);
+    public MinioAdminClientObjectPool(MinioProperties minioProperties) {
+        MinioAdminClientPooledObjectFactory factory = new MinioAdminClientPooledObjectFactory(minioProperties);
 
-        GenericObjectPoolConfig<MinioAsyncClient> config = new GenericObjectPoolConfig<>();
+        GenericObjectPoolConfig<MinioAdminClient> config = new GenericObjectPoolConfig<>();
         config.setMaxTotal(minioProperties.getPool().getMaxTotal());
         config.setMaxIdle(minioProperties.getPool().getMaxIdle());
         config.setMinIdle(minioProperties.getPool().getMinIdle());
@@ -60,21 +61,21 @@ public class MinioAsyncClientObjectPool {
         genericObjectPool = new GenericObjectPool<>(factory, config);
     }
 
-    public MinioAsyncClient getMinioAsyncClient() throws MinioClientPoolErrorException {
+    public MinioAdminClient getMinioAdminClient() throws MinioClientPoolErrorException {
         try {
-            MinioAsyncClient minioAsyncClient = genericObjectPool.borrowObject();
-            log.debug("[Herodotus] |- Fetch minio async client from object pool.");
-            return minioAsyncClient;
+            MinioAdminClient minioAdminClient = genericObjectPool.borrowObject();
+            log.debug("[Herodotus] |- Fetch minio admin client from object pool.");
+            return minioAdminClient;
         } catch (Exception e) {
-            log.error("[Herodotus] |- Can not fetch minio client from pool.");
-            throw new MinioClientPoolErrorException("Can not fetch minio async client from pool.");
+            log.error("[Herodotus] |- Can not fetch minio admin client from pool.");
+            throw new MinioClientPoolErrorException("Can not fetch minio admin client from pool.");
         }
     }
 
 
-    public void close(MinioAsyncClient minioAsyncClient) {
-        if (ObjectUtils.isNotEmpty(minioAsyncClient)) {
-            genericObjectPool.returnObject(minioAsyncClient);
+    public void close(MinioAdminClient minioAdminClient) {
+        if (ObjectUtils.isNotEmpty(minioAdminClient)) {
+            genericObjectPool.returnObject(minioAdminClient);
         }
     }
 }

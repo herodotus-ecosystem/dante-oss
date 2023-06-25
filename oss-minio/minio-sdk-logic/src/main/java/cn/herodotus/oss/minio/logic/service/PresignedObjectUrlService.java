@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.MinioClient;
 import io.minio.PostPolicy;
@@ -51,7 +51,7 @@ import java.util.concurrent.TimeUnit;
  * @date : 2023/4/16 15:57
  */
 @Service
-public class PresignedObjectUrlService extends BaseMinioService {
+public class PresignedObjectUrlService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(PresignedObjectUrlService.class);
 

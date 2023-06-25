@@ -29,7 +29,7 @@ import cn.herodotus.oss.minio.core.converter.retention.ObjectLockConfigurationTo
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.DeleteObjectLockConfigurationArgs;
 import io.minio.GetObjectLockConfigurationArgs;
 import io.minio.MinioClient;
@@ -53,7 +53,7 @@ import java.security.NoSuchAlgorithmException;
  * @date : 2022/6/30 16:04
  */
 @Service
-public class ObjectLockConfigurationService extends BaseMinioService {
+public class ObjectLockConfigurationService extends BaseMinioClientService {
     private static final Logger log = LoggerFactory.getLogger(ObjectLockConfigurationService.class);
     private final Converter<ObjectLockConfiguration, ObjectLockConfigurationDomain> toDo;
 

@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.DisableObjectLegalHoldArgs;
 import io.minio.EnableObjectLegalHoldArgs;
 import io.minio.MinioClient;
@@ -48,7 +48,7 @@ import java.security.NoSuchAlgorithmException;
  * @date : 2023/6/11 9:46
  */
 @Service
-public class ObjectLegalHoldService extends BaseMinioService {
+public class ObjectLegalHoldService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectLegalHoldService.class);
 

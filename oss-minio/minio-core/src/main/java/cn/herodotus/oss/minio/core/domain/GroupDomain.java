@@ -23,31 +23,58 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.definition.service;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import io.minio.MinioClient;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import io.minio.admin.Status;
+
+import java.util.List;
 
 /**
- * <p>Description: Minio 基础服务 </p>
+ * <p>Description: Minio Group Domain </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/11/8 11:14
+ * @date : 2023/6/25 15:24
  */
-public abstract class BaseMinioService {
+public class GroupDomain implements Entity {
 
-    private final MinioClientObjectPool minioClientObjectPool;
+    private String name;
 
-    public BaseMinioService(MinioClientObjectPool minioClientObjectPool) {
-        this.minioClientObjectPool = minioClientObjectPool;
+    private Status status;
+
+    private List<String> members;
+
+    private String policy;
+
+    public String getName() {
+        return name;
     }
 
-    protected MinioClient getMinioClient() {
-        return minioClientObjectPool.getMinioClient();
+    public void setName(String name) {
+        this.name = name;
     }
 
+    public Status getStatus() {
+        return status;
+    }
 
-    protected void close(MinioClient minioClient) {
-        minioClientObjectPool.close(minioClient);
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public List<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<String> members) {
+        this.members = members;
+    }
+
+    public String getPolicy() {
+        return policy;
+    }
+
+    public void setPolicy(String policy) {
+        this.policy = policy;
     }
 }

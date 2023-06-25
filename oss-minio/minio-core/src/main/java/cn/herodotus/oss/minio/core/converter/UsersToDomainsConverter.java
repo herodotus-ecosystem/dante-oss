@@ -23,37 +23,37 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.configuration;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.oss.minio.core.domain.UserDomain;
+import io.minio.admin.UserInfo;
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
- * <p>Description: Minio Logic 模块配置 </p>
+ * <p>Description: UserInfo Map 转 List<UserDomain> 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:04
+ * @date : 2023/6/25 14:51
  */
-@AutoConfiguration
-@EnableConfigurationProperties(MinioProperties.class)
-@Import({
-        MinioClientConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.logic.service",
-})
-public class MinioLogicConfiguration {
+public class UsersToDomainsConverter implements Converter<Map<String, UserInfo>, List<UserDomain>> {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioLogicConfiguration.class);
+    private final Converter<UserInfo, UserDomain> toDomain = new UserInfoToDomainConverter();
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Logic] Auto Configure.");
+    @Override
+    public List<UserDomain> convert(Map<String, UserInfo> source) {
+        if (MapUtils.isNotEmpty(source)) {
+            return source.entrySet().stream().map(entry -> {
+                UserDomain domain = toDomain.convert(entry.getValue());
+                domain.setAccessKey(entry.getKey());
+                return domain;
+            }).toList();
+        }
+
+        return Collections.emptyList();
     }
 }

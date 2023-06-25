@@ -23,30 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.definition.service;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClient;
-import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClientObjectPool;
+import cn.herodotus.oss.minio.core.domain.UserDomain;
+import io.minio.admin.Status;
+import io.minio.admin.UserInfo;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio 基础异步服务 </p>
+ * <p>Description: UserInfo 转 UserDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/3 20:42
+ * @date : 2023/6/25 14:20
  */
-public abstract class BaseMinioAsyncService {
+public class UserInfoToDomainConverter implements Converter<UserInfo, UserDomain> {
+    @Override
+    public UserDomain convert(UserInfo userInfo) {
 
-    private final MinioAsyncClientObjectPool minioAsyncClientObjectPool;
+        UserDomain domain = new UserDomain();
 
-    public BaseMinioAsyncService(MinioAsyncClientObjectPool minioAsyncClientObjectPool) {
-        this.minioAsyncClientObjectPool = minioAsyncClientObjectPool;
-    }
+        if (ObjectUtils.isNotEmpty(userInfo)) {
+            domain.setSecretKey(userInfo.secretKey());
+            domain.setPolicyName(userInfo.policyName());
+            domain.setMemberOf(userInfo.memberOf());
+            domain.setStatus(Status.fromString(userInfo.status().name()));
+        }
 
-    protected MinioAsyncClient getMinioClient() {
-        return minioAsyncClientObjectPool.getMinioClient();
-    }
-
-    protected void close(MinioAsyncClient minioAsyncClient) {
-        minioAsyncClientObjectPool.close(minioAsyncClient);
+        return domain;
     }
 }

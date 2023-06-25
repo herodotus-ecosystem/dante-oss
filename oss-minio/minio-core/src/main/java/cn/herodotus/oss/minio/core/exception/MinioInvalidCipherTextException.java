@@ -23,37 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.configuration;
+package cn.herodotus.oss.minio.core.exception;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
 
 /**
- * <p>Description: Minio Logic 模块配置 </p>
+ * <p>Description: Minio 无效密码文本错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:04
+ * @date : 2023/6/25 11:02
  */
-@AutoConfiguration
-@EnableConfigurationProperties(MinioProperties.class)
-@Import({
-        MinioClientConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.logic.service",
-})
-public class MinioLogicConfiguration {
+public class MinioInvalidCipherTextException extends PlatformException {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioLogicConfiguration.class);
+    public MinioInvalidCipherTextException() {
+        super();
+    }
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Logic] Auto Configure.");
+    public MinioInvalidCipherTextException(String message) {
+        super(message);
+    }
+
+    public MinioInvalidCipherTextException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public MinioInvalidCipherTextException(Throwable cause) {
+        super(cause);
+    }
+
+    protected MinioInvalidCipherTextException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+
+    @Override
+    public Feedback getFeedback() {
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_INVALID_CIPHER_TEXT, "无效密码文本错误");
     }
 }

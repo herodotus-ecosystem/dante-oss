@@ -31,7 +31,7 @@
 
     <groupId>cn.herodotus.oss</groupId>
     <artifactId>oss-bom</artifactId>
-    <version>0.7.1</version>
+    <version>0.8.0</version>
     <packaging>pom</packaging>
 
     <description>Dante Cloud 生态产品 Dante OSS Bom</description>
@@ -88,7 +88,7 @@
         <lombok.version>1.18.28</lombok.version>
         <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
 
-        <spring-boot-dependencies.version>3.1.0</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>3.1.1</spring-boot-dependencies.version>
         <dante-bom.version>3.1.1.0</dante-bom.version>
     </properties>
 

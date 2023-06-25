@@ -23,37 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.configuration;
+package cn.herodotus.oss.minio.logic.definition.pool;
 
 import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import io.minio.admin.MinioAdminClient;
+import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 /**
- * <p>Description: Minio Logic 模块配置 </p>
+ * <p>Description: Minio 基础 Admin Client 池化工厂 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:04
+ * @date : 2023/6/24 17:47
  */
-@AutoConfiguration
-@EnableConfigurationProperties(MinioProperties.class)
-@Import({
-        MinioClientConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.logic.service",
-})
-public class MinioLogicConfiguration {
+public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory<MinioAdminClient> {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioLogicConfiguration.class);
+    private final MinioProperties minioProperties;
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Logic] Auto Configure.");
+    public MinioAdminClientPooledObjectFactory(MinioProperties minioProperties) {
+        this.minioProperties = minioProperties;
+    }
+
+    @Override
+    public MinioAdminClient create() throws Exception {
+        return MinioAdminClient.builder()
+                .endpoint(minioProperties.getEndpoint())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
+    }
+
+    @Override
+    public PooledObject<MinioAdminClient> wrap(MinioAdminClient minioAdminClient) {
+        return new DefaultPooledObject<>(minioAdminClient);
     }
 }

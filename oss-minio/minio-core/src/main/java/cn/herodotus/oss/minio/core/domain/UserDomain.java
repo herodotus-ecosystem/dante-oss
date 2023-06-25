@@ -23,37 +23,69 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.configuration;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import io.minio.admin.Status;
+import io.minio.admin.UserInfo;
+
+import java.util.List;
 
 /**
- * <p>Description: Minio Logic 模块配置 </p>
+ * <p>Description: Minio User Domain </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:04
+ * @date : 2023/6/25 14:18
  */
-@AutoConfiguration
-@EnableConfigurationProperties(MinioProperties.class)
-@Import({
-        MinioClientConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.logic.service",
-})
-public class MinioLogicConfiguration {
+public class UserDomain implements Entity {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioLogicConfiguration.class);
+    private String accessKey;
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Logic] Auto Configure.");
+    private String secretKey;
+
+    private String policyName;
+
+    private List<String> memberOf;
+
+    private Status status;
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getPolicyName() {
+        return policyName;
+    }
+
+    public void setPolicyName(String policyName) {
+        this.policyName = policyName;
+    }
+
+    public List<String> getMemberOf() {
+        return memberOf;
+    }
+
+    public void setMemberOf(List<String> memberOf) {
+        this.memberOf = memberOf;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

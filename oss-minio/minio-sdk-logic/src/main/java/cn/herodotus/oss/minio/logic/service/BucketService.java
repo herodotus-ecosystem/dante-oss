@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Bucket;
@@ -49,7 +49,7 @@ import java.util.List;
  * @date : 2022/6/30 13:26
  */
 @Service
-public class BucketService extends BaseMinioService {
+public class BucketService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketService.class);
 

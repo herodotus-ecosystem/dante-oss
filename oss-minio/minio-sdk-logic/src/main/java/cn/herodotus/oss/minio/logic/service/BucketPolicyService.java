@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.logic.service;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import com.google.common.base.Enums;
 import io.minio.DeleteBucketPolicyArgs;
 import io.minio.GetBucketPolicyArgs;
@@ -52,7 +52,7 @@ import java.security.NoSuchAlgorithmException;
  * @date : 2022/6/30 15:44
  */
 @Service
-public class BucketPolicyService extends BaseMinioService {
+public class BucketPolicyService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketPolicyService.class);
 

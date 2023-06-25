@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.Retention;
@@ -53,7 +53,7 @@ import java.security.NoSuchAlgorithmException;
  * @date : 2023/6/12 11:36
  */
 @Service
-public class ObjectServerSideService extends BaseMinioService {
+public class ObjectServerSideService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectService.class);
 

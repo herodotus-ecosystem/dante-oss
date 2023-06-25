@@ -23,37 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.configuration;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.oss.minio.core.domain.GroupDomain;
+import io.minio.admin.GroupInfo;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio Logic 模块配置 </p>
+ * <p>Description: GroupInfo 转 GroupDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:04
+ * @date : 2023/6/25 15:32
  */
-@AutoConfiguration
-@EnableConfigurationProperties(MinioProperties.class)
-@Import({
-        MinioClientConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.logic.service",
-})
-public class MinioLogicConfiguration {
+public class GroupInfoToDomainConverter implements Converter<GroupInfo, GroupDomain> {
+    @Override
+    public GroupDomain convert(GroupInfo groupInfo) {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioLogicConfiguration.class);
+        GroupDomain domain = new GroupDomain();
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Logic] Auto Configure.");
+        if (ObjectUtils.isNotEmpty(groupInfo)) {
+            domain.setName(groupInfo.name());
+            domain.setStatus(groupInfo.status());
+            domain.setMembers(groupInfo.members());
+            domain.setPolicy(groupInfo.policy());
+        }
+
+        return domain;
     }
 }

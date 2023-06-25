@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.*;
 import io.minio.errors.*;
 import io.minio.messages.*;
@@ -35,7 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.ConnectException;
@@ -50,7 +49,7 @@ import java.time.ZonedDateTime;
  * @date : 2022/6/30 20:06
  */
 @Service
-public class ObjectService extends BaseMinioService {
+public class ObjectService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(ObjectService.class);
 
@@ -1013,7 +1012,7 @@ public class ObjectService extends BaseMinioService {
      * @return {@link ObjectWriteResponse}
      */
     public ObjectWriteResponse putObject(String bucketName, String objectName, InputStream stream, long objectSize, String contentType) {
-        return putObject(bucketName, null, objectName, stream, objectSize, -1 , contentType);
+        return putObject(bucketName, null, objectName, stream, objectSize, -1, contentType);
     }
 
     /**
