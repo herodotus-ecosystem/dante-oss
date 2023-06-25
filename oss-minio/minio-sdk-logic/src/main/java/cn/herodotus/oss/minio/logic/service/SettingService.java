@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.MinioClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,7 @@ import org.springframework.stereotype.Service;
  * @date : 2023/4/16 16:10
  */
 @Service
-public class SettingService extends BaseMinioService {
+public class SettingService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(SettingService.class);
 

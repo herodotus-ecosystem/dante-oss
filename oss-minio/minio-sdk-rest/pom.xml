@@ -43,11 +43,6 @@
             <groupId>cn.herodotus.oss</groupId>
             <artifactId>minio-sdk-logic</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>rest-core</artifactId>
-        </dependency>
     </dependencies>
 
 

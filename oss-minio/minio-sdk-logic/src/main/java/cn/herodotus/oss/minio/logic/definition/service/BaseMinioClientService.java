@@ -23,37 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.configuration;
+package cn.herodotus.oss.minio.logic.definition.service;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
+import io.minio.MinioClient;
 
 /**
- * <p>Description: Minio Logic 模块配置 </p>
+ * <p>Description: Minio 基础服务 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:04
+ * @date : 2021/11/8 11:14
  */
-@AutoConfiguration
-@EnableConfigurationProperties(MinioProperties.class)
-@Import({
-        MinioClientConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.logic.service",
-})
-public class MinioLogicConfiguration {
+public abstract class BaseMinioClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioLogicConfiguration.class);
+    private final MinioClientObjectPool minioClientObjectPool;
 
-    @PostConstruct
-    public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Logic] Auto Configure.");
+    public BaseMinioClientService(MinioClientObjectPool minioClientObjectPool) {
+        this.minioClientObjectPool = minioClientObjectPool;
+    }
+
+    protected MinioClient getMinioClient() {
+        return minioClientObjectPool.getMinioClient();
+    }
+
+
+    protected void close(MinioClient minioClient) {
+        minioClientObjectPool.close(minioClient);
     }
 }

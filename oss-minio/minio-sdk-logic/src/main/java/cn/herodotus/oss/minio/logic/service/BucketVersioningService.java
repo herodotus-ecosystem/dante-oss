@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.logic.service;
 
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
 import io.minio.GetBucketVersioningArgs;
 import io.minio.MinioClient;
 import io.minio.SetBucketVersioningArgs;
@@ -55,7 +55,7 @@ import java.security.NoSuchAlgorithmException;
  * @date : 2022/6/30 16:01
  */
 @Service
-public class BucketVersioningService extends BaseMinioService {
+public class BucketVersioningService extends BaseMinioClientService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketVersioningService.class);
 

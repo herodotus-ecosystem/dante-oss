@@ -23,30 +23,39 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.definition.service;
+package cn.herodotus.oss.minio.logic.definition.pool;
 
-import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClient;
-import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClientObjectPool;
+import cn.herodotus.oss.minio.logic.properties.MinioProperties;
+import io.minio.MinioClient;
+import io.minio.admin.MinioAdminClient;
+import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 /**
- * <p>Description: Minio 基础异步服务 </p>
+ * <p>Description: Minio 基础 Admin Client 池化工厂 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/3 20:42
+ * @date : 2023/6/24 17:47
  */
-public abstract class BaseMinioAsyncService {
+public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory<MinioAdminClient> {
 
-    private final MinioAsyncClientObjectPool minioAsyncClientObjectPool;
+    private final MinioProperties minioProperties;
 
-    public BaseMinioAsyncService(MinioAsyncClientObjectPool minioAsyncClientObjectPool) {
-        this.minioAsyncClientObjectPool = minioAsyncClientObjectPool;
+    public MinioAdminClientPooledObjectFactory(MinioProperties minioProperties) {
+        this.minioProperties = minioProperties;
     }
 
-    protected MinioAsyncClient getMinioClient() {
-        return minioAsyncClientObjectPool.getMinioClient();
+    @Override
+    public MinioAdminClient create() throws Exception {
+        return MinioAdminClient.builder()
+                .endpoint(minioProperties.getEndpoint())
+                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
+                .build();
     }
 
-    protected void close(MinioAsyncClient minioAsyncClient) {
-        minioAsyncClientObjectPool.close(minioAsyncClient);
+    @Override
+    public PooledObject<MinioAdminClient> wrap(MinioAdminClient minioAdminClient) {
+        return new DefaultPooledObject<>(minioAdminClient);
     }
 }

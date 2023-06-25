@@ -25,29 +25,28 @@
 
 package cn.herodotus.oss.minio.logic.definition.service;
 
-import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
-import io.minio.MinioClient;
+import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClient;
+import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClientObjectPool;
 
 /**
- * <p>Description: Minio 基础服务 </p>
+ * <p>Description: Minio 基础异步服务 </p>
  *
  * @author : gengwei.zheng
- * @date : 2021/11/8 11:14
+ * @date : 2022/7/3 20:42
  */
-public abstract class BaseMinioService {
+public abstract class BaseMinioAsyncClientService {
 
-    private final MinioClientObjectPool minioClientObjectPool;
+    private final MinioAsyncClientObjectPool minioAsyncClientObjectPool;
 
-    public BaseMinioService(MinioClientObjectPool minioClientObjectPool) {
-        this.minioClientObjectPool = minioClientObjectPool;
+    public BaseMinioAsyncClientService(MinioAsyncClientObjectPool minioAsyncClientObjectPool) {
+        this.minioAsyncClientObjectPool = minioAsyncClientObjectPool;
     }
 
-    protected MinioClient getMinioClient() {
-        return minioClientObjectPool.getMinioClient();
+    protected MinioAsyncClient getMinioClient() {
+        return minioAsyncClientObjectPool.getMinioClient();
     }
 
-
-    protected void close(MinioClient minioClient) {
-        minioClientObjectPool.close(minioClient);
+    protected void close(MinioAsyncClient minioAsyncClient) {
+        minioAsyncClientObjectPool.close(minioAsyncClient);
     }
 }

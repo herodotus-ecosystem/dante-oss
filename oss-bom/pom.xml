@@ -88,7 +88,7 @@
         <lombok.version>1.18.28</lombok.version>
         <mapstruct-processor.version>1.5.5.Final</mapstruct-processor.version>
 
-        <spring-boot-dependencies.version>3.1.0</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>3.1.1</spring-boot-dependencies.version>
         <dante-bom.version>3.1.1.0</dante-bom.version>
     </properties>
 

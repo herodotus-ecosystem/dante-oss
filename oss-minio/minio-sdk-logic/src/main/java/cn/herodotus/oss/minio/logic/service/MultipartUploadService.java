@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.logic.service;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClient;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClientObjectPool;
-import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAsyncService;
+import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAsyncClientService;
 import com.google.common.collect.Multimap;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.ListPartsResponse;
@@ -54,7 +54,7 @@ import java.util.concurrent.ExecutionException;
  * @date : 2022/7/3 20:45
  */
 @Service
-public class MultipartUploadService extends BaseMinioAsyncService {
+public class MultipartUploadService extends BaseMinioAsyncClientService {
 
     private static final Logger log = LoggerFactory.getLogger(MultipartUploadService.class);
 
