@@ -32,12 +32,12 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-bom</artifactId>
-        <version>0.7.1</version>
+        <version>0.8.0</version>
         <relativePath>oss-bom/pom.xml</relativePath>
     </parent>
 
     <artifactId>dante-oss</artifactId>
-    <version>0.7.1</version>
+    <version>0.8.0</version>
     <packaging>pom</packaging>
 
     <url>https://github.com/herodotus/dante-oss</url>
