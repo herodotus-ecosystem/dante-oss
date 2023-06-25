@@ -23,38 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.definition.pool;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import io.minio.admin.MinioAdminClient;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+import cn.herodotus.oss.minio.core.domain.GroupDomain;
+import io.minio.admin.GroupInfo;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio 基础 Admin Client 池化工厂 </p>
+ * <p>Description: GroupInfo 转 GroupDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/24 17:47
+ * @date : 2023/6/25 15:32
  */
-public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory<MinioAdminClient> {
-
-    private final MinioProperties minioProperties;
-
-    public MinioAdminClientPooledObjectFactory(MinioProperties minioProperties) {
-        this.minioProperties = minioProperties;
-    }
-
+public class GroupInfoToDomainConverter implements Converter<GroupInfo, GroupDomain> {
     @Override
-    public MinioAdminClient create() throws Exception {
-        return MinioAdminClient.builder()
-                .endpoint(minioProperties.getEndpoint())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                .build();
-    }
+    public GroupDomain convert(GroupInfo groupInfo) {
 
-    @Override
-    public PooledObject<MinioAdminClient> wrap(MinioAdminClient minioAdminClient) {
-        return new DefaultPooledObject<>(minioAdminClient);
+        GroupDomain domain = new GroupDomain();
+
+        if (ObjectUtils.isNotEmpty(groupInfo)) {
+            domain.setName(groupInfo.name());
+            domain.setStatus(groupInfo.status());
+            domain.setMembers(groupInfo.members());
+            domain.setPolicy(groupInfo.policy());
+        }
+
+        return domain;
     }
 }

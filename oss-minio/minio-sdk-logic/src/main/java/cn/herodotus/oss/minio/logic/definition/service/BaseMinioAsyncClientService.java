@@ -42,8 +42,8 @@ public abstract class BaseMinioAsyncClientService {
         this.minioAsyncClientObjectPool = minioAsyncClientObjectPool;
     }
 
-    protected MinioAsyncClient getMinioClient() {
-        return minioAsyncClientObjectPool.getMinioClient();
+    protected MinioAsyncClient getMinioAsyncClient() {
+        return minioAsyncClientObjectPool.getMinioAsyncClient();
     }
 
     protected void close(MinioAsyncClient minioAsyncClient) {

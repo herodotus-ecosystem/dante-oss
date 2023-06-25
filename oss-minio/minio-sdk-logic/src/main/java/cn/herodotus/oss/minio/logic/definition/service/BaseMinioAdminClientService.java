@@ -42,8 +42,8 @@ public abstract class BaseMinioAdminClientService {
         this.minioAdminClientObjectPool = minioAdminClientObjectPool;
     }
 
-    protected MinioAdminClient getMinioClient() {
-        return minioAdminClientObjectPool.getMinioClient();
+    protected MinioAdminClient getMinioAdminClient() {
+        return minioAdminClientObjectPool.getMinioAdminClient();
     }
 
     protected void close(MinioAdminClient minioAdminClient) {

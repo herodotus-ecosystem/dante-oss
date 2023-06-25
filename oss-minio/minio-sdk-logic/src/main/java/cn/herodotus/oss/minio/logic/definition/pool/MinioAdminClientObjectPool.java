@@ -61,7 +61,7 @@ public class MinioAdminClientObjectPool {
         genericObjectPool = new GenericObjectPool<>(factory, config);
     }
 
-    public MinioAdminClient getMinioClient() throws MinioClientPoolErrorException {
+    public MinioAdminClient getMinioAdminClient() throws MinioClientPoolErrorException {
         try {
             MinioAdminClient minioAdminClient = genericObjectPool.borrowObject();
             log.debug("[Herodotus] |- Fetch minio admin client from object pool.");

@@ -23,38 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.definition.pool;
+package cn.herodotus.oss.minio.core.exception;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import io.minio.admin.MinioAdminClient;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+import cn.herodotus.engine.assistant.core.domain.Feedback;
+import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
+import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
 
 /**
- * <p>Description: Minio 基础 Admin Client 池化工厂 </p>
+ * <p>Description: Minio 无效密码文本错误 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/24 17:47
+ * @date : 2023/6/25 11:02
  */
-public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory<MinioAdminClient> {
+public class MinioInvalidCipherTextException extends PlatformException {
 
-    private final MinioProperties minioProperties;
+    public MinioInvalidCipherTextException() {
+        super();
+    }
 
-    public MinioAdminClientPooledObjectFactory(MinioProperties minioProperties) {
-        this.minioProperties = minioProperties;
+    public MinioInvalidCipherTextException(String message) {
+        super(message);
+    }
+
+    public MinioInvalidCipherTextException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public MinioInvalidCipherTextException(Throwable cause) {
+        super(cause);
+    }
+
+    protected MinioInvalidCipherTextException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
     }
 
     @Override
-    public MinioAdminClient create() throws Exception {
-        return MinioAdminClient.builder()
-                .endpoint(minioProperties.getEndpoint())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                .build();
-    }
-
-    @Override
-    public PooledObject<MinioAdminClient> wrap(MinioAdminClient minioAdminClient) {
-        return new DefaultPooledObject<>(minioAdminClient);
+    public Feedback getFeedback() {
+        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_INVALID_CIPHER_TEXT, "无效密码文本错误");
     }
 }

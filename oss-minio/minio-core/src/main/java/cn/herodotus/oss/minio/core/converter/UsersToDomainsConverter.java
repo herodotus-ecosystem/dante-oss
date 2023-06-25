@@ -23,38 +23,37 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.definition.pool;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import io.minio.admin.MinioAdminClient;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+import cn.herodotus.oss.minio.core.domain.UserDomain;
+import io.minio.admin.UserInfo;
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
- * <p>Description: Minio 基础 Admin Client 池化工厂 </p>
+ * <p>Description: UserInfo Map 转 List<UserDomain> 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/24 17:47
+ * @date : 2023/6/25 14:51
  */
-public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory<MinioAdminClient> {
+public class UsersToDomainsConverter implements Converter<Map<String, UserInfo>, List<UserDomain>> {
 
-    private final MinioProperties minioProperties;
-
-    public MinioAdminClientPooledObjectFactory(MinioProperties minioProperties) {
-        this.minioProperties = minioProperties;
-    }
+    private final Converter<UserInfo, UserDomain> toDomain = new UserInfoToDomainConverter();
 
     @Override
-    public MinioAdminClient create() throws Exception {
-        return MinioAdminClient.builder()
-                .endpoint(minioProperties.getEndpoint())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                .build();
-    }
+    public List<UserDomain> convert(Map<String, UserInfo> source) {
+        if (MapUtils.isNotEmpty(source)) {
+            return source.entrySet().stream().map(entry -> {
+                UserDomain domain = toDomain.convert(entry.getValue());
+                domain.setAccessKey(entry.getKey());
+                return domain;
+            }).toList();
+        }
 
-    @Override
-    public PooledObject<MinioAdminClient> wrap(MinioAdminClient minioAdminClient) {
-        return new DefaultPooledObject<>(minioAdminClient);
+        return Collections.emptyList();
     }
 }

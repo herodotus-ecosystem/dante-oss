@@ -1012,7 +1012,7 @@ public class ObjectService extends BaseMinioClientService {
      * @return {@link ObjectWriteResponse}
      */
     public ObjectWriteResponse putObject(String bucketName, String objectName, InputStream stream, long objectSize, String contentType) {
-        return putObject(bucketName, null, objectName, stream, objectSize, -1 , contentType);
+        return putObject(bucketName, null, objectName, stream, objectSize, -1, contentType);
     }
 
     /**

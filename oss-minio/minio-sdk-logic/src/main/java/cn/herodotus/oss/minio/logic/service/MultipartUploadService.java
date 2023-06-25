@@ -110,7 +110,7 @@ public class MultipartUploadService extends BaseMinioAsyncClientService {
      */
     public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String region, String objectName, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
         String function = "createMultipartUpload";
-        MinioAsyncClient minioAsyncClient = getMinioClient();
+        MinioAsyncClient minioAsyncClient = getMinioAsyncClient();
 
         try {
             return minioAsyncClient.createMultipartUploadAsync(bucketName, region, objectName, extraHeaders, extraQueryParams).get();
@@ -234,7 +234,7 @@ public class MultipartUploadService extends BaseMinioAsyncClientService {
      */
     public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
         String function = "listParts";
-        MinioAsyncClient minioAsyncClient = getMinioClient();
+        MinioAsyncClient minioAsyncClient = getMinioAsyncClient();
 
         try {
             return minioAsyncClient.listPartsAsync(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, extraHeaders, extraQueryParams).get();
@@ -340,7 +340,7 @@ public class MultipartUploadService extends BaseMinioAsyncClientService {
      */
     public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId, Part[] parts, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
         String function = "completeMultipartUploadAsync";
-        MinioAsyncClient minioAsyncClient = getMinioClient();
+        MinioAsyncClient minioAsyncClient = getMinioAsyncClient();
 
         try {
             return minioAsyncClient.completeMultipartUploadAsync(bucketName, region, objectName, uploadId, parts, extraHeaders, extraQueryParams).get();

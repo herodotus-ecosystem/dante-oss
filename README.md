@@ -125,37 +125,51 @@ dante-oss
 
 - [1] 基础功能
 
-| 功能              | 说明                                                       |
-|-----------------|----------------------------------------------------------|
-| Bucket 列表       | Bucket 列表查询，包括 Service、REST API 和前端展示                    |
-| Bucket 名称是否存在   | Bucket 名是否存在，包括 Service、REST API 和前端异步校验处理               |
-| Bucket 创建       | 创建 Bucket，包括 Service、REST API 和前端Validation校验处理          |
-| Bucket 删除       | 删除 Bucket，包括 Service、REST API 和前端展示处理                    |
-| Bucket 加密设置获取   | 获取 Bucket Encryption 设置，包括 Service、REST API              |
-| Bucket 修改加密设置   | 修改 Bucket Encryption 设置，包括 Service、REST API              |
-| Bucket 删除加密设置   | 删除 Bucket Encryption 设置，包括 Service、REST API              |
-| Bucket 访问策略设置获取 | 获取 Bucket Policy 设置，包括 Service、REST API                  |
-| Bucket 修改访问策略设置 | 修改 Bucket Policy 设置，包括 Service、REST API                  |
-| Bucket 删除访问策略设置 | 删除 Bucket Policy 设置，包括 Service、REST API                  |
-| Bucket 标签获取     | 获取 Bucket Tags，包括 Service、REST API                       |
-| Bucket 修改标签     | 修改 Bucket Tags，包括 Service、REST API                       |
-| Bucket 删除标签     | 删除 Bucket Tags，包括 Service、REST API                       |
-| Bucket 对象锁定设置获取 | 获取 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
-| Bucket 修改对象锁定设置 | 修改 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
-| Bucket 删除对象锁定设置 | 删除 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
-| Object 列表       | Object 列表查询，包括 Service、REST API 和前端展示                    |
-| Object 删除       | 删除 Object，包括 Service、REST API 和前端展示处理                    |
-| Object 批量删除     | 批量删除 Object，包括 Service、REST API 和前端展示处理                  |
-| Object 元信息获取    | 获取 Object Stat，包括 Service、                               |
-| Object 下载(服务端)  | Object 下载(服务端下载，非流模式)，包括 Service、                        |
-| Object 标签获取     | 获取 Object Tags，包括 Service、REST API                       |
-| Object 修改标签     | 修改 Object Tags，包括 Service、REST API                       |
-| Object 删除标签     | 删除 Object Tags，包括 Service、REST API                       |
-| Object 获取保留设置   | 获取 Object Retention，包括 Service、REST API                  |
-| Object 修改保留设置   | 修改 Object Retention，包括 Service、REST API                  |
-| Object 开启持有设置   | 获取 Object LegalHold，包括 Service、REST API                  |
-| Object 关闭持有设置   | 修改 Object LegalHold，包括 Service、REST API                  |
-| 其它功能            | 正逐步完善，主要涉及前后端交互、以及可用性验证和前端相关功能的开发，敬请期待，欢迎 PR             |
+| 功能                | 说明                                                       |
+|-------------------|----------------------------------------------------------|
+| Bucket 列表         | Bucket 列表查询，包括 Service、REST API 和前端展示                    |
+| Bucket 名称是否存在     | Bucket 名是否存在，包括 Service、REST API 和前端异步校验处理               |
+| Bucket 创建         | 创建 Bucket，包括 Service、REST API 和前端Validation校验处理          |
+| Bucket 删除         | 删除 Bucket，包括 Service、REST API 和前端展示处理                    |
+| Bucket 加密设置获取     | 获取 Bucket Encryption 设置，包括 Service、REST API              |
+| Bucket 修改加密设置     | 修改 Bucket Encryption 设置，包括 Service、REST API              |
+| Bucket 删除加密设置     | 删除 Bucket Encryption 设置，包括 Service、REST API              |
+| Bucket 访问策略设置获取   | 获取 Bucket Policy 设置，包括 Service、REST API                  |
+| Bucket 修改访问策略设置   | 修改 Bucket Policy 设置，包括 Service、REST API                  |
+| Bucket 删除访问策略设置   | 删除 Bucket Policy 设置，包括 Service、REST API                  |
+| Bucket 标签获取       | 获取 Bucket Tags，包括 Service、REST API                       |
+| Bucket 修改标签       | 修改 Bucket Tags，包括 Service、REST API                       |
+| Bucket 删除标签       | 删除 Bucket Tags，包括 Service、REST API                       |
+| Bucket 对象锁定设置获取   | 获取 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
+| Bucket 修改对象锁定设置   | 修改 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
+| Bucket 删除对象锁定设置   | 删除 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
+| Object 列表         | Object 列表查询，包括 Service、REST API 和前端展示                    |
+| Object 删除         | 删除 Object，包括 Service、REST API 和前端展示处理                    |
+| Object 批量删除       | 批量删除 Object，包括 Service、REST API 和前端展示处理                  |
+| Object 元信息获取      | 获取 Object Stat，包括 Service、                               |
+| Object 下载(服务端)    | Object 下载(服务端下载，非流模式)，包括 Service、                        |
+| Object 标签获取       | 获取 Object Tags，包括 Service、REST API                       |
+| Object 修改标签       | 修改 Object Tags，包括 Service、REST API                       |
+| Object 删除标签       | 删除 Object Tags，包括 Service、REST API                       |
+| Object 获取保留设置     | 获取 Object Retention，包括 Service、REST API                  |
+| Object 修改保留设置     | 修改 Object Retention，包括 Service、REST API                  |
+| Object 开启持有设置     | 获取 Object LegalHold，包括 Service、REST API                  |
+| Object 关闭持有设置     | 修改 Object LegalHold，包括 Service、REST API                  |
+| Admin User 列表     | User 列表查询，包括 Service、REST API                            |
+| Admin User 信息     | 获取 User 信息，包括 Service、REST API                           |
+| Admin User 创建     | 创建 User，包括 Service、REST API                              |
+| Admin User 删除     | 删除 User，包括 Service、REST API                              |
+| Admin Group 列表    | Group 列表查询，包括 Service、REST API                           |
+| Admin Group 信息    | 获取 Group 信息，包括 Service、REST API                          |
+| Admin Group 创建    | 创建 Group，包括 Service、REST API                             |
+| Admin Group 删除    | 删除 Group，包括 Service、REST API                             |
+| Admin Policy 列表   | Policy 列表查询，包括 Service、REST API                          |
+| Admin Policy 创建   | 创建 Policy，包括 Service、REST API                            |
+| Admin Policy 删除   | 删除 Policy，包括 Service、REST API                            |
+| Admin Bucket 配额设置 | 存储桶配额设置，包括 Service                                       |
+| Admin Bucket 配额获取 | 存储桶配额获取，包括 Service                                       |
+| Admin Bucket 配额清除 | 存储桶配额清除，包括 Service                                       |
+| 其它功能              | 正逐步完善，主要涉及前后端交互、以及可用性验证和前端相关功能的开发，敬请期待，欢迎 PR             |
 
 
 - [2] 扩展功能

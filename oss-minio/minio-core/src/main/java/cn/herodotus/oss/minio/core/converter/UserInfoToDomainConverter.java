@@ -23,38 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.definition.pool;
+package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import io.minio.admin.MinioAdminClient;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+import cn.herodotus.oss.minio.core.domain.UserDomain;
+import io.minio.admin.Status;
+import io.minio.admin.UserInfo;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio 基础 Admin Client 池化工厂 </p>
+ * <p>Description: UserInfo 转 UserDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/24 17:47
+ * @date : 2023/6/25 14:20
  */
-public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory<MinioAdminClient> {
-
-    private final MinioProperties minioProperties;
-
-    public MinioAdminClientPooledObjectFactory(MinioProperties minioProperties) {
-        this.minioProperties = minioProperties;
-    }
-
+public class UserInfoToDomainConverter implements Converter<UserInfo, UserDomain> {
     @Override
-    public MinioAdminClient create() throws Exception {
-        return MinioAdminClient.builder()
-                .endpoint(minioProperties.getEndpoint())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                .build();
-    }
+    public UserDomain convert(UserInfo userInfo) {
 
-    @Override
-    public PooledObject<MinioAdminClient> wrap(MinioAdminClient minioAdminClient) {
-        return new DefaultPooledObject<>(minioAdminClient);
+        UserDomain domain = new UserDomain();
+
+        if (ObjectUtils.isNotEmpty(userInfo)) {
+            domain.setSecretKey(userInfo.secretKey());
+            domain.setPolicyName(userInfo.policyName());
+            domain.setMemberOf(userInfo.memberOf());
+            domain.setStatus(Status.fromString(userInfo.status().name()));
+        }
+
+        return domain;
     }
 }

@@ -60,7 +60,7 @@ public class MinioAsyncClientObjectPool {
         genericObjectPool = new GenericObjectPool<>(factory, config);
     }
 
-    public MinioAsyncClient getMinioClient() throws MinioClientPoolErrorException {
+    public MinioAsyncClient getMinioAsyncClient() throws MinioClientPoolErrorException {
         try {
             MinioAsyncClient minioAsyncClient = genericObjectPool.borrowObject();
             log.debug("[Herodotus] |- Fetch minio async client from object pool.");

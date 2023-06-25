@@ -23,38 +23,58 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.logic.definition.pool;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import io.minio.admin.MinioAdminClient;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import io.minio.admin.Status;
+
+import java.util.List;
 
 /**
- * <p>Description: Minio 基础 Admin Client 池化工厂 </p>
+ * <p>Description: Minio Group Domain </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/24 17:47
+ * @date : 2023/6/25 15:24
  */
-public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory<MinioAdminClient> {
+public class GroupDomain implements Entity {
 
-    private final MinioProperties minioProperties;
+    private String name;
 
-    public MinioAdminClientPooledObjectFactory(MinioProperties minioProperties) {
-        this.minioProperties = minioProperties;
+    private Status status;
+
+    private List<String> members;
+
+    private String policy;
+
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public MinioAdminClient create() throws Exception {
-        return MinioAdminClient.builder()
-                .endpoint(minioProperties.getEndpoint())
-                .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
-                .build();
+    public void setName(String name) {
+        this.name = name;
     }
 
-    @Override
-    public PooledObject<MinioAdminClient> wrap(MinioAdminClient minioAdminClient) {
-        return new DefaultPooledObject<>(minioAdminClient);
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public List<String> getMembers() {
+        return members;
+    }
+
+    public void setMembers(List<String> members) {
+        this.members = members;
+    }
+
+    public String getPolicy() {
+        return policy;
+    }
+
+    public void setPolicy(String policy) {
+        this.policy = policy;
     }
 }
