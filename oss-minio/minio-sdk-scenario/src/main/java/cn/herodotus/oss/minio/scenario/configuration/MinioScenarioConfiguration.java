@@ -30,10 +30,8 @@ import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * <p>Description: Minio 应用扩展模块 </p>
@@ -44,12 +42,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @AutoConfiguration
 @Import({
         RestTemplateConfiguration.class
-})
-@EntityScan(basePackages = {
-        "cn.herodotus.oss.minio.scenario.entity",
-})
-@EnableJpaRepositories(basePackages = {
-        "cn.herodotus.oss.minio.scenario.repository",
 })
 @ComponentScan(basePackages = {
         "cn.herodotus.oss.minio.scenario.proxy",

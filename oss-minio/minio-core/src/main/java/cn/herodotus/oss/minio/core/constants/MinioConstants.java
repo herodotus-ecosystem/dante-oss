@@ -35,18 +35,14 @@ import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
  */
 public interface MinioConstants extends BaseConstants {
 
-    String MINIO_DIRECT_CHUNK_UPLOAD_REQUEST_MAPPING = "/oss/minio/chunk/direct";
+    String MINIO_CHUNK_UPLOAD_REQUEST_MAPPING = "/oss/minio/chunk";
     String MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING = "/presigned";
     String MINIO_PRESIGNED_OBJECT_PROXY = MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING + "/*/*";
-    String PRESIGNED_OBJECT_URL_PROXY = MINIO_DIRECT_CHUNK_UPLOAD_REQUEST_MAPPING + MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING;
+    String PRESIGNED_OBJECT_URL_PROXY = MINIO_CHUNK_UPLOAD_REQUEST_MAPPING + MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING;
 
     String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
 
     String ITEM_MINIO_ENDPOINT = PROPERTY_OSS_MINIO + ".endpoint";
     String ITEM_MINIO_ACCESSKEY = PROPERTY_OSS_MINIO + ".access-key";
     String ITEM_MINIO_SECRETKEY = PROPERTY_OSS_MINIO + ".secret-key";
-
-    String OSS_AREA_PREFIX = AREA_PREFIX + "oss:";
-    String REGION_OSS_UPLOAD_RECORD = OSS_AREA_PREFIX + "upload:single";
-    String REGION_OSS_UPLOAD_CHUNK_RECORD = OSS_AREA_PREFIX + "upload:chunk";
 }

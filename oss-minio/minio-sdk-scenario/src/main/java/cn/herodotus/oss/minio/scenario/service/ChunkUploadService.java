@@ -54,13 +54,13 @@ import java.util.concurrent.TimeUnit;
  * @date : 2022/7/3 22:39
  */
 @Component
-public class DirectChunkUploadService {
+public class ChunkUploadService {
 
     private final MultipartUploadService multipartUploadService;
     private final PresignedObjectUrlService presignedObjectUrlService;
     private final MinioProxyAddressConverter converter;
 
-    public DirectChunkUploadService(MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
+    public ChunkUploadService(MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
         this.multipartUploadService = multipartUploadService;
         this.presignedObjectUrlService = presignedObjectUrlService;
         this.converter = converter;

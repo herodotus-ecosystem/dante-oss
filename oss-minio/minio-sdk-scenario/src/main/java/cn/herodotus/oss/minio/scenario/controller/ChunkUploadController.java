@@ -34,7 +34,7 @@ import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioPresignedObjectUrlProxy;
 import cn.herodotus.oss.minio.scenario.request.MultipartUploadCompleteRequest;
 import cn.herodotus.oss.minio.scenario.request.MultipartUploadCreateRequest;
-import cn.herodotus.oss.minio.scenario.service.DirectChunkUploadService;
+import cn.herodotus.oss.minio.scenario.service.ChunkUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -55,19 +55,19 @@ import org.springframework.web.bind.annotation.*;
  * @date : 2022/7/4 15:02
  */
 @RestController
-@RequestMapping(MinioConstants.MINIO_DIRECT_CHUNK_UPLOAD_REQUEST_MAPPING)
+@RequestMapping(MinioConstants.MINIO_CHUNK_UPLOAD_REQUEST_MAPPING)
 @Tags({
         @Tag(name = "对象存储管理接口"),
         @Tag(name = "Minio 对象存储管理接口"),
         @Tag(name = "大文件分片直传接口")
 })
-public class DirectChunkUploadController implements Controller {
+public class ChunkUploadController implements Controller {
 
-    private final DirectChunkUploadService directChunkUploadService;
+    private final ChunkUploadService chunkUploadService;
     private final MinioPresignedObjectUrlProxy presignedObjectUrlDelegate;
 
-    public DirectChunkUploadController(DirectChunkUploadService directChunkUploadService, MinioPresignedObjectUrlProxy presignedObjectUrlDelegate) {
-        this.directChunkUploadService = directChunkUploadService;
+    public ChunkUploadController(ChunkUploadService chunkUploadService, MinioPresignedObjectUrlProxy presignedObjectUrlDelegate) {
+        this.chunkUploadService = chunkUploadService;
         this.presignedObjectUrlDelegate = presignedObjectUrlDelegate;
     }
 
@@ -85,7 +85,7 @@ public class DirectChunkUploadController implements Controller {
     })
     @PostMapping("/create")
     public Result<MultipartUploadCreateBusiness> createMultipartUpload(@Validated @RequestBody MultipartUploadCreateRequest request) {
-        MultipartUploadCreateBusiness result = directChunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
+        MultipartUploadCreateBusiness result = chunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
         return result(result);
     }
 
@@ -103,7 +103,7 @@ public class DirectChunkUploadController implements Controller {
     })
     @PostMapping("/complete")
     public Result<ObjectWriteDomain> completeMultipartUpload(@Validated @RequestBody MultipartUploadCompleteRequest request) {
-        ObjectWriteDomain entity = directChunkUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
+        ObjectWriteDomain entity = chunkUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
         return result(entity);
     }
 
