@@ -48,19 +48,19 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * <p>Description: 大文件分片处理逻辑 </p>
+ * <p>Description: 大文件分片直传逻辑 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/7/3 22:39
  */
 @Component
-public class MultipartChunkUploadService {
+public class DirectChunkUploadService {
 
     private final MultipartUploadService multipartUploadService;
     private final PresignedObjectUrlService presignedObjectUrlService;
     private final MinioProxyAddressConverter converter;
 
-    public MultipartChunkUploadService(MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
+    public DirectChunkUploadService(MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
         this.multipartUploadService = multipartUploadService;
         this.presignedObjectUrlService = presignedObjectUrlService;
         this.converter = converter;

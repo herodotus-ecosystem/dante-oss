@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.scenario.proxy;
 
 import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
 import cn.herodotus.engine.assistant.core.definition.constants.SymbolConstants;
+import cn.herodotus.oss.minio.core.constants.MinioConstants;
 import cn.herodotus.oss.minio.logic.properties.MinioProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
@@ -53,7 +54,7 @@ public class MinioProxyAddressConverter {
 
     public String toServiceUrl(String presignedObjectUrl) {
         if (minioProperties.getUseProxy()) {
-            String endpoint = minioProperties.getProxySourceEndpoint() + DefaultConstants.PRESIGNED_OBJECT_URL_PROXY;
+            String endpoint = minioProperties.getProxySourceEndpoint() + MinioConstants.PRESIGNED_OBJECT_URL_PROXY;
             String target = StringUtils.replace(presignedObjectUrl, minioProperties.getEndpoint(), endpoint);
             log.debug("[Herodotus] |- Convert presignedObjectUrl [{}] to [{}].", endpoint, target);
             return target;
@@ -64,7 +65,7 @@ public class MinioProxyAddressConverter {
 
     public String toPresignedObjectUrl(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        String path = uri.replace(DefaultConstants.PRESIGNED_OBJECT_URL_PROXY, SymbolConstants.BLANK);
+        String path = uri.replace(MinioConstants.PRESIGNED_OBJECT_URL_PROXY, SymbolConstants.BLANK);
 
         String queryString = request.getQueryString();
         String params = queryString != null ? SymbolConstants.QUESTION + queryString : SymbolConstants.BLANK;
