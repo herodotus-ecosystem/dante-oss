@@ -23,25 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.constants;
+package cn.herodotus.oss.minio.scenario.repository;
 
-import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
+import cn.herodotus.engine.data.core.repository.BaseRepository;
+import cn.herodotus.oss.minio.scenario.entity.UploadChunkRecord;
 
 /**
- * <p>Description: 对象存储常量 </p>
+ * <p>Description: 文件分片上传分片信息记录 Repository </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 16:26
+ * @date : 2023/6/26 15:52
  */
-public interface MinioConstants extends BaseConstants {
-
-    String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
-
-    String ITEM_MINIO_ENDPOINT = PROPERTY_OSS_MINIO + ".endpoint";
-    String ITEM_MINIO_ACCESSKEY = PROPERTY_OSS_MINIO + ".access-key";
-    String ITEM_MINIO_SECRETKEY = PROPERTY_OSS_MINIO + ".secret-key";
-
-    String OSS_AREA_PREFIX = AREA_PREFIX + "oss:";
-    String REGION_OSS_UPLOAD_RECORD = OSS_AREA_PREFIX + "upload:single";
-    String REGION_OSS_UPLOAD_CHUNK_RECORD = OSS_AREA_PREFIX + "upload:chunk";
+public interface UploadChunkRecordRepository extends BaseRepository<UploadChunkRecord, String> {
 }

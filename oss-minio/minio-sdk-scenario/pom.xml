@@ -46,11 +46,6 @@
 
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
-            <artifactId>rest-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
             <artifactId>rest-sdk-client</artifactId>
         </dependency>
     </dependencies>

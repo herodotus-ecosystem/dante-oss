@@ -23,25 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.constants;
+package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
+import cn.herodotus.engine.data.core.repository.BaseRepository;
+import cn.herodotus.engine.data.core.service.BaseService;
+import cn.herodotus.oss.minio.scenario.entity.UploadChunkRecord;
+import cn.herodotus.oss.minio.scenario.repository.UploadChunkRecordRepository;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: 对象存储常量 </p>
+ * <p>Description: 文件分片上传分片信息记录 Service </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 16:26
+ * @date : 2023/6/26 16:05
  */
-public interface MinioConstants extends BaseConstants {
+@Service
+public class UploadChunkRecordService extends BaseService<UploadChunkRecord, String> {
 
-    String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
+    private final UploadChunkRecordRepository uploadChunkRecordRepository;
 
-    String ITEM_MINIO_ENDPOINT = PROPERTY_OSS_MINIO + ".endpoint";
-    String ITEM_MINIO_ACCESSKEY = PROPERTY_OSS_MINIO + ".access-key";
-    String ITEM_MINIO_SECRETKEY = PROPERTY_OSS_MINIO + ".secret-key";
+    public UploadChunkRecordService(UploadChunkRecordRepository uploadChunkRecordRepository) {
+        this.uploadChunkRecordRepository = uploadChunkRecordRepository;
+    }
 
-    String OSS_AREA_PREFIX = AREA_PREFIX + "oss:";
-    String REGION_OSS_UPLOAD_RECORD = OSS_AREA_PREFIX + "upload:single";
-    String REGION_OSS_UPLOAD_CHUNK_RECORD = OSS_AREA_PREFIX + "upload:chunk";
+    @Override
+    public BaseRepository<UploadChunkRecord, String> getRepository() {
+        return uploadChunkRecordRepository;
+    }
 }
