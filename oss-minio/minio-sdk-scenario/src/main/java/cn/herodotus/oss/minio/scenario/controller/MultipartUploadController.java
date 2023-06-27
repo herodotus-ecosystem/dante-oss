@@ -34,7 +34,7 @@ import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioPresignedObjectUrlProxy;
 import cn.herodotus.oss.minio.scenario.request.MultipartUploadCompleteRequest;
 import cn.herodotus.oss.minio.scenario.request.MultipartUploadCreateRequest;
-import cn.herodotus.oss.minio.scenario.service.ChunkUploadService;
+import cn.herodotus.oss.minio.scenario.service.MultipartUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -55,19 +55,19 @@ import org.springframework.web.bind.annotation.*;
  * @date : 2022/7/4 15:02
  */
 @RestController
-@RequestMapping(MinioConstants.MINIO_CHUNK_UPLOAD_REQUEST_MAPPING)
+@RequestMapping(MinioConstants.MINIO_MULTIPART_UPLOAD_REQUEST_MAPPING)
 @Tags({
         @Tag(name = "对象存储管理接口"),
         @Tag(name = "Minio 对象存储管理接口"),
         @Tag(name = "大文件分片直传接口")
 })
-public class ChunkUploadController implements Controller {
+public class MultipartUploadController implements Controller {
 
-    private final ChunkUploadService chunkUploadService;
+    private final MultipartUploadService multipartUploadService;
     private final MinioPresignedObjectUrlProxy presignedObjectUrlDelegate;
 
-    public ChunkUploadController(ChunkUploadService chunkUploadService, MinioPresignedObjectUrlProxy presignedObjectUrlDelegate) {
-        this.chunkUploadService = chunkUploadService;
+    public MultipartUploadController(MultipartUploadService multipartUploadService, MinioPresignedObjectUrlProxy presignedObjectUrlDelegate) {
+        this.multipartUploadService = multipartUploadService;
         this.presignedObjectUrlDelegate = presignedObjectUrlDelegate;
     }
 
@@ -85,7 +85,7 @@ public class ChunkUploadController implements Controller {
     })
     @PostMapping("/create")
     public Result<MultipartUploadCreateBusiness> createMultipartUpload(@Validated @RequestBody MultipartUploadCreateRequest request) {
-        MultipartUploadCreateBusiness result = chunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
+        MultipartUploadCreateBusiness result = multipartUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
         return result(result);
     }
 
@@ -103,7 +103,7 @@ public class ChunkUploadController implements Controller {
     })
     @PostMapping("/complete")
     public Result<ObjectWriteDomain> completeMultipartUpload(@Validated @RequestBody MultipartUploadCompleteRequest request) {
-        ObjectWriteDomain entity = chunkUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
+        ObjectWriteDomain entity = multipartUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
         return result(entity);
     }
 

@@ -32,6 +32,7 @@ import io.minio.admin.UserInfo;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -48,6 +49,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2023/6/25 14:01
  */
+@Service
 public class AdminUserService extends BaseMinioAdminClientService {
 
     private static final Logger log = LoggerFactory.getLogger(AdminUserService.class);

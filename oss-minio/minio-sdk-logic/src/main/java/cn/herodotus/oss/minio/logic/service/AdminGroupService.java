@@ -35,6 +35,7 @@ import io.minio.admin.GroupInfo;
 import io.minio.admin.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -50,6 +51,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/6/25 14:01
  */
+@Service
 public class AdminGroupService extends BaseMinioAdminClientService {
 
     private static final Logger log = LoggerFactory.getLogger(AdminGroupService.class);

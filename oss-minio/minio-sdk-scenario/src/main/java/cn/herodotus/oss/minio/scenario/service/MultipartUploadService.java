@@ -27,7 +27,6 @@ package cn.herodotus.oss.minio.scenario.service;
 
 import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
-import cn.herodotus.oss.minio.logic.service.MultipartUploadService;
 import cn.herodotus.oss.minio.logic.service.PresignedObjectUrlService;
 import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioProxyAddressConverter;
@@ -54,13 +53,13 @@ import java.util.concurrent.TimeUnit;
  * @date : 2022/7/3 22:39
  */
 @Component
-public class ChunkUploadService {
+public class MultipartUploadService {
 
-    private final MultipartUploadService multipartUploadService;
+    private final cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService;
     private final PresignedObjectUrlService presignedObjectUrlService;
     private final MinioProxyAddressConverter converter;
 
-    public ChunkUploadService(MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
+    public MultipartUploadService(cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
         this.multipartUploadService = multipartUploadService;
         this.presignedObjectUrlService = presignedObjectUrlService;
         this.converter = converter;
