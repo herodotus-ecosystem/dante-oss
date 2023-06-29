@@ -31,22 +31,17 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-minio</artifactId>
-        <version>0.8.0</version>
+        <version>0.8.4</version>
     </parent>
 
     <artifactId>minio-sdk-scenario</artifactId>
-    <version>0.8.0</version>
+    <version>0.8.4</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
             <artifactId>minio-sdk-logic</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>rest-core</artifactId>
         </dependency>
 
         <dependency>

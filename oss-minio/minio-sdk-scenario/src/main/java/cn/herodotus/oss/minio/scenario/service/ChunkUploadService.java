@@ -27,9 +27,8 @@ package cn.herodotus.oss.minio.scenario.service;
 
 import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
-import cn.herodotus.oss.minio.logic.service.MultipartUploadService;
 import cn.herodotus.oss.minio.logic.service.PresignedObjectUrlService;
-import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
+import cn.herodotus.oss.minio.scenario.bo.ChunkUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioProxyAddressConverter;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.GetPresignedObjectUrlArgs;
@@ -48,19 +47,19 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * <p>Description: 大文件分片处理逻辑 </p>
+ * <p>Description: 大文件分片直传逻辑 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/7/3 22:39
  */
 @Component
-public class MultipartChunkUploadService {
+public class ChunkUploadService {
 
-    private final MultipartUploadService multipartUploadService;
+    private final cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService;
     private final PresignedObjectUrlService presignedObjectUrlService;
     private final MinioProxyAddressConverter converter;
 
-    public MultipartChunkUploadService(MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
+    public ChunkUploadService(cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
         this.multipartUploadService = multipartUploadService;
         this.presignedObjectUrlService = presignedObjectUrlService;
         this.converter = converter;
@@ -129,11 +128,11 @@ public class MultipartChunkUploadService {
      * @param region     区域
      * @param objectName 对象名称
      * @param totalParts 分片总数
-     * @return {@link MultipartUploadCreateBusiness}
+     * @return {@link ChunkUploadCreateBusiness}
      */
-    private MultipartUploadCreateBusiness createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
+    private ChunkUploadCreateBusiness createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
         String uploadId = createUploadId(bucketName, region, objectName);
-        MultipartUploadCreateBusiness entity = new MultipartUploadCreateBusiness(uploadId);
+        ChunkUploadCreateBusiness entity = new ChunkUploadCreateBusiness(uploadId);
 
         for (int i = 0; i < totalParts; i++) {
             String uploadUrl = createPresignedObjectUrl(bucketName, region, objectName, uploadId, i);
@@ -148,9 +147,9 @@ public class MultipartChunkUploadService {
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      * @param totalParts 分片总数
-     * @return {@link MultipartUploadCreateBusiness}
+     * @return {@link ChunkUploadCreateBusiness}
      */
-    public MultipartUploadCreateBusiness createMultipartUpload(String bucketName, String objectName, int totalParts) {
+    public ChunkUploadCreateBusiness createMultipartUpload(String bucketName, String objectName, int totalParts) {
         return createMultipartUpload(bucketName, null, objectName, totalParts);
     }
 

@@ -25,16 +25,16 @@
 
 package cn.herodotus.oss.minio.scenario.controller;
 
-import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
+import cn.herodotus.oss.minio.core.constants.MinioConstants;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
-import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
+import cn.herodotus.oss.minio.scenario.bo.ChunkUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioPresignedObjectUrlProxy;
-import cn.herodotus.oss.minio.scenario.request.MultipartUploadCompleteRequest;
-import cn.herodotus.oss.minio.scenario.request.MultipartUploadCreateRequest;
-import cn.herodotus.oss.minio.scenario.service.MultipartChunkUploadService;
+import cn.herodotus.oss.minio.scenario.request.ChunkUploadCompleteRequest;
+import cn.herodotus.oss.minio.scenario.request.ChunkUploadCreateRequest;
+import cn.herodotus.oss.minio.scenario.service.ChunkUploadService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -49,25 +49,25 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * <p>Description: 大文件分片上传接口 </p>
+ * <p>Description: 大文件分片直传接口 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/7/4 15:02
  */
 @RestController
-@RequestMapping(DefaultConstants.MINIO_MULTIPART_REQUEST_MAPPING)
+@RequestMapping(MinioConstants.MINIO_CHUNK_UPLOAD_REQUEST_MAPPING)
 @Tags({
         @Tag(name = "对象存储管理接口"),
         @Tag(name = "Minio 对象存储管理接口"),
-        @Tag(name = "Minio 对象存储分片上传接口")
+        @Tag(name = "大文件分片直传接口")
 })
-public class MultipartChunkUploadController implements Controller {
+public class ChunkUploadController implements Controller {
 
-    private final MultipartChunkUploadService multipartChunkUploadService;
+    private final ChunkUploadService chunkUploadService;
     private final MinioPresignedObjectUrlProxy presignedObjectUrlDelegate;
 
-    public MultipartChunkUploadController(MultipartChunkUploadService multipartChunkUploadService, MinioPresignedObjectUrlProxy presignedObjectUrlDelegate) {
-        this.multipartChunkUploadService = multipartChunkUploadService;
+    public ChunkUploadController(ChunkUploadService chunkUploadService, MinioPresignedObjectUrlProxy presignedObjectUrlDelegate) {
+        this.chunkUploadService = chunkUploadService;
         this.presignedObjectUrlDelegate = presignedObjectUrlDelegate;
     }
 
@@ -75,17 +75,17 @@ public class MultipartChunkUploadController implements Controller {
     @Operation(summary = "创建分片上传信息", description = "创建分片上传信息",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "uploadId 和 预下载地址", content = @Content(mediaType = "application/json", schema = @Schema(implementation = MultipartUploadCreateBusiness.class))),
+                    @ApiResponse(description = "uploadId 和 预下载地址", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ChunkUploadCreateBusiness.class))),
                     @ApiResponse(responseCode = "200", description = "操作成功"),
                     @ApiResponse(responseCode = "204", description = "无结果"),
                     @ApiResponse(responseCode = "500", description = "操作失败")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, description = "MultipartUploadCreateRequest参数实体", schema = @Schema(implementation = MultipartUploadCreateRequest.class))
+            @Parameter(name = "request", required = true, description = "MultipartUploadCreateRequest参数实体", schema = @Schema(implementation = ChunkUploadCreateRequest.class))
     })
     @PostMapping("/create")
-    public Result<MultipartUploadCreateBusiness> createMultipartUpload(@Validated @RequestBody MultipartUploadCreateRequest request) {
-        MultipartUploadCreateBusiness result = multipartChunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
+    public Result<ChunkUploadCreateBusiness> createMultipartUpload(@Validated @RequestBody ChunkUploadCreateRequest request) {
+        ChunkUploadCreateBusiness result = chunkUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
         return result(result);
     }
 
@@ -99,11 +99,11 @@ public class MultipartChunkUploadController implements Controller {
                     @ApiResponse(responseCode = "500", description = "操作失败")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, description = "MultipartUploadCompleteRequest参数实体", schema = @Schema(implementation = MultipartUploadCompleteRequest.class))
+            @Parameter(name = "request", required = true, description = "MultipartUploadCompleteRequest参数实体", schema = @Schema(implementation = ChunkUploadCompleteRequest.class))
     })
     @PostMapping("/complete")
-    public Result<ObjectWriteDomain> completeMultipartUpload(@Validated @RequestBody MultipartUploadCompleteRequest request) {
-        ObjectWriteDomain entity = multipartChunkUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
+    public Result<ObjectWriteDomain> completeMultipartUpload(@Validated @RequestBody ChunkUploadCompleteRequest request) {
+        ObjectWriteDomain entity = chunkUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
         return result(entity);
     }
 
@@ -112,7 +112,7 @@ public class MultipartChunkUploadController implements Controller {
             responses = {
                     @ApiResponse(description = "操作结果", content = @Content(mediaType = "application/json")),
             })
-    @PutMapping(value = DefaultConstants.MINIO_PRESIGNED_OBJECT_PROXY)
+    @PutMapping(value = MinioConstants.MINIO_PRESIGNED_OBJECT_PROXY)
     public ResponseEntity<String> presignedObjectProxy(HttpServletRequest request) {
         return presignedObjectUrlDelegate.delegate(request);
     }

@@ -34,6 +34,7 @@ import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminClientServi
 import io.minio.admin.QuotaUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -47,6 +48,7 @@ import java.security.NoSuchAlgorithmException;
  * @author : gengwei.zheng
  * @date : 2023/6/25 10:53
  */
+@Service
 public class BucketQuotaService extends BaseMinioAdminClientService {
 
     private static final Logger log = LoggerFactory.getLogger(BucketQuotaService.class);

@@ -33,6 +33,7 @@ import cn.herodotus.oss.minio.logic.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminClientService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Nonnull;
 import java.io.IOException;
@@ -47,6 +48,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2023/6/25 10:55
  */
+@Service
 public class AdminPolicyService extends BaseMinioAdminClientService {
 
     private static final Logger log = LoggerFactory.getLogger(AdminPolicyService.class);

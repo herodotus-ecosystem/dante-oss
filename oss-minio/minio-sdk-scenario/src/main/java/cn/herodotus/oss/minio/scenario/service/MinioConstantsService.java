@@ -25,10 +25,7 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.oss.minio.core.enums.PolicyEnums;
-import cn.herodotus.oss.minio.core.enums.RetentionDurationEnums;
-import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
-import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
+import cn.herodotus.oss.minio.core.enums.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -48,6 +45,8 @@ public class MinioConstantsService {
     private static final List<Map<String, Object>> RETENTION_DURATION_ENUM = RetentionDurationEnums.getPreprocessedJsonStructure();
     private static final List<Map<String, Object>> RETENTION_MODE_ENUM = RetentionModeEnums.getPreprocessedJsonStructure();
     private static final List<Map<String, Object>> SSE_CONFIGURATION_ENUM = SseConfigurationEnums.getPreprocessedJsonStructure();
+    private static final List<Map<String, Object>> QUOTA_UNIT_ENUMS = QuotaUnitEnums.getPreprocessedJsonStructure();
+    private static final List<Map<String, Object>> VERSIONING_STATUS_ENUMS = VersioningStatusEnums.getPreprocessedJsonStructure();
 
     public Map<String, Object> getAllEnums() {
         Map<String, Object> map = new HashMap<>(8);
@@ -55,6 +54,8 @@ public class MinioConstantsService {
         map.put("retentionDuration", RETENTION_DURATION_ENUM);
         map.put("retentionMode", RETENTION_MODE_ENUM);
         map.put("sseConfiguration", SSE_CONFIGURATION_ENUM);
+        map.put("quotaUnit", QUOTA_UNIT_ENUMS);
+        map.put("versioningStatus", VERSIONING_STATUS_ENUMS);
         return map;
     }
 }

@@ -23,47 +23,58 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.bo;
+package cn.herodotus.oss.minio.rest.request.object;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.minio.core.enums.QuotaUnitEnums;
+import io.minio.admin.QuotaUnit;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.annotation.Nonnull;
 
 /**
- * <p>Description: 创建分配上传实体 </p>
+ * <p>Description: 设置存储桶配额请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 11:25
+ * @date : 2023/6/28 16:08
  */
-public class MultipartUploadCreateBusiness implements Entity {
+@Schema(name = "设置存储桶配额请求参数实体", title = "设置存储桶配额请求参数实体")
+public class SetBucketQuotaRequest implements Entity {
 
-    private String uploadId;
+    @Schema(name = "存储桶名称")
+    @NotBlank(message = "存储桶名称不能为空")
+    private String bucketName;
 
-    private List<String> chunkUploadUrls;
+    @Schema(name = "配额大小")
+    @Min(value = 0, message = "配额大小不能小于 0")
+    private Long size;
 
-    public MultipartUploadCreateBusiness(String uploadId) {
-        this.uploadId = uploadId;
-        this.chunkUploadUrls = new ArrayList<>();
+    @Schema(name = "配额单位", description = "配额单位目前支持 KB、MB、GB、TB")
+    private QuotaUnitEnums unit = QuotaUnitEnums.MB;
+
+    public String getBucketName() {
+        return bucketName;
     }
 
-    public String getUploadId() {
-        return uploadId;
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
     }
 
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    public Long getSize() {
+        return size;
     }
 
-    public List<String> getChunkUploadUrls() {
-        return chunkUploadUrls;
+    public void setSize(Long size) {
+        this.size = size;
     }
 
-    public void setChunkUploadUrls(List<String> chunkUploadUrls) {
-        this.chunkUploadUrls = chunkUploadUrls;
+    public QuotaUnitEnums getUnit() {
+        return unit;
     }
 
-    public void appendChunk(String chunk) {
-        chunkUploadUrls.add(chunkUploadUrls.size(), chunk);
+    public void setUnit(QuotaUnitEnums unit) {
+        this.unit = unit;
     }
 }
