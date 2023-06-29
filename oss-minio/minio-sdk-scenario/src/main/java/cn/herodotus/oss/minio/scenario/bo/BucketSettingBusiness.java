@@ -28,6 +28,7 @@ package cn.herodotus.oss.minio.scenario.bo;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
+import cn.herodotus.oss.minio.core.domain.VersioningConfigurationDomain;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
 import com.google.common.base.MoreObjects;
@@ -57,6 +58,15 @@ public class BucketSettingBusiness implements Entity {
      * 对象锁定是否开启
      */
     private ObjectLockConfigurationDomain objectLock;
+
+    /**
+     * 配额大小
+     */
+    private Long quota;
+    /**
+     * 版本设置配置
+     */
+    private VersioningConfigurationDomain versioning;
 
     public SseConfigurationEnums getSseConfiguration() {
         return sseConfiguration;
@@ -90,12 +100,31 @@ public class BucketSettingBusiness implements Entity {
         this.objectLock = objectLock;
     }
 
+    public Long getQuota() {
+        return quota;
+    }
+
+    public void setQuota(Long quota) {
+        this.quota = quota;
+    }
+
+    public VersioningConfigurationDomain getVersioning() {
+        return versioning;
+    }
+
+    public void setVersioning(VersioningConfigurationDomain versioning) {
+        this.versioning = versioning;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("sseConfiguration", sseConfiguration)
                 .add("policy", policy)
+                .add("tags", tags)
                 .add("objectLock", objectLock)
+                .add("quota", quota)
+                .add("versioning", versioning)
                 .toString();
     }
 }

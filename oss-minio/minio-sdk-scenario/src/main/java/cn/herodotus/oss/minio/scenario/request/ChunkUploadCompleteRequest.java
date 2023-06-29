@@ -23,26 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.constants;
+package cn.herodotus.oss.minio.scenario.request;
 
-import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
+import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
 /**
- * <p>Description: 对象存储常量 </p>
+ * <p>Description: 完成分片上传 Dto </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 16:26
+ * @date : 2022/7/4 15:14
  */
-public interface MinioConstants extends BaseConstants {
+@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
+public class ChunkUploadCompleteRequest extends BaseDomain {
 
-    String MINIO_CHUNK_UPLOAD_REQUEST_MAPPING = "/oss/minio/chunk";
-    String MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING = "/presigned";
-    String MINIO_PRESIGNED_OBJECT_PROXY = MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING + "/*/*";
-    String PRESIGNED_OBJECT_URL_PROXY = MINIO_CHUNK_UPLOAD_REQUEST_MAPPING + MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING;
+    @NotBlank(message = "分片上传ID不能为空")
+    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
+    private String uploadId;
 
-    String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
+    public String getUploadId() {
+        return uploadId;
+    }
 
-    String ITEM_MINIO_ENDPOINT = PROPERTY_OSS_MINIO + ".endpoint";
-    String ITEM_MINIO_ACCESSKEY = PROPERTY_OSS_MINIO + ".access-key";
-    String ITEM_MINIO_SECRETKEY = PROPERTY_OSS_MINIO + ".secret-key";
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
+    }
 }

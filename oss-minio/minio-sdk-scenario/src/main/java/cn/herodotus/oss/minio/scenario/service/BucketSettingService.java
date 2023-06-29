@@ -30,14 +30,12 @@ import cn.herodotus.oss.minio.core.converter.sse.SseConfigurationToEnumConverter
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
-import cn.herodotus.oss.minio.logic.service.BucketEncryptionService;
-import cn.herodotus.oss.minio.logic.service.BucketPolicyService;
-import cn.herodotus.oss.minio.logic.service.BucketTagsService;
-import cn.herodotus.oss.minio.logic.service.ObjectLockConfigurationService;
+import cn.herodotus.oss.minio.logic.service.*;
 import cn.herodotus.oss.minio.scenario.bo.BucketSettingBusiness;
 import io.minio.messages.ObjectLockConfiguration;
 import io.minio.messages.SseConfiguration;
 import io.minio.messages.Tags;
+import io.minio.messages.VersioningConfiguration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
@@ -56,12 +54,16 @@ public class BucketSettingService {
     private final BucketEncryptionService bucketEncryptionService;
     private final BucketPolicyService bucketPolicyService;
     private final BucketTagsService bucketTagsService;
+    private final BucketVersioningService bucketVersioningService;
+    private final BucketQuotaService bucketQuotaService;
     private final ObjectLockConfigurationService objectLockConfigurationService;
 
-    public BucketSettingService(BucketEncryptionService bucketEncryptionService, BucketPolicyService bucketPolicyService, BucketTagsService bucketTagsService, ObjectLockConfigurationService objectLockConfigurationService) {
+    public BucketSettingService(BucketEncryptionService bucketEncryptionService, BucketPolicyService bucketPolicyService, BucketTagsService bucketTagsService, BucketVersioningService bucketVersioningService, BucketQuotaService bucketQuotaService, ObjectLockConfigurationService objectLockConfigurationService) {
         this.bucketEncryptionService = bucketEncryptionService;
         this.bucketPolicyService = bucketPolicyService;
         this.bucketTagsService = bucketTagsService;
+        this.bucketVersioningService = bucketVersioningService;
+        this.bucketQuotaService = bucketQuotaService;
         this.objectLockConfigurationService = objectLockConfigurationService;
         this.toSseConfigurationEnums = new SseConfigurationToEnumConverter();
         this.toObjectLockDomain = new ObjectLockConfigurationToDomainConverter();
@@ -77,12 +79,15 @@ public class BucketSettingService {
         Tags tags = bucketTagsService.getBucketTags(bucketName, region);
         PolicyEnums policy = bucketPolicyService.getBucketPolicy(bucketName, region);
         ObjectLockConfiguration objectLockConfiguration = objectLockConfigurationService.getObjectLockConfiguration(bucketName, region);
+        VersioningConfiguration versioningConfiguration = bucketVersioningService.getBucketVersioning(bucketName, region);
+        long quota = bucketQuotaService.getBucketQuota(bucketName);
 
         BucketSettingBusiness entity = new BucketSettingBusiness();
         entity.setSseConfiguration(toSseConfigurationEnums.convert(sseConfiguration));
         entity.setTags(tags.get());
         entity.setPolicy(policy);
         entity.setObjectLock(toObjectLockDomain.convert(objectLockConfiguration));
+        entity.setQuota(quota);
 
         return entity;
     }

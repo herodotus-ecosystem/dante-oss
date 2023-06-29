@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.scenario.service;
 import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
 import cn.herodotus.oss.minio.logic.service.PresignedObjectUrlService;
-import cn.herodotus.oss.minio.scenario.bo.MultipartUploadCreateBusiness;
+import cn.herodotus.oss.minio.scenario.bo.ChunkUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioProxyAddressConverter;
 import io.minio.CreateMultipartUploadResponse;
 import io.minio.GetPresignedObjectUrlArgs;
@@ -53,13 +53,13 @@ import java.util.concurrent.TimeUnit;
  * @date : 2022/7/3 22:39
  */
 @Component
-public class MultipartUploadService {
+public class ChunkUploadService {
 
     private final cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService;
     private final PresignedObjectUrlService presignedObjectUrlService;
     private final MinioProxyAddressConverter converter;
 
-    public MultipartUploadService(cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
+    public ChunkUploadService(cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
         this.multipartUploadService = multipartUploadService;
         this.presignedObjectUrlService = presignedObjectUrlService;
         this.converter = converter;
@@ -128,11 +128,11 @@ public class MultipartUploadService {
      * @param region     区域
      * @param objectName 对象名称
      * @param totalParts 分片总数
-     * @return {@link MultipartUploadCreateBusiness}
+     * @return {@link ChunkUploadCreateBusiness}
      */
-    private MultipartUploadCreateBusiness createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
+    private ChunkUploadCreateBusiness createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
         String uploadId = createUploadId(bucketName, region, objectName);
-        MultipartUploadCreateBusiness entity = new MultipartUploadCreateBusiness(uploadId);
+        ChunkUploadCreateBusiness entity = new ChunkUploadCreateBusiness(uploadId);
 
         for (int i = 0; i < totalParts; i++) {
             String uploadUrl = createPresignedObjectUrl(bucketName, region, objectName, uploadId, i);
@@ -147,9 +147,9 @@ public class MultipartUploadService {
      * @param bucketName 存储桶名称
      * @param objectName 对象名称
      * @param totalParts 分片总数
-     * @return {@link MultipartUploadCreateBusiness}
+     * @return {@link ChunkUploadCreateBusiness}
      */
-    public MultipartUploadCreateBusiness createMultipartUpload(String bucketName, String objectName, int totalParts) {
+    public ChunkUploadCreateBusiness createMultipartUpload(String bucketName, String objectName, int totalParts) {
         return createMultipartUpload(bucketName, null, objectName, totalParts);
     }
 

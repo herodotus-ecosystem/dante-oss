@@ -23,26 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.constants;
+package cn.herodotus.oss.minio.scenario.bo;
 
-import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 对象存储常量 </p>
+ * <p>Description: 创建分配上传实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/19 16:26
+ * @date : 2022/7/4 11:25
  */
-public interface MinioConstants extends BaseConstants {
+public class ChunkUploadCreateBusiness implements Entity {
 
-    String MINIO_CHUNK_UPLOAD_REQUEST_MAPPING = "/oss/minio/chunk";
-    String MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING = "/presigned";
-    String MINIO_PRESIGNED_OBJECT_PROXY = MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING + "/*/*";
-    String PRESIGNED_OBJECT_URL_PROXY = MINIO_CHUNK_UPLOAD_REQUEST_MAPPING + MINIO_PRESIGNED_OBJECT_REQUEST_MAPPING;
+    private String uploadId;
 
-    String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
+    private List<String> chunkUploadUrls;
 
-    String ITEM_MINIO_ENDPOINT = PROPERTY_OSS_MINIO + ".endpoint";
-    String ITEM_MINIO_ACCESSKEY = PROPERTY_OSS_MINIO + ".access-key";
-    String ITEM_MINIO_SECRETKEY = PROPERTY_OSS_MINIO + ".secret-key";
+    public ChunkUploadCreateBusiness(String uploadId) {
+        this.uploadId = uploadId;
+        this.chunkUploadUrls = new ArrayList<>();
+    }
+
+    public String getUploadId() {
+        return uploadId;
+    }
+
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
+    }
+
+    public List<String> getChunkUploadUrls() {
+        return chunkUploadUrls;
+    }
+
+    public void setChunkUploadUrls(List<String> chunkUploadUrls) {
+        this.chunkUploadUrls = chunkUploadUrls;
+    }
+
+    public void appendChunk(String chunk) {
+        chunkUploadUrls.add(chunkUploadUrls.size(), chunk);
+    }
 }

@@ -36,7 +36,7 @@ import jakarta.validation.constraints.Min;
  * @date : 2022/7/4 15:14
  */
 @Schema(name = "创建分片上传请求参数实体", title = "创建分片上传请求参数实体")
-public class MultipartUploadCreateRequest extends BaseDomain {
+public class ChunkUploadCreateRequest extends BaseDomain {
 
     @Min(value = 1, message = "分片数量不能小于等于1")
     @Schema(name = "分片数量")

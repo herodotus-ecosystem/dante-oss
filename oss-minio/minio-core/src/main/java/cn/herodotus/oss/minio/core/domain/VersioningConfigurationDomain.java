@@ -23,30 +23,36 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.scenario.request;
+package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.minio.core.enums.VersioningStatusEnums;
 
 /**
- * <p>Description: 完成分片上传 Dto </p>
+ * <p>Description: Minio VersioningConfiguration 对应 Domain Object </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/4 15:14
+ * @date : 2023/6/28 16:59
  */
-@Schema(name = "完成分片上传请求参数实体", title = "完成分片上传请求参数实体")
-public class MultipartUploadCompleteRequest extends BaseDomain {
+public class VersioningConfigurationDomain implements Entity {
 
-    @NotBlank(message = "分片上传ID不能为空")
-    @Schema(name = "上传ID", title = "该ID通过CreateMultipartUpload获取")
-    private String uploadId;
+    private VersioningStatusEnums status;
 
-    public String getUploadId() {
-        return uploadId;
+    private Boolean mfaDelete;
+
+    public VersioningStatusEnums getStatus() {
+        return status;
     }
 
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    public void setStatus(VersioningStatusEnums status) {
+        this.status = status;
+    }
+
+    public Boolean getMfaDelete() {
+        return mfaDelete;
+    }
+
+    public void setMfaDelete(Boolean mfaDelete) {
+        this.mfaDelete = mfaDelete;
     }
 }
