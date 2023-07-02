@@ -26,7 +26,6 @@
 package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import cn.herodotus.oss.minio.core.enums.VersioningStatusEnums;
 
 /**
  * <p>Description: Minio VersioningConfiguration 对应 Domain Object </p>

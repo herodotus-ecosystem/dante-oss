@@ -96,7 +96,7 @@ public class AdminGroupController implements Controller {
     @Operation(summary = "获取组信息", description = "获取 Minio 组信息",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "组信息",content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDomain.class))),
+                    @ApiResponse(description = "组信息", content = @Content(mediaType = "application/json", schema = @Schema(implementation = UserDomain.class))),
                     @ApiResponse(responseCode = "200", description = "查询成功"),
                     @ApiResponse(responseCode = "500", description = "查询失败"),
                     @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")

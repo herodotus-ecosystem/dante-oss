@@ -27,7 +27,6 @@ package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import io.minio.admin.Status;
-import io.minio.admin.UserInfo;
 
 import java.util.List;
 

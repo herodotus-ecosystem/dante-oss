@@ -27,12 +27,9 @@ package cn.herodotus.oss.minio.rest.request.object;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 import cn.herodotus.oss.minio.core.enums.QuotaUnitEnums;
-import io.minio.admin.QuotaUnit;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-
-import javax.annotation.Nonnull;
 
 /**
  * <p>Description: 设置存储桶配额请求参数实体 </p>

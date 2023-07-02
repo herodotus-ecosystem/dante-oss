@@ -27,9 +27,7 @@ package cn.herodotus.oss.minio.rest.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
-import cn.herodotus.oss.minio.core.domain.UserDomain;
 import cn.herodotus.oss.minio.logic.service.AdminService;
-import io.minio.admin.UserInfo;
 import io.minio.admin.messages.DataUsageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,14 +35,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * <p>Description: Minio 统计信息接口 </p>
