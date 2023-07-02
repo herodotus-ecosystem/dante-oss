@@ -23,44 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.rest.request.bucket;
+package cn.herodotus.oss.minio.core.converter.retention;
 
 import cn.herodotus.oss.minio.core.domain.VersioningConfigurationDomain;
-import cn.herodotus.oss.minio.rest.definition.BucketRequest;
-import io.minio.SetBucketVersioningArgs;
 import io.minio.messages.VersioningConfiguration;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 设置存储桶版本请求参数实体 </p>
+ * <p>Description: Minio VersioningConfiguration 转 VersioningConfigurationDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/28 17:09
+ * @date : 2023/6/30 20:44
  */
-@Schema(name = "设置存储桶版本请求参数实体", title = "设置存储桶版本请求参数实体")
-public class SetBucketVersioningRequest extends BucketRequest<SetBucketVersioningArgs.Builder, SetBucketVersioningArgs> {
-
-    @Schema(name = "存储桶版本配置", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotNull(message = "存储桶版本配置不能为空")
-    private VersioningConfigurationDomain config;
-
-    public VersioningConfigurationDomain getConfig() {
-        return config;
-    }
-
-    public void setConfig(VersioningConfigurationDomain config) {
-        this.config = config;
-    }
-
+public class VersioningConfigurationToDomainConverter implements Converter<VersioningConfiguration, VersioningConfigurationDomain> {
     @Override
-    public void prepare(SetBucketVersioningArgs.Builder builder) {
-        builder.config(new VersioningConfiguration(VersioningConfiguration.Status.valueOf(config.getStatus()), config.getMfaDelete()));
-        super.prepare(builder);
-    }
+    public VersioningConfigurationDomain convert(VersioningConfiguration versioningConfiguration) {
 
-    @Override
-    public SetBucketVersioningArgs.Builder getBuilder() {
-        return SetBucketVersioningArgs.builder();
+        if (ObjectUtils.isNotEmpty(versioningConfiguration)) {
+            VersioningConfigurationDomain domain = new VersioningConfigurationDomain();
+            domain.setStatus(versioningConfiguration.status().name());
+            domain.setMfaDelete(versioningConfiguration.isMfaDeleteEnabled());
+            return domain;
+        }
+
+        return null;
     }
 }

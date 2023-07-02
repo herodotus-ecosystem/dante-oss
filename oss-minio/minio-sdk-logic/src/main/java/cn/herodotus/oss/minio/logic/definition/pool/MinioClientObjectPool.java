@@ -65,19 +65,20 @@ public class MinioClientObjectPool {
         genericObjectPool = new GenericObjectPool<>(factory, config);
     }
 
-    public MinioClient getMinioClient() throws MinioClientPoolErrorException {
+    public MinioClient getMinioClient() {
         try {
             MinioClient minioClient = genericObjectPool.borrowObject();
             log.debug("[Herodotus] |- Fetch minio client from object pool.");
             return minioClient;
         } catch (Exception e) {
-            log.error("[Herodotus] |- Can not fetch minio client from pool.");
+            log.error("[Herodotus] |- Can not fetch minio client from pool.", e);
             throw new MinioClientPoolErrorException("Can not fetch minio client from pool.");
         }
     }
 
     public void close(MinioClient minioClient) {
         if (ObjectUtils.isNotEmpty(minioClient)) {
+            log.debug("[Herodotus] |- Close minio client.");
             genericObjectPool.returnObject(minioClient);
         }
     }

@@ -60,13 +60,13 @@ public class MinioAsyncClientObjectPool {
         genericObjectPool = new GenericObjectPool<>(factory, config);
     }
 
-    public MinioAsyncClient getMinioAsyncClient() throws MinioClientPoolErrorException {
+    public MinioAsyncClient getMinioAsyncClient() {
         try {
             MinioAsyncClient minioAsyncClient = genericObjectPool.borrowObject();
             log.debug("[Herodotus] |- Fetch minio async client from object pool.");
             return minioAsyncClient;
         } catch (Exception e) {
-            log.error("[Herodotus] |- Can not fetch minio client from pool.");
+            log.error("[Herodotus] |- Can not fetch minio client from pool.", e);
             throw new MinioClientPoolErrorException("Can not fetch minio async client from pool.");
         }
     }
@@ -74,6 +74,7 @@ public class MinioAsyncClientObjectPool {
 
     public void close(MinioAsyncClient minioAsyncClient) {
         if (ObjectUtils.isNotEmpty(minioAsyncClient)) {
+            log.debug("[Herodotus] |- Close minio async client.");
             genericObjectPool.returnObject(minioAsyncClient);
         }
     }

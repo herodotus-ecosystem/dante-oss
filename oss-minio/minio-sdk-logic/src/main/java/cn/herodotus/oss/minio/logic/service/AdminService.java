@@ -31,6 +31,7 @@ import cn.herodotus.oss.minio.core.exception.MinioInvalidKeyException;
 import cn.herodotus.oss.minio.core.exception.MinioNoSuchAlgorithmException;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminClientService;
+import io.minio.admin.MinioAdminClient;
 import io.minio.admin.messages.DataUsageInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,8 +65,10 @@ public class AdminService extends BaseMinioAdminClientService {
     public DataUsageInfo getDataUsageInfo() {
         String function = "getDataUsageInfo";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            return getMinioAdminClient().getDataUsageInfo();
+            return minioAdminClient.getDataUsageInfo();
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -79,6 +82,8 @@ public class AdminService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 

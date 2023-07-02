@@ -36,15 +36,15 @@ import cn.herodotus.oss.minio.core.enums.VersioningStatusEnums;
  */
 public class VersioningConfigurationDomain implements Entity {
 
-    private VersioningStatusEnums status;
+    private String status;
 
     private Boolean mfaDelete;
 
-    public VersioningStatusEnums getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(VersioningStatusEnums status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

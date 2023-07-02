@@ -32,6 +32,7 @@ import cn.herodotus.oss.minio.core.exception.MinioNoSuchAlgorithmException;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminClientService;
 import io.minio.admin.GroupInfo;
+import io.minio.admin.MinioAdminClient;
 import io.minio.admin.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,8 +69,10 @@ public class AdminGroupService extends BaseMinioAdminClientService {
     public List<String> listGroups() {
         String function = "listGroups";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            return getMinioAdminClient().listGroups();
+            return minioAdminClient.listGroups();
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -83,6 +86,8 @@ public class AdminGroupService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -95,8 +100,10 @@ public class AdminGroupService extends BaseMinioAdminClientService {
     public GroupInfo getGroupInfo(String group) {
         String function = "getGroupInfo";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            return getMinioAdminClient().getGroupInfo(group);
+            return minioAdminClient.getGroupInfo(group);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -110,6 +117,8 @@ public class AdminGroupService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -123,8 +132,10 @@ public class AdminGroupService extends BaseMinioAdminClientService {
     public void addUpdateGroup(@Nonnull String group, @Nullable Status groupStatus, @Nullable List<String> members) {
         String function = "addUpdateGroup";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            getMinioAdminClient().addUpdateGroup(group, groupStatus, members);
+            minioAdminClient.addUpdateGroup(group, groupStatus, members);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -138,6 +149,8 @@ public class AdminGroupService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -149,8 +162,10 @@ public class AdminGroupService extends BaseMinioAdminClientService {
     public void removeGroup(@Nonnull String group) {
         String function = "removeGroup";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            getMinioAdminClient().removeGroup(group);
+            minioAdminClient.removeGroup(group);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -164,6 +179,8 @@ public class AdminGroupService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 }

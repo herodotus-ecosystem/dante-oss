@@ -61,13 +61,13 @@ public class MinioAdminClientObjectPool {
         genericObjectPool = new GenericObjectPool<>(factory, config);
     }
 
-    public MinioAdminClient getMinioAdminClient() throws MinioClientPoolErrorException {
+    public MinioAdminClient getMinioAdminClient() {
         try {
             MinioAdminClient minioAdminClient = genericObjectPool.borrowObject();
             log.debug("[Herodotus] |- Fetch minio admin client from object pool.");
             return minioAdminClient;
         } catch (Exception e) {
-            log.error("[Herodotus] |- Can not fetch minio admin client from pool.");
+            log.error("[Herodotus] |- Can not fetch minio admin client from pool.", e);
             throw new MinioClientPoolErrorException("Can not fetch minio admin client from pool.");
         }
     }
@@ -75,6 +75,7 @@ public class MinioAdminClientObjectPool {
 
     public void close(MinioAdminClient minioAdminClient) {
         if (ObjectUtils.isNotEmpty(minioAdminClient)) {
+            log.debug("[Herodotus] |- Close minio admin client.");
             genericObjectPool.returnObject(minioAdminClient);
         }
     }

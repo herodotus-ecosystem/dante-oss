@@ -31,6 +31,7 @@ import cn.herodotus.oss.minio.core.exception.MinioInvalidKeyException;
 import cn.herodotus.oss.minio.core.exception.MinioNoSuchAlgorithmException;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminClientService;
+import io.minio.admin.MinioAdminClient;
 import io.minio.admin.QuotaUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,8 +68,10 @@ public class BucketQuotaService extends BaseMinioAdminClientService {
     public void setBucketQuota(@Nonnull String bucketName, long size, @Nonnull QuotaUnit unit) {
         String function = "setBucketQuota";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            getMinioAdminClient().setBucketQuota(bucketName, size, unit);
+            minioAdminClient.setBucketQuota(bucketName, size, unit);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -82,6 +85,8 @@ public class BucketQuotaService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -103,8 +108,10 @@ public class BucketQuotaService extends BaseMinioAdminClientService {
     public long getBucketQuota(String bucketName) {
         String function = "getBucketQuota";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            return getMinioAdminClient().getBucketQuota(bucketName);
+            return minioAdminClient.getBucketQuota(bucketName);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -118,6 +125,8 @@ public class BucketQuotaService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
