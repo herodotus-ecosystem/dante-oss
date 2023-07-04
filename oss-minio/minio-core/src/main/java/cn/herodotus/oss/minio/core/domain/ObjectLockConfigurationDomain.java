@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import cn.herodotus.oss.minio.core.enums.RetentionDurationEnums;
-import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
+import cn.herodotus.oss.minio.core.domain.base.BaseRetentionDomain;
+import cn.herodotus.oss.minio.core.enums.RetentionUnitEnums;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
  * <p>Description: Minio ObjectLockConfiguration 对应 Domain Object </p>
@@ -35,44 +35,28 @@ import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
  * @author : gengwei.zheng
  * @date : 2023/6/5 20:55
  */
-public class ObjectLockConfigurationDomain implements Entity {
+@Schema(name = "存储桶保留设置域对象")
+public class ObjectLockConfigurationDomain extends BaseRetentionDomain {
 
-    /**
-     * 保留模式
-     */
-    private RetentionModeEnums retentionMode;
+    @Schema(name = "保留周期")
+    private RetentionUnitEnums unit;
 
-    /**
-     * 保留周期模式
-     */
-    private RetentionDurationEnums durationMode;
+    @Schema(name = "保留有效期")
+    private Integer validity;
 
-    /**
-     * 保留时长
-     */
-    private Integer duration;
-
-    public RetentionModeEnums getRetentionMode() {
-        return retentionMode;
+    public RetentionUnitEnums getUnit() {
+        return unit;
     }
 
-    public void setRetentionMode(RetentionModeEnums retentionMode) {
-        this.retentionMode = retentionMode;
+    public void setUnit(RetentionUnitEnums unit) {
+        this.unit = unit;
     }
 
-    public RetentionDurationEnums getDurationMode() {
-        return durationMode;
+    public Integer getValidity() {
+        return validity;
     }
 
-    public void setDurationMode(RetentionDurationEnums durationMode) {
-        this.durationMode = durationMode;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setValidity(Integer validity) {
+        this.validity = validity;
     }
 }

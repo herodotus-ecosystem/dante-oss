@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.core.converter.retention;
 
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
-import cn.herodotus.oss.minio.core.enums.RetentionDurationEnums;
+import cn.herodotus.oss.minio.core.enums.RetentionUnitEnums;
 import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
 import io.minio.messages.ObjectLockConfiguration;
 import io.minio.messages.RetentionDuration;
@@ -51,9 +51,9 @@ public class ObjectLockConfigurationToDomainConverter implements Converter<Objec
 
             if (ObjectUtils.isNotEmpty(mode) && ObjectUtils.isNotEmpty(duration)) {
                 ObjectLockConfigurationDomain configurationDo = new ObjectLockConfigurationDomain();
-                configurationDo.setRetentionMode(RetentionModeEnums.valueOf(mode.name()));
-                configurationDo.setDurationMode(RetentionDurationEnums.valueOf(duration.unit().name()));
-                configurationDo.setDuration(duration.duration());
+                configurationDo.setMode(RetentionModeEnums.valueOf(mode.name()));
+                configurationDo.setUnit(RetentionUnitEnums.valueOf(duration.unit().name()));
+                configurationDo.setValidity(duration.duration());
                 return configurationDo;
             }
         }

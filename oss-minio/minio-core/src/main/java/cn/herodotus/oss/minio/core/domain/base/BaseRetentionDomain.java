@@ -23,28 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain;
+package cn.herodotus.oss.minio.core.domain.base;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseRetentionDomain;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 对象保留域对象 </p>
+ * <p>Description: Retention 相关共用属性抽象类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/2 22:22
+ * @date : 2023/7/4 21:58
  */
-@Schema(name = "对象保留设置域对象")
-public class RetentionDomain extends BaseRetentionDomain {
+public abstract class BaseRetentionDomain implements Entity {
 
-    @Schema(name = "保留截止日期")
-    private String retainUntilDate;
+    @Schema(name = "保留模式")
+    private RetentionModeEnums mode;
 
-    public String getRetainUntilDate() {
-        return retainUntilDate;
+    public RetentionModeEnums getMode() {
+        return mode;
     }
 
-    public void setRetainUntilDate(String retainUntilDate) {
-        this.retainUntilDate = retainUntilDate;
+    public void setMode(RetentionModeEnums mode) {
+        this.mode = mode;
     }
 }

@@ -47,7 +47,7 @@ public class DomainToRetentionConverter implements Converter<RetentionDomain, Re
 
     @Override
     public Retention convert(RetentionDomain retentionDomain) {
-        RetentionMode mode = toRetentionMode.convert(retentionDomain.getRetentionMode());
+        RetentionMode mode = toRetentionMode.convert(retentionDomain.getMode());
         ZonedDateTime retainUntilDate = DateTimeUtils.stringToZonedDateTime(retentionDomain.getRetainUntilDate());
         if (ObjectUtils.isNotEmpty(mode) && ObjectUtils.isNotEmpty(retainUntilDate)) {
             return new Retention(mode, retainUntilDate);

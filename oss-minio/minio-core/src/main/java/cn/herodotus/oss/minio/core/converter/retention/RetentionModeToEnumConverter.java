@@ -46,6 +46,6 @@ public class RetentionModeToEnumConverter implements Converter<RetentionMode, Re
             return RetentionModeEnums.valueOf(retentionModeName);
         }
 
-        return RetentionModeEnums.NONE;
+        return null;
     }
 }

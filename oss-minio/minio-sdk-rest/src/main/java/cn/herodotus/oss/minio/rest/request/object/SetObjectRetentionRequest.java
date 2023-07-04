@@ -45,7 +45,7 @@ public class SetObjectRetentionRequest extends ObjectVersionRequest<SetObjectRet
 
     private final Converter<RetentionDomain, Retention> toRetention = new DomainToRetentionConverter();
 
-    @Schema(name = "保留配置")
+    @Schema(name = "保留配置", requiredMode = Schema.RequiredMode.REQUIRED, description = "既然是设置操作那么设置值就不能为空")
     private RetentionDomain retention;
 
     @Schema(name = "使用Governance模式")
@@ -69,10 +69,7 @@ public class SetObjectRetentionRequest extends ObjectVersionRequest<SetObjectRet
 
     @Override
     public void prepare(SetObjectRetentionArgs.Builder builder) {
-        if (ObjectUtils.isNotEmpty(getRetention())) {
-            Retention retention = toRetention.convert(getRetention());
-            builder.config(retention);
-        }
+        builder.config(toRetention.convert(getRetention()));
 
         if (ObjectUtils.isNotEmpty(getBypassGovernanceMode())) {
             builder.bypassGovernanceMode(getBypassGovernanceMode());
