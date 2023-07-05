@@ -46,7 +46,7 @@ public class SetObjectLockConfigurationRequest extends BucketRequest<SetObjectLo
 
     private final Converter<ObjectLockConfigurationDomain, ObjectLockConfiguration> requestTo = new DomainToObjectLockConfigurationConverter();
 
-    @Schema(name = "对象锁定配置", requiredMode = Schema.RequiredMode.REQUIRED)
+    @Schema(name = "对象锁定配置", requiredMode = Schema.RequiredMode.REQUIRED, description = "既然是设置操作那么设置的值就不能为空")
     @NotNull(message = "对象锁定配置信息不能为空")
     private ObjectLockConfigurationDomain objectLock;
 
@@ -60,10 +60,8 @@ public class SetObjectLockConfigurationRequest extends BucketRequest<SetObjectLo
 
     @Override
     public void prepare(SetObjectLockConfigurationArgs.Builder builder) {
-        ObjectLockConfiguration objectLockConfiguration = requestTo.convert(getObjectLock());
-        if (ObjectUtils.isNotEmpty(objectLockConfiguration)) {
-            builder.config(objectLockConfiguration);
-        }
+        // 既然是设置操作那么设置的值就不能为空
+        builder.config(requestTo.convert(getObjectLock()));
         super.prepare(builder);
     }
 

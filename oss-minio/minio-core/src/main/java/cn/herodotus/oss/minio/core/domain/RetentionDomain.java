@@ -25,8 +25,7 @@
 
 package cn.herodotus.oss.minio.core.domain;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
+import cn.herodotus.oss.minio.core.domain.base.BaseRetentionDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -35,21 +34,11 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author : gengwei.zheng
  * @date : 2022/7/2 22:22
  */
-@Schema(name = "对象保留域对象")
-public class RetentionDomain implements Entity {
+@Schema(name = "对象保留设置域对象")
+public class RetentionDomain extends BaseRetentionDomain {
 
-    @Schema(name = "保留模式")
-    private RetentionModeEnums retentionMode;
     @Schema(name = "保留截止日期")
     private String retainUntilDate;
-
-    public RetentionModeEnums getRetentionMode() {
-        return retentionMode;
-    }
-
-    public void setRetentionMode(RetentionModeEnums retentionMode) {
-        this.retentionMode = retentionMode;
-    }
 
     public String getRetainUntilDate() {
         return retainUntilDate;

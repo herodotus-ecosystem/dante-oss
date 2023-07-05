@@ -55,7 +55,7 @@ public class SetBucketVersioningRequest extends BucketRequest<SetBucketVersionin
 
     @Override
     public void prepare(SetBucketVersioningArgs.Builder builder) {
-        builder.config(new VersioningConfiguration(VersioningConfiguration.Status.fromString(config.getStatus().name()), config.getMfaDelete()));
+        builder.config(new VersioningConfiguration(VersioningConfiguration.Status.valueOf(config.getStatus()), config.getMfaDelete()));
         super.prepare(builder);
     }
 

@@ -31,6 +31,7 @@ import cn.herodotus.oss.minio.core.exception.MinioInvalidKeyException;
 import cn.herodotus.oss.minio.core.exception.MinioNoSuchAlgorithmException;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminClientService;
+import io.minio.admin.MinioAdminClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -65,8 +66,10 @@ public class AdminPolicyService extends BaseMinioAdminClientService {
     public Map<String, String> listCannedPolicies() {
         String function = "listCannedPolicies";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            return getMinioAdminClient().listCannedPolicies();
+            return minioAdminClient.listCannedPolicies();
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -80,6 +83,8 @@ public class AdminPolicyService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -92,8 +97,10 @@ public class AdminPolicyService extends BaseMinioAdminClientService {
     public void addCannedPolicy(@Nonnull String name, @Nonnull String policy) {
         String function = "addCannedPolicy";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            getMinioAdminClient().addCannedPolicy(name, policy);
+            minioAdminClient.addCannedPolicy(name, policy);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -107,6 +114,8 @@ public class AdminPolicyService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -118,8 +127,10 @@ public class AdminPolicyService extends BaseMinioAdminClientService {
     public void removeCannedPolicy(@Nonnull String name) {
         String function = "removeCannedPolicy";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            getMinioAdminClient().removeCannedPolicy(name);
+            minioAdminClient.removeCannedPolicy(name);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -133,6 +144,8 @@ public class AdminPolicyService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -145,8 +158,11 @@ public class AdminPolicyService extends BaseMinioAdminClientService {
      */
     public void setPolicy(@Nonnull String userOrGroupName, boolean isGroup, @Nonnull String policyName) {
         String function = "setPolicy";
+
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            getMinioAdminClient().setPolicy(userOrGroupName, isGroup, policyName);
+            minioAdminClient.setPolicy(userOrGroupName, isGroup, policyName);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -160,6 +176,8 @@ public class AdminPolicyService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 }

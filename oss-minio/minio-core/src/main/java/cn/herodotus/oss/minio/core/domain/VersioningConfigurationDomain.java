@@ -26,7 +26,6 @@
 package cn.herodotus.oss.minio.core.domain;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import cn.herodotus.oss.minio.core.enums.VersioningStatusEnums;
 
 /**
  * <p>Description: Minio VersioningConfiguration 对应 Domain Object </p>
@@ -36,15 +35,15 @@ import cn.herodotus.oss.minio.core.enums.VersioningStatusEnums;
  */
 public class VersioningConfigurationDomain implements Entity {
 
-    private VersioningStatusEnums status;
+    private String status;
 
     private Boolean mfaDelete;
 
-    public VersioningStatusEnums getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(VersioningStatusEnums status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

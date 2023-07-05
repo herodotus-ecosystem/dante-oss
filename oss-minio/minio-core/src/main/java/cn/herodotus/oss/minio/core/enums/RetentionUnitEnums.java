@@ -42,27 +42,23 @@ import java.util.Map;
  * @date : 2023/6/5 21:46
  */
 @Schema(name = "保留周期")
-public enum RetentionDurationEnums implements BaseUiEnum<Integer> {
+public enum RetentionUnitEnums implements BaseUiEnum<Integer> {
 
-    /**
-     * enum
-     */
-    NONE(0, "未设置"),
-    DAYS(1, "天"),
-    YEARS(2, "年");
+    DAYS(0, "天"),
+    YEARS(1, "年");
 
-    private static final Map<Integer, RetentionDurationEnums> INDEX_MAP = new HashMap<>();
+    private static final Map<Integer, RetentionUnitEnums> INDEX_MAP = new HashMap<>();
     private static final List<Map<String, Object>> JSON_STRUCTURE = new ArrayList<>();
 
     static {
-        for (RetentionDurationEnums retentionDurationEnums : RetentionDurationEnums.values()) {
-            INDEX_MAP.put(retentionDurationEnums.getValue(), retentionDurationEnums);
-            JSON_STRUCTURE.add(retentionDurationEnums.getValue(),
+        for (RetentionUnitEnums retentionUnitEnums : RetentionUnitEnums.values()) {
+            INDEX_MAP.put(retentionUnitEnums.getValue(), retentionUnitEnums);
+            JSON_STRUCTURE.add(retentionUnitEnums.getValue(),
                     ImmutableMap.<String, Object>builder()
-                            .put("value", retentionDurationEnums.getValue())
-                            .put("key", retentionDurationEnums.name())
-                            .put("text", retentionDurationEnums.getDescription())
-                            .put("index", retentionDurationEnums.getValue())
+                            .put("value", retentionUnitEnums.getValue())
+                            .put("key", retentionUnitEnums.name())
+                            .put("text", retentionUnitEnums.getDescription())
+                            .put("index", retentionUnitEnums.getValue())
                             .build());
         }
     }
@@ -72,12 +68,12 @@ public enum RetentionDurationEnums implements BaseUiEnum<Integer> {
     @Schema(name = "文字")
     private final String description;
 
-    RetentionDurationEnums(Integer value, String description) {
+    RetentionUnitEnums(Integer value, String description) {
         this.value = value;
         this.description = description;
     }
 
-    public static RetentionDurationEnums get(Integer index) {
+    public static RetentionUnitEnums get(Integer index) {
         return INDEX_MAP.get(index);
     }
 

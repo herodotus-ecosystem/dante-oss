@@ -23,68 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.domain;
+package cn.herodotus.oss.minio.core.converter.retention;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import io.minio.admin.Status;
-
-import java.util.List;
+import cn.herodotus.oss.minio.core.domain.VersioningConfigurationDomain;
+import io.minio.messages.VersioningConfiguration;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Minio User Domain </p>
+ * <p>Description: Minio VersioningConfiguration 转 VersioningConfigurationDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/25 14:18
+ * @date : 2023/6/30 20:44
  */
-public class UserDomain implements Entity {
+public class VersioningConfigurationToDomainConverter implements Converter<VersioningConfiguration, VersioningConfigurationDomain> {
+    @Override
+    public VersioningConfigurationDomain convert(VersioningConfiguration versioningConfiguration) {
 
-    private String accessKey;
+        if (ObjectUtils.isNotEmpty(versioningConfiguration)) {
+            VersioningConfigurationDomain domain = new VersioningConfigurationDomain();
+            domain.setStatus(versioningConfiguration.status().name());
+            domain.setMfaDelete(versioningConfiguration.isMfaDeleteEnabled());
+            return domain;
+        }
 
-    private String secretKey;
-
-    private String policyName;
-
-    private List<String> memberOf;
-
-    private Status status;
-
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public String getPolicyName() {
-        return policyName;
-    }
-
-    public void setPolicyName(String policyName) {
-        this.policyName = policyName;
-    }
-
-    public List<String> getMemberOf() {
-        return memberOf;
-    }
-
-    public void setMemberOf(List<String> memberOf) {
-        this.memberOf = memberOf;
-    }
-
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
+        return null;
     }
 }

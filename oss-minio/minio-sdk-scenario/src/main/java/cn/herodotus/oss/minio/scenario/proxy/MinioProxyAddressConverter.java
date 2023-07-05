@@ -25,7 +25,6 @@
 
 package cn.herodotus.oss.minio.scenario.proxy;
 
-import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
 import cn.herodotus.engine.assistant.core.definition.constants.SymbolConstants;
 import cn.herodotus.oss.minio.core.constants.MinioConstants;
 import cn.herodotus.oss.minio.logic.properties.MinioProperties;

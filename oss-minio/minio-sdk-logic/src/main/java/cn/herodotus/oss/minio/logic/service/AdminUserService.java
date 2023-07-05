@@ -28,6 +28,7 @@ package cn.herodotus.oss.minio.logic.service;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminClientService;
+import io.minio.admin.MinioAdminClient;
 import io.minio.admin.UserInfo;
 import org.bouncycastle.crypto.InvalidCipherTextException;
 import org.slf4j.Logger;
@@ -66,8 +67,10 @@ public class AdminUserService extends BaseMinioAdminClientService {
     public Map<String, UserInfo> listUsers() {
         String function = "listUsers";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            return getMinioAdminClient().listUsers();
+            return minioAdminClient.listUsers();
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -84,6 +87,8 @@ public class AdminUserService extends BaseMinioAdminClientService {
         } catch (InvalidCipherTextException e) {
             log.error("[Herodotus] |- Minio catch InvalidCipherTextException in [{}].", function, e);
             throw new MinioInvalidCipherTextException(e.getMessage());
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -96,8 +101,10 @@ public class AdminUserService extends BaseMinioAdminClientService {
     public UserInfo getUserInfo(String accessKey) {
         String function = "getUserInfo";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            return getMinioAdminClient().getUserInfo(accessKey);
+            return minioAdminClient.getUserInfo(accessKey);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -111,14 +118,18 @@ public class AdminUserService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 
     public void addUser(@Nonnull String accessKey, @Nonnull UserInfo.Status status, @Nullable String secretKey, @Nullable String policyName, @Nullable List<String> memberOf) {
         String function = "addUser";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            getMinioAdminClient().addUser(accessKey, status, secretKey, policyName, memberOf);
+            minioAdminClient.addUser(accessKey, status, secretKey, policyName, memberOf);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -135,6 +146,8 @@ public class AdminUserService extends BaseMinioAdminClientService {
         } catch (InvalidCipherTextException e) {
             log.error("[Herodotus] |- Minio catch InvalidCipherTextException in [{}].", function, e);
             throw new MinioInvalidCipherTextException(e.getMessage());
+        } finally {
+            close(minioAdminClient);
         }
     }
 
@@ -146,8 +159,10 @@ public class AdminUserService extends BaseMinioAdminClientService {
     public void deleteUser(@Nonnull String accessKey) {
         String function = "deleteUser";
 
+        MinioAdminClient minioAdminClient = getMinioAdminClient();
+
         try {
-            getMinioAdminClient().deleteUser(accessKey);
+            minioAdminClient.deleteUser(accessKey);
         } catch (NoSuchAlgorithmException e) {
             log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
             throw new MinioNoSuchAlgorithmException(e.getMessage());
@@ -161,6 +176,8 @@ public class AdminUserService extends BaseMinioAdminClientService {
             } else {
                 throw new MinioIOException(e.getMessage());
             }
+        } finally {
+            close(minioAdminClient);
         }
     }
 }

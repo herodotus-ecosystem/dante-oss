@@ -41,43 +41,38 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2023/6/5 21:45
  */
-@Schema(name = "保留模式")
+@Schema(name = "保留模式枚举")
 public enum RetentionModeEnums implements BaseUiEnum<Integer> {
 
-    /**
-     * 未设置。Minio 中允许不设置保留模式
-     * 增加一个状态表示未设置，前端可以以此作为删除的操作。
-     */
-    NONE(0, "未设置"),
     /**
      * 治理模式。用户不能覆盖或删除对象版本或更改其锁定设置。
      * 要覆盖或删除治理模式保留设置，用户必须拥有 `s3:BypassGovernanceRetention` 权限，并且必须明确包括 `x-amz-bypass-governance-retention:true` 作为任何要求覆盖治理模式的请求的请求头。
      */
-    GOVERNANCE(1, "治理模式"),
+    GOVERNANCE(0, "治理模式"),
     /**
      * 合规模式。任何用户都不能覆盖或删除受保护对象版本
      */
-    COMPLIANCE(2, "合规模式");
+    COMPLIANCE(1, "合规模式");
 
     private static final Map<Integer, RetentionModeEnums> INDEX_MAP = new HashMap<>();
     private static final List<Map<String, Object>> JSON_STRUCTURE = new ArrayList<>();
 
     static {
-        for (RetentionModeEnums policyEnums : RetentionModeEnums.values()) {
-            INDEX_MAP.put(policyEnums.getValue(), policyEnums);
-            JSON_STRUCTURE.add(policyEnums.getValue(),
+        for (RetentionModeEnums retentionModeEnums : RetentionModeEnums.values()) {
+            INDEX_MAP.put(retentionModeEnums.getValue(), retentionModeEnums);
+            JSON_STRUCTURE.add(retentionModeEnums.getValue(),
                     ImmutableMap.<String, Object>builder()
-                            .put("value", policyEnums.getValue())
-                            .put("key", policyEnums.name())
-                            .put("text", policyEnums.getDescription())
-                            .put("index", policyEnums.getValue())
+                            .put("value", retentionModeEnums.getValue())
+                            .put("key", retentionModeEnums.name())
+                            .put("text", retentionModeEnums.getDescription())
+                            .put("index", retentionModeEnums.getValue())
                             .build());
         }
     }
 
     @Schema(title = "枚举值")
     private final Integer value;
-    @Schema(name = "文字")
+    @Schema(name = "文字描述")
     private final String description;
 
     RetentionModeEnums(Integer value, String description) {

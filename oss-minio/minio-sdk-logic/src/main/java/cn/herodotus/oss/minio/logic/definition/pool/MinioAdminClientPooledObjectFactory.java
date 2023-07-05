@@ -30,6 +30,8 @@ import io.minio.admin.MinioAdminClient;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <p>Description: Minio 基础 Admin Client 池化工厂 </p>
@@ -39,6 +41,8 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
  */
 public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory<MinioAdminClient> {
 
+    private static final Logger log = LoggerFactory.getLogger(MinioAdminClientPooledObjectFactory.class);
+
     private final MinioProperties minioProperties;
 
     public MinioAdminClientPooledObjectFactory(MinioProperties minioProperties) {
@@ -47,6 +51,7 @@ public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory
 
     @Override
     public MinioAdminClient create() throws Exception {
+        log.debug("[Herodotus] |- Minio admin client factory create object.");
         return MinioAdminClient.builder()
                 .endpoint(minioProperties.getEndpoint())
                 .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
@@ -55,6 +60,7 @@ public class MinioAdminClientPooledObjectFactory extends BasePooledObjectFactory
 
     @Override
     public PooledObject<MinioAdminClient> wrap(MinioAdminClient minioAdminClient) {
+        log.debug("[Herodotus] |- Minio admin client factory wrap object.");
         return new DefaultPooledObject<>(minioAdminClient);
     }
 }

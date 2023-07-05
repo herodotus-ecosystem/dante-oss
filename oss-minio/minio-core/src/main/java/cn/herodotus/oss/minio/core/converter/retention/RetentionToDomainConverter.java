@@ -52,14 +52,13 @@ public class RetentionToDomainConverter implements Converter<Retention, Retentio
 
         RetentionDomain retentionDomain = new RetentionDomain();
         if (ObjectUtils.isNotEmpty(retention)) {
-            retentionDomain.setRetentionMode(toEnums.convert(retention.mode()));
+            retentionDomain.setMode(toEnums.convert(retention.mode()));
             if (ObjectUtils.isNotEmpty(retention.retainUntilDate())) {
                 retentionDomain.setRetainUntilDate(DateTimeUtils.zonedDateTimeToString(retention.retainUntilDate()));
             }
-        } else {
-            retentionDomain.setRetentionMode(RetentionModeEnums.NONE);
+            return retentionDomain;
         }
 
-        return retentionDomain;
+        return null;
     }
 }

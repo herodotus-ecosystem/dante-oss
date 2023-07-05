@@ -26,8 +26,10 @@
 package cn.herodotus.oss.minio.scenario.service;
 
 import cn.herodotus.oss.minio.core.converter.retention.ObjectLockConfigurationToDomainConverter;
+import cn.herodotus.oss.minio.core.converter.retention.VersioningConfigurationToDomainConverter;
 import cn.herodotus.oss.minio.core.converter.sse.SseConfigurationToEnumConverter;
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
+import cn.herodotus.oss.minio.core.domain.VersioningConfigurationDomain;
 import cn.herodotus.oss.minio.core.enums.PolicyEnums;
 import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
 import cn.herodotus.oss.minio.logic.service.*;
@@ -50,6 +52,7 @@ public class BucketSettingService {
 
     private final Converter<SseConfiguration, SseConfigurationEnums> toSseConfigurationEnums;
     private final Converter<ObjectLockConfiguration, ObjectLockConfigurationDomain> toObjectLockDomain;
+    private final Converter<VersioningConfiguration, VersioningConfigurationDomain> toVersioningDomain;
 
     private final BucketEncryptionService bucketEncryptionService;
     private final BucketPolicyService bucketPolicyService;
@@ -67,6 +70,7 @@ public class BucketSettingService {
         this.objectLockConfigurationService = objectLockConfigurationService;
         this.toSseConfigurationEnums = new SseConfigurationToEnumConverter();
         this.toObjectLockDomain = new ObjectLockConfigurationToDomainConverter();
+        this.toVersioningDomain = new VersioningConfigurationToDomainConverter();
     }
 
     public BucketSettingBusiness get(String bucketName) {
@@ -86,8 +90,9 @@ public class BucketSettingService {
         entity.setSseConfiguration(toSseConfigurationEnums.convert(sseConfiguration));
         entity.setTags(tags.get());
         entity.setPolicy(policy);
-        entity.setObjectLock(toObjectLockDomain.convert(objectLockConfiguration));
         entity.setQuota(quota);
+        entity.setObjectLock(toObjectLockDomain.convert(objectLockConfiguration));
+        entity.setVersioning(toVersioningDomain.convert(versioningConfiguration));
 
         return entity;
     }

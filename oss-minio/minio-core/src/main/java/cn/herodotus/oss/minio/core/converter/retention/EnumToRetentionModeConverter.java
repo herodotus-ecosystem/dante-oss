@@ -40,7 +40,7 @@ import org.springframework.core.convert.converter.Converter;
 public class EnumToRetentionModeConverter implements Converter<RetentionModeEnums, RetentionMode> {
     @Override
     public RetentionMode convert(RetentionModeEnums enums) {
-        if (ObjectUtils.isNotEmpty(enums) && enums != RetentionModeEnums.NONE) {
+        if (ObjectUtils.isNotEmpty(enums)) {
             return Enums.getIfPresent(RetentionMode.class, enums.name()).orNull();
         }
 

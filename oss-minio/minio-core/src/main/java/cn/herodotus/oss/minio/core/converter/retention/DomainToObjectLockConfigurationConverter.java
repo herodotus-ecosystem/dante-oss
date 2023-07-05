@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.core.converter.retention;
 
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
-import cn.herodotus.oss.minio.core.enums.RetentionDurationEnums;
+import cn.herodotus.oss.minio.core.enums.RetentionUnitEnums;
 import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
 import io.minio.messages.*;
 import org.apache.commons.lang3.ObjectUtils;
@@ -46,8 +46,8 @@ public class DomainToObjectLockConfigurationConverter implements Converter<Objec
     public ObjectLockConfiguration convert(ObjectLockConfigurationDomain source) {
 
         if (isRetentionModeValid(source) && isRetentionDurationModeValid(source)) {
-            RetentionMode mode = toRetentionMode.convert(source.getRetentionMode());
-            RetentionDuration duration = getRetentionDuration(source.getDurationMode(), source.getDuration());
+            RetentionMode mode = toRetentionMode.convert(source.getMode());
+            RetentionDuration duration = getRetentionDuration(source.getUnit(), source.getValidity());
             return new ObjectLockConfiguration(mode, duration);
         }
 
@@ -55,18 +55,18 @@ public class DomainToObjectLockConfigurationConverter implements Converter<Objec
     }
 
     private boolean isRetentionModeValid(ObjectLockConfigurationDomain source) {
-        RetentionModeEnums enums = source.getRetentionMode();
-        return ObjectUtils.isNotEmpty(enums) && enums != RetentionModeEnums.NONE;
+        RetentionModeEnums enums = source.getMode();
+        return ObjectUtils.isNotEmpty(enums);
     }
 
     private boolean isRetentionDurationModeValid(ObjectLockConfigurationDomain source) {
-        RetentionDurationEnums enums = source.getDurationMode();
-        Integer duration = source.getDuration();
-        return ObjectUtils.isNotEmpty(enums) && enums != RetentionDurationEnums.NONE && ObjectUtils.isNotEmpty(duration) && duration != 0;
+        RetentionUnitEnums enums = source.getUnit();
+        Integer duration = source.getValidity();
+        return ObjectUtils.isNotEmpty(enums) && ObjectUtils.isNotEmpty(duration) && duration != 0;
     }
 
-    private RetentionDuration getRetentionDuration(RetentionDurationEnums enums, Integer duration) {
-        if (enums == RetentionDurationEnums.DAYS) {
+    private RetentionDuration getRetentionDuration(RetentionUnitEnums enums, Integer duration) {
+        if (enums == RetentionUnitEnums.DAYS) {
             return new RetentionDurationDays(duration);
         } else {
             return new RetentionDurationYears(duration);
