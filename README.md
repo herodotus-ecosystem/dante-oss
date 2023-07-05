@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.0-blue.svg?logo=spring" alt="Spring Boot 3.1.0"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-0.8.4-red.svg?logo=spring" alt="Version 0.8.4"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.0.0-red.svg?logo=spring" alt="Version 1.0.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -89,14 +89,15 @@ MinIO 是一款高性能、分布式的对象存储系统。Minio这款开源的
 
 - [3] 业务支持
 
-| 内容    | Minio SDK                     | Dante OSS                                             |
-|-------|-------------------------------|-------------------------------------------------------|
-| 常规业务  | 独立方法需要自己按需组合                  | 封装常规业务逻辑，可直接调用 REST API使用                             |
-| 设置管理  | 对于存储桶、对象的管理只能通过 Minio 服务器管理界面 | 对照 Minio 管理界面方式，将管理功能封装为 Service、REST API 以及 Vue 管理界面 |
-| 文件直传  | 提供直传机制，直接暴露Minio服务器地址         | 增加超简化反向代理，在满足直传需求的前提下，很好的隐藏Minio 服务器以提升安全性            |
-| 文件直传  | 直传接口无法与现有系统安全体系融合（无法鉴权）       | 提供基于 Spring Authorization Server 的、完整的单体版和微服务版案例      |
-| 大文件分片 | 内部机制无法直接使用                    | 封装主流大文件分片方案，提供前后端使用案例                                 |
-| 文件秒传  | 不支持                           | 提供共用化秒传实现，可直接使用，支持多种数据库                               |
+| 内容    | Minio SDK                     | Dante OSS                                                         |
+|-------|-------------------------------|-------------------------------------------------------------------|
+| 常规业务  | 独立方法需要自己按需组合                  | 封装常规业务逻辑，可直接调用 REST API使用                                         |
+| 设置管理  | 对于存储桶、对象的管理只能通过 Minio 服务器管理界面 | 对照 Minio 管理界面方式，将管理功能封装为 Service、REST API 以及 Vue 管理界面             |
+| 文件直传  | 提供直传机制，直接暴露Minio服务器地址         | 增加超简化反向代理，在满足直传需求的前提下，很好的隐藏Minio 服务器以提升安全性                        |
+| 文件直传  | 直传接口无法与现有系统安全体系融合（无法鉴权）       | 提供基于 Spring Authorization Server 的、完整的单体版和微服务版案例                  |
+| 接口防护  | 不提供 REST API 及 接口防护           | 根据REST接口类型，默认设置幂等、防刷等接口调用防刷机制                                     |
+| 对象池化  | Builder 模式创建基础 Client         | 构建 Minio Client 和 Minio Admin 对象池模式，支持重用 Minio 基础对象来提高应用程序性能和效率 |
+| 大文件分片 | 内部机制无法直接使用                    | 封装主流大文件分片方案，提供前后端使用案例                                             |
 
 - [4] 前端开发
 
@@ -174,20 +175,21 @@ dante-oss
 
 - [2] 扩展功能
 
-| 功能               | 说明                                                                   |
-|------------------|----------------------------------------------------------------------|
-| 创建分片上传请求         | 创建分片上传请求，返回 Minio UploadId                                           |
-| 创建文件预上传地址        | 根据 UploadId 和 指定的分片数量，返回数量像匹配的 Minio 与上传地址                           |
-| 获取所有分片文件         | 获取指定 uploadId 下所有的分片文件                                               |
-| 创建大文件分片上传        | 统一的创建大文件分片上传业务逻辑封装，减少前后端反复交互， 包括 Service、REST API                    |
-| 合并已经上传完成的分片      | 根据 UploadId 合并已经上传完成的分片，完成大文件分片上传 包括 Service、REST API                |
-| 统一常量接口           | 将涉及的 Enums、常量以统一接口的方式返回给前端，方便展示使用， 包括 Service、REST API 和前端展示         |
-| Minio Client 对象池 | 实现 Minio Client 对象池，减少 Minio Client 的反复创建和销毁，提升访问 Minio Server性能     |
-| Bucket 设置        | 统一 Bucket 设置： Bucket 标签设置、访问策略、加密方式、对象锁定等， 包括 Service、REST API 和前端展示 |
-| Object 设置        | 统一 Object 设置： Bucket 标签设置， 包括 Service、REST API 和前端展示                 |
-| Object 下载(流模式)   | Minio 对象下载，采用流模式支持vue前端post方式下载， 包括 Service、REST API 和前端展示           |
-| 超轻量级反向代理         | 实现轻量级反向代理解决 PresignedObjectUrl 方式直接向前端暴露 Minio Server地址问题            |
-
+| 功能                     | 说明                                                                             |
+|------------------------|--------------------------------------------------------------------------------|
+| 创建分片上传请求               | 创建分片上传请求，返回 Minio UploadId                                                     |
+| 创建文件预上传地址              | 根据 UploadId 和 指定的分片数量，返回数量像匹配的 Minio 与上传地址                                     |
+| 获取所有分片文件               | 获取指定 uploadId 下所有的分片文件                                                         |
+| 创建大文件分片上传              | 统一的创建大文件分片上传业务逻辑封装，减少前后端反复交互， 包括 Service、REST API                              |
+| 合并已经上传完成的分片            | 根据 UploadId 合并已经上传完成的分片，完成大文件分片上传 包括 Service、REST API                          |
+| 统一常量接口                 | 将涉及的 Enums、常量以统一接口的方式返回给前端，方便展示使用， 包括 Service、REST API 和前端展示                   |
+| Minio Client 对象池       | 实现 Minio Client 对象池，减少 Minio Client 的反复创建和销毁，提升访问 Minio Server性能               |
+| Minio Async Client 对象池 | 实现 Minio Async Client 对象池，减少 Minio Async Client 的反复创建和销毁，提升访问 Minio Server性能   |
+| Minio Admin 对象池        | 实现 Minio Admin 对象池，减少 Minio Admin 的反复创建和销毁，提升访问 Minio Server性能                 |
+| Bucket 设置              | 统一 Bucket 设置： Bucket 标签设置、访问策略、加密方式、对象锁定、版本控制、保留设置等， 包括 Service、REST API 和前端展示 |
+| Object 设置              | 统一 Object 设置： Bucket 标签设置， 包括 Service、REST API 和前端展示                           |
+| Object 下载(流模式)         | Minio 对象下载，采用流模式支持vue前端post方式下载， 包括 Service、REST API 和前端展示                     |
+| 超轻量级反向代理               | 实现轻量级反向代理解决 PresignedObjectUrl 方式直接向前端暴露 Minio Server地址问题                      |
 
 - [3] 主流方案
 
