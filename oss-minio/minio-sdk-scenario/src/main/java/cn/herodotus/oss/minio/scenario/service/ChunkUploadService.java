@@ -27,6 +27,7 @@ package cn.herodotus.oss.minio.scenario.service;
 
 import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
+import cn.herodotus.oss.minio.logic.service.MultipartUploadService;
 import cn.herodotus.oss.minio.logic.service.PresignedObjectUrlService;
 import cn.herodotus.oss.minio.scenario.bo.ChunkUploadCreateBusiness;
 import cn.herodotus.oss.minio.scenario.proxy.MinioProxyAddressConverter;
@@ -55,11 +56,11 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class ChunkUploadService {
 
-    private final cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService;
+    private final MultipartUploadService multipartUploadService;
     private final PresignedObjectUrlService presignedObjectUrlService;
     private final MinioProxyAddressConverter converter;
 
-    public ChunkUploadService(cn.herodotus.oss.minio.logic.service.MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
+    public ChunkUploadService(MultipartUploadService multipartUploadService, PresignedObjectUrlService presignedObjectUrlService, MinioProxyAddressConverter converter) {
         this.multipartUploadService = multipartUploadService;
         this.presignedObjectUrlService = presignedObjectUrlService;
         this.converter = converter;
@@ -134,7 +135,7 @@ public class ChunkUploadService {
         String uploadId = createUploadId(bucketName, region, objectName);
         ChunkUploadCreateBusiness entity = new ChunkUploadCreateBusiness(uploadId);
 
-        for (int i = 0; i < totalParts; i++) {
+        for (int i = 1; i <= totalParts; i++) {
             String uploadUrl = createPresignedObjectUrl(bucketName, region, objectName, uploadId, i);
             entity.appendChunk(converter.toServiceUrl(uploadUrl));
         }
