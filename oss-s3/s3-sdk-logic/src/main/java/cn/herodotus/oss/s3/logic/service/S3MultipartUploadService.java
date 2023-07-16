@@ -33,6 +33,7 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>Description: 分片上传 </p>
@@ -40,6 +41,7 @@ import org.slf4j.LoggerFactory;
  * @author : gengwei.zheng
  * @date : 2023/7/16 15:36
  */
+@Service
 public class S3MultipartUploadService extends BaseS3ClientService {
 
     private static final Logger log = LoggerFactory.getLogger(S3MultipartUploadService.class);

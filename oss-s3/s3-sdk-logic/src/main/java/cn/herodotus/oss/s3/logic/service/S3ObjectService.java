@@ -30,64 +30,38 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.CopyObjectRequest;
+import com.amazonaws.services.s3.model.CopyObjectResult;
+import com.amazonaws.services.s3.model.ListMultipartUploadsRequest;
+import com.amazonaws.services.s3.model.MultipartUploadListing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
- * <p>Description: Amazon S3 存储桶管理 Service </p>
+ * <p>Description: Amazon S3 对象管理 Service </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/14 16:04
+ * @date : 2023/7/16 16:48
  */
-@Service
-public class S3BucketService extends BaseS3ClientService {
+public class S3ObjectService extends BaseS3ClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(S3BucketService.class);
+    private static final Logger log = LoggerFactory.getLogger(S3ObjectService.class);
 
-    public S3BucketService(S3ClientObjectPool s3ClientObjectPool) {
+    public S3ObjectService(S3ClientObjectPool s3ClientObjectPool) {
         super(s3ClientObjectPool);
     }
 
-    public List<Bucket> listBuckets() {
-        AmazonS3 amazonS3 = getAmazonS3();
-        List<Bucket> result = amazonS3.listBuckets();
-        close(amazonS3);
-        return result;
-    }
-
     /**
-     * 创建存储桶
-     * @param request {@link CreateBucketRequest}
-     * @return {@link Bucket}
+     * 复制对象
+     * @param request {@link CopyObjectRequest}
+     * @return {@link CopyObjectResult}
      */
-    public Bucket createBucket(CreateBucketRequest request) {
-        String function = "createBucket";
+    public CopyObjectResult copyObject(CopyObjectRequest request) {
+        String function = "copyObject";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
-            return amazonS3.createBucket(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
-     * 删除存储桶
-     * @param request {@link CreateBucketRequest}
-     */
-    public void deleteBucket(DeleteBucketRequest request) {
-        String function = "deleteBucket";
-
-        AmazonS3 amazonS3 = getAmazonS3();
-        try {
-            amazonS3.deleteBucket(request);
+            return amazonS3.copyObject(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
