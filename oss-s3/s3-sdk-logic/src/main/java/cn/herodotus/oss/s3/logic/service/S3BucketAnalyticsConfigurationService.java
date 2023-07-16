@@ -90,4 +90,44 @@ public class S3BucketAnalyticsConfigurationService extends BaseS3ClientService {
             close(amazonS3);
         }
     }
+
+    /**
+     * 获取存储桶访问分析配置列表
+     *
+     * @param request {@link ListBucketAnalyticsConfigurationsRequest}
+     * @return {@link ListBucketAnalyticsConfigurationsResult}
+     */
+    public ListBucketAnalyticsConfigurationsResult listBucketAnalyticsConfigurations(ListBucketAnalyticsConfigurationsRequest request) {
+        String function = "listBucketAnalyticsConfigurations";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.listBucketAnalyticsConfigurations(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置存储桶访问分析配置列表
+     *
+     * @param request {@link SetBucketAnalyticsConfigurationRequest}
+     * @return {@link SetBucketAnalyticsConfigurationResult}
+     */
+    public SetBucketAnalyticsConfigurationResult setBucketAnalyticsConfiguration(SetBucketAnalyticsConfigurationRequest request) {
+        String function = "setBucketAnalyticsConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.setBucketAnalyticsConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
 }

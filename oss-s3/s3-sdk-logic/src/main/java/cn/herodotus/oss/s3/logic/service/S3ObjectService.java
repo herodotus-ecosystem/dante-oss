@@ -108,4 +108,81 @@ public class S3ObjectService extends BaseS3ClientService {
             close(amazonS3);
         }
     }
+
+    /**
+     * 获取对象
+     *
+     * @param request {@link GetObjectRequest}
+     * @return {@link S3Object}
+     */
+    public S3Object getObject(GetObjectRequest request) {
+        String function = "getObject";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getObject(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取对象列表
+     * @param request {@link ListObjectsRequest }
+     * @return {@link ObjectListing}
+     */
+    public ObjectListing listObjects(ListObjectsRequest request) {
+        String function = "listObjects";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.listObjects(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取对象列表 V2
+     * @param request {@link ListObjectsV2Request }
+     * @return {@link ListObjectsV2Result}
+     */
+    public ListObjectsV2Result listObjectsV2(ListObjectsV2Request request) {
+        String function = "listObjectsV2";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.listObjectsV2(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 上传对象
+     * @param request {@link PutObjectRequest }
+     * @return {@link PutObjectResult}
+     */
+    public PutObjectResult putObject(PutObjectRequest request) {
+        String function = "putObject";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.putObject(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
 }

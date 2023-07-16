@@ -88,4 +88,24 @@ public class S3BucketCrossOriginConfigurationService extends BaseS3ClientService
             close(amazonS3);
         }
     }
+
+    /**
+     * 设置存储桶跨域配置
+     *
+     * @param request {@link SetBucketCrossOriginConfigurationRequest}
+     * @return {@link SetBucketAnalyticsConfigurationResult}
+     */
+    public void setBucketCrossOriginConfiguration(SetBucketCrossOriginConfigurationRequest request) {
+        String function = "setBucketCrossOriginConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            amazonS3.setBucketCrossOriginConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
 }

@@ -30,9 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.BucketReplicationConfiguration;
-import com.amazonaws.services.s3.model.DeleteBucketReplicationConfigurationRequest;
-import com.amazonaws.services.s3.model.GetBucketReplicationConfigurationRequest;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -82,6 +80,25 @@ public class S3BucketReplicationConfigurationService extends BaseS3ClientService
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.getBucketReplicationConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置存储复制配置
+     *
+     * @param request {@link SetBucketReplicationConfigurationRequest}
+     */
+    public void setBucketReplicationConfiguration(SetBucketReplicationConfigurationRequest request) {
+        String function = "setBucketReplicationConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            amazonS3.setBucketReplicationConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

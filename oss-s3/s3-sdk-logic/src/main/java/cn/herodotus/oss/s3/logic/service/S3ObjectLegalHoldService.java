@@ -36,31 +36,32 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: Amazon S3 存储桶生命周期配置 Service </p>
+ * <p>Description: Amazon S3 对象访合法持有 Service </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/16 17:13
+ * @date : 2023/7/16 21:14
  */
 @Service
-public class S3BucketLifecycleConfigurationService extends BaseS3ClientService {
+public class S3ObjectLegalHoldService extends BaseS3ClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(S3BucketLifecycleConfigurationService.class);
+    private static final Logger log = LoggerFactory.getLogger(S3ObjectLegalHoldService.class);
 
-    public S3BucketLifecycleConfigurationService(S3ClientObjectPool s3ClientObjectPool) {
+    public S3ObjectLegalHoldService(S3ClientObjectPool s3ClientObjectPool) {
         super(s3ClientObjectPool);
     }
 
     /**
-     * 删除存储桶生命周期配置
+     * 获取对象合法持有设置
      *
-     * @param request {@link DeleteBucketLifecycleConfigurationRequest}
+     * @param request {@link GetObjectLegalHoldRequest}
+     * @return {@link GetObjectLegalHoldResult}
      */
-    public void deleteBucketLifecycleConfiguration(DeleteBucketLifecycleConfigurationRequest request) {
-        String function = "deleteBucketLifecycleConfiguration";
+    public GetObjectLegalHoldResult getObjectLegalHold(GetObjectLegalHoldRequest request) {
+        String function = "getObjectLegalHold";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
-            amazonS3.deleteBucketLifecycleConfiguration(request);
+            return amazonS3.getObjectLegalHold(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -70,36 +71,17 @@ public class S3BucketLifecycleConfigurationService extends BaseS3ClientService {
     }
 
     /**
-     * 获取存储桶生命周期配置
+     * 设置对象合法持有设置
      *
-     * @param request {@link GetBucketLifecycleConfigurationRequest}
-     * @return {@link BucketLifecycleConfiguration}
+     * @param request {@link SetObjectLegalHoldRequest}
+     * @return {@link SetObjectLegalHoldResult}
      */
-    public BucketLifecycleConfiguration getBucketLifecycleConfiguration(GetBucketLifecycleConfigurationRequest request) {
-        String function = "getBucketLifecycleConfiguration";
+    public SetObjectLegalHoldResult setObjectLegalHold(SetObjectLegalHoldRequest request) {
+        String function = "setObjectLegalHold";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
-            return amazonS3.getBucketLifecycleConfiguration(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
-     * 设置存储桶生命周期配置
-     *
-     * @param request {@link SetBucketLifecycleConfigurationRequest}
-     */
-    public void setBucketLifecycleConfiguration(SetBucketLifecycleConfigurationRequest request) {
-        String function = "setBucketLifecycleConfiguration";
-
-        AmazonS3 amazonS3 = getAmazonS3();
-        try {
-            amazonS3.setBucketLifecycleConfiguration(request);
+            return amazonS3.setObjectLegalHold(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

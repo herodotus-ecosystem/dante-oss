@@ -30,10 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteBucketInventoryConfigurationRequest;
-import com.amazonaws.services.s3.model.DeleteBucketInventoryConfigurationResult;
-import com.amazonaws.services.s3.model.GetBucketInventoryConfigurationRequest;
-import com.amazonaws.services.s3.model.GetBucketInventoryConfigurationResult;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -85,6 +82,46 @@ public class S3BucketInventoryConfiguration extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.getBucketInventoryConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶库存配置列表
+     *
+     * @param request {@link ListBucketInventoryConfigurationsRequest}
+     * @return {@link ListBucketInventoryConfigurationsResult}
+     */
+    public ListBucketInventoryConfigurationsResult listBucketInventoryConfigurations(ListBucketInventoryConfigurationsRequest request) {
+        String function = "listBucketInventoryConfigurations";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.listBucketInventoryConfigurations(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置存储桶库存配置列表
+     *
+     * @param request {@link SetBucketInventoryConfigurationRequest}
+     * @return {@link SetBucketInventoryConfigurationResult}
+     */
+    public SetBucketInventoryConfigurationResult setBucketInventoryConfiguration(SetBucketInventoryConfigurationRequest request) {
+        String function = "setBucketInventoryConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.setBucketInventoryConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

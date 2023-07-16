@@ -30,8 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeletePublicAccessBlockRequest;
-import com.amazonaws.services.s3.model.DeletePublicAccessBlockResult;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -63,6 +62,46 @@ public class S3PublicAccessBlockService extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.deletePublicAccessBlock(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取公共访问块
+     *
+     * @param request {@link GetPublicAccessBlockRequest}
+     * @return {@link GetPublicAccessBlockResult}
+     */
+    public GetPublicAccessBlockResult getPublicAccessBlock(GetPublicAccessBlockRequest request) {
+        String function = "getPublicAccessBlock";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getPublicAccessBlock(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置对象标记设置
+     *
+     * @param request {@link SetPublicAccessBlockRequest}
+     * @return {@link SetPublicAccessBlockResult}
+     */
+    public SetPublicAccessBlockResult setPublicAccessBlock(SetPublicAccessBlockRequest request) {
+        String function = "setPublicAccessBlock";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.setPublicAccessBlock(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

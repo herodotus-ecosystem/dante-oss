@@ -30,10 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteBucketMetricsConfigurationRequest;
-import com.amazonaws.services.s3.model.DeleteBucketMetricsConfigurationResult;
-import com.amazonaws.services.s3.model.GetBucketMetricsConfigurationRequest;
-import com.amazonaws.services.s3.model.GetBucketMetricsConfigurationResult;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -85,6 +82,46 @@ public class S3BucketMetricsConfigurationService extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.getBucketMetricsConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶度量配置列表
+     *
+     * @param request {@link ListBucketMetricsConfigurationsRequest}
+     * @return {@link ListBucketMetricsConfigurationsResult}
+     */
+    public ListBucketMetricsConfigurationsResult listBucketMetricsConfigurations(ListBucketMetricsConfigurationsRequest request) {
+        String function = "listBucketMetricsConfigurations";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.listBucketMetricsConfigurations(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置存储桶度量配置列表
+     *
+     * @param request {@link SetBucketLoggingConfigurationRequest}
+     * @return {@link SetBucketMetricsConfigurationResult}
+     */
+    public SetBucketMetricsConfigurationResult setBucketLoggingConfiguration(SetBucketMetricsConfigurationRequest request) {
+        String function = "setBucketLoggingConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.setBucketMetricsConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

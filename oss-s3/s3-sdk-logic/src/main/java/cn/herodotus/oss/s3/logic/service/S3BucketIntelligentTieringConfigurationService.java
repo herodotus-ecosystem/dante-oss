@@ -30,10 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteBucketIntelligentTieringConfigurationRequest;
-import com.amazonaws.services.s3.model.DeleteBucketIntelligentTieringConfigurationResult;
-import com.amazonaws.services.s3.model.GetBucketIntelligentTieringConfigurationRequest;
-import com.amazonaws.services.s3.model.GetBucketIntelligentTieringConfigurationResult;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -85,6 +82,46 @@ public class S3BucketIntelligentTieringConfigurationService extends BaseS3Client
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.getBucketIntelligentTieringConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶智能分层配置列表
+     *
+     * @param request {@link ListBucketIntelligentTieringConfigurationsRequest}
+     * @return {@link ListBucketIntelligentTieringConfigurationsResult}
+     */
+    public ListBucketIntelligentTieringConfigurationsResult listBucketIntelligentTieringConfigurations(ListBucketIntelligentTieringConfigurationsRequest request) {
+        String function = "listBucketIntelligentTieringConfigurations";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.listBucketIntelligentTieringConfigurations(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置存储桶智能分层配置列表
+     *
+     * @param request {@link SetBucketIntelligentTieringConfigurationRequest}
+     * @return {@link SetBucketIntelligentTieringConfigurationResult}
+     */
+    public SetBucketIntelligentTieringConfigurationResult setBucketIntelligentTieringConfiguration(SetBucketIntelligentTieringConfigurationRequest request) {
+        String function = "setBucketIntelligentTieringConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.setBucketIntelligentTieringConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

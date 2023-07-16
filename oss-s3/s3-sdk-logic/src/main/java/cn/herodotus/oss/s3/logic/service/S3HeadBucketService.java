@@ -30,60 +30,39 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.AccessControlList;
-import com.amazonaws.services.s3.model.GetBucketAclRequest;
-import com.amazonaws.services.s3.model.SetBucketAccelerateConfigurationRequest;
-import com.amazonaws.services.s3.model.SetBucketAclRequest;
+import com.amazonaws.services.s3.model.HeadBucketRequest;
+import com.amazonaws.services.s3.model.HeadBucketResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: Amazon S3 存储桶访问控制列表 Service </p>
+ * <p>Description: Amazon S3 请求头中设置存储桶 Service </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/16 18:55
+ * @date : 2023/7/16 16:48
  */
 @Service
-public class S3BucketAccessControlListService extends BaseS3ClientService {
+public class S3HeadBucketService extends BaseS3ClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(S3BucketAccessControlListService.class);
+    private static final Logger log = LoggerFactory.getLogger(S3HeadBucketService.class);
 
-    public S3BucketAccessControlListService(S3ClientObjectPool s3ClientObjectPool) {
+    public S3HeadBucketService(S3ClientObjectPool s3ClientObjectPool) {
         super(s3ClientObjectPool);
     }
 
     /**
-     * 获取存储桶访问控制列表
+     * 请求头中设置存储桶
      *
-     * @param request {@link GetBucketAclRequest}
-     * @return {@link AccessControlList}
+     * @param request {@link HeadBucketRequest}
+     * @return {@link HeadBucketResult}
      */
-    public AccessControlList getBucketAccessControlList(GetBucketAclRequest request) {
-        String function = "getBucketAccessControlList";
+    public HeadBucketResult headBucket(HeadBucketRequest request) {
+        String function = "headBucket";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
-            return amazonS3.getBucketAcl(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
-     * 设置存储桶访问控制列表
-     *
-     * @param request {@link SetBucketAclRequest}
-     */
-    public void setBucketAccessControlList(SetBucketAclRequest request) {
-        String function = "setBucketAccessControlList";
-
-        AmazonS3 amazonS3 = getAmazonS3();
-        try {
-            amazonS3.setBucketAcl(request);
+            return amazonS3.headBucket(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

@@ -108,4 +108,23 @@ public class S3BucketPolicyService extends BaseS3ClientService {
             close(amazonS3);
         }
     }
+
+    /**
+     * 设置存储访问策略
+     *
+     * @param request {@link SetBucketPolicyRequest}
+     */
+    public void setBucketOwnershipControls(SetBucketPolicyRequest request) {
+        String function = "setBucketOwnershipControls";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            amazonS3.setBucketPolicy(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
 }

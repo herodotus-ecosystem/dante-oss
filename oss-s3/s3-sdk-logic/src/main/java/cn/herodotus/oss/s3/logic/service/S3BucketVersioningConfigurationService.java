@@ -32,6 +32,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.BucketVersioningConfiguration;
 import com.amazonaws.services.s3.model.GetBucketVersioningConfigurationRequest;
+import com.amazonaws.services.s3.model.SetBucketVersioningConfigurationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,7 +53,7 @@ public class S3BucketVersioningConfigurationService extends BaseS3ClientService 
     }
 
     /**
-     * 获取存储版本配置
+     * 获取存储桶版本配置
      *
      * @param request {@link GetBucketVersioningConfigurationRequest}
      * @return {@link BucketVersioningConfiguration}
@@ -63,6 +64,25 @@ public class S3BucketVersioningConfigurationService extends BaseS3ClientService 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.getBucketVersioningConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置存储桶版本配置
+     *
+     * @param request {@link SetBucketVersioningConfigurationRequest}
+     */
+    public void setBucketVersioningConfiguration(SetBucketVersioningConfigurationRequest request) {
+        String function = "setBucketVersioningConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            amazonS3.setBucketVersioningConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

@@ -32,6 +32,7 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.BucketAccelerateConfiguration;
 import com.amazonaws.services.s3.model.GetBucketAccelerateConfigurationRequest;
+import com.amazonaws.services.s3.model.SetBucketAccelerateConfigurationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -63,6 +64,25 @@ public class S3BucketAccelerateConfigurationService extends BaseS3ClientService 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.getBucketAccelerateConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置存储桶加速配置
+     *
+     * @param request {@link SetBucketAccelerateConfigurationRequest}
+     */
+    public void setBucketAccelerateConfiguration(SetBucketAccelerateConfigurationRequest request) {
+        String function = "setBucketAccelerateConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            amazonS3.setBucketAccelerateConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

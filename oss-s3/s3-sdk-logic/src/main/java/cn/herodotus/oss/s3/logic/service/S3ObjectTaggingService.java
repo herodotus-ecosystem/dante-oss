@@ -30,8 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteObjectTaggingRequest;
-import com.amazonaws.services.s3.model.DeleteObjectTaggingResult;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -61,6 +60,46 @@ public class S3ObjectTaggingService extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.deleteObjectTagging(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取对象标记设置
+     *
+     * @param request {@link GetObjectTaggingRequest}
+     * @return {@link GetObjectTaggingResult}
+     */
+    public GetObjectTaggingResult getObjectTagging(GetObjectTaggingRequest request) {
+        String function = "getObjectTagging";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getObjectTagging(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 设置对象标记设置
+     *
+     * @param request {@link SetObjectTaggingRequest}
+     * @return {@link SetObjectTaggingResult}
+     */
+    public SetObjectTaggingResult setObjectTagging(SetObjectTaggingRequest request) {
+        String function = "setObjectTagging";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.setObjectTagging(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

@@ -54,11 +54,22 @@ public class S3BucketService extends BaseS3ClientService {
         super(s3ClientObjectPool);
     }
 
+    /**
+     * 获取存储桶列表
+     * @return 存储桶列表
+     */
     public List<Bucket> listBuckets() {
+        String function = "listBuckets";
+
         AmazonS3 amazonS3 = getAmazonS3();
-        List<Bucket> result = amazonS3.listBuckets();
-        close(amazonS3);
-        return result;
+        try {
+            return amazonS3.listBuckets();
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
     }
 
     /**
