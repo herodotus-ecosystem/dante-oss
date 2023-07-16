@@ -30,12 +30,10 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CopyObjectRequest;
-import com.amazonaws.services.s3.model.CopyObjectResult;
-import com.amazonaws.services.s3.model.ListMultipartUploadsRequest;
-import com.amazonaws.services.s3.model.MultipartUploadListing;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>Description: Amazon S3 对象管理 Service </p>
@@ -43,6 +41,7 @@ import org.slf4j.LoggerFactory;
  * @author : gengwei.zheng
  * @date : 2023/7/16 16:48
  */
+@Service
 public class S3ObjectService extends BaseS3ClientService {
 
     private static final Logger log = LoggerFactory.getLogger(S3ObjectService.class);
@@ -53,6 +52,7 @@ public class S3ObjectService extends BaseS3ClientService {
 
     /**
      * 复制对象
+     *
      * @param request {@link CopyObjectRequest}
      * @return {@link CopyObjectResult}
      */
@@ -62,6 +62,45 @@ public class S3ObjectService extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.copyObject(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 删除对象
+     *
+     * @param request {@link DeleteObjectRequest}
+     */
+    public void deleteObject(DeleteObjectRequest request) {
+        String function = "deleteObject";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            amazonS3.deleteObject(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 删除多个对象
+     *
+     * @param request {@link DeleteObjectsRequest}
+     * @return {@link DeleteObjectsResult}
+     */
+    public DeleteObjectsResult deleteObjects(DeleteObjectsRequest request) {
+        String function = "deleteObjects";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.deleteObjects(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

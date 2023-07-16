@@ -30,7 +30,9 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.BucketTaggingConfiguration;
 import com.amazonaws.services.s3.model.DeleteBucketTaggingConfigurationRequest;
+import com.amazonaws.services.s3.model.GetBucketTaggingConfigurationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,7 @@ public class S3BucketTaggingConfigurationService extends BaseS3ClientService {
 
     /**
      * 删除存储桶标记配置
+     *
      * @param request {@link DeleteBucketTaggingConfigurationRequest}
      */
     public void deleteBucketTaggingConfiguration(DeleteBucketTaggingConfigurationRequest request) {
@@ -60,6 +63,26 @@ public class S3BucketTaggingConfigurationService extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             amazonS3.deleteBucketTaggingConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储标记配置
+     *
+     * @param request {@link GetBucketTaggingConfigurationRequest}
+     * @return {@link BucketTaggingConfiguration}
+     */
+    public BucketTaggingConfiguration getBucketTaggingConfiguration(GetBucketTaggingConfigurationRequest request) {
+        String function = "getBucketTaggingConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getBucketTaggingConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

@@ -32,6 +32,8 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteBucketOwnershipControlsRequest;
 import com.amazonaws.services.s3.model.DeleteBucketOwnershipControlsResult;
+import com.amazonaws.services.s3.model.GetBucketOwnershipControlsRequest;
+import com.amazonaws.services.s3.model.GetBucketOwnershipControlsResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -53,6 +55,7 @@ public class S3BucketOwnershipControlsService extends BaseS3ClientService {
 
     /**
      * 删除存储桶所有权控制
+     *
      * @param request {@link DeleteBucketOwnershipControlsRequest}
      * @return {@link DeleteBucketOwnershipControlsResult}
      */
@@ -62,6 +65,26 @@ public class S3BucketOwnershipControlsService extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.deleteBucketOwnershipControls(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶所有权控制
+     *
+     * @param request {@link GetBucketOwnershipControlsRequest}
+     * @return {@link GetBucketOwnershipControlsResult}
+     */
+    public GetBucketOwnershipControlsResult getBucketOwnershipControls(GetBucketOwnershipControlsRequest request) {
+        String function = "getBucketOwnershipControls";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getBucketOwnershipControls(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

@@ -32,8 +32,11 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteBucketInventoryConfigurationRequest;
 import com.amazonaws.services.s3.model.DeleteBucketInventoryConfigurationResult;
+import com.amazonaws.services.s3.model.GetBucketInventoryConfigurationRequest;
+import com.amazonaws.services.s3.model.GetBucketInventoryConfigurationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
  * <p>Description: Amazon S3 存储桶库存配置 Service </p>
@@ -41,6 +44,7 @@ import org.slf4j.LoggerFactory;
  * @author : gengwei.zheng
  * @date : 2023/7/16 17:11
  */
+@Service
 public class S3BucketInventoryConfiguration extends BaseS3ClientService {
 
     private static final Logger log = LoggerFactory.getLogger(S3BucketInventoryConfiguration.class);
@@ -51,6 +55,7 @@ public class S3BucketInventoryConfiguration extends BaseS3ClientService {
 
     /**
      * 删除存储桶库存配置
+     *
      * @param request {@link DeleteBucketInventoryConfigurationRequest}
      * @return {@link DeleteBucketInventoryConfigurationResult}
      */
@@ -60,6 +65,26 @@ public class S3BucketInventoryConfiguration extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.deleteBucketInventoryConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶库存配置
+     *
+     * @param request {@link GetBucketInventoryConfigurationRequest}
+     * @return {@link GetBucketInventoryConfigurationResult}
+     */
+    public GetBucketInventoryConfigurationResult getBucketInventoryConfiguration(GetBucketInventoryConfigurationRequest request) {
+        String function = "getBucketInventoryConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getBucketInventoryConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

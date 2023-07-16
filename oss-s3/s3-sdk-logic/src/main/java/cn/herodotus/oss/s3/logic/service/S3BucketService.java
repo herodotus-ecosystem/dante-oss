@@ -30,7 +30,9 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.*;
+import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.CreateBucketRequest;
+import com.amazonaws.services.s3.model.DeleteBucketRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -61,6 +63,7 @@ public class S3BucketService extends BaseS3ClientService {
 
     /**
      * 创建存储桶
+     *
      * @param request {@link CreateBucketRequest}
      * @return {@link Bucket}
      */
@@ -80,6 +83,7 @@ public class S3BucketService extends BaseS3ClientService {
 
     /**
      * 删除存储桶
+     *
      * @param request {@link CreateBucketRequest}
      */
     public void deleteBucket(DeleteBucketRequest request) {

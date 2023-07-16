@@ -32,6 +32,8 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteBucketEncryptionRequest;
 import com.amazonaws.services.s3.model.DeleteBucketEncryptionResult;
+import com.amazonaws.services.s3.model.GetBucketEncryptionRequest;
+import com.amazonaws.services.s3.model.GetBucketEncryptionResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -53,6 +55,7 @@ public class S3BucketEncryptionService extends BaseS3ClientService {
 
     /**
      * 删除存储桶分加密
+     *
      * @param request {@link DeleteBucketEncryptionRequest}
      * @return {@link DeleteBucketEncryptionResult}
      */
@@ -62,6 +65,26 @@ public class S3BucketEncryptionService extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.deleteBucketEncryption(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶加密
+     *
+     * @param request {@link GetBucketEncryptionRequest}
+     * @return {@link GetBucketEncryptionResult}
+     */
+    public GetBucketEncryptionResult getBucketEncryption(GetBucketEncryptionRequest request) {
+        String function = "getBucketEncryption";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getBucketEncryption(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

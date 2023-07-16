@@ -30,9 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.DeleteBucketAnalyticsConfigurationRequest;
-import com.amazonaws.services.s3.model.DeleteBucketAnalyticsConfigurationResult;
-import com.amazonaws.services.s3.model.DeleteBucketCrossOriginConfigurationRequest;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,12 +50,37 @@ public class S3BucketCrossOriginConfigurationService extends BaseS3ClientService
         super(s3ClientObjectPool);
     }
 
+    /**
+     * 删除存储桶跨域配置
+     *
+     * @param request {@link DeleteBucketLifecycleConfigurationRequest}
+     */
     public void deleteBucketCrossOriginConfiguration(DeleteBucketCrossOriginConfigurationRequest request) {
         String function = "deleteBucketCrossOriginConfiguration";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             amazonS3.deleteBucketCrossOriginConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶跨域配置
+     *
+     * @param request {@link GetBucketCrossOriginConfigurationRequest}
+     * @return {@link BucketCrossOriginConfiguration}
+     */
+    public BucketCrossOriginConfiguration getBucketCrossOriginConfiguration(GetBucketCrossOriginConfigurationRequest request) {
+        String function = "getBucketCrossOriginConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getBucketCrossOriginConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

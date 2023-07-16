@@ -30,10 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.CopyObjectRequest;
-import com.amazonaws.services.s3.model.CopyObjectResult;
-import com.amazonaws.services.s3.model.DeleteBucketAnalyticsConfigurationRequest;
-import com.amazonaws.services.s3.model.DeleteBucketAnalyticsConfigurationResult;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -55,6 +52,7 @@ public class S3BucketAnalyticsConfigurationService extends BaseS3ClientService {
 
     /**
      * 删除存储桶分析配置
+     *
      * @param request {@link CopyObjectRequest}
      * @return {@link CopyObjectResult}
      */
@@ -73,4 +71,23 @@ public class S3BucketAnalyticsConfigurationService extends BaseS3ClientService {
     }
 
 
+    /**
+     * 获取存储桶访问分析配置
+     *
+     * @param request {@link GetBucketAnalyticsConfigurationRequest}
+     * @return {@link GetBucketAnalyticsConfigurationResult}
+     */
+    public GetBucketAnalyticsConfigurationResult getBucketAnalyticsConfiguration(GetBucketAnalyticsConfigurationRequest request) {
+        String function = "getBucketAnalyticsConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getBucketAnalyticsConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
 }

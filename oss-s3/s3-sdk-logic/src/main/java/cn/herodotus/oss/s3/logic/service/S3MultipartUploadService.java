@@ -131,6 +131,7 @@ public class S3MultipartUploadService extends BaseS3ClientService {
 
     /**
      * 上传分片
+     *
      * @param request {@link UploadPartRequest}
      * @return {@link UploadPartResult}
      */

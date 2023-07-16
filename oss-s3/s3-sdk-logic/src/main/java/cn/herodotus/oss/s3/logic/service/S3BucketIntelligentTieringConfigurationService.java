@@ -32,6 +32,8 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.DeleteBucketIntelligentTieringConfigurationRequest;
 import com.amazonaws.services.s3.model.DeleteBucketIntelligentTieringConfigurationResult;
+import com.amazonaws.services.s3.model.GetBucketIntelligentTieringConfigurationRequest;
+import com.amazonaws.services.s3.model.GetBucketIntelligentTieringConfigurationResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -53,6 +55,7 @@ public class S3BucketIntelligentTieringConfigurationService extends BaseS3Client
 
     /**
      * 删除存储桶智能分层配置
+     *
      * @param request {@link DeleteBucketIntelligentTieringConfigurationRequest}
      * @return {@link DeleteBucketIntelligentTieringConfigurationResult}
      */
@@ -62,6 +65,26 @@ public class S3BucketIntelligentTieringConfigurationService extends BaseS3Client
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.deleteBucketIntelligentTieringConfiguration(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶智能分层配置
+     *
+     * @param request {@link GetBucketIntelligentTieringConfigurationRequest}
+     * @return {@link GetBucketIntelligentTieringConfigurationResult}
+     */
+    public GetBucketIntelligentTieringConfigurationResult getBucketIntelligentTieringConfiguration(GetBucketIntelligentTieringConfigurationRequest request) {
+        String function = "getBucketIntelligentTieringConfiguration";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getBucketIntelligentTieringConfiguration(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

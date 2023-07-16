@@ -52,6 +52,7 @@ public class S3BucketWebsiteConfigurationService extends BaseS3ClientService {
 
     /**
      * 删除存储桶网页配置
+     *
      * @param request {@link DeleteBucketWebsiteConfigurationRequest}
      */
     public void deleteBucketWebsiteConfiguration(DeleteBucketWebsiteConfigurationRequest request) {

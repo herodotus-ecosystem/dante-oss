@@ -30,59 +30,39 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.BucketLifecycleConfiguration;
-import com.amazonaws.services.s3.model.DeleteBucketLifecycleConfigurationRequest;
-import com.amazonaws.services.s3.model.GetBucketLifecycleConfigurationRequest;
+import com.amazonaws.services.s3.model.DeletePublicAccessBlockRequest;
+import com.amazonaws.services.s3.model.DeletePublicAccessBlockResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: Amazon S3 存储桶生命周期配置 Service </p>
+ * <p>Description: Amazon S3 公共访问块 Service </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/16 17:13
+ * @date : 2023/7/16 18:49
  */
 @Service
-public class S3BucketLifecycleConfigurationService extends BaseS3ClientService {
+public class S3PublicAccessBlockService extends BaseS3ClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(S3BucketLifecycleConfigurationService.class);
+    private static final Logger log = LoggerFactory.getLogger(S3PublicAccessBlockService.class);
 
-    public S3BucketLifecycleConfigurationService(S3ClientObjectPool s3ClientObjectPool) {
+    public S3PublicAccessBlockService(S3ClientObjectPool s3ClientObjectPool) {
         super(s3ClientObjectPool);
     }
 
     /**
-     * 删除存储桶生命周期配置
+     * 删除公共访问块
      *
-     * @param request {@link DeleteBucketLifecycleConfigurationRequest}
+     * @param request {@link DeletePublicAccessBlockRequest}
+     * @return {@link DeletePublicAccessBlockResult}
      */
-    public void deleteBucketLifecycleConfiguration(DeleteBucketLifecycleConfigurationRequest request) {
-        String function = "deleteBucketLifecycleConfiguration";
+    public DeletePublicAccessBlockResult deletePublicAccessBlock(DeletePublicAccessBlockRequest request) {
+        String function = "deletePublicAccessBlock";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
-            amazonS3.deleteBucketLifecycleConfiguration(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
-     * 获取存储桶生命周期配置
-     *
-     * @param request {@link GetBucketLifecycleConfigurationRequest}
-     * @return {@link BucketLifecycleConfiguration}
-     */
-    public BucketLifecycleConfiguration getBucketLifecycleConfiguration(GetBucketLifecycleConfigurationRequest request) {
-        String function = "getBucketLifecycleConfiguration";
-
-        AmazonS3 amazonS3 = getAmazonS3();
-        try {
-            return amazonS3.getBucketLifecycleConfiguration(request);
+            return amazonS3.deletePublicAccessBlock(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
