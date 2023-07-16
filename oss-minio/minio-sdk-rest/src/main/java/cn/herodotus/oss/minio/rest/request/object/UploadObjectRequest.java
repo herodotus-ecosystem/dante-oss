@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.rest.request.object;
 
-import cn.herodotus.oss.minio.core.exception.MinioConnectException;
+import cn.herodotus.oss.definition.core.exception.OssConnectException;
 import cn.herodotus.oss.minio.core.exception.MinioIOException;
 import cn.herodotus.oss.minio.rest.definition.PutObjectBaseRequest;
 import io.minio.UploadObjectArgs;
@@ -67,7 +67,7 @@ public class UploadObjectRequest extends PutObjectBaseRequest<UploadObjectArgs.B
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in UploadObjectRequest.", e);
             if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
+                throw new OssConnectException(e.getMessage());
             } else {
                 throw new MinioIOException(e.getMessage());
             }

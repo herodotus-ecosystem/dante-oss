@@ -25,6 +25,8 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.definition.core.exception.OssConnectException;
+import cn.herodotus.oss.definition.core.exception.OssServerException;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioClientService;
@@ -108,7 +110,7 @@ public class MinioBucketEncryptionService extends BaseMinioClientService {
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
+                throw new OssConnectException(e.getMessage());
             } else {
                 throw new MinioIOException(e.getMessage());
             }
@@ -117,7 +119,7 @@ public class MinioBucketEncryptionService extends BaseMinioClientService {
             throw new MinioNoSuchAlgorithmException(e.getMessage());
         } catch (ServerException e) {
             log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
+            throw new OssServerException(e.getMessage());
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
             throw new MinioXmlParserException(e.getMessage());
@@ -177,7 +179,7 @@ public class MinioBucketEncryptionService extends BaseMinioClientService {
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
+                throw new OssConnectException(e.getMessage());
             } else {
                 throw new MinioIOException(e.getMessage());
             }
@@ -186,7 +188,7 @@ public class MinioBucketEncryptionService extends BaseMinioClientService {
             throw new MinioNoSuchAlgorithmException(e.getMessage());
         } catch (ServerException e) {
             log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
+            throw new OssServerException(e.getMessage());
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
             throw new MinioXmlParserException(e.getMessage());
@@ -243,7 +245,7 @@ public class MinioBucketEncryptionService extends BaseMinioClientService {
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
+                throw new OssConnectException(e.getMessage());
             } else {
                 throw new MinioIOException(e.getMessage());
             }
@@ -252,7 +254,7 @@ public class MinioBucketEncryptionService extends BaseMinioClientService {
             throw new MinioNoSuchAlgorithmException(e.getMessage());
         } catch (ServerException e) {
             log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
-            throw new MinioServerException(e.getMessage());
+            throw new OssServerException(e.getMessage());
         } catch (XmlParserException e) {
             log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
             throw new MinioXmlParserException(e.getMessage());

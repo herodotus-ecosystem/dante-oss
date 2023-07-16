@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.exception;
+package cn.herodotus.oss.definition.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
@@ -36,25 +36,25 @@ import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
  * @author : gengwei.zheng
  * @date : 2023/6/6 12:47
  */
-public class MinioConnectException extends PlatformException {
+public class OssConnectException extends PlatformException {
 
-    public MinioConnectException() {
+    public OssConnectException() {
         super();
     }
 
-    public MinioConnectException(String message) {
+    public OssConnectException(String message) {
         super(message);
     }
 
-    public MinioConnectException(String message, Throwable cause) {
+    public OssConnectException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioConnectException(Throwable cause) {
+    public OssConnectException(Throwable cause) {
         super(cause);
     }
 
-    protected MinioConnectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssConnectException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 

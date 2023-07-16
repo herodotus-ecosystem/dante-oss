@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
+import cn.herodotus.oss.definition.core.exception.OssConnectException;
 import cn.herodotus.oss.minio.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClient;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClientObjectPool;
@@ -126,7 +127,7 @@ public class MinioMultipartUploadService extends BaseMinioAsyncClientService {
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
+                throw new OssConnectException(e.getMessage());
             } else {
                 throw new MinioIOException(e.getMessage());
             }
@@ -250,7 +251,7 @@ public class MinioMultipartUploadService extends BaseMinioAsyncClientService {
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
+                throw new OssConnectException(e.getMessage());
             } else {
                 throw new MinioIOException(e.getMessage());
             }
@@ -356,7 +357,7 @@ public class MinioMultipartUploadService extends BaseMinioAsyncClientService {
         } catch (IOException e) {
             log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
             if (e instanceof ConnectException) {
-                throw new MinioConnectException(e.getMessage());
+                throw new OssConnectException(e.getMessage());
             } else {
                 throw new MinioIOException(e.getMessage());
             }

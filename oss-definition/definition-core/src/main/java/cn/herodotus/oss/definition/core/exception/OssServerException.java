@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.minio.core.exception;
+package cn.herodotus.oss.definition.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
@@ -31,29 +31,29 @@ import cn.herodotus.engine.assistant.core.exception.PlatformException;
 import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
- * <p>Description: MinioServerException </p>
+ * <p>Description: OssServerException </p>
  *
  * @author : gengwei.zheng
  * @date : 2021/11/8 14:36
  */
-public class MinioServerException extends PlatformException {
-    public MinioServerException() {
+public class OssServerException extends PlatformException {
+    public OssServerException() {
         super();
     }
 
-    public MinioServerException(String message) {
+    public OssServerException(String message) {
         super(message);
     }
 
-    public MinioServerException(String message, Throwable cause) {
+    public OssServerException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public MinioServerException(Throwable cause) {
+    public OssServerException(Throwable cause) {
         super(cause);
     }
 
-    protected MinioServerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    protected OssServerException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
