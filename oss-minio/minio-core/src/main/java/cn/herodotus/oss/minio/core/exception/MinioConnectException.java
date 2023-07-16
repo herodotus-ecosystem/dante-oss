@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.core.exception;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
-import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
+import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
  * <p>Description: Minio 服务器连接失败 </p>
@@ -60,6 +60,6 @@ public class MinioConnectException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.serviceUnavailable(MinioErrorCodes.MINIO_CONNECTION, "Minio 服务器无法访问或未启动");
+        return FeedbackFactory.serviceUnavailable(OssErrorCodes.MINIO_CONNECTION, "Minio 服务器无法访问或未启动");
     }
 }

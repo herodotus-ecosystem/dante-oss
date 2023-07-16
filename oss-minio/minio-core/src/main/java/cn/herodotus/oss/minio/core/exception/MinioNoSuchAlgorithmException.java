@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.core.exception;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
-import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
+import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
  * <p>Description: MinioNoSuchAlgorithmException </p>
@@ -60,6 +60,6 @@ public class MinioNoSuchAlgorithmException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_NO_SUCH_ALGORITHM, "使用对象存储不支持算法错误");
+        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_NO_SUCH_ALGORITHM, "使用对象存储不支持算法错误");
     }
 }

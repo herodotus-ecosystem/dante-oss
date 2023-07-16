@@ -142,6 +142,8 @@
 
     <modules>
         <module>oss-bom</module>
+        <module>oss-definition</module>
+        <module>oss-s3</module>
         <module>oss-minio</module>
         <module>oss-spring-boot-starter</module>
     </modules>

@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.core.exception;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
-import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
+import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
  * <p>Description: MinioServerException </p>
@@ -59,6 +59,6 @@ public class MinioServerException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_SERVER, "对象存储服务器出现错误");
+        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_SERVER, "对象存储服务器出现错误");
     }
 }

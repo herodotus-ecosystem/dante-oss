@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.core.exception;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
-import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
+import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
  * <p>Description: MinioExecutionException </p>
@@ -60,6 +60,6 @@ public class MinioExecutionException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_EXECUTION, "对象存储服务器异步执行错误");
+        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_EXECUTION, "对象存储服务器异步执行错误");
     }
 }

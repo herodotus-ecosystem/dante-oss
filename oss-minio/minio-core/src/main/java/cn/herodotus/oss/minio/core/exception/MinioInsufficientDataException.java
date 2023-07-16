@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.core.exception;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
-import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
+import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
  * <p>Description: MinioInsufficientDataException </p>
@@ -60,6 +60,6 @@ public class MinioInsufficientDataException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_INSUFFICIENT_DATA, "对象存储服务器返回数据不足");
+        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_INSUFFICIENT_DATA, "对象存储服务器返回数据不足");
     }
 }

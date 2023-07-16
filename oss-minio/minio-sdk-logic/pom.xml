@@ -43,11 +43,6 @@
             <groupId>cn.herodotus.oss</groupId>
             <artifactId>minio-core</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>rest-core</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

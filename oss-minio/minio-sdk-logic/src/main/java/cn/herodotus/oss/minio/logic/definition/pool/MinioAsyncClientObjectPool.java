@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.logic.definition.pool;
 
-import cn.herodotus.oss.minio.core.exception.MinioClientPoolErrorException;
+import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
 import cn.herodotus.oss.minio.logic.properties.MinioProperties;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
@@ -67,7 +67,7 @@ public class MinioAsyncClientObjectPool {
             return minioAsyncClient;
         } catch (Exception e) {
             log.error("[Herodotus] |- Can not fetch minio client from pool.", e);
-            throw new MinioClientPoolErrorException("Can not fetch minio async client from pool.");
+            throw new OssClientPoolErrorException("Can not fetch minio async client from pool.");
         }
     }
 
