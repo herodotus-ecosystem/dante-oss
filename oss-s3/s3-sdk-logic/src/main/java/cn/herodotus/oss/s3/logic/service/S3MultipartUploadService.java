@@ -51,17 +51,77 @@ public class S3MultipartUploadService extends BaseS3ClientService {
     }
 
     /**
-     * 分片上传列表
+     * 拷贝分片
      *
-     * @param request {@link ListMultipartUploadsRequest}
-     * @return {@link MultipartUploadListing}
+     * @param request {@link CopyPartRequest}
+     * @return {@link CopyPartResult}
      */
-    public MultipartUploadListing listMultipartUploads(ListMultipartUploadsRequest request) {
-        String function = "listMultipartUploads";
+    public CopyPartResult copyPart(CopyPartRequest request) {
+        String function = "copyPart";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
-            return amazonS3.listMultipartUploads(request);
+            return amazonS3.copyPart(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 创建分片上传
+     *
+     * @param request {@link InitiateMultipartUploadRequest}
+     * @return {@link InitiateMultipartUploadResult}
+     */
+    public InitiateMultipartUploadResult initiateMultipartUpload(InitiateMultipartUploadRequest request) {
+        String function = "initiateMultipartUpload";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.initiateMultipartUpload(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 上传分片
+     *
+     * @param request {@link UploadPartRequest}
+     * @return {@link UploadPartResult}
+     */
+    public UploadPartResult uploadPart(UploadPartRequest request) {
+        String function = "uploadPart";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.uploadPart(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 分片列表
+     *
+     * @param request {@link ListPartsRequest}
+     * @return {@link PartListing}
+     */
+    public PartListing listParts(ListPartsRequest request) {
+        String function = "listParts";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.listParts(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -110,17 +170,17 @@ public class S3MultipartUploadService extends BaseS3ClientService {
     }
 
     /**
-     * 分片列表
+     * 分片上传列表
      *
-     * @param request {@link ListPartsRequest}
-     * @return {@link PartListing}
+     * @param request {@link ListMultipartUploadsRequest}
+     * @return {@link MultipartUploadListing}
      */
-    public PartListing listParts(ListPartsRequest request) {
-        String function = "listParts";
+    public MultipartUploadListing listMultipartUploads(ListMultipartUploadsRequest request) {
+        String function = "listMultipartUploads";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
-            return amazonS3.listParts(request);
+            return amazonS3.listMultipartUploads(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -129,23 +189,5 @@ public class S3MultipartUploadService extends BaseS3ClientService {
         }
     }
 
-    /**
-     * 上传分片
-     *
-     * @param request {@link UploadPartRequest}
-     * @return {@link UploadPartResult}
-     */
-    public UploadPartResult uploadPart(UploadPartRequest request) {
-        String function = "uploadPart";
 
-        AmazonS3 amazonS3 = getAmazonS3();
-        try {
-            return amazonS3.uploadPart(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
 }

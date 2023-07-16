@@ -30,38 +30,37 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.GetBucketLocationRequest;
+import com.amazonaws.services.s3.model.GetS3AccountOwnerRequest;
+import com.amazonaws.services.s3.model.Owner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: Amazon S3 存储桶位置 Service </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/16 19:07
+ * @date : 2023/7/16 22:16
  */
-@Service
-public class S3BucketLocationService extends BaseS3ClientService {
+public class S3AccountOwnerService extends BaseS3ClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(S3BucketLocationService.class);
+    private static final Logger log = LoggerFactory.getLogger(S3AccountOwnerService.class);
 
-    public S3BucketLocationService(S3ClientObjectPool s3ClientObjectPool) {
+    public S3AccountOwnerService(S3ClientObjectPool s3ClientObjectPool) {
         super(s3ClientObjectPool);
     }
 
     /**
-     * 获取存储桶位置
+     * 获取请求的已验证发件人正在使用的Amazon Web Services帐户的当前所有者。
      *
-     * @param request {@link GetBucketLocationRequest}
-     * @return 存储桶位置 {@link String}
+     * @param request {@link GetS3AccountOwnerRequest}
+     * @return {@link Owner}
      */
-    public String getBucketLocation(GetBucketLocationRequest request) {
-        String function = "getBucketLocation";
+    public Owner getS3AccountOwner(GetS3AccountOwnerRequest request) {
+        String function = "getS3AccountOwner";
 
         AmazonS3 amazonS3 = getAmazonS3();
         try {
-            return amazonS3.getBucketLocation(request);
+            return amazonS3.getS3AccountOwner(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

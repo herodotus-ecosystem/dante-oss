@@ -32,7 +32,6 @@ import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.AccessControlList;
 import com.amazonaws.services.s3.model.GetBucketAclRequest;
-import com.amazonaws.services.s3.model.SetBucketAccelerateConfigurationRequest;
 import com.amazonaws.services.s3.model.SetBucketAclRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

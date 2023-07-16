@@ -30,9 +30,7 @@ import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
-import com.amazonaws.services.s3.model.DeleteBucketRequest;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -55,7 +53,68 @@ public class S3BucketService extends BaseS3ClientService {
     }
 
     /**
+     * 返回指定存储桶中版本的摘要信息列表
+     *
+     * @param request {@link ListVersionsRequest}
+     * @return {@link VersionListing}
+     */
+    public VersionListing listVersions(ListVersionsRequest request) {
+        String function = "listVersions";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.listVersions(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 存储桶是否存在
+     *
+     * @param bucketName 存储桶名称
+     * @return 是否存在 true 存在；false 不存在
+     */
+    public boolean doesBucketExist(String bucketName) {
+        String function = "doesBucketExistV2";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.doesBucketExistV2(bucketName);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 此操作可用于确定存储桶是否存在以及您是否有权访问它。如果存储桶存在并且您有权访问，则此操作返回200 OK。
+     *
+     * @param request {@link HeadBucketRequest}
+     * @return {@link HeadBucketResult}
+     */
+    public HeadBucketResult headBucket(HeadBucketRequest request) {
+        String function = "headBucket";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.headBucket(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
      * 获取存储桶列表
+     *
      * @return 存储桶列表
      */
     public List<Bucket> listBuckets() {
@@ -64,6 +123,45 @@ public class S3BucketService extends BaseS3ClientService {
         AmazonS3 amazonS3 = getAmazonS3();
         try {
             return amazonS3.listBuckets();
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 删除存储桶
+     *
+     * @param request {@link CreateBucketRequest}
+     */
+    public void deleteBucket(DeleteBucketRequest request) {
+        String function = "deleteBucket";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            amazonS3.deleteBucket(request);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    /**
+     * 获取存储桶位置
+     *
+     * @param request {@link GetBucketLocationRequest}
+     * @return 存储桶位置 {@link String}
+     */
+    public String getBucketLocation(GetBucketLocationRequest request) {
+        String function = "getBucketLocation";
+
+        AmazonS3 amazonS3 = getAmazonS3();
+        try {
+            return amazonS3.getBucketLocation(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -92,22 +190,5 @@ public class S3BucketService extends BaseS3ClientService {
         }
     }
 
-    /**
-     * 删除存储桶
-     *
-     * @param request {@link CreateBucketRequest}
-     */
-    public void deleteBucket(DeleteBucketRequest request) {
-        String function = "deleteBucket";
 
-        AmazonS3 amazonS3 = getAmazonS3();
-        try {
-            amazonS3.deleteBucket(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
 }
