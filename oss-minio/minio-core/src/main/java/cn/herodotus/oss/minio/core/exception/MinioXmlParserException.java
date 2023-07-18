@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.core.exception;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
-import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
+import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
  * <p>Description: MinioXmlParserException </p>
@@ -60,6 +60,6 @@ public class MinioXmlParserException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_XML_PARSER, "对象存储 XML 解析出现错误");
+        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_XML_PARSER, "对象存储 XML 解析出现错误");
     }
 }

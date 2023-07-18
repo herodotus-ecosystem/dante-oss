@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.0-blue.svg?logo=spring" alt="Spring Boot 3.1.0"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.0.0-red.svg?logo=spring" alt="Version 1.0.0"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.1.0-red.svg?logo=spring" alt="Version 1.1.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -113,12 +113,18 @@ MinIO 是一款高性能、分布式的对象存储系统。Minio这款开源的
 ```
 dante-oss
 ├── oss-bom -- 工程Maven顶级依赖，统一控制版本和依赖
+├── oss-definition -- 通用内容定义模块
+├    └── definition-core -- Definition 通用代码包
 ├── oss-minio -- Minio 模块
 ├    ├── minio-core -- Minio 通用代码包
 ├    ├── minio-sdk-logic -- Minio 基础 API 模块
 ├    ├── minio-sdk-rest -- Minio 基础 REST API模块
 ├    ├── minio-sdk-scenario -- Minio 扩展及应用方案整合模块
 ├    └── minio-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
+├── oss-s3 -- Amazon S3 模块
+├    ├── s3-core -- Amazon S3通用代码包
+├    ├── s3-sdk-logic -- Amazon S3 基础 API 模块
+├    └── s3-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
 └── oss-spring-boot-starter -- 完整的、包含所有内容的 Starter
 ```
 

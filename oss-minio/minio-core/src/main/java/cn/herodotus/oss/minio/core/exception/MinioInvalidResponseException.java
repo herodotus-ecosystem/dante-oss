@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.core.exception;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
-import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
+import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
  * <p>Description: MinioInvalidResponseException </p>
@@ -60,6 +60,6 @@ public class MinioInvalidResponseException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_INVALID_RESPONSE, "对象存储返回无效的响应");
+        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_INVALID_RESPONSE, "对象存储返回无效的响应");
     }
 }

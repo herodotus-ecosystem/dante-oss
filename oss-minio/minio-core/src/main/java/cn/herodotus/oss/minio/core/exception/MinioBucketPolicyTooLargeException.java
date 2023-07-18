@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.core.exception;
 import cn.herodotus.engine.assistant.core.domain.Feedback;
 import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
-import cn.herodotus.oss.minio.core.constants.MinioErrorCodes;
+import cn.herodotus.oss.definition.core.constants.OssErrorCodes;
 
 /**
  * <p>Description: 存储桶访问策略过大错误 </p>
@@ -60,6 +60,6 @@ public class MinioBucketPolicyTooLargeException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(MinioErrorCodes.MINIO_BUCKET_POLICY_TOO_LARGE, "存储桶访问策略过大");
+        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_BUCKET_POLICY_TOO_LARGE, "存储桶访问策略过大");
     }
 }
