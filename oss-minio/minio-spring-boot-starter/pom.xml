@@ -31,11 +31,11 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-minio</artifactId>
-        <version>1.1.1</version>
+        <version>1.1.2</version>
     </parent>
 
     <artifactId>minio-spring-boot-starter</artifactId>
-    <version>1.1.1</version>
+    <version>1.1.2</version>
     <packaging>jar</packaging>
 
     <dependencies>
