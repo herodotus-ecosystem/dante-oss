@@ -32,10 +32,7 @@ import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.GetAsyncFetchTaskRequest;
-import com.aliyun.oss.model.GetAsyncFetchTaskResult;
-import com.aliyun.oss.model.SetAsyncFetchTaskRequest;
-import com.aliyun.oss.model.SetAsyncFetchTaskResult;
+import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -57,6 +54,7 @@ public class AliyunAsyncService extends BaseAliyunService {
 
     /**
      * 设置异步获取任务
+     *
      * @param request {@link SetAsyncFetchTaskRequest}
      * @return {@link SetAsyncFetchTaskResult}
      */
@@ -78,6 +76,12 @@ public class AliyunAsyncService extends BaseAliyunService {
         }
     }
 
+    /**
+     * 获取异步获取任务信息
+     *
+     * @param request {@link GetAsyncFetchTaskRequest}
+     * @return {@link GetAsyncFetchTaskResult}
+     */
     public GetAsyncFetchTaskResult getAsyncFetchTask(GetAsyncFetchTaskRequest request) {
         String function = "getAsyncFetchTask";
 
@@ -85,6 +89,30 @@ public class AliyunAsyncService extends BaseAliyunService {
 
         try {
             return client.getAsyncFetchTask(request);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    /**
+     * 对指定的文件应用异步操作.
+     *
+     * @param request {@link AsyncProcessObjectRequest}
+     * @return {@link AsyncProcessObjectResult}
+     */
+    public AsyncProcessObjectResult asyncProcessObject(AsyncProcessObjectRequest request) {
+        String function = "asyncProcessObject";
+
+        OSS client = getClient();
+
+        try {
+            return client.asyncProcessObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

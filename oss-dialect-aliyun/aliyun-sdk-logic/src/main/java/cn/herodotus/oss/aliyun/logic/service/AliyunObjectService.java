@@ -373,22 +373,4 @@ public class AliyunObjectService extends BaseAliyunService {
             close(client);
         }
     }
-
-    public AsyncProcessObjectResult asyncProcessObject(AsyncProcessObjectRequest request) {
-        String function = "asyncProcessObject";
-
-        OSS client = getClient();
-
-        try {
-            return client.asyncProcessObject(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
-        }
-    }
 }
