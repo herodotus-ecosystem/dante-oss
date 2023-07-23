@@ -41,7 +41,7 @@
     <version>1.1.2</version>
     <packaging>pom</packaging>
 
-    <description>Dante Cloud 生态产品 Dante OSS Bom</description>
+    <description>Dante Cloud 生态产品 Dante OSS Dependencies Bom</description>
     <name>oss-bom</name>
 
     <url>https://github.com/herodotus/dante-oss</url>
@@ -117,6 +117,11 @@
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
                 <artifactId>s3-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>aliyun-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

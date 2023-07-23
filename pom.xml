@@ -146,6 +146,7 @@
         <module>oss-s3</module>
         <module>oss-minio</module>
         <module>oss-spring-boot-starter</module>
+        <module>oss-aliyun</module>
     </modules>
 
 
