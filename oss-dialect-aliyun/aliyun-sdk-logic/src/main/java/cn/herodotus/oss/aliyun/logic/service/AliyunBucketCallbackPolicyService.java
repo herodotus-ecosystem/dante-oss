@@ -38,21 +38,29 @@ import com.aliyun.oss.model.SetBucketCallbackPolicyRequest;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶回调策略 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 22:03
  */
+@Service
 public class AliyunBucketCallbackPolicyService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketCallbackPolicyService.class);
 
     public AliyunBucketCallbackPolicyService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 
+    /**
+     * 设置存储桶实例的回调策略
+     *
+     * @param request {@link SetBucketCallbackPolicyRequest}
+     * @return {@link VoidResult}
+     */
     public VoidResult setBucketCallbackPolicy(SetBucketCallbackPolicyRequest request) {
         String function = "setBucketCallbackPolicy";
 
@@ -71,6 +79,12 @@ public class AliyunBucketCallbackPolicyService extends BaseAliyunService {
         }
     }
 
+    /**
+     * 获取存储桶实例的回调策略
+     *
+     * @param request {@link GenericRequest}
+     * @return {@link GetBucketCallbackPolicyResult}
+     */
     public GetBucketCallbackPolicyResult getBucketCallbackPolicy(GenericRequest request) {
         String function = "getBucketCallbackPolicy";
 
@@ -89,6 +103,12 @@ public class AliyunBucketCallbackPolicyService extends BaseAliyunService {
         }
     }
 
+    /**
+     * 删除存储桶实例的回调策略
+     *
+     * @param request {@link GenericRequest}
+     * @return {@link VoidResult}
+     */
     public VoidResult deleteBucketCallbackPolicy(GenericRequest request) {
         String function = "deleteBucketCallbackPolicy";
 

@@ -38,13 +38,15 @@ import com.aliyun.oss.model.SetBucketLoggingRequest;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶日志记录 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 18:14
  */
+@Service
 public class AliyunBucketLoggingService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketLoggingService.class);

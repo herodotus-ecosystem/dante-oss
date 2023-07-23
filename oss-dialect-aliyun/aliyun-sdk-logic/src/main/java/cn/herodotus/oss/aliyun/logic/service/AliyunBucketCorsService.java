@@ -38,15 +38,17 @@ import com.aliyun.oss.model.SetBucketCORSRequest;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶跨域 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 18:10
  */
+@Service
 public class AliyunBucketCorsService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketCorsService.class);

@@ -38,21 +38,29 @@ import com.aliyun.oss.model.GetMetaQueryStatusResult;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS MetaQuery Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 22:05
  */
+@Service
 public class AliyunMetaQueryService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessControlListService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunMetaQueryService.class);
 
     public AliyunMetaQueryService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 
+    /**
+     * 打开 OSS服务器 MetaQuery 配置
+     *
+     * @param bucketName 存储桶名称
+     * @return {@link VoidResult}
+     */
     public VoidResult openMetaQuery(String bucketName) {
         String function = "openMetaQuery";
 
@@ -71,6 +79,12 @@ public class AliyunMetaQueryService extends BaseAliyunService {
         }
     }
 
+    /**
+     * 获取 OSS服务器 MetaQueryStatus 配置
+     *
+     * @param bucketName 存储桶名称
+     * @return {@link GetMetaQueryStatusResult}
+     */
     public GetMetaQueryStatusResult getMetaQueryStatus(String bucketName) {
         String function = "getMetaQueryStatus";
 
@@ -89,6 +103,12 @@ public class AliyunMetaQueryService extends BaseAliyunService {
         }
     }
 
+    /**
+     * 查询符合指定条件的文件
+     *
+     * @param request {@link DoMetaQueryRequest}
+     * @return {@link DoMetaQueryResult}
+     */
     public DoMetaQueryResult doMetaQuery(DoMetaQueryRequest request) {
         String function = "doMetaQuery";
 
@@ -107,6 +127,12 @@ public class AliyunMetaQueryService extends BaseAliyunService {
         }
     }
 
+    /**
+     * 关闭元数据管理
+     *
+     * @param bucketName 存储桶名称
+     * @return {@link VoidResult}
+     */
     public VoidResult closeMetaQuery(String bucketName) {
         String function = "closeMetaQuery";
 

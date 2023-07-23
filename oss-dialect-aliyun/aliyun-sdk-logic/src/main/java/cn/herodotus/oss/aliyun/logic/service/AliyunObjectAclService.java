@@ -38,13 +38,15 @@ import com.aliyun.oss.model.SetObjectAclRequest;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 对象访问控制列表 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 16:40
  */
+@Service
 public class AliyunObjectAclService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunObjectAclService.class);

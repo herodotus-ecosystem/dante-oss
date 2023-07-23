@@ -35,18 +35,20 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.GeneratePresignedUrlRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.net.URL;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 预下载 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 16:45
  */
+@Service
 public class AliyunPresignedUrlService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunObjectTaggingService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunPresignedUrlService.class);
 
     public AliyunPresignedUrlService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);

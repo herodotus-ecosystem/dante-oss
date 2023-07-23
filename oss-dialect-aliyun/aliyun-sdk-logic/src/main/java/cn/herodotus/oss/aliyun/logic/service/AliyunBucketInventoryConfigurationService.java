@@ -35,16 +35,18 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶库存配置 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 21:53
  */
+@Service
 public class AliyunBucketInventoryConfigurationService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketVersioningService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketInventoryConfigurationService.class);
 
     public AliyunBucketInventoryConfigurationService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);

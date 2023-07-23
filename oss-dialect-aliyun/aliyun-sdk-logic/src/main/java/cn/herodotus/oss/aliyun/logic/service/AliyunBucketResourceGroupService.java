@@ -37,16 +37,18 @@ import com.aliyun.oss.model.SetBucketResourceGroupRequest;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶资源组 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 22:20
  */
+@Service
 public class AliyunBucketResourceGroupService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessControlListService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketResourceGroupService.class);
 
     public AliyunBucketResourceGroupService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);

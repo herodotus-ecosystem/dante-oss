@@ -41,17 +41,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶访问控制列表 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 16:19
  */
 @Service
-public class AliyunBucketAccessControlListService extends BaseAliyunService {
+public class AliyunBucketAclService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessControlListService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketAclService.class);
 
-    public AliyunBucketAccessControlListService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunBucketAclService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

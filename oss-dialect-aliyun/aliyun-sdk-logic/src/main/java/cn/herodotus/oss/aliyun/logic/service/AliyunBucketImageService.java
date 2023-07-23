@@ -38,13 +38,15 @@ import com.aliyun.oss.model.PutBucketImageRequest;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶镜像 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 16:47
  */
+@Service
 public class AliyunBucketImageService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketImageService.class);

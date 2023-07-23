@@ -32,34 +32,41 @@ import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.CreateDirectoryRequest;
-import com.aliyun.oss.model.DeleteDirectoryRequest;
-import com.aliyun.oss.model.DeleteDirectoryResult;
+import com.aliyun.oss.model.TransferAcceleration;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 传输加速 Service </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 22:00
+ * @date : 2023/7/23 22:55
  */
-public class AliyunDirectoryService extends BaseAliyunService {
+@Service
+public class AliyunBucketTransferAccelerationService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketLifecycleService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketTransferAccelerationService.class);
 
-    public AliyunDirectoryService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunBucketTransferAccelerationService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 
-    public VoidResult createDirectory(CreateDirectoryRequest request) {
-        String function = "createDirectory";
+    /**
+     * 设置存储桶传输加速
+     *
+     * @param bucketName 存储桶名称
+     * @param enable     状态
+     * @return {@link VoidResult}
+     */
+    public VoidResult setBucketTransferAcceleration(String bucketName, boolean enable) {
+        String function = "setBucketTransferAcceleration";
 
         OSS client = getClient();
 
         try {
-            return client.createDirectory(request);
+            return client.setBucketTransferAcceleration(bucketName, enable);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -71,13 +78,43 @@ public class AliyunDirectoryService extends BaseAliyunService {
         }
     }
 
-    public DeleteDirectoryResult deleteDirectory(DeleteDirectoryRequest request) {
-        String function = "deleteDirectory";
+    /**
+     * 获取存储桶加速传输
+     *
+     * @param bucketName 存储桶名称
+     * @return {@link TransferAcceleration}
+     */
+    public TransferAcceleration getBucketTransferAcceleration(String bucketName) {
+        String function = "getBucketTransferAcceleration";
 
         OSS client = getClient();
 
         try {
-            return client.deleteDirectory(request);
+            return client.getBucketTransferAcceleration(bucketName);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    /**
+     * 删除存储桶加速传输
+     *
+     * @param bucketName 存储桶名称
+     * @return {@link VoidResult}
+     */
+    public VoidResult deleteBucketTransferAcceleration(String bucketName) {
+        String function = "deleteBucketTransferAcceleration";
+
+        OSS client = getClient();
+
+        try {
+            return client.deleteBucketTransferAcceleration(bucketName);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

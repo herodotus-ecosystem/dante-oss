@@ -35,15 +35,17 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 图片样式 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 18:01
  */
+@Service
 public class AliyunImageStyleService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunImageStyleService.class);

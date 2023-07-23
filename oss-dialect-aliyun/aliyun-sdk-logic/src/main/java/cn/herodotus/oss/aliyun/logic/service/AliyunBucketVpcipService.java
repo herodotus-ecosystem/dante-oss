@@ -35,18 +35,20 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶Vpcip Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 21:52
  */
+@Service
 public class AliyunBucketVpcipService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketVersioningService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketVpcipService.class);
 
     public AliyunBucketVpcipService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);

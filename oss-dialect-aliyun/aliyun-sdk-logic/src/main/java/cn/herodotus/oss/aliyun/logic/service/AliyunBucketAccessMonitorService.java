@@ -32,32 +32,41 @@ import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.TransferAcceleration;
+import com.aliyun.oss.model.AccessMonitor;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶访问监控 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 22:08
  */
+@Service
 public class AliyunBucketAccessMonitorService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessMonitorService.class);
 
     public AliyunBucketAccessMonitorService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 
-    public VoidResult setBucketTransferAcceleration(String bucketName, boolean enable) {
-        String function = "setBucketTransferAcceleration";
+    /**
+     * 设置 BucketAccessMonitor
+     *
+     * @param bucketName 存储桶名称
+     * @param status     存储桶访问监控状态
+     * @return {@link VoidResult}
+     */
+    public VoidResult putBucketAccessMonitor(String bucketName, String status) {
+        String function = "putBucketAccessMonitor";
 
         OSS client = getClient();
 
         try {
-            return client.setBucketTransferAcceleration(bucketName, enable);
+            return client.putBucketAccessMonitor(bucketName, status);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -69,31 +78,19 @@ public class AliyunBucketAccessMonitorService extends BaseAliyunService {
         }
     }
 
-    public TransferAcceleration getBucketTransferAcceleration(String bucketName) {
-        String function = "getBucketTransferAcceleration";
+    /**
+     * 获取 BucketAccessMonitor
+     *
+     * @param bucketName 存储桶名称
+     * @return {@link AccessMonitor}
+     */
+    public AccessMonitor getBucketAccessMonitor(String bucketName) {
+        String function = "getBucketAccessMonitor";
 
         OSS client = getClient();
 
         try {
-            return client.getBucketTransferAcceleration(bucketName);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
-        }
-    }
-
-    public VoidResult deleteBucketTransferAcceleration(String bucketName) {
-        String function = "deleteBucketTransferAcceleration";
-
-        OSS client = getClient();
-
-        try {
-            return client.deleteBucketTransferAcceleration(bucketName);
+            return client.getBucketAccessMonitor(bucketName);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

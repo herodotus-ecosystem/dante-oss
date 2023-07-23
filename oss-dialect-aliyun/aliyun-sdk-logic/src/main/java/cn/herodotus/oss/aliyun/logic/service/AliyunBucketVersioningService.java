@@ -38,13 +38,15 @@ import com.aliyun.oss.model.SetBucketVersioningRequest;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶版本管理 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 16:28
  */
+@Service
 public class AliyunBucketVersioningService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketVersioningService.class);

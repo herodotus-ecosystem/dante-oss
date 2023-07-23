@@ -38,16 +38,18 @@ import com.aliyun.oss.model.SetBucketRequestPaymentRequest;
 import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶请求付费 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 21:45
  */
+@Service
 public class AliyunBucketRequestPaymentService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessControlListService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketRequestPaymentService.class);
 
     public AliyunBucketRequestPaymentService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);

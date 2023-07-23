@@ -35,16 +35,18 @@ import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 存储桶Worm Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 21:57
  */
+@Service
 public class AliyunBucketWormService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketCorsService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketWormService.class);
 
     public AliyunBucketWormService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);

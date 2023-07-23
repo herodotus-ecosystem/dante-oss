@@ -32,36 +32,39 @@ import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.GenericRequest;
-import com.aliyun.oss.model.SetObjectTaggingRequest;
-import com.aliyun.oss.model.TagSet;
-import com.aliyun.oss.model.VoidResult;
+import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: Aliyun OSS 对象标记 Service </p>
+ * <p>Description: Aliyun OSS 不便于归类操作放置 Service  </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 16:25
+ * @date : 2023/7/23 22:46
  */
 @Service
-public class AliyunObjectTaggingService extends BaseAliyunService {
+public class AliyunFunctionService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunObjectTaggingService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunFunctionService.class);
 
-    public AliyunObjectTaggingService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunFunctionService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 
-    public VoidResult setObjectTagging(SetObjectTaggingRequest request) {
-        String function = "setObjectTagging";
+    /**
+     * 描述OSS服务器区域
+     *
+     * @param request {@link DescribeRegionsRequest}
+     * @return {@link DescribeRegionsResult}
+     */
+    public DescribeRegionsResult describeRegions(DescribeRegionsRequest request) {
+        String function = "describeRegions";
 
         OSS client = getClient();
 
         try {
-            return client.setObjectTagging(request);
+            return client.describeRegions(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -73,13 +76,13 @@ public class AliyunObjectTaggingService extends BaseAliyunService {
         }
     }
 
-    public TagSet getObjectTagging(GenericRequest request) {
-        String function = "getObjectTagging";
+    public String generateRtmpUri(GenerateRtmpUriRequest request) {
+        String function = "generateRtmpUri";
 
         OSS client = getClient();
 
         try {
-            return client.getObjectTagging(request);
+            return client.generateRtmpUri(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -91,13 +94,67 @@ public class AliyunObjectTaggingService extends BaseAliyunService {
         }
     }
 
-    public VoidResult deleteObjectTagging(GenericRequest request) {
-        String function = "deleteObjectTagging";
+    public VoidResult createSymlink(CreateSymlinkRequest request) {
+        String function = "createSymlink";
 
         OSS client = getClient();
 
         try {
-            return client.deleteObjectTagging(request);
+            return client.createSymlink(request);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    public OSSSymlink getSymlink(GenericRequest request) {
+        String function = "getSymlink";
+
+        OSS client = getClient();
+
+        try {
+            return client.getSymlink(request);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    public VoidResult generateVodPlaylist(GenerateVodPlaylistRequest request) {
+        String function = "generateVodPlaylist";
+
+        OSS client = getClient();
+
+        try {
+            return client.generateVodPlaylist(request);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    public OSSObject getVodPlaylist(GetVodPlaylistRequest request) {
+        String function = "getVodPlaylist";
+
+        OSS client = getClient();
+
+        try {
+            return client.getVodPlaylist(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

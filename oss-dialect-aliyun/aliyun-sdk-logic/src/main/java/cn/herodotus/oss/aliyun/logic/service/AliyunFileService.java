@@ -35,16 +35,18 @@ import com.aliyun.oss.model.UploadFileRequest;
 import com.aliyun.oss.model.UploadFileResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun OSS 文件操作 Service </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 18:42
  */
+@Service
 public class AliyunFileService extends BaseAliyunService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessControlListService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunFileService.class);
 
     public AliyunFileService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
