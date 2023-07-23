@@ -53,7 +53,7 @@ public class AliyunClientConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public AliyunClientObjectPool minioAsyncClientPool(AliyunProperties aliyunProperties) {
+    public AliyunClientObjectPool aliyunClientObjectPool(AliyunProperties aliyunProperties) {
         AliyunClientPooledObjectFactory factory = new AliyunClientPooledObjectFactory(aliyunProperties);
         AliyunClientObjectPool pool = new AliyunClientObjectPool(factory);
         log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Auto Configure.");

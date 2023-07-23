@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.pool.AliyunClientObjectPool;
 import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
 import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
@@ -36,29 +36,27 @@ import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 /**
  * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 11:58
+ * @date : 2023/7/23 21:57
  */
-public class AliyunBucketService extends BaseAliyunClientService {
+public class AliyunBucketWormService extends BaseAliyunClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketCorsService.class);
 
-    protected AliyunBucketService(AliyunClientObjectPool aliyunClientObjectPool) {
-        super(aliyunClientObjectPool);
+    public AliyunBucketWormService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+        super(ossClientObjectPool);
     }
 
-    public Bucket createBucket(CreateBucketRequest request) {
-        String function = "createBucket";
+    public InitiateBucketWormResult initiateBucketWorm(InitiateBucketWormRequest request) {
+        String function = "initiateBucketWorm";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.createBucket(request);
+            return ossClient.initiateBucketWorm(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -70,13 +68,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    public VoidResult deleteBucket(GenericRequest request) {
-        String function = "deleteBucket";
+    public VoidResult abortBucketWorm(GenericRequest request) {
+        String function = "abortBucketWorm";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.deleteBucket(request);
+            return ossClient.abortBucketWorm(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -88,18 +86,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    /**
-     * 获取存储桶列表
-     *
-     * @return 存储桶列表
-     */
-    public List<Bucket> listBuckets() {
-        String function = "listBuckets";
+    public VoidResult completeBucketWorm(CompleteBucketWormRequest request) {
+        String function = "completeBucketWorm";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.listBuckets();
+            return ossClient.completeBucketWorm(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -111,13 +104,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    public BucketMetadata getBucketMetadata(GenericRequest request) {
-        String function = "getBucketMetadata";
+    public VoidResult extendBucketWorm(ExtendBucketWormRequest request) {
+        String function = "extendBucketWorm";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.getBucketMetadata(request);
+            return ossClient.extendBucketWorm(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -129,33 +122,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-
-
-    public String getBucketLocation(GenericRequest request) {
-        String function = "getBucketLocation";
+    public GetBucketWormResult getBucketWorm(GenericRequest request) {
+        String function = "getBucketWorm";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.getBucketLocation(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
-        } finally {
-            close(ossClient);
-        }
-    }
-
-    public boolean doesBucketExist(GenericRequest request) {
-        String function = "doesBucketExist";
-
-        OSS ossClient = getClient();
-
-        try {
-            return ossClient.doesBucketExist(request);
+            return ossClient.getBucketWorm(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

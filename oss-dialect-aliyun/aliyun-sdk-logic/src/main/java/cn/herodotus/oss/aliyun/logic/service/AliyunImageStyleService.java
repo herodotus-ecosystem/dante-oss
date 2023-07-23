@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.pool.AliyunClientObjectPool;
 import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
 import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
@@ -42,23 +42,23 @@ import java.util.List;
  * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 11:58
+ * @date : 2023/7/23 18:01
  */
-public class AliyunBucketService extends BaseAliyunClientService {
+public class AliyunImageStyleService extends BaseAliyunClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunImageStyleService.class);
 
-    protected AliyunBucketService(AliyunClientObjectPool aliyunClientObjectPool) {
-        super(aliyunClientObjectPool);
+    public AliyunImageStyleService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+        super(ossClientObjectPool);
     }
 
-    public Bucket createBucket(CreateBucketRequest request) {
-        String function = "createBucket";
+    public VoidResult putImageStyle(PutImageStyleRequest request) {
+        String function = "putImageStyle";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.createBucket(request);
+            return ossClient.putImageStyle(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -70,13 +70,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    public VoidResult deleteBucket(GenericRequest request) {
-        String function = "deleteBucket";
+    public GetImageStyleResult getImageStyle(String bucketName, String styleName, GenericRequest request) {
+        String function = "getBucketImage";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.deleteBucket(request);
+            return ossClient.getImageStyle(bucketName, styleName, request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -88,18 +88,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    /**
-     * 获取存储桶列表
-     *
-     * @return 存储桶列表
-     */
-    public List<Bucket> listBuckets() {
-        String function = "listBuckets";
+    public VoidResult deleteImageStyle(String bucketName,  String styleName, GenericRequest request) {
+        String function = "deleteImageStyle";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.listBuckets();
+            return ossClient.deleteImageStyle(bucketName, styleName, request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -111,51 +106,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    public BucketMetadata getBucketMetadata(GenericRequest request) {
-        String function = "getBucketMetadata";
+    public List<Style> listImageStyle(String bucketName, GenericRequest request) {
+        String function = "listImageStyle";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.getBucketMetadata(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
-        } finally {
-            close(ossClient);
-        }
-    }
-
-
-
-    public String getBucketLocation(GenericRequest request) {
-        String function = "getBucketLocation";
-
-        OSS ossClient = getClient();
-
-        try {
-            return ossClient.getBucketLocation(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
-        } finally {
-            close(ossClient);
-        }
-    }
-
-    public boolean doesBucketExist(GenericRequest request) {
-        String function = "doesBucketExist";
-
-        OSS ossClient = getClient();
-
-        try {
-            return ossClient.doesBucketExist(request);
+            return ossClient.listImageStyle(bucketName,request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

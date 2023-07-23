@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.pool.AliyunClientObjectPool;
 import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
 import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
@@ -42,23 +42,23 @@ import java.util.List;
  * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 11:58
+ * @date : 2023/7/23 21:31
  */
-public class AliyunBucketService extends BaseAliyunClientService {
+public class AliyunLiveChannelService extends BaseAliyunClientService {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunLiveChannelService.class);
 
-    protected AliyunBucketService(AliyunClientObjectPool aliyunClientObjectPool) {
-        super(aliyunClientObjectPool);
+    public AliyunLiveChannelService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+        super(ossClientObjectPool);
     }
 
-    public Bucket createBucket(CreateBucketRequest request) {
-        String function = "createBucket";
+    public CreateLiveChannelResult createLiveChannel(CreateLiveChannelRequest request) {
+        String function = "createLiveChannel";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.createBucket(request);
+            return ossClient.createLiveChannel(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -70,13 +70,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    public VoidResult deleteBucket(GenericRequest request) {
-        String function = "deleteBucket";
+    public VoidResult setLiveChannelStatus(SetLiveChannelRequest request) {
+        String function = "setLiveChannelStatus";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.deleteBucket(request);
+            return ossClient.setLiveChannelStatus(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -88,18 +88,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    /**
-     * 获取存储桶列表
-     *
-     * @return 存储桶列表
-     */
-    public List<Bucket> listBuckets() {
-        String function = "listBuckets";
+    public LiveChannelInfo getLiveChannelInfo(LiveChannelGenericRequest request) {
+        String function = "getLiveChannelInfo";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.listBuckets();
+            return ossClient.getLiveChannelInfo(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -111,13 +106,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    public BucketMetadata getBucketMetadata(GenericRequest request) {
-        String function = "getBucketMetadata";
+    public LiveChannelStat getLiveChannelStat(LiveChannelGenericRequest request) {
+        String function = "getLiveChannelStat";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.getBucketMetadata(request);
+            return ossClient.getLiveChannelStat(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -129,15 +124,13 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-
-
-    public String getBucketLocation(GenericRequest request) {
-        String function = "getBucketLocation";
+    public VoidResult deleteLiveChannel(LiveChannelGenericRequest request) {
+        String function = "deleteLiveChannel";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.getBucketLocation(request);
+            return ossClient.deleteLiveChannel(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -149,13 +142,31 @@ public class AliyunBucketService extends BaseAliyunClientService {
         }
     }
 
-    public boolean doesBucketExist(GenericRequest request) {
-        String function = "doesBucketExist";
+    public LiveChannelListing listLiveChannels(ListLiveChannelsRequest request) {
+        String function = "listLiveChannels";
 
         OSS ossClient = getClient();
 
         try {
-            return ossClient.doesBucketExist(request);
+            return ossClient.listLiveChannels(request);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssClientPoolErrorException(e.getMessage());
+        } finally {
+            close(ossClient);
+        }
+    }
+
+    public List<LiveRecord> getLiveChannelHistory(LiveChannelGenericRequest request) {
+        String function = "getLiveChannelHistory";
+
+        OSS ossClient = getClient();
+
+        try {
+            return ossClient.getLiveChannelHistory(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
