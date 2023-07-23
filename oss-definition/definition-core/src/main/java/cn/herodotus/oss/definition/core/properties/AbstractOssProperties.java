@@ -25,6 +25,8 @@
 
 package cn.herodotus.oss.definition.core.properties;
 
+import com.google.common.base.MoreObjects;
+
 /**
  * <p>Description: 对象存储通用属性提取抽象类 </p>
  *
@@ -48,6 +50,11 @@ public abstract class AbstractOssProperties {
      */
     private String secretKey;
 
+    /**
+     * 自定义 OSS 对象池参数配置
+     */
+    private Pool pool = new Pool();
+
     public String getEndpoint() {
         return endpoint;
     }
@@ -70,5 +77,23 @@ public abstract class AbstractOssProperties {
 
     public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
+    }
+
+    public Pool getPool() {
+        return pool;
+    }
+
+    public void setPool(Pool pool) {
+        this.pool = pool;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("endpoint", endpoint)
+                .add("accessKey", accessKey)
+                .add("secretKey", secretKey)
+                .add("pool", pool)
+                .toString();
     }
 }
