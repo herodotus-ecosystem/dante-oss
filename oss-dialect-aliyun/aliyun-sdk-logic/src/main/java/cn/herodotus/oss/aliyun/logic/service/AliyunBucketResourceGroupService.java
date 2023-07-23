@@ -25,14 +25,13 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunService;
 import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
+import cn.herodotus.oss.definition.core.exception.OssExecutionException;
 import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.CreateSymlinkRequest;
 import com.aliyun.oss.model.GetBucketResourceGroupResult;
 import com.aliyun.oss.model.SetBucketResourceGroupRequest;
 import com.aliyun.oss.model.VoidResult;
@@ -45,7 +44,7 @@ import org.slf4j.LoggerFactory;
  * @author : gengwei.zheng
  * @date : 2023/7/23 22:20
  */
-public class AliyunBucketResourceGroupService extends BaseAliyunClientService {
+public class AliyunBucketResourceGroupService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessControlListService.class);
 
@@ -56,36 +55,36 @@ public class AliyunBucketResourceGroupService extends BaseAliyunClientService {
     public VoidResult setBucketResourceGroup(SetBucketResourceGroupRequest request) {
         String function = "setBucketResourceGroup";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.setBucketResourceGroup(request);
+            return client.setBucketResourceGroup(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public GetBucketResourceGroupResult getBucketResourceGroup(String bucketName) {
         String function = "getBucketResourceGroup";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getBucketResourceGroup(bucketName);
+            return client.getBucketResourceGroup(bucketName);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 }

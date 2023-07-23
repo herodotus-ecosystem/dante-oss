@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunService;
 import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
+import cn.herodotus.oss.definition.core.exception.OssExecutionException;
 import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
@@ -42,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * @author : gengwei.zheng
  * @date : 2023/7/23 21:53
  */
-public class AliyunBucketInventoryConfigurationService extends BaseAliyunClientService {
+public class AliyunBucketInventoryConfigurationService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketVersioningService.class);
 
@@ -53,72 +53,72 @@ public class AliyunBucketInventoryConfigurationService extends BaseAliyunClientS
     public VoidResult setBucketInventoryConfiguration(SetBucketInventoryConfigurationRequest request) {
         String function = "setBucketInventoryConfiguration";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.setBucketInventoryConfiguration(request);
+            return client.setBucketInventoryConfiguration(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public GetBucketInventoryConfigurationResult getBucketInventoryConfiguration(GetBucketInventoryConfigurationRequest request) {
         String function = "getBucketInventoryConfiguration";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getBucketInventoryConfiguration(request);
+            return client.getBucketInventoryConfiguration(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public ListBucketInventoryConfigurationsResult listBucketInventoryConfigurations(ListBucketInventoryConfigurationsRequest request) {
         String function = "listBucketInventoryConfigurations";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.listBucketInventoryConfigurations(request);
+            return client.listBucketInventoryConfigurations(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public VoidResult deleteBucketInventoryConfiguration(DeleteBucketInventoryConfigurationRequest request) {
         String function = "deleteBucketInventoryConfiguration";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.deleteBucketInventoryConfiguration(request);
+            return client.deleteBucketInventoryConfiguration(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 }

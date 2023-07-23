@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunService;
 import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
+import cn.herodotus.oss.definition.core.exception.OssExecutionException;
 import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
@@ -44,7 +44,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/7/23 18:21
  */
-public class AliyunBucketCnameService extends BaseAliyunClientService {
+public class AliyunBucketCnameService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessControlListService.class);
 
@@ -55,126 +55,126 @@ public class AliyunBucketCnameService extends BaseAliyunClientService {
     public AddBucketCnameResult addBucketCname(AddBucketCnameRequest request) {
         String function = "addBucketCname";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.addBucketCname(request);
+            return client.addBucketCname(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public List<CnameConfiguration> getBucketCname(GenericRequest request) {
         String function = "getBucketCname";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getBucketCname(request);
+            return client.getBucketCname(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public VoidResult deleteBucketCname(DeleteBucketCnameRequest request) {
         String function = "deleteBucketCname";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.deleteBucketCname(request);
+            return client.deleteBucketCname(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public CreateBucketCnameTokenResult createBucketCnameToken(CreateBucketCnameTokenRequest request) {
         String function = "createBucketCnameToken";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.createBucketCnameToken(request);
+            return client.createBucketCnameToken(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public GetBucketCnameTokenResult getBucketCnameToken(GetBucketCnameTokenRequest request) {
         String function = "getBucketCnameToken";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getBucketCnameToken(request);
+            return client.getBucketCnameToken(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public BucketInfo getBucketInfo(GenericRequest request) {
         String function = "getBucketInfo";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getBucketInfo(request);
+            return client.getBucketInfo(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public BucketStat getBucketStat(GenericRequest request) {
         String function = "getBucketStat";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getBucketStat(request);
+            return client.getBucketStat(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 }

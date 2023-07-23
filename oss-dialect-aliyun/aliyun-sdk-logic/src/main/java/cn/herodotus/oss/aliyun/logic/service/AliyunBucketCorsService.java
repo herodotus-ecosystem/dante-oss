@@ -25,14 +25,17 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunService;
 import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
+import cn.herodotus.oss.definition.core.exception.OssExecutionException;
 import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.*;
+import com.aliyun.oss.model.CORSConfiguration;
+import com.aliyun.oss.model.GenericRequest;
+import com.aliyun.oss.model.SetBucketCORSRequest;
+import com.aliyun.oss.model.VoidResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +47,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/7/23 18:10
  */
-public class AliyunBucketCorsService extends BaseAliyunClientService {
+public class AliyunBucketCorsService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketCorsService.class);
 
@@ -55,72 +58,72 @@ public class AliyunBucketCorsService extends BaseAliyunClientService {
     public VoidResult setBucketCORS(SetBucketCORSRequest request) {
         String function = "setBucketCORS";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.setBucketCORS(request);
+            return client.setBucketCORS(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public CORSConfiguration getBucketCORS(GenericRequest request) {
         String function = "getBucketCORS";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getBucketCORS(request);
+            return client.getBucketCORS(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public List<SetBucketCORSRequest.CORSRule> getBucketCORSRules(GenericRequest request) {
         String function = "getBucketCORSRules";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getBucketCORSRules(request);
+            return client.getBucketCORSRules(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public VoidResult deleteBucketCORSRules(GenericRequest request) {
         String function = "deleteBucketCORSRules";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.deleteBucketCORSRules(request);
+            return client.deleteBucketCORSRules(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 }

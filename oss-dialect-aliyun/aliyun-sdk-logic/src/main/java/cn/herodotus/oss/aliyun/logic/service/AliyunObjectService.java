@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunService;
 import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
+import cn.herodotus.oss.definition.core.exception.OssExecutionException;
 import cn.herodotus.oss.definition.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
@@ -36,15 +36,13 @@ import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 /**
  * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/23 16:31
  */
-public class AliyunObjectService extends BaseAliyunClientService {
+public class AliyunObjectService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketService.class);
 
@@ -55,342 +53,342 @@ public class AliyunObjectService extends BaseAliyunClientService {
     public ObjectListing listObjects(ListObjectsRequest request) {
         String function = "listObjects";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.listObjects(request);
+            return client.listObjects(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public ListObjectsV2Result listObjectsV2(ListObjectsV2Request request) {
         String function = "listObjectsV2";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.listObjectsV2(request);
+            return client.listObjectsV2(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public VersionListing listVersions(ListVersionsRequest request) {
         String function = "listVersions";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.listVersions(request);
+            return client.listVersions(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public PutObjectResult putObject(PutObjectRequest request) {
         String function = "putObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.putObject(request);
+            return client.putObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public CopyObjectResult copyObject(CopyObjectRequest request) {
         String function = "copyObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.copyObject(request);
+            return client.copyObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public OSSObject getObject(GetObjectRequest request) {
         String function = "getObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getObject(request);
+            return client.getObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public SimplifiedObjectMeta getSimplifiedObjectMeta(GetObjectRequest request) {
         String function = "getSimplifiedObjectMeta";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getSimplifiedObjectMeta(request);
+            return client.getSimplifiedObjectMeta(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public ObjectMetadata getObjectMetadata(GetObjectRequest request) {
         String function = "getObjectMetadata";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.getObjectMetadata(request);
+            return client.getObjectMetadata(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public ObjectMetadata headObject(HeadObjectRequest request) {
         String function = "headObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.headObject(request);
+            return client.headObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public AppendObjectResult appendObject(AppendObjectRequest request) {
         String function = "appendObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.appendObject(request);
+            return client.appendObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public VoidResult deleteObject(GenericRequest request) {
         String function = "deleteObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.deleteObject(request);
+            return client.deleteObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public DeleteObjectsResult deleteObjects(DeleteObjectsRequest request) {
         String function = "deleteObjects";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.deleteObjects(request);
+            return client.deleteObjects(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public VoidResult deleteVersion(DeleteVersionRequest request) {
         String function = "deleteVersion";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.deleteVersion(request);
+            return client.deleteVersion(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public DeleteVersionsResult deleteVersions(DeleteVersionsRequest request) {
         String function = "deleteVersions";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.deleteVersions(request);
+            return client.deleteVersions(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public boolean doesObjectExist(GenericRequest request) {
         String function = "doesObjectExist";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.doesObjectExist(request);
+            return client.doesObjectExist(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public RestoreObjectResult restoreObject(RestoreObjectRequest request) {
         String function = "restoreObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.restoreObject(request);
+            return client.restoreObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public GenericResult processObject(ProcessObjectRequest request) {
         String function = "processObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.processObject(request);
+            return client.processObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public VoidResult renameObject(RenameObjectRequest request) {
         String function = "renameObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.renameObject(request);
+            return client.renameObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public AsyncProcessObjectResult asyncProcessObject(AsyncProcessObjectRequest request) {
         String function = "asyncProcessObject";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.asyncProcessObject(request);
+            return client.asyncProcessObject(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } catch (OSSException e) {
             log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssClientPoolErrorException(e.getMessage());
+            throw new OssExecutionException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 }

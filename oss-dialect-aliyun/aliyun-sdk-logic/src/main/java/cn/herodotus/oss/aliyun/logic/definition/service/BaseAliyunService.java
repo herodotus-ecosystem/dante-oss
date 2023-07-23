@@ -35,9 +35,9 @@ import com.aliyun.oss.OSS;
  * @author : gengwei.zheng
  * @date : 2023/7/23 11:56
  */
-public abstract class BaseAliyunClientService extends BaseOssService<OSS> {
+public abstract class BaseAliyunService extends BaseOssService<OSS> {
 
-    public BaseAliyunClientService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public BaseAliyunService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 }

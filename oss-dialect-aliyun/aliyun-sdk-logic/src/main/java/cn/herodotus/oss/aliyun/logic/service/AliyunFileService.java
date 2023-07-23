@@ -25,15 +25,14 @@
 
 package cn.herodotus.oss.aliyun.logic.service;
 
-import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunClientService;
+import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunService;
 import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
 import cn.herodotus.oss.definition.core.exception.OssIOException;
-import cn.herodotus.oss.definition.core.exception.OssServerException;
-import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.*;
+import com.aliyun.oss.model.DownloadFileRequest;
+import com.aliyun.oss.model.DownloadFileResult;
+import com.aliyun.oss.model.UploadFileRequest;
+import com.aliyun.oss.model.UploadFileResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +42,7 @@ import org.slf4j.LoggerFactory;
  * @author : gengwei.zheng
  * @date : 2023/7/23 18:42
  */
-public class AliyunFileService extends BaseAliyunClientService {
+public class AliyunFileService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketAccessControlListService.class);
 
@@ -54,30 +53,30 @@ public class AliyunFileService extends BaseAliyunClientService {
     public UploadFileResult uploadFile(UploadFileRequest request) {
         String function = "uploadFile";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.uploadFile(request);
+            return client.uploadFile(request);
         } catch (Throwable e) {
             log.error("[Herodotus] |- Aliyun OSS catch Throwable in [{}].", function, e);
             throw new OssIOException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 
     public DownloadFileResult downloadFile(DownloadFileRequest request) {
         String function = "downloadFile";
 
-        OSS ossClient = getClient();
+        OSS client = getClient();
 
         try {
-            return ossClient.downloadFile(request);
+            return client.downloadFile(request);
         } catch (Throwable e) {
             log.error("[Herodotus] |- Aliyun OSS catch Throwable in [{}].", function, e);
             throw new OssIOException(e.getMessage());
         } finally {
-            close(ossClient);
+            close(client);
         }
     }
 }

@@ -28,7 +28,6 @@ package cn.herodotus.oss.aliyun.logic.definition.pool;
 import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.definition.core.client.AbstractOssClientPooledObjectFactory;
 import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClient;
 
 /**
  * <p>Description: Amazon S3 Client 对象池 </p>
