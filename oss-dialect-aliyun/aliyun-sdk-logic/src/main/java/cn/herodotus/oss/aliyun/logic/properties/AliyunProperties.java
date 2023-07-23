@@ -23,77 +23,52 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.core.properties;
+package cn.herodotus.oss.aliyun.logic.properties;
 
+import cn.herodotus.oss.definition.core.constants.OssConstants;
+import cn.herodotus.oss.definition.core.properties.AbstractOssProperties;
 import com.google.common.base.MoreObjects;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * <p>Description: 对象存储通用属性提取抽象类 </p>
+ * <p>Description: Aliyun OSS 配置参数 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/14 16:28
+ * @date : 2023/7/23 11:40
  */
-public abstract class AbstractOssProperties {
+@ConfigurationProperties(prefix = OssConstants.PROPERTY_OSS_ALIYUN)
+public class AliyunProperties extends AbstractOssProperties {
 
     /**
-     * Oss Server endpoint
+     * 授权STSAssumeRole访问的Region。以华东1（杭州）为例，其它Region请根据实际情况填写。
      */
-    private String endpoint;
-
+    private String region;
     /**
-     * Oss Server accessKey
+     * AM角色的RamRoleArn
      */
-    private String accessKey;
+    private String role;
 
-    /**
-     * Oss Server secretKey
-     */
-    private String secretKey;
-
-    /**
-     * 自定义 OSS 对象池参数配置
-     */
-    private Pool pool = new Pool();
-
-    public String getEndpoint() {
-        return endpoint;
+    public String getRegion() {
+        return region;
     }
 
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    public String getAccessKey() {
-        return accessKey;
+    public String getRole() {
+        return role;
     }
 
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public Pool getPool() {
-        return pool;
-    }
-
-    public void setPool(Pool pool) {
-        this.pool = pool;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("endpoint", endpoint)
-                .add("accessKey", accessKey)
-                .add("secretKey", secretKey)
-                .add("pool", pool)
+                .add("region", region)
+                .add("role", role)
                 .toString();
     }
 }

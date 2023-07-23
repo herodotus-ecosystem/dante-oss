@@ -143,10 +143,10 @@
     <modules>
         <module>oss-bom</module>
         <module>oss-definition</module>
-        <module>oss-s3</module>
-        <module>oss-minio</module>
+        <module>oss-dialect-s3</module>
+        <module>oss-dialect-minio</module>
+        <module>oss-dialect-aliyun</module>
         <module>oss-spring-boot-starter</module>
-        <module>oss-aliyun</module>
     </modules>
 
 
