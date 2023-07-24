@@ -27,10 +27,10 @@ package cn.herodotus.oss.minio.scenario.bo;
 
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
-import cn.herodotus.oss.minio.core.domain.VersioningConfigurationDomain;
-import cn.herodotus.oss.minio.core.enums.PolicyEnums;
-import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
+import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
+import cn.herodotus.oss.dialect.minio.domain.VersioningConfigurationDomain;
+import cn.herodotus.oss.dialect.minio.enums.PolicyEnums;
+import cn.herodotus.oss.dialect.minio.enums.SseConfigurationEnums;
 import com.google.common.base.MoreObjects;
 
 import java.util.Map;

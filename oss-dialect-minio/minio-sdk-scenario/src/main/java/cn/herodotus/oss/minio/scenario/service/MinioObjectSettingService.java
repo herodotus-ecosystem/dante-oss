@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.oss.minio.core.converter.ResponseToStatObjectDomainConverter;
-import cn.herodotus.oss.minio.core.domain.StatObjectDomain;
-import cn.herodotus.oss.minio.logic.service.MinioObjectService;
-import cn.herodotus.oss.minio.logic.service.MinioObjectTagsService;
+import cn.herodotus.oss.dialect.minio.converter.ResponseToStatObjectDomainConverter;
+import cn.herodotus.oss.dialect.minio.domain.StatObjectDomain;
+import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
+import cn.herodotus.oss.dialect.minio.service.MinioObjectTagsService;
 import cn.herodotus.oss.minio.scenario.bo.ObjectSettingBusiness;
 import io.minio.StatObjectResponse;
 import io.minio.messages.Tags;

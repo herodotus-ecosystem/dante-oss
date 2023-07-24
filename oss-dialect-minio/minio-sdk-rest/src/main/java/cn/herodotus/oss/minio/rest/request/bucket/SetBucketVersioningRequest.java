@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.oss.minio.core.domain.VersioningConfigurationDomain;
+import cn.herodotus.oss.dialect.minio.domain.VersioningConfigurationDomain;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.SetBucketVersioningArgs;
 import io.minio.messages.VersioningConfiguration;

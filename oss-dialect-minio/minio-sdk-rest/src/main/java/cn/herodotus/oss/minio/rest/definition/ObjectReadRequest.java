@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.rest.definition;
 
-import cn.herodotus.oss.minio.core.converter.sse.RequestToServerSideEncryptionCustomerKeyConverter;
+import cn.herodotus.oss.dialect.minio.converter.sse.RequestToServerSideEncryptionCustomerKeyConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.minio.ObjectReadArgs;
 import io.minio.ServerSideEncryptionCustomerKey;

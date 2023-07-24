@@ -26,8 +26,8 @@
 package cn.herodotus.oss.minio.scenario.proxy;
 
 import cn.herodotus.engine.assistant.core.definition.constants.SymbolConstants;
-import cn.herodotus.oss.minio.core.constants.MinioConstants;
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
+import cn.herodotus.oss.dialect.minio.constants.MinioConstants;
+import cn.herodotus.oss.dialect.minio.properties.MinioProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

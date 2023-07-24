@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.minio.rest.definition;
 
-import cn.herodotus.oss.minio.core.converter.retention.DomainToRetentionConverter;
-import cn.herodotus.oss.minio.core.converter.sse.RequestToServerSideEncryptionConverter;
-import cn.herodotus.oss.minio.core.domain.RetentionDomain;
-import cn.herodotus.oss.minio.core.domain.ServerSideEncryptionDomain;
+import cn.herodotus.oss.dialect.minio.converter.retention.DomainToRetentionConverter;
+import cn.herodotus.oss.dialect.minio.converter.sse.RequestToServerSideEncryptionConverter;
+import cn.herodotus.oss.dialect.minio.domain.RetentionDomain;
+import cn.herodotus.oss.dialect.minio.domain.ServerSideEncryptionDomain;
 import io.minio.ObjectWriteArgs;
 import io.minio.ServerSideEncryption;
 import io.minio.messages.Retention;

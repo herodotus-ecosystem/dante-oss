@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
-import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
-import cn.herodotus.oss.core.exception.OssIOException;
-import cn.herodotus.oss.minio.logic.service.MinioObjectService;
+import cn.herodotus.oss.dialect.minio.converter.ResponseToObjectWriteDomainConverter;
+import cn.herodotus.oss.dialect.minio.domain.ObjectWriteDomain;
+import cn.herodotus.oss.dialect.core.exception.OssIOException;
+import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import io.minio.ObjectWriteResponse;
 import io.minio.StatObjectResponse;
 import jakarta.servlet.http.HttpServletResponse;

@@ -40,8 +40,6 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>minio-core</module>
-        <module>minio-sdk-logic</module>
         <module>minio-sdk-rest</module>
         <module>minio-sdk-scenario</module>
         <module>minio-spring-boot-starter</module>

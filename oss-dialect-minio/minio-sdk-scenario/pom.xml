@@ -41,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>minio-sdk-logic</artifactId>
+            <artifactId>dialect-sdk-minio</artifactId>
         </dependency>
 
         <dependency>

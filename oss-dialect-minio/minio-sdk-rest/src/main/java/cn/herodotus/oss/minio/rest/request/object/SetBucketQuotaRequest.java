@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.rest.request.object;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import cn.herodotus.oss.minio.core.enums.QuotaUnitEnums;
+import cn.herodotus.oss.dialect.minio.enums.QuotaUnitEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

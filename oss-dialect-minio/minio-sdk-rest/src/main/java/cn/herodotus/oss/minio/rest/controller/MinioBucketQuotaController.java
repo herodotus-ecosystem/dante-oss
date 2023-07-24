@@ -28,7 +28,7 @@ package cn.herodotus.oss.minio.rest.controller;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.minio.logic.service.MinioBucketQuotaService;
+import cn.herodotus.oss.dialect.minio.service.MinioBucketQuotaService;
 import cn.herodotus.oss.minio.rest.request.object.SetBucketQuotaRequest;
 import io.minio.admin.QuotaUnit;
 import io.swagger.v3.oas.annotations.Operation;

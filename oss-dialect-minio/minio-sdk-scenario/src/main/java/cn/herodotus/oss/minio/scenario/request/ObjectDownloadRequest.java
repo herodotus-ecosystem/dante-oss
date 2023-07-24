@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.scenario.request;
 
-import cn.herodotus.oss.minio.core.domain.base.BaseDomain;
+import cn.herodotus.oss.dialect.minio.domain.base.BaseDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**

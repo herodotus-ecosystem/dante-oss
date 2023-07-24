@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.scenario.bo;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import cn.herodotus.oss.minio.core.enums.RetentionModeEnums;
+import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 

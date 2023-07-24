@@ -142,11 +142,10 @@
 
     <modules>
         <module>oss-bom</module>
-        <module>oss-core</module>
-        <module>oss-dialect-s3</module>
+        <module>oss-dialect</module>
         <module>oss-dialect-minio</module>
-        <module>oss-dialect-aliyun</module>
         <module>oss-spring-boot-starter</module>
+        <module>oss-integration</module>
     </modules>
 
 

@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.scenario.controller;
 
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
-import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
+import cn.herodotus.oss.dialect.minio.domain.ObjectWriteDomain;
 import cn.herodotus.oss.minio.scenario.request.ObjectDownloadRequest;
 import cn.herodotus.oss.minio.scenario.service.MinioObjectStreamService;
 import io.swagger.v3.oas.annotations.Operation;

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.oss.minio.core.enums.*;
+import cn.herodotus.oss.dialect.minio.enums.*;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

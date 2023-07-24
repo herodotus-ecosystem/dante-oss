@@ -25,14 +25,14 @@
 
 package cn.herodotus.oss.minio.scenario.service;
 
-import cn.herodotus.oss.minio.core.converter.retention.ObjectLockConfigurationToDomainConverter;
-import cn.herodotus.oss.minio.core.converter.retention.VersioningConfigurationToDomainConverter;
-import cn.herodotus.oss.minio.core.converter.sse.SseConfigurationToEnumConverter;
-import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
-import cn.herodotus.oss.minio.core.domain.VersioningConfigurationDomain;
-import cn.herodotus.oss.minio.core.enums.PolicyEnums;
-import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
-import cn.herodotus.oss.minio.logic.service.*;
+import cn.herodotus.oss.dialect.minio.converter.retention.ObjectLockConfigurationToDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.retention.VersioningConfigurationToDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.sse.SseConfigurationToEnumConverter;
+import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
+import cn.herodotus.oss.dialect.minio.domain.VersioningConfigurationDomain;
+import cn.herodotus.oss.dialect.minio.enums.PolicyEnums;
+import cn.herodotus.oss.dialect.minio.enums.SseConfigurationEnums;
+import cn.herodotus.oss.dialect.minio.service.*;
 import cn.herodotus.oss.minio.scenario.bo.BucketSettingBusiness;
 import io.minio.messages.ObjectLockConfiguration;
 import io.minio.messages.SseConfiguration;

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.scenario.annotation;
 
-import cn.herodotus.oss.minio.logic.annotation.EnableHerodotusMinioLogic;
+import cn.herodotus.oss.dialect.minio.annotation.EnableHerodotusMinioLogic;
 import cn.herodotus.oss.minio.scenario.configuration.MinioScenarioConfiguration;
 import org.springframework.context.annotation.Import;
 

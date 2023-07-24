@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.rest.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
-import cn.herodotus.oss.minio.logic.service.MinioAdminService;
+import cn.herodotus.oss.dialect.minio.service.MinioAdminService;
 import io.minio.admin.messages.DataUsageInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

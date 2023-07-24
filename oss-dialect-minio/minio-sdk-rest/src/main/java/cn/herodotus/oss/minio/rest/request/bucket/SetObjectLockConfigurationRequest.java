@@ -25,14 +25,13 @@
 
 package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.oss.minio.core.converter.retention.DomainToObjectLockConfigurationConverter;
-import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
+import cn.herodotus.oss.dialect.minio.converter.retention.DomainToObjectLockConfigurationConverter;
+import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.SetObjectLockConfigurationArgs;
 import io.minio.messages.ObjectLockConfiguration;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
 /**

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.rest.request.bucket;
 
-import cn.herodotus.oss.minio.core.enums.SseConfigurationEnums;
+import cn.herodotus.oss.dialect.minio.enums.SseConfigurationEnums;
 import cn.herodotus.oss.minio.rest.definition.BucketRequest;
 import io.minio.SetBucketEncryptionArgs;
 import io.minio.messages.SseConfiguration;
