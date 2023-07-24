@@ -26,8 +26,8 @@
 package cn.herodotus.oss.aliyun.logic.service;
 
 import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunService;
-import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.exception.OssIOException;
+import cn.herodotus.oss.core.definition.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.core.exception.OssIOException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.DownloadFileRequest;
 import com.aliyun.oss.model.DownloadFileResult;

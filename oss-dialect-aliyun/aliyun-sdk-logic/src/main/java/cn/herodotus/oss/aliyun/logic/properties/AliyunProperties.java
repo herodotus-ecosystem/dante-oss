@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.aliyun.logic.properties;
 
-import cn.herodotus.oss.definition.core.constants.OssConstants;
-import cn.herodotus.oss.definition.core.properties.AbstractOssProperties;
+import cn.herodotus.oss.core.constants.OssConstants;
+import cn.herodotus.oss.core.definition.properties.AbstractOssProperties;
 import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

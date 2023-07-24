@@ -25,15 +25,8 @@
 
 package cn.herodotus.oss.minio.logic.definition.pool;
 
-import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.client.AbstractOssClientPooledObjectFactory;
-import cn.herodotus.oss.definition.core.exception.OssClientPoolErrorException;
-import cn.herodotus.oss.minio.logic.properties.MinioProperties;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.pool2.impl.GenericObjectPool;
-import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cn.herodotus.oss.core.definition.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.core.definition.client.AbstractOssClientPooledObjectFactory;
 
 /**
  * <p>Description: Minio 异步 Client 对象池 </p>

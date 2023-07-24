@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.definition.core.exception.*;
+import cn.herodotus.oss.core.exception.*;
 import cn.herodotus.oss.minio.core.converter.retention.ObjectLockConfigurationToDomainConverter;
 import cn.herodotus.oss.minio.core.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioClientObjectPool;

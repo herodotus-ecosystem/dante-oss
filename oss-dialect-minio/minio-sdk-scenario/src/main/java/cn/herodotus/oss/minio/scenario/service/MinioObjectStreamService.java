@@ -27,7 +27,7 @@ package cn.herodotus.oss.minio.scenario.service;
 
 import cn.herodotus.oss.minio.core.converter.ResponseToObjectWriteDomainConverter;
 import cn.herodotus.oss.minio.core.domain.ObjectWriteDomain;
-import cn.herodotus.oss.definition.core.exception.OssIOException;
+import cn.herodotus.oss.core.exception.OssIOException;
 import cn.herodotus.oss.minio.logic.service.MinioObjectService;
 import io.minio.ObjectWriteResponse;
 import io.minio.StatObjectResponse;

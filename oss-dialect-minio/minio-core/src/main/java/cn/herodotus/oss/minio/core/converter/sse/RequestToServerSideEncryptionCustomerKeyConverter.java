@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.minio.core.converter.sse;
 
-import cn.herodotus.oss.definition.core.exception.OssInvalidKeyException;
-import cn.herodotus.oss.definition.core.exception.OssNoSuchAlgorithmException;
+import cn.herodotus.oss.core.exception.OssInvalidKeyException;
+import cn.herodotus.oss.core.exception.OssNoSuchAlgorithmException;
 import io.minio.ServerSideEncryptionCustomerKey;
 import org.apache.commons.lang3.StringUtils;
 import org.dromara.hutool.crypto.KeyUtil;

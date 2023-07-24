@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.definition.core.exception.*;
+import cn.herodotus.oss.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminService;
 import io.minio.admin.MinioAdminClient;

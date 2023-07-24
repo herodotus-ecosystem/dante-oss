@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.definition.core.exception.*;
+import cn.herodotus.oss.core.exception.*;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClient;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAsyncClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAsyncService;

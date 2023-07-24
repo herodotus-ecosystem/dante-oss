@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.core.constants;
 
-import cn.herodotus.oss.definition.core.constants.OssConstants;
+import cn.herodotus.oss.core.constants.OssConstants;
 
 /**
  * <p>Description: 对象存储常量 </p>

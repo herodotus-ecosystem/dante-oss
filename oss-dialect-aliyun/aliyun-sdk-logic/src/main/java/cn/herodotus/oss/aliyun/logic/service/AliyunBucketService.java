@@ -27,8 +27,8 @@ package cn.herodotus.oss.aliyun.logic.service;
 
 import cn.herodotus.oss.aliyun.logic.definition.pool.AliyunClientObjectPool;
 import cn.herodotus.oss.aliyun.logic.definition.service.BaseAliyunService;
-import cn.herodotus.oss.definition.core.exception.OssExecutionException;
-import cn.herodotus.oss.definition.core.exception.OssServerException;
+import cn.herodotus.oss.core.exception.OssExecutionException;
+import cn.herodotus.oss.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;

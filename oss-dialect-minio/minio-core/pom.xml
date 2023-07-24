@@ -42,9 +42,8 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>definition-core</artifactId>
+            <artifactId>oss-core</artifactId>
         </dependency>
-
 
         <dependency>
             <groupId>io.minio</groupId>

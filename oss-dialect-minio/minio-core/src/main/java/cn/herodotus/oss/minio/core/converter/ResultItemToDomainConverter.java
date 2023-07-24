@@ -26,7 +26,7 @@
 package cn.herodotus.oss.minio.core.converter;
 
 import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
-import cn.herodotus.oss.definition.core.exception.*;
+import cn.herodotus.oss.core.exception.*;
 import cn.herodotus.oss.minio.core.domain.ObjectDomain;
 import io.minio.Result;
 import io.minio.errors.*;

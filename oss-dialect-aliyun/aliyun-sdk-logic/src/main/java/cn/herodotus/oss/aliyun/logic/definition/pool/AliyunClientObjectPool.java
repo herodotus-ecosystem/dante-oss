@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.aliyun.logic.definition.pool;
 
-import cn.herodotus.oss.definition.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.core.client.AbstractOssClientPooledObjectFactory;
+import cn.herodotus.oss.core.definition.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.core.definition.client.AbstractOssClientPooledObjectFactory;
 import com.aliyun.oss.OSS;
 
 /**

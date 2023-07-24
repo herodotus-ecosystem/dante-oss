@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.s3.logic.service;
 
-import cn.herodotus.oss.definition.core.exception.OssServerException;
+import cn.herodotus.oss.core.exception.OssServerException;
 import cn.herodotus.oss.s3.logic.definition.pool.S3ClientObjectPool;
 import cn.herodotus.oss.s3.logic.definition.service.BaseS3ClientService;
 import com.amazonaws.AmazonServiceException;

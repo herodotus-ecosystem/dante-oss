@@ -76,7 +76,7 @@
         <dependencies>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>definition-core</artifactId>
+                <artifactId>oss-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

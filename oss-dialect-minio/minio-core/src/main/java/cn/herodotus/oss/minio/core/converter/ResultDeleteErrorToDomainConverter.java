@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.core.converter;
 
-import cn.herodotus.oss.definition.core.exception.*;
+import cn.herodotus.oss.core.exception.*;
 import cn.herodotus.oss.minio.core.domain.DeleteErrorDomain;
 import io.minio.Result;
 import io.minio.errors.*;

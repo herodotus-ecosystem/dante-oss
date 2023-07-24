@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.minio.logic.service;
 
-import cn.herodotus.oss.definition.core.exception.OssConnectException;
-import cn.herodotus.oss.definition.core.exception.OssIOException;
-import cn.herodotus.oss.definition.core.exception.OssInvalidKeyException;
-import cn.herodotus.oss.definition.core.exception.OssNoSuchAlgorithmException;
+import cn.herodotus.oss.core.exception.OssConnectException;
+import cn.herodotus.oss.core.exception.OssIOException;
+import cn.herodotus.oss.core.exception.OssInvalidKeyException;
+import cn.herodotus.oss.core.exception.OssNoSuchAlgorithmException;
 import cn.herodotus.oss.minio.logic.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.minio.logic.definition.service.BaseMinioAdminService;
 import io.minio.admin.GroupInfo;

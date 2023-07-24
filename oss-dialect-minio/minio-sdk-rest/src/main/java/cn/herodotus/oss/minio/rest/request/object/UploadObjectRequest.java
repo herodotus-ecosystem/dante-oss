@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.minio.rest.request.object;
 
-import cn.herodotus.oss.definition.core.exception.OssConnectException;
-import cn.herodotus.oss.definition.core.exception.OssIOException;
+import cn.herodotus.oss.core.exception.OssConnectException;
+import cn.herodotus.oss.core.exception.OssIOException;
 import cn.herodotus.oss.minio.rest.definition.PutObjectBaseRequest;
 import io.minio.UploadObjectArgs;
 import io.swagger.v3.oas.annotations.media.Schema;

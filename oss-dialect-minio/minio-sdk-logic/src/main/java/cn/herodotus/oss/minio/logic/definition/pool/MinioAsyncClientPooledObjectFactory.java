@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.minio.logic.definition.pool;
 
-import cn.herodotus.oss.definition.core.client.AbstractOssClientPooledObjectFactory;
+import cn.herodotus.oss.core.definition.client.AbstractOssClientPooledObjectFactory;
 import cn.herodotus.oss.minio.logic.properties.MinioProperties;
 
 /**
