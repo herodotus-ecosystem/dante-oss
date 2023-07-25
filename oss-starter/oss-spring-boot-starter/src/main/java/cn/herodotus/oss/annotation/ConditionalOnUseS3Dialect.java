@@ -23,24 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.scenario.annotation;
+package cn.herodotus.oss.annotation;
 
-import cn.herodotus.oss.dialect.minio.annotation.EnableHerodotusMinioLogic;
-import cn.herodotus.oss.rest.scenario.configuration.OssRestScenarioConfiguration;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.oss.condition.UseS3DialectCondition;
+import org.springframework.context.annotation.Conditional;
 
 import java.lang.annotation.*;
 
 /**
- * <p>Description: 手动开启 Minio Scenario 模块注入 </p>
+ * <p>Description: 使用 Minio OSS 实现条件注解 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2022/1/10 14:54
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
-@EnableHerodotusMinioLogic
-@Import(OssRestScenarioConfiguration.class)
-public @interface EnableHerodotusMinioScenario {
+@Conditional(UseS3DialectCondition.class)
+public @interface ConditionalOnUseS3Dialect {
 }

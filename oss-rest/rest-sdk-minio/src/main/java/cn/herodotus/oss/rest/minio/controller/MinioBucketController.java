@@ -33,7 +33,6 @@ import cn.herodotus.oss.dialect.minio.converter.BucketToDomainConverter;
 import cn.herodotus.oss.dialect.minio.domain.BucketDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
-import cn.herodotus.oss.rest.minio.request.bucket.BucketExistsRequest;
 import cn.herodotus.oss.rest.minio.request.bucket.ListBucketsRequest;
 import cn.herodotus.oss.rest.minio.request.bucket.MakeBucketRequest;
 import cn.herodotus.oss.rest.minio.request.bucket.RemoveBucketRequest;
@@ -91,24 +90,6 @@ public class MinioBucketController implements Controller {
         List<Bucket> buckets = minioBucketService.listBuckets(ObjectUtils.isNotEmpty(request) ? request.build() : null);
         List<BucketDomain> domains = ConverterUtils.toDomains(buckets, new BucketToDomainConverter());
         return result(domains);
-    }
-
-    @AccessLimited
-    @Operation(summary = "查询存储桶是否存在", description = "根据BucketName和Region查询存储桶是否存在",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
-            responses = {
-                    @ApiResponse(description = "是否Bucket存在", content = @Content(mediaType = "application/json")),
-                    @ApiResponse(responseCode = "200", description = "查询成功"),
-                    @ApiResponse(responseCode = "500", description = "查询失败"),
-                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
-            })
-    @Parameters({
-            @Parameter(name = "request", required = true, description = "BucketExistsRequest请求实体", schema = @Schema(implementation = BucketExistsRequest.class))
-    })
-    @GetMapping("/exists")
-    public Result<Boolean> exists(BucketExistsRequest request) {
-        boolean isExists = minioBucketService.bucketExists(request.build());
-        return result(isExists);
     }
 
     @Idempotent

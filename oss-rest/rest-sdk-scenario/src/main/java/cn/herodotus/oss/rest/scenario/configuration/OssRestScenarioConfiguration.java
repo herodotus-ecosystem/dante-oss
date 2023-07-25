@@ -23,24 +23,37 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.scenario.annotation;
+package cn.herodotus.oss.rest.scenario.configuration;
 
-import cn.herodotus.oss.dialect.minio.annotation.EnableHerodotusMinioLogic;
-import cn.herodotus.oss.rest.scenario.configuration.OssRestScenarioConfiguration;
+import cn.herodotus.engine.rest.client.configuration.RestTemplateConfiguration;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.*;
-
 /**
- * <p>Description: 手动开启 Minio Scenario 模块注入 </p>
+ * <p>Description: Minio 应用扩展模块 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/6/10 16:22
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssRestScenarioConfiguration.class)
-public @interface EnableHerodotusMinioScenario {
+@AutoConfiguration
+@Import({
+        RestTemplateConfiguration.class
+})
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.rest.scenario.proxy",
+        "cn.herodotus.oss.rest.scenario.service",
+        "cn.herodotus.oss.rest.scenario.controller",
+})
+public class OssRestScenarioConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(OssRestScenarioConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Herodotus] |- SDK [Minio Scenario] Auto Configure.");
+    }
 }

@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.2-blue.svg?logo=spring" alt="Spring Boot 3.1.2"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.1.3-red.svg?logo=spring" alt="Version 1.1.3"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.2.0-red.svg?logo=spring" alt="Version 1.2.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -119,11 +119,9 @@ dante-oss
 ├    ├── dialect-sdk-minio -- Minio OSS Java SDK 封装代码模块
 ├    └── dialect-sdk-s3 -- Amazon S3 OSS Java SDK 封装代码模块
 ├── oss-rest -- OSS 操作 REST 模块
-├    ├── minio-core -- OSS Minio 实现通用代码模块
-├    ├── minio-sdk-logic -- Minio 基础 API 模块
-├    ├── minio-sdk-rest -- Minio 基础 REST API模块
-├    ├── minio-sdk-scenario -- Minio 扩展及应用方案整合模块
-├    └── minio-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
+├    ├── rest-sdk-integration -- 支持不同厂商OSS的统一通用 REST API，
+├    ├── rest-sdk-minio -- Minio 基础 REST API模块
+├    └── rest-sdk-scenario -- Minio 扩展及应用方案整合模块
 ├── oss-starter -- Dante OSS 相关 Starter
 ├    ├── oss-aliyun-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
 ├    ├── oss-minio-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。

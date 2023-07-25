@@ -23,24 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.scenario.annotation;
+package cn.herodotus.oss.condition;
 
-import cn.herodotus.oss.dialect.minio.annotation.EnableHerodotusMinioLogic;
-import cn.herodotus.oss.rest.scenario.configuration.OssRestScenarioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.oss.dialect.core.support.OssPropertyFinder;
+import cn.herodotus.oss.dialect.core.enums.Dialect;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * <p>Description: 手动开启 Minio Scenario 模块注入 </p>
+ * <p>Description: 使用 Minio 实现条件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/7/25 16:25
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssRestScenarioConfiguration.class)
-public @interface EnableHerodotusMinioScenario {
+public class UseMinioDialectCondition implements Condition {
+
+    private static final Logger log = LoggerFactory.getLogger(UseMinioDialectCondition.class);
+
+    @Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        String property = OssPropertyFinder.getDialect(context.getEnvironment(), Dialect.MINIO.name());
+        boolean result = StringUtils.equalsIgnoreCase(property, Dialect.MINIO.name());
+        log.debug("[Herodotus] |- Condition [Use Minio Dialect] value is [{}]", result);
+        return result;
+    }
 }

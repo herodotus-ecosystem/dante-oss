@@ -23,24 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.integration.factory;
+package cn.herodotus.oss.annotation;
 
-import cn.herodotus.oss.dialect.core.definition.handler.OssBucketHandler;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import cn.herodotus.oss.condition.UseMinioDialectCondition;
+import org.springframework.context.annotation.Conditional;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.lang.annotation.*;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 使用 Minio OSS 实现条件注解 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 22:55
+ * @date : 2022/1/10 14:54
  */
-@Component
-public class OssBucketHandlerFactory {
-
-    @Autowired
-    private final Map<String, OssBucketHandler> handlers = new ConcurrentHashMap<>();
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+@Documented
+@Conditional(UseMinioDialectCondition.class)
+public @interface ConditionalOnUseMinioDialect {
 }

@@ -37,7 +37,9 @@ public interface OssConstants extends BaseConstants {
 
     String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
     String PROPERTY_OSS_S3 = PROPERTY_PREFIX_OSS + ".s3";
-    String PROPERTY_OSS_ALIYUN = PROPERTY_PREFIX_OSS + ".s3";
+    String PROPERTY_OSS_ALIYUN = PROPERTY_PREFIX_OSS + ".aliyun";
+
+    String ITEM_OSS_DIALECT = PROPERTY_PREFIX_OSS + ".dialect";
 
     String MINIO_BUCKET_HANDLER = "MINIO_BUCKET";
     String MINIO_OBJECT_HANDLER = "MINIO_OBJECT";

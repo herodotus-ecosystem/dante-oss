@@ -1,2 +1,5 @@
 cn.herodotus.oss.autoconfigure.AutoConfiguration
-cn.herodotus.oss.rest.scenario.configuration.MinioScenarioConfiguration
+cn.herodotus.oss.configuration.UserAliyunDialectConfiguration
+cn.herodotus.oss.configuration.UserMinioDialectConfiguration
+cn.herodotus.oss.configuration.UserS3DialectConfiguration
+cn.herodotus.oss.rest.integration.configuration.OssRestIntegrationConfiguration

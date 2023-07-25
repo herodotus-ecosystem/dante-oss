@@ -23,24 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.scenario.annotation;
+package cn.herodotus.oss.rest.integration.configuration;
 
-import cn.herodotus.oss.dialect.minio.annotation.EnableHerodotusMinioLogic;
-import cn.herodotus.oss.rest.scenario.configuration.OssRestScenarioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
- * <p>Description: 手动开启 Minio Scenario 模块注入 </p>
+ * <p>Description: Oss Rest Integration 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/7/25 16:07
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssRestScenarioConfiguration.class)
-public @interface EnableHerodotusMinioScenario {
+@AutoConfiguration
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.rest.integration.controller",
+})
+public class OssRestIntegrationConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(OssRestIntegrationConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Herodotus] |- SDK [Oss Rest Integration] Auto Configure.");
+    }
 }

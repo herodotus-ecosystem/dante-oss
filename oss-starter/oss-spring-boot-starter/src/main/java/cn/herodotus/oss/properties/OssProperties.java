@@ -23,26 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.autoconfigure;
+package cn.herodotus.oss.properties;
 
-import jakarta.annotation.PostConstruct;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import cn.herodotus.oss.dialect.core.constants.OssConstants;
+import cn.herodotus.oss.dialect.core.enums.Dialect;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * <p>Description: Minio 自动配置 </p>
+ * <p>Description: OSS 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:12
+ * @date : 2023/7/24 23:19
  */
-@Configuration(proxyBeanMethods = false)
-public class AutoConfiguration {
+@ConfigurationProperties(prefix = OssConstants.PROPERTY_PREFIX_OSS)
+public class OssProperties {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    /**
+     * 采用 Minio SDK 作为默认实现
+     */
+    private Dialect dialect = Dialect.MINIO;
 
-    @PostConstruct
-    public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Oss Starter] Auto Configure.");
+    public Dialect getDialect() {
+        return dialect;
+    }
+
+    public void setDialect(Dialect dialect) {
+        this.dialect = dialect;
     }
 }

@@ -23,34 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.integration.enums;
+package cn.herodotus.oss.autoconfigure;
 
-import cn.herodotus.oss.dialect.core.constants.OssConstants;
+import cn.herodotus.oss.properties.OssProperties;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * <p>Description: OSS 实现方言枚举 </p>
+ * <p>Description: 封装的 Amazon SDK 自动配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 23:12
+ * @date : 2023/6/5 15:12
  */
-public enum Dialect {
-    MINIO(OssConstants.MINIO_BUCKET_HANDLER, OssConstants.MINIO_OBJECT_HANDLER),
-    AMAZON_S3(OssConstants.S3_BUCKET_HANDLER, OssConstants.S3_OBJECT_HANDLER),
-    ALIYUN(OssConstants.ALIYUN_BUCKET_HANDLER, OssConstants.ALIYUN_OBJECT_HANDLER);
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(OssProperties.class)
+public class AutoConfiguration {
 
-    private final String bucketHandler;
-    private final String objectHandler;
+    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
 
-    Dialect(String bucketHandler, String objectHandler) {
-        this.bucketHandler = bucketHandler;
-        this.objectHandler = objectHandler;
-    }
-
-    public String getBucketHandler() {
-        return bucketHandler;
-    }
-
-    public String getObjectHandler() {
-        return objectHandler;
+    @PostConstruct
+    public void postConstruct() {
+        log.info("[Herodotus] |- Starter [Oss Starter] Auto Configure.");
     }
 }

@@ -23,17 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.integration.properties;
+package cn.herodotus.oss.condition;
 
-import cn.herodotus.oss.dialect.core.constants.OssConstants;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import cn.herodotus.oss.dialect.core.support.OssPropertyFinder;
+import cn.herodotus.oss.dialect.core.enums.Dialect;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Condition;
+import org.springframework.context.annotation.ConditionContext;
+import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * <p>Description: OSS 配置 </p>
+ * <p>Description: 使用 Minio 实现条件 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 23:19
+ * @date : 2023/7/25 16:25
  */
-@ConfigurationProperties(prefix = OssConstants.PROPERTY_PREFIX_OSS)
-public class OssProperties {
+public class UseS3DialectCondition implements Condition {
+
+    private static final Logger log = LoggerFactory.getLogger(UseS3DialectCondition.class);
+
+    @Override
+    public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        String property = OssPropertyFinder.getDialect(context.getEnvironment());
+        boolean result = StringUtils.equalsIgnoreCase(property, Dialect.AMAZON_S3.name());
+        log.debug("[Herodotus] |- Condition [Use Amazon S3 Dialect] value is [{}]", result);
+        return result;
+    }
 }
