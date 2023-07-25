@@ -112,24 +112,23 @@ MinIO 是一款高性能、分布式的对象存储系统。Minio这款开源的
 
 ```
 dante-oss
-├── oss-bom -- Dante OSS 顶级Maven依赖，统一控制版本和依赖
-├── oss-definition -- 通用内容抽象定义
-├    └── definition-core -- OSS 内容抽象代码模块
-├── oss-dialect-aliyun -- 对象存储 aliyun 实现相关模块
-├    ├── aliyun-core -- OSS Aliyun 实现通用代码模块
-├    ├── aliyun-sdk-logic -- Minio 基础 API 模块
-├    └── aliyun-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
-├── oss-dialect-minio -- 对象存储 Minio 实现相关模块
+├── oss-bom -- Dante OSS 顶级 Maven 依赖，统一控制依赖及其版本
+├── oss-dialect -- 不同厂商 OSS 实现。
+├    ├── dialect-core -- 不同厂商 OSS 实现通用代码模块
+├    ├── dialect-sdk-aliyun -- Aliyun OSS Java SDK 封装代码模块
+├    ├── dialect-sdk-minio -- Minio OSS Java SDK 封装代码模块
+├    └── dialect-sdk-s3 -- Amazon S3 OSS Java SDK 封装代码模块
+├── oss-rest -- OSS 操作 REST 模块
 ├    ├── minio-core -- OSS Minio 实现通用代码模块
 ├    ├── minio-sdk-logic -- Minio 基础 API 模块
 ├    ├── minio-sdk-rest -- Minio 基础 REST API模块
 ├    ├── minio-sdk-scenario -- Minio 扩展及应用方案整合模块
 ├    └── minio-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
-├── oss-s3 -- Amazon S3 模块
-├    ├── s3-core -- OSS Amazon S3 实现通用代码模块
-├    ├── s3-sdk-logic -- Amazon S3 基础 API 模块
-├    └── s3-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
-└── oss-spring-boot-starter -- 完整的、包含所有内容的 Starter
+├── oss-starter -- Dante OSS 相关 Starter
+├    ├── oss-aliyun-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
+├    ├── oss-minio-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
+├    ├── oss-s3-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
+└──  └── oss-spring-boot-starter -- Dante OSS 统一 Starter
 ```
 
 ## 功能 | function

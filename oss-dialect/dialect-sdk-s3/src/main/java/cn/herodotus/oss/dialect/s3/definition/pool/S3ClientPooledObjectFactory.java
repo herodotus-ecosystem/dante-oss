@@ -53,7 +53,7 @@ public class S3ClientPooledObjectFactory extends AbstractOssClientPooledObjectFa
     @Override
     public AmazonS3 create() throws Exception {
 
-        AWSCredentials awsCredentials = new BasicAWSCredentials(s3Properties.getAccessKey(),s3Properties.getSecretKey());
+        AWSCredentials awsCredentials = new BasicAWSCredentials(s3Properties.getAccessKey(), s3Properties.getSecretKey());
 
         return AmazonS3Client.builder()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))

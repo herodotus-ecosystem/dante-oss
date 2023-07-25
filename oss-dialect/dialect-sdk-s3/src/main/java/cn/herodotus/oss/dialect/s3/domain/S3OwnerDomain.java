@@ -33,7 +33,7 @@ import cn.herodotus.engine.assistant.core.definition.domain.Entity;
  * @author : gengwei.zheng
  * @date : 2023/7/15 21:25
  */
-public class S3OwnerDomain  implements Entity {
+public class S3OwnerDomain implements Entity {
 
     private String displayName;
     private String id;

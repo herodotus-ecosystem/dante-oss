@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
+  ~ Copyright (c) 2020-2030 码匠君<herodotus@aliyun.com>
   ~
   ~ Dante Cloud licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Dante Cloud 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+  ~ Dante OSS 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
   ~
   ~ 1.请不要删除和修改根目录下的LICENSE文件。
   ~ 2.请不要删除和修改 Dante Cloud 源码头部的版权声明。

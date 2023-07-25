@@ -37,13 +37,19 @@ import java.util.Date;
  */
 public class S3BucketDomain implements Entity {
 
-    /** The name of this S3 bucket */
+    /**
+     * The name of this S3 bucket
+     */
     private String name = null;
 
-    /** The details on the owner of this bucket */
+    /**
+     * The details on the owner of this bucket
+     */
     private S3OwnerDomain owner = null;
 
-    /** The date this bucket was created */
+    /**
+     * The date this bucket was created
+     */
     private Date creationDate = null;
 
     public String getName() {

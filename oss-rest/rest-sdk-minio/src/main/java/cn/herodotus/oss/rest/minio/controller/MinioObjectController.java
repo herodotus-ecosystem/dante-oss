@@ -33,8 +33,8 @@ import cn.herodotus.oss.dialect.minio.converter.ResultDeleteErrorToDomainConvert
 import cn.herodotus.oss.dialect.minio.converter.ResultItemToDomainConverter;
 import cn.herodotus.oss.dialect.minio.domain.DeleteErrorDomain;
 import cn.herodotus.oss.dialect.minio.domain.ObjectDomain;
-import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
+import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
 import cn.herodotus.oss.rest.minio.request.object.ListObjectsRequest;
 import cn.herodotus.oss.rest.minio.request.object.RemoveObjectRequest;
 import cn.herodotus.oss.rest.minio.request.object.RemoveObjectsRequest;
