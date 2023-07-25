@@ -23,23 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.request.object;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.oss.rest.minio.definition.ObjectConditionalReadRequest;
+import io.minio.GetObjectArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: GetObjectRequest </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/5/30 23:58
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+@Schema(name = "下载对象请求参数实体", title = "下载对象请求参数实体", description = "与前端交互使用")
+public class GetObjectRequest extends ObjectConditionalReadRequest<GetObjectArgs.Builder, GetObjectArgs> {
+
+    public GetObjectRequest(DownloadObjectRequest request) {
+        this.setExtraHeaders(request.getExtraHeaders());
+        this.setExtraQueryParams(request.getExtraQueryParams());
+        this.setBucketName(request.getBucketName());
+        this.setRegion(request.getRegion());
+        this.setObjectName(request.getObjectName());
+        this.setVersionId(request.getVersionId());
+        this.setServerSideEncryptionCustomerKey(request.getServerSideEncryptionCustomerKey());
+    }
+
+    @Override
+    public GetObjectArgs.Builder getBuilder() {
+        return GetObjectArgs.builder();
+    }
 }

@@ -23,23 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.scenario.bo;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 
-import java.lang.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: 创建分配上传实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2022/7/4 11:25
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+public class ChunkUploadCreateBusiness implements Entity {
+
+    private String uploadId;
+
+    private List<String> chunkUploadUrls;
+
+    public ChunkUploadCreateBusiness(String uploadId) {
+        this.uploadId = uploadId;
+        this.chunkUploadUrls = new ArrayList<>();
+    }
+
+    public String getUploadId() {
+        return uploadId;
+    }
+
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
+    }
+
+    public List<String> getChunkUploadUrls() {
+        return chunkUploadUrls;
+    }
+
+    public void setChunkUploadUrls(List<String> chunkUploadUrls) {
+        this.chunkUploadUrls = chunkUploadUrls;
+    }
+
+    public void appendChunk(String chunk) {
+        chunkUploadUrls.add(chunkUploadUrls.size(), chunk);
+    }
 }

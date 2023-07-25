@@ -23,23 +23,35 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.definition;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import io.minio.ObjectArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: Minio 基础 Object Dto </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2022/7/2 21:51
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+public abstract class ObjectRequest<B extends ObjectArgs.Builder<B, A>, A extends ObjectArgs> extends BucketRequest<B, A> {
+
+    @NotBlank(message = "对象名称不能为空")
+    @Schema(name = "对象名称", requiredMode = Schema.RequiredMode.REQUIRED)
+    private String objectName;
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+
+    @Override
+    public void prepare(B builder) {
+        builder.object(getObjectName());
+        super.prepare(builder);
+    }
 }

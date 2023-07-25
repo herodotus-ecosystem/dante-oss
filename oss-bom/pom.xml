@@ -76,21 +76,6 @@
         <dependencies>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>minio-sdk-rest</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.oss</groupId>
-                <artifactId>minio-sdk-scenario</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.oss</groupId>
-                <artifactId>minio-spring-boot-starter</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.oss</groupId>
                 <artifactId>dialect-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -107,6 +92,31 @@
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
                 <artifactId>dialect-sdk-s3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>rest-sdk-minio</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>rest-sdk-scenario</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>oss-minio-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>oss-aliyun-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>oss-s3-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

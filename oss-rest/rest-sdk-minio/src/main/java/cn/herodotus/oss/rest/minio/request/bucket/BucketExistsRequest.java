@@ -23,23 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.request.bucket;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.oss.rest.minio.definition.BucketRequest;
+import io.minio.BucketExistsArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: 检查桶是否存在参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2022/7/1 23:46
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+@Schema(name = "检查桶是否存在参数实体", title = "检查桶是否存在参数实体")
+public class BucketExistsRequest extends BucketRequest<BucketExistsArgs.Builder, BucketExistsArgs> {
+    @Override
+    public BucketExistsArgs.Builder getBuilder() {
+        return BucketExistsArgs.builder();
+    }
 }

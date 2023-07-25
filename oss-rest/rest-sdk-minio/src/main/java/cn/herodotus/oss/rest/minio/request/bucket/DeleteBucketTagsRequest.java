@@ -23,23 +23,23 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.request.bucket;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.oss.rest.minio.definition.BucketRequest;
+import io.minio.DeleteBucketTagsArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: 删除存储桶标签请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/6/6 22:32
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+@Schema(name = "删除存储桶标签请求参数实体", title = "删除存储桶标签请求参数实体")
+public class DeleteBucketTagsRequest extends BucketRequest<DeleteBucketTagsArgs.Builder, DeleteBucketTagsArgs> {
+
+    @Override
+    public DeleteBucketTagsArgs.Builder getBuilder() {
+        return DeleteBucketTagsArgs.builder();
+    }
 }

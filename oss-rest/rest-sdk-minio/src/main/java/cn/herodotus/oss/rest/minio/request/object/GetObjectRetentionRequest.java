@@ -23,23 +23,20 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.request.object;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.oss.rest.minio.definition.ObjectVersionRequest;
+import io.minio.GetObjectRetentionArgs;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: GetObjectRetentionRequest </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/4/18 16:00
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+public class GetObjectRetentionRequest extends ObjectVersionRequest<GetObjectRetentionArgs.Builder, GetObjectRetentionArgs> {
+    @Override
+    public GetObjectRetentionArgs.Builder getBuilder() {
+        return GetObjectRetentionArgs.builder();
+    }
 }

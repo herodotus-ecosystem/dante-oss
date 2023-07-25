@@ -143,9 +143,9 @@
     <modules>
         <module>oss-bom</module>
         <module>oss-dialect</module>
-        <module>oss-dialect-minio</module>
-        <module>oss-spring-boot-starter</module>
         <module>oss-integration</module>
+        <module>oss-starter</module>
+        <module>oss-rest</module>
     </modules>
 
 

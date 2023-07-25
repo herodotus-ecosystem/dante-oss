@@ -23,23 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.dialect.minio.configuration;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
+import cn.herodotus.oss.dialect.minio.properties.MinioProperties;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
-import java.lang.annotation.*;
-
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: Minio Logic 模块配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/6/5 15:04
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+@AutoConfiguration
+@EnableConfigurationProperties(MinioProperties.class)
+@Import({
+        MinioClientConfiguration.class
+})
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.dialect.minio.service",
+        "cn.herodotus.oss.dialect.minio.handler",
+})
+public class OssDialectMinioConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(OssDialectMinioConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Herodotus] |- SDK [Oss Dialect Minio] Auto Configure.");
+    }
 }

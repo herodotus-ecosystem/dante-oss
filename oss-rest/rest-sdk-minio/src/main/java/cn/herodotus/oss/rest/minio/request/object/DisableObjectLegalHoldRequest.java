@@ -23,23 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.request.object;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.oss.rest.minio.definition.ObjectVersionRequest;
+import io.minio.DisableObjectLegalHoldArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: 设置关闭对象持有配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/6/11 10:20
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+@Schema(name = "设置关闭对象持有配置")
+public class DisableObjectLegalHoldRequest extends ObjectVersionRequest<DisableObjectLegalHoldArgs.Builder, DisableObjectLegalHoldArgs> {
+    @Override
+    public DisableObjectLegalHoldArgs.Builder getBuilder() {
+        return DisableObjectLegalHoldArgs.builder();
+    }
 }

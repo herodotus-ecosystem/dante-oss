@@ -23,23 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.converter;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.oss.rest.minio.request.domain.ComposeSourceRequest;
+import io.minio.ComposeSource;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: Minio Request 转 ComposeSource 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/5/31 14:48
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+public class RequestToComposeSourceConverter implements Converter<ComposeSourceRequest, ComposeSource> {
+    @Override
+    public ComposeSource convert(ComposeSourceRequest source) {
+        return null;
+    }
 }

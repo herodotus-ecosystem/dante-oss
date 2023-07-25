@@ -23,23 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.request.bucket;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
+import cn.herodotus.oss.rest.minio.definition.BucketRequest;
+import io.minio.SetBucketTagsArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
+import org.apache.commons.lang3.ObjectUtils;
 
-import java.lang.annotation.*;
+import java.util.Map;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: 设置存储桶标签请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/6/6 22:32
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+@Schema(name = "设置存储桶标签请求参数实体", title = "设置存储桶标签请求参数实体")
+public class SetBucketTagsRequest extends BucketRequest<SetBucketTagsArgs.Builder, SetBucketTagsArgs> {
+
+    @Schema(name = "存储桶标签", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotEmpty(message = "存储桶标签不能为空")
+    private Map<String, String> tags;
+
+    public Map<String, String> getTags() {
+        return tags;
+    }
+
+    public void setTags(Map<String, String> tags) {
+        this.tags = tags;
+    }
+
+    @Override
+    public void prepare(SetBucketTagsArgs.Builder builder) {
+        if (ObjectUtils.isNotEmpty(getTags())) {
+            builder.tags(getTags());
+        }
+        super.prepare(builder);
+    }
+
+    @Override
+    public SetBucketTagsArgs.Builder getBuilder() {
+        return SetBucketTagsArgs.builder();
+    }
 }

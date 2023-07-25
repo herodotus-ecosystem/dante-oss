@@ -23,23 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.request.object;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.oss.rest.minio.definition.ObjectConditionalReadRequest;
+import cn.herodotus.oss.rest.minio.definition.ObjectReadRequest;
+import io.minio.StatObjectArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: 获取对象信息和元数据请求参数 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2023/5/31 16:18
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+@Schema(name = "获取对象信息和元数据请求参数")
+public class StatObjectRequest extends ObjectConditionalReadRequest<StatObjectArgs.Builder, StatObjectArgs> {
+
+    public StatObjectRequest(ObjectReadRequest<StatObjectArgs.Builder, StatObjectArgs> request) {
+        this.setExtraHeaders(request.getExtraHeaders());
+        this.setExtraQueryParams(request.getExtraQueryParams());
+        this.setBucketName(request.getBucketName());
+        this.setRegion(request.getRegion());
+        this.setObjectName(request.getObjectName());
+        this.setVersionId(request.getVersionId());
+        this.setServerSideEncryptionCustomerKey(request.getServerSideEncryptionCustomerKey());
+    }
+
+    @Override
+    public StatObjectArgs.Builder getBuilder() {
+        return StatObjectArgs.builder();
+    }
 }

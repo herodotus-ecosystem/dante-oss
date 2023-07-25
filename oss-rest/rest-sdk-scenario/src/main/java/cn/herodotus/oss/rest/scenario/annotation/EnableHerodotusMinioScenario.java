@@ -23,15 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.scenario.annotation;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
+import cn.herodotus.oss.dialect.minio.annotation.EnableHerodotusMinioLogic;
+import cn.herodotus.oss.rest.scenario.configuration.MinioScenarioConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: 手动开启 Minio Scenario 模块注入 </p>
  *
  * @author : gengwei.zheng
  * @date : 2022/1/14 22:51
@@ -40,6 +41,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+@Import(MinioScenarioConfiguration.class)
+public @interface EnableHerodotusMinioScenario {
 }

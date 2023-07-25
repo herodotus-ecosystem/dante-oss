@@ -23,23 +23,40 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.annotation;
+package cn.herodotus.oss.rest.minio.definition;
 
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import io.minio.BaseArgs;
 
 /**
- * <p>Description: 手动开启 Minio Logic 模块注入 </p>
+ * <p>Description: Minio 参数构建器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2022/7/1 23:49
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@EnableHerodotusMinioLogic
-@Import(OssDialectMinioConfiguration.class)
-public @interface EnableHerodotusMinioLogic {
+public interface MinioRequestBuilder<B extends BaseArgs.Builder<B, A>, A extends BaseArgs> extends MinioRequest {
+
+    /**
+     * 参数准备
+     *
+     * @param builder Minio 参数构造器
+     */
+    void prepare(B builder);
+
+    /**
+     * 获取Builder
+     *
+     * @return builder
+     */
+    B getBuilder();
+
+    /**
+     * 构建 Minio 参数对象
+     *
+     * @return Minio 参数对象
+     */
+    default A build() {
+        B builder = getBuilder();
+        prepare(builder);
+        return builder.build();
+    }
 }
