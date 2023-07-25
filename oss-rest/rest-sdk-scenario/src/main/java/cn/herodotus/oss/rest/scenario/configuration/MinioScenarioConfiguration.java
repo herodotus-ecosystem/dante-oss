@@ -44,9 +44,9 @@ import org.springframework.context.annotation.Import;
         RestTemplateConfiguration.class
 })
 @ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.scenario.proxy",
-        "cn.herodotus.oss.minio.scenario.service",
-        "cn.herodotus.oss.minio.scenario.controller",
+        "cn.herodotus.oss.rest.scenario.proxy",
+        "cn.herodotus.oss.rest.scenario.service",
+        "cn.herodotus.oss.rest.scenario.controller",
 })
 public class MinioScenarioConfiguration {
 

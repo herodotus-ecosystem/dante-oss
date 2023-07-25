@@ -39,14 +39,14 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @AutoConfiguration
 @ComponentScan(basePackages = {
-        "cn.herodotus.oss.minio.rest.controller",
+        "cn.herodotus.oss.rest.minio.controller",
 })
-public class MinioRestConfiguration {
+public class OssRestMinioConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioRestConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssRestMinioConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Rest] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Oss Rest Minio] Auto Configure.");
     }
 }

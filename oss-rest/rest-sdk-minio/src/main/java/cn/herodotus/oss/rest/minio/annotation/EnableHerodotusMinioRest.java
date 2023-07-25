@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.annotation;
 
-import cn.herodotus.oss.rest.minio.configuration.MinioRestConfiguration;
+import cn.herodotus.oss.rest.minio.configuration.OssRestMinioConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;
@@ -39,6 +39,6 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Import(MinioRestConfiguration.class)
+@Import(OssRestMinioConfiguration.class)
 public @interface EnableHerodotusMinioRest {
 }
