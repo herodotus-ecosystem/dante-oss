@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.2-blue.svg?logo=spring" alt="Spring Boot 3.1.2"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.1.3-red.svg?logo=spring" alt="Version 1.1.3"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.2.0-red.svg?logo=spring" alt="Version 1.2.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -29,23 +29,34 @@
 
 ## 简介 | Intro
 
-Dante OSS 是一款简化Minio操作的开源框架。通过对原有 Minio Java SDK 的深度封装，简化 Minio API 使用复杂度，提升 Minio 使用的便捷性，降低 Minio 应用开发门槛。
+Dante OSS 是一款简化 Minio 操作的开源框架。通过对原有 Minio Java SDK 的深度封装，简化 Minio API 使用复杂度，更方便的实现复杂的 Minio 管理操作，降低 Minio 应用开发门槛。
 
-MinIO 是一款高性能、分布式的对象存储系统。Minio这款开源的分布式对象存储服务在国外已经相当受欢迎，并且国内也有多中小型互联网公司使用它来作为对象存储服务。虽然 Minio 相关的资料和示例在网络上已经非常丰富，但是为什么还要推出 Dante OSS 这样的项目？
+MinIO 是一款高性能、分布式的对象存储系统。Minio 这款开源的分布式对象存储服务在国外已经相当受欢迎，并且国内也有多中小型互联网公司使用它来作为对象存储服务。虽然 Minio 相关的资料和示例在网络上已经非常丰富，但是为什么还要推出 Dante OSS 这样的项目？
 
 - 初次接触 Minio，特别是想要通过 Java 集成 Minio 开发对象存储应用是，还是需要投入一定的时间和精力去了解其原理阅读相关文档。
 - Minio SDK 中的函数方法，涉及的参数较多，抽象层度比较高，每次使用都需要反复查阅源代码才能摸清具体使用方式。
 - 想要与已有的应用进行整合，多少都要投入时间精力，进行一定程度的封装和改造。
 - 网上相关资料多，要么比较零散不成体系，要么比较单一仅针对常规上传下载应用，Minio 自身很多特性都不涉及。
 
+## 设计 | Design thinking
+
+Dante OSS 最初的设计目标，是深度封装 Minio Java SDK，可以更方便的实现复杂的 Minio 管理操作。随着版本的不断迭代，以及更多用户需求的收集，Amazon S3、阿里云等 OSS 操作也不断地被融入进来，Dante OSS 的设计思想也在不断迭代。
+
+目前 Amazon S3 已经成为 OSS 事实的标准，各 OSS 产品大多兼容 S3 标准。常规的、基础的 OSS 操作除了使用各厂商 OSS 提供的 SDK 外，使用 Amazon S3 SDK 也可以支持。如果你的需求仅是常规的上传、下载等，那么使用 Amazon S3 SDK 作为统一实现可完全满足。
+
+但是如果您的需求涉及更丰富、更新细致的OSS管理功能，那么 Amazon S3 SDK 是无法满足的。因为即使相同的功能，比如说 Tagging、Replication，不同的 OSS 产品实现不同，至少请求参数和返回值就不同；还存在各 OSS 结合自身实际个性化定义的功能，比如说阿里云的 Qos、Vpcip 等。
+
+因此，Dante OSS 在维持原有简化 Minio 常规及复杂管理操作目标的基础之上，借鉴 JPA 标准化设计思想，逐步提取和抽象 OSS 标准化操作，形成统一的 Java API 定义，同时封装可操作任意厂商的、统一的 REST API，形成定义统一、动态实现的应用模式（类似于 Hibernate 是 JPA 的一种实现），以方便不同 OSS 的切换和迁移。
+
 ## 优点 | Advantages
 
-- **零额外学习成本**: 开发者只要会 Spring 和 REST 基本开发，即可无缝集成和使用 Dante OSS 
+- **零额外学习成本**: 开发者只要会 Spring 和 REST 基本开发，即可无缝集成和使用 Dante OSS
 - **降低开发者门槛**: 屏蔽 Minio 标准 Java SDK 使用复杂度，使用 Spring 环境标准方式对原有 API 进行简化封装。Service API 和 REST API 开箱即用
 - **包含的功能丰富**: 改造了 Minio Java SDK 的几乎全部功能，且对大文件分片上传、秒传、直传、断点续传等功能，均采用业内最优解决方案进行实现和融合
 - **规范优雅的代码**: 所有函数参数，并未破坏原有 Minio 代码构造器结构，而是在原有方式的基础上抽象简化，编程体验和代码可读性大幅提升
 - **完善的注释文档**: 对请求参数、方法、REST API、Validation 提供详实的注释、说明和 OpenAPI 标注，用途用法一目了然，无需再翻阅 Minio 文档和源代码，帮助您节省更多时间
-- **完整的前端示例**：前端采用一个完整的项目而非Demo的形式，全面的展示了前后端交互涉及、接口调用、参数使用、TS 类型定义等各方面内容，可直接用于实际项目或简单改造后构建自己的产品
+- **丰富的稳定保障**: 统一的、人性化的错误体系、内置的 REST API 防刷、幂等保护、详实准确的 Spring Validation 校验。
+- **完整的前端示例**：前端采用一个完整的项目而非 Demo 的形式，全面的展示了前后端交互涉及、接口调用、参数使用、TS 类型定义等各方面内容，可直接用于实际项目或简单改造后构建自己的产品
 
 ## 对比 | Compare
 
@@ -56,6 +67,8 @@ MinIO 是一款高性能、分布式的对象存储系统。Minio这款开源的
 3. 隐藏 Minio Java SDK 不易理解和使用的细节，提供详实的注释说明，开发人员在使用时无需再通过翻阅 Minio 在线文档和源代码来了解各个 API 使用细节。
 4. 提供统一标准的 REST API，以及 OpenAPI Swagger3 文档描述和准确的 Spring Validation 校验，可直接集成至系统中使用。
 5. Minio Client 对象池、自定义极简 Minio Server 访问反向代理，提升
+6. 逐步丰富不同厂商 OSS 操作，作为不同 OSS 实现。
+7. 抽象统一 REST API，实现统一接口操作不同厂商 OSS。
 
 ### 2. 标准化业务逻辑和解决方案集合
 
@@ -67,148 +80,28 @@ MinIO 是一款高性能、分布式的对象存储系统。Minio这款开源的
 
 ### 3. 具体差异说明
 
-- [1] 基础API方法以及方法参数
-
-| Minio SDK                         | Dante OSS                                              |
-|-----------------------------------|--------------------------------------------------------|
-| 仅包含基础操作API                        | 提供大量重载方法                                               |
-| 必须用构造器创建参数对象                      | 重载方法覆盖所有常见参数，按需传参即可                                    |
-| API全部混在同一个类中                      | 根据差异、用途、场景拆分为不同的 Service，例如：getObject 和 downloadObject |
-| 源于XML对象参数结构复杂                     | 自定义实体和转换器简化参数结构                                        |
-| 基础API会抛出大量 Exception，具体问题需要自己摸索对应 | 对所有错误进行标准化处理，提供更准确和交互友好的描述信息，可方便地与系统错误体系融合             |
-
-- [2] 前后端交互
-
-| Minio SDK       | Dante OSS                                       |
-|-----------------|-------------------------------------------------|
-| 复杂结构参数不利于JSON互转 | 采用最简化参数方便传输并可准确转换成对应Minio复杂对象参数                 |
-| 参数层次结构复杂        | 自定义请求参数实体保持继承结构的同时简化传递参数                        |
-| 参数多用途不明晰必须查阅源代码 | 使用 OpenAPI 注解详细说明各参数用途可使用 Swagger 查阅            |
-| 参数校验规则细节多没有文档说明 | 对照 Minio 源代码，结合自定义实体，增加匹配的 Spring Validation 校验 |
-| 不提供 REST API    | 提供标准的 REST API 可直接使用                            |
-
-- [3] 业务支持
-
-| 内容    | Minio SDK                     | Dante OSS                                                         |
-|-------|-------------------------------|-------------------------------------------------------------------|
-| 常规业务  | 独立方法需要自己按需组合                  | 封装常规业务逻辑，可直接调用 REST API使用                                         |
-| 设置管理  | 对于存储桶、对象的管理只能通过 Minio 服务器管理界面 | 对照 Minio 管理界面方式，将管理功能封装为 Service、REST API 以及 Vue 管理界面             |
-| 文件直传  | 提供直传机制，直接暴露Minio服务器地址         | 增加超简化反向代理，在满足直传需求的前提下，很好的隐藏Minio 服务器以提升安全性                        |
-| 文件直传  | 直传接口无法与现有系统安全体系融合（无法鉴权）       | 提供基于 Spring Authorization Server 的、完整的单体版和微服务版案例                  |
-| 接口防护  | 不提供 REST API 及 接口防护           | 根据REST接口类型，默认设置幂等、防刷等接口调用防刷机制                                     |
-| 对象池化  | Builder 模式创建基础 Client         | 构建 Minio Client 和 Minio Admin 对象池模式，支持重用 Minio 基础对象来提高应用程序性能和效率 |
-| 大文件分片 | 内部机制无法直接使用                    | 封装主流大文件分片方案，提供前后端使用案例                                             |
-
-- [4] 前端开发
-
-| Dante OSS                                                          |
-|--------------------------------------------------------------------|
-| 只要Minio API支持，对应的管理功能均会在标准的 Vue3 工程中实现                             |
-| 提供与后端一致 Typescript 声明文件，可以直接用于基于Typescript的前端开发                    |
-| 完整的、基于 Vue3、Vite4、Typescript5 的前端项目案例，可清晰的了解 Minio 前后端交互和使用，甚至直接使用 |
-
+具体差异，参见在线文档[【功能说明章节】](http://www.herodotus.cn/ecosphere/oss/how-to-use.html)
 
 ## 结构 | Structure
 
 ```
 dante-oss
-├── oss-bom -- Dante OSS 顶级Maven依赖，统一控制版本和依赖
-├── oss-definition -- 通用内容抽象定义
-├    └── definition-core -- OSS 内容抽象代码模块
-├── oss-dialect-aliyun -- 对象存储 aliyun 实现相关模块
-├    ├── aliyun-core -- OSS Aliyun 实现通用代码模块
-├    ├── aliyun-sdk-logic -- Minio 基础 API 模块
-├    └── aliyun-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
-├── oss-dialect-minio -- 对象存储 Minio 实现相关模块
-├    ├── minio-core -- OSS Minio 实现通用代码模块
-├    ├── minio-sdk-logic -- Minio 基础 API 模块
-├    ├── minio-sdk-rest -- Minio 基础 REST API模块
-├    ├── minio-sdk-scenario -- Minio 扩展及应用方案整合模块
-├    └── minio-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
-├── oss-s3 -- Amazon S3 模块
-├    ├── s3-core -- OSS Amazon S3 实现通用代码模块
-├    ├── s3-sdk-logic -- Amazon S3 基础 API 模块
-├    └── s3-spring-boot-starter -- 仅包含 Minio 基础 API 和 REST API 的 Starter
-└── oss-spring-boot-starter -- 完整的、包含所有内容的 Starter
+├── oss-bom -- Dante OSS 顶级 Maven 依赖，统一控制依赖及其版本
+├── oss-dialect -- 不同厂商 OSS 实现。
+├    ├── dialect-core -- 不同厂商 OSS 实现通用代码模块
+├    ├── dialect-sdk-aliyun -- Aliyun OSS Java SDK 封装代码模块
+├    ├── dialect-sdk-minio -- Minio OSS Java SDK 封装代码模块
+├    └── dialect-sdk-s3 -- Amazon S3 OSS Java SDK 封装代码模块
+├── oss-rest -- OSS 操作 REST 模块
+├    ├── rest-sdk-integration -- 支持不同厂商OSS的统一通用 REST API，
+├    ├── rest-sdk-minio -- Minio 基础 REST API模块
+├    └── rest-sdk-scenario -- Minio 扩展及应用方案整合模块
+├── oss-starter -- Dante OSS 相关 Starter
+├    ├── oss-aliyun-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
+├    ├── oss-minio-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
+├    ├── oss-s3-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
+└──  └── oss-spring-boot-starter -- Dante OSS 统一 Starter
 ```
-
-## 功能 | function
-
-- [1] 基础功能
-
-| 功能                | 说明                                                       |
-|-------------------|----------------------------------------------------------|
-| Bucket 列表         | Bucket 列表查询，包括 Service、REST API 和前端展示                    |
-| Bucket 名称是否存在     | Bucket 名是否存在，包括 Service、REST API 和前端异步校验处理               |
-| Bucket 创建         | 创建 Bucket，包括 Service、REST API 和前端Validation校验处理          |
-| Bucket 删除         | 删除 Bucket，包括 Service、REST API 和前端展示处理                    |
-| Bucket 加密设置获取     | 获取 Bucket Encryption 设置，包括 Service、REST API              |
-| Bucket 修改加密设置     | 修改 Bucket Encryption 设置，包括 Service、REST API              |
-| Bucket 删除加密设置     | 删除 Bucket Encryption 设置，包括 Service、REST API              |
-| Bucket 访问策略设置获取   | 获取 Bucket Policy 设置，包括 Service、REST API                  |
-| Bucket 修改访问策略设置   | 修改 Bucket Policy 设置，包括 Service、REST API                  |
-| Bucket 删除访问策略设置   | 删除 Bucket Policy 设置，包括 Service、REST API                  |
-| Bucket 标签获取       | 获取 Bucket Tags，包括 Service、REST API                       |
-| Bucket 修改标签       | 修改 Bucket Tags，包括 Service、REST API                       |
-| Bucket 删除标签       | 删除 Bucket Tags，包括 Service、REST API                       |
-| Bucket 对象锁定设置获取   | 获取 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
-| Bucket 修改对象锁定设置   | 修改 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
-| Bucket 删除对象锁定设置   | 删除 Bucket ObjectLockConfiguration 设置，包括 Service、REST API |
-| Object 列表         | Object 列表查询，包括 Service、REST API 和前端展示                    |
-| Object 删除         | 删除 Object，包括 Service、REST API 和前端展示处理                    |
-| Object 批量删除       | 批量删除 Object，包括 Service、REST API 和前端展示处理                  |
-| Object 元信息获取      | 获取 Object Stat，包括 Service、                               |
-| Object 下载(服务端)    | Object 下载(服务端下载，非流模式)，包括 Service、                        |
-| Object 标签获取       | 获取 Object Tags，包括 Service、REST API                       |
-| Object 修改标签       | 修改 Object Tags，包括 Service、REST API                       |
-| Object 删除标签       | 删除 Object Tags，包括 Service、REST API                       |
-| Object 获取保留设置     | 获取 Object Retention，包括 Service、REST API                  |
-| Object 修改保留设置     | 修改 Object Retention，包括 Service、REST API                  |
-| Object 开启持有设置     | 获取 Object LegalHold，包括 Service、REST API                  |
-| Object 关闭持有设置     | 修改 Object LegalHold，包括 Service、REST API                  |
-| Admin User 列表     | User 列表查询，包括 Service、REST API                            |
-| Admin User 信息     | 获取 User 信息，包括 Service、REST API                           |
-| Admin User 创建     | 创建 User，包括 Service、REST API                              |
-| Admin User 删除     | 删除 User，包括 Service、REST API                              |
-| Admin Group 列表    | Group 列表查询，包括 Service、REST API                           |
-| Admin Group 信息    | 获取 Group 信息，包括 Service、REST API                          |
-| Admin Group 创建    | 创建 Group，包括 Service、REST API                             |
-| Admin Group 删除    | 删除 Group，包括 Service、REST API                             |
-| Admin Policy 列表   | Policy 列表查询，包括 Service、REST API                          |
-| Admin Policy 创建   | 创建 Policy，包括 Service、REST API                            |
-| Admin Policy 删除   | 删除 Policy，包括 Service、REST API                            |
-| Admin Bucket 配额设置 | 存储桶配额设置，包括 Service                                       |
-| Admin Bucket 配额获取 | 存储桶配额获取，包括 Service                                       |
-| Admin Bucket 配额清除 | 存储桶配额清除，包括 Service                                       |
-| 其它功能              | 正逐步完善，主要涉及前后端交互、以及可用性验证和前端相关功能的开发，敬请期待，欢迎 PR             |
-
-
-- [2] 扩展功能
-
-| 功能                     | 说明                                                                             |
-|------------------------|--------------------------------------------------------------------------------|
-| 创建分片上传请求               | 创建分片上传请求，返回 Minio UploadId                                                     |
-| 创建文件预上传地址              | 根据 UploadId 和 指定的分片数量，返回数量像匹配的 Minio 与上传地址                                     |
-| 获取所有分片文件               | 获取指定 uploadId 下所有的分片文件                                                         |
-| 创建大文件分片上传              | 统一的创建大文件分片上传业务逻辑封装，减少前后端反复交互， 包括 Service、REST API                              |
-| 合并已经上传完成的分片            | 根据 UploadId 合并已经上传完成的分片，完成大文件分片上传 包括 Service、REST API                          |
-| 统一常量接口                 | 将涉及的 Enums、常量以统一接口的方式返回给前端，方便展示使用， 包括 Service、REST API 和前端展示                   |
-| Minio Client 对象池       | 实现 Minio Client 对象池，减少 Minio Client 的反复创建和销毁，提升访问 Minio Server性能               |
-| Minio Async Client 对象池 | 实现 Minio Async Client 对象池，减少 Minio Async Client 的反复创建和销毁，提升访问 Minio Server性能   |
-| Minio Admin 对象池        | 实现 Minio Admin 对象池，减少 Minio Admin 的反复创建和销毁，提升访问 Minio Server性能                 |
-| Bucket 设置              | 统一 Bucket 设置： Bucket 标签设置、访问策略、加密方式、对象锁定、版本控制、保留设置等， 包括 Service、REST API 和前端展示 |
-| Object 设置              | 统一 Object 设置： Bucket 标签设置， 包括 Service、REST API 和前端展示                           |
-| Object 下载(流模式)         | Minio 对象下载，采用流模式支持vue前端post方式下载， 包括 Service、REST API 和前端展示                     |
-| 超轻量级反向代理               | 实现轻量级反向代理解决 PresignedObjectUrl 方式直接向前端暴露 Minio Server地址问题                      |
-
-- [3] 主流方案
-
-| 功能                                 | 说明                                                                      |
-|------------------------------------|-------------------------------------------------------------------------|
-| OpenAPI 支持                         | 在支持 Open API 环境下，显示 Swagger 文档，建议使用 Springdoc                           |
-| 与 Spring Authorization Server 体系集成 | 提供完整的与 Spring Authorization Server 集成，实现认证、授权、鉴权、动态权限等完整案例，包括单体版和微服务版   |
-| 大文件分片上传                            | 采用 PresignedObjectUrl 方案的大文件分片上传。扩展 Minio Client，封装相应的 Service、REST API |
-| vue-simple-uploader                | 前端基于 vue-simple-uploader 组件，配合自定义 REST API 实现大文件分片上传                    |
 
 ## 使用 | How to use
 
@@ -229,12 +122,14 @@ dante-oss
 ```yaml
 herodotus:
   oss:
+    dialect: minio
     minio:
       endpoint: http://127.0.0.1:9000
-      access-key: xxxxxx
-      secret-key: xxxxxx
+      access-key: XXXXXXXXX
+      secret-key: XXXXXXXXX
+      use-proxy: true
+      proxy-source-endpoint: http://localhost:3000/api
 ```
-> 结合实际需求配置数据源
 
 3. 统一错误处理
 
@@ -266,13 +161,49 @@ if (ex instanceof HerodotusException exception) {
 
 ### 二、选择使用
 
-除了 `minio-core` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
+除了 `dialect-core` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
 
-- **minio-sdk-logic**: 仅包含对 Minio 基础 API 封装的 Service 代码。使用注解 `@EnableHerodotusMinioLogic` 可开启相关内容。
-- **minio-sdk-rest**: 包含对 Minio 基于 API 封装的 Service 以及 REST 代码。使用注解 `@EnableHerodotusMinioRest` 可开启相关内容。
-- **minio-sdk-scenario**: 包含扩展应用以及各OSS常规场景应用， 注意：不包含 `minio-sdk-rest` 内容。使用注解 `@EnableHerodotusMinioScenario` 可开启相关内容。
-- **minio-spring-boot-starter**: 包含 `minio-sdk-logic` 和 `minio-sdk-rest` 两部分内容，可直接引入使用。
-- **oss-spring-boot-starter**: 包含所有内容，注意：需要依赖数据库等相关内容。
+#### 1. dialect-sdk-aliyun
+
+包含对 Aliyun 基础 API 封装的 Service 代码, 可以单独使用，也可作为 OSS 统一抽象的实现方式之一，通过修改配置生效使用。使用 `oss-aliyun-spring-boot-starter` 可开启自动配置。
+
+目前暂不提供 Aliyun REST API 封装，请根据自身的需要直接申请使用阿里云 REST API。
+
+#### 2. dialect-sdk-s3
+
+包含对 Amazon S3 基础 API 封装的 Service 代码, 可以单独使用，也可作为 OSS 统一抽象的实现方式之一，通过修改配置生效使用。使用 `oss-s3-spring-boot-starter` 可开启自动配置。
+
+目前暂不提供 Amazon REST API 封装，如需使用根据设置需要申请使用。
+
+#### 3. dialect-sdk-minio
+
+包含对 Minio 基础 API 封装的 Service 代码, 可以单独使用，也可作为 OSS 统一抽象的实现方式之一，通过修改配置生效使用。
+
+提供 Minio 标准操作 REST API 封装 `rest-sdk-minio`（不包含大文件分片上传等扩展性业务功能）。
+
+使用 `oss-minio-spring-boot-starter` 可统一开启 Minio Service 和 REST API 自动配置。
+
+#### 4. rest-sdk-integration
+
+`rest-sdk-integration` 是通过对 Minio、Aliyun、Amazon S3 现有 API 共性内容抽象，形成的统一操作 REST API。目标是形成类似于 Spring Data Repository 形式的统一 REST API，一套 REST API 支持不同的 OSS 厂商。
+
+#### 5. rest-sdk-minio
+
+提供 Minio 标准操作 REST API 封装。使用 `oss-minio-spring-boot-starter` 可统一开启 Minio Service 和 REST API 自动配置。
+
+#### 6. rest-sdk-scenario
+
+Minio 标准操作 API 之外的，大文件分片、端点续传等主流对象存储业务解决方案以及 Minio 管理 API 的封装。目前仅支持 Minio 相关操作
+
+::: warning
+
+随着 OSS 共性内容抽象的不断完善，`rest-sdk-scenario` 中相关的内容，可能会逐步迁移至其它模块中。
+
+:::
+
+#### 7. oss-spring-boot-starter
+
+Dante OSS 的所有内容，可直接引入使用。以 OSS 共性抽象为基础，通过 Spring Boot 配置，实现不同 OSS 操作实现的切换。目前以 Minio 作为默认实现，同时提供 Minio 相关完整的 REST API。Aliyun 和 Amazon S3 目前仅包含对其 Java SDK 封装的 Service API，作为不同 OSS 实现的可选项。如要使用其 REST API 的方式，请直接按照对应厂商官网文档操作申请即可，暂不考虑将这一部分融入 Dante OSS。
 
 ## 贡献 | Committer
 
@@ -297,10 +228,13 @@ Dante OSS 作为 Dante Cloud 生态产品，不在单独提供演示环境和示
 
 > 注意：如果您仅是想了解基本的使用方式和使用效果，建议使用单体架构演示环境。具体搭建方式参见[【在线文档】](http://www.herodotus.cn)中，单体版章节。
 
-## 免责声明 | Disclaimers
+## 许可 | License 
 
-- 本软件会不断更新，以便及时为用户提供新功能和修正软件中的 BUG。同时软件作者保证本软件在升级过程中也不含有任何旨在破坏用户计算机数据的恶意代码。
-- 本软件经过详细的测试，由于用户计算机软硬件环境的差异性和复杂性，本软件所提供的各项功能并不能保证在任何情况下都能正常执行或达到用户所期望的结果。如果出现不兼容及软件错误的情况，用户可登录软件代码托管平台将情况报告作者，获得技术支持。如果无法解决问题，用户可以删除本软件。
-- 使用本软件产品风险有用户自行承担，在适用法律允许的最大范围内，对因使用或不能使用本软件所产生的损害及风险，包括但不限于直接或间接的个人损害、商业盈利的丧失、贸易中断、商业信息的丢失或任何其它经济损失，作者不承担任何责任。
-- 您承诺秉着合法、合理的原则使用 Dante Cloud 开源微服务架构及其核心组件，不利用 Dante Cloud 开源微服务架构及其核心组件进行任何违法、侵害他人合法利益等恶意的行为，亦不将 Dante Cloud 开源微服务架构及其核心组件运用于任何违反我国法律法规的 Web 平台
-- 如果用户自行下载运行本软件，即表明用户信任软件作者，自愿选择安装本软件，并接受本协议所有条款。如果用户不接受本协议，请立即删除。
+本项目基于 Apache License Version 2.0 开源协议，可用于商业项目，但必须遵守以下补充条款。
+
+- 不得将本软件应用于危害国家安全、荣誉和利益的行为，不能以任何形式用于非法为目的的行为。
+- 在延伸的代码中（修改现有源代码衍生的代码中）需要带有原来代码中的协议、版权声明和其他原作者 规定需要包含的说明（请尊重原作者的著作权，不要删除或修改文件中的Copyright和@author信息） 更不要，全局替换源代码中的 Dante OSS、Herodotus 或 码匠君 等字样，否则你将违反本协议条款承担责任。
+- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构 或 Dante OSS，并附带链接：https://www.herodotus.cn
+- 任何基于本软件而产生的一切法律纠纷和责任，均于作者无关。
+- 如果你对本软件有改进，希望可以贡献给我们，双向奔赴互相成就才是王道。
+- 本项目已申请软件著作权，请尊重开源。

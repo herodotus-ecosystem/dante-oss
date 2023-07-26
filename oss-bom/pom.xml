@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
+  ~ Copyright (c) 2020-2030 码匠君<herodotus@aliyun.com>
   ~
   ~ Dante Cloud licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -14,7 +14,7 @@
   ~ See the License for the specific language governing permissions and
   ~ limitations under the License.
   ~
-  ~ Dante Cloud 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
+  ~ Dante OSS 采用APACHE LICENSE 2.0开源协议，您在使用过程中，需要注意以下几点：
   ~
   ~ 1.请不要删除和修改根目录下的LICENSE文件。
   ~ 2.请不要删除和修改 Dante Cloud 源码头部的版权声明。
@@ -38,7 +38,7 @@
 
     <groupId>cn.herodotus.oss</groupId>
     <artifactId>oss-bom</artifactId>
-    <version>1.1.3</version>
+    <version>1.2.0</version>
     <packaging>pom</packaging>
 
     <description>Dante Cloud 生态产品 Dante OSS Dependencies Bom</description>
@@ -76,52 +76,52 @@
         <dependencies>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>definition-core</artifactId>
+                <artifactId>dialect-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>minio-core</artifactId>
+                <artifactId>dialect-sdk-aliyun</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>minio-sdk-logic</artifactId>
+                <artifactId>dialect-sdk-minio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>minio-sdk-rest</artifactId>
+                <artifactId>dialect-sdk-s3</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>minio-sdk-scenario</artifactId>
+                <artifactId>rest-sdk-minio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>minio-spring-boot-starter</artifactId>
+                <artifactId>rest-sdk-integration</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>s3-core</artifactId>
+                <artifactId>rest-sdk-scenario</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>s3-sdk-logic</artifactId>
+                <artifactId>oss-minio-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>s3-spring-boot-starter</artifactId>
+                <artifactId>oss-aliyun-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>aliyun-core</artifactId>
+                <artifactId>oss-s3-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

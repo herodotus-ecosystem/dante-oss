@@ -1,0 +1,3 @@
+cn.herodotus.oss.minio.autoconfigure.AutoConfiguration
+cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration
+cn.herodotus.oss.rest.minio.configuration.OssRestMinioConfiguration
