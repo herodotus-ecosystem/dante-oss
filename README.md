@@ -195,12 +195,6 @@ if (ex instanceof HerodotusException exception) {
 
 Minio 标准操作 API 之外的，大文件分片、端点续传等主流对象存储业务解决方案以及 Minio 管理 API 的封装。目前仅支持 Minio 相关操作
 
-::: warning
-
-随着 OSS 共性内容抽象的不断完善，`rest-sdk-scenario` 中相关的内容，可能会逐步迁移至其它模块中。
-
-:::
-
 #### 7. oss-spring-boot-starter
 
 Dante OSS 的所有内容，可直接引入使用。以 OSS 共性抽象为基础，通过 Spring Boot 配置，实现不同 OSS 操作实现的切换。目前以 Minio 作为默认实现，同时提供 Minio 相关完整的 REST API。Aliyun 和 Amazon S3 目前仅包含对其 Java SDK 封装的 Service API，作为不同 OSS 实现的可选项。如要使用其 REST API 的方式，请直接按照对应厂商官网文档操作申请即可，暂不考虑将这一部分融入 Dante OSS。
