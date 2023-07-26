@@ -47,7 +47,7 @@ public class UseS3DialectCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         String property = OssPropertyFinder.getDialect(context.getEnvironment());
-        boolean result = StringUtils.equalsIgnoreCase(property, Dialect.AMAZON_S3.name());
+        boolean result = StringUtils.equalsIgnoreCase(property, Dialect.S3.name());
         log.debug("[Herodotus] |- Condition [Use Amazon S3 Dialect] value is [{}]", result);
         return result;
     }

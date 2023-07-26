@@ -33,5 +33,5 @@ package cn.herodotus.oss.dialect.core.enums;
  */
 public enum Dialect {
 
-    MINIO, AMAZON_S3, ALIYUN;
+    MINIO, S3, ALIYUN;
 }
