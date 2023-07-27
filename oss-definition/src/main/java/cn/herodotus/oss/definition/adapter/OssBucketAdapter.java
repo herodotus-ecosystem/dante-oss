@@ -23,29 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.definition.service;
+package cn.herodotus.oss.definition.adapter;
 
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.definition.domain.BucketDomain;
+
+import java.util.List;
 
 /**
- * <p>Description: 对象存储 Service 抽象定义 </p>
+ * <p>Description: 兼容 S3 协议的各类 OSS 存储桶操作抽象定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 13:50
+ * @date : 2023/7/24 18:29
  */
-public abstract class BaseOssService<T> {
+public interface OssBucketAdapter {
 
-    private final AbstractOssClientObjectPool<T> ossClientObjectPool;
+    /**
+     * 检查指定的存储桶是否存在。使用此方法可以确定指定的存储桶名称是否已经存在，因此不能用于创建新的存储桶
+     *
+     * @param bucketName 存储桶名称
+     * @return 如果指定名称的存储桶存在，则该值为true；如果指定名称的存储桶不存在，则值为false
+     */
+    boolean doesBucketExist(String bucketName);
 
-    public BaseOssService(AbstractOssClientObjectPool<T> ossClientObjectPool) {
-        this.ossClientObjectPool = ossClientObjectPool;
-    }
-
-    protected T getClient() {
-        return ossClientObjectPool.get();
-    }
-
-    protected void close(T client) {
-        ossClientObjectPool.close(client);
-    }
+    /**
+     * 返回当前帐户的所有存储桶实例列表
+     * @return 存储桶 {@link BucketDomain} 列表
+     */
+    List<BucketDomain> listBuckets();
 }

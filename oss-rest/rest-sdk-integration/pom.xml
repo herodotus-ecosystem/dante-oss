@@ -41,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>dialect-core</artifactId>
+            <artifactId>oss-definition</artifactId>
         </dependency>
 
         <dependency>

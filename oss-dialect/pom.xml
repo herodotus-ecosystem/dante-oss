@@ -39,10 +39,10 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>dialect-core</module>
         <module>dialect-sdk-s3</module>
         <module>dialect-sdk-aliyun</module>
         <module>dialect-sdk-minio</module>
-        <module>dialect-core</module>
     </modules>
 
 </project>

@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.aliyun.definition.pool;
 
 import cn.herodotus.oss.dialect.aliyun.properties.AliyunProperties;
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientPooledObjectFactory;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 import com.aliyun.oss.ClientBuilderConfiguration;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;

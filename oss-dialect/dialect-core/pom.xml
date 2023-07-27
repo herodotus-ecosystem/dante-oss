@@ -40,8 +40,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>assistant-core</artifactId>
+            <groupId>cn.herodotus.oss</groupId>
+            <artifactId>oss-definition</artifactId>
         </dependency>
     </dependencies>
 

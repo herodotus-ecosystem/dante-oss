@@ -47,7 +47,7 @@ import org.springframework.context.annotation.Import;
 })
 @ComponentScan(basePackages = {
         "cn.herodotus.oss.dialect.minio.service",
-        "cn.herodotus.oss.dialect.minio.handler",
+        "cn.herodotus.oss.dialect.minio.adapter",
 })
 public class OssDialectMinioConfiguration {
 

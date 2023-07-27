@@ -28,17 +28,21 @@ package cn.herodotus.oss.rest.integration.controller;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.dialect.core.definition.handler.OssBucketHandler;
+import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
+import cn.herodotus.oss.definition.domain.BucketDomain;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * <p>Description: Dante OSS 统一存储桶管理接口 </p>
@@ -55,9 +59,9 @@ import org.springframework.web.bind.annotation.RestController;
 })
 public class OssBucketController implements Controller {
 
-    private final OssBucketHandler ossBucketHandler;
+    private final OssBucketAdapter ossBucketHandler;
 
-    public OssBucketController(OssBucketHandler ossBucketHandler) {
+    public OssBucketController(OssBucketAdapter ossBucketHandler) {
         this.ossBucketHandler = ossBucketHandler;
     }
 
@@ -74,8 +78,24 @@ public class OssBucketController implements Controller {
             @Parameter(name = "bucketName", required = true, description = "存储桶名称")
     })
     @GetMapping("/exists")
-    public Result<Boolean> exists(String bucketName) {
+    public Result<Boolean> doesBucketExist(String bucketName) {
         boolean isExists = ossBucketHandler.doesBucketExist(bucketName);
         return result(isExists);
+    }
+
+    @AccessLimited
+    @Operation(summary = "获取全部存储桶(Bucket)", description = "获取全部存储桶(Bucket)",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
+            responses = {
+                    @ApiResponse(description = "所有Buckets", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
+                    @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
+                    @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
+                    @ApiResponse(responseCode = "500", description = "查询失败"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
+            })
+    @GetMapping("/list")
+    public Result<List<BucketDomain>> listBuckets() {
+        List<BucketDomain> domains = ossBucketHandler.listBuckets();
+        return result(domains);
     }
 }

@@ -23,29 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.dialect.aliyun.converter;
 
-import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
-import cn.herodotus.oss.dialect.minio.domain.BucketDomain;
-import io.minio.messages.Bucket;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.herodotus.oss.definition.domain.BucketDomain;
+import cn.herodotus.oss.definition.domain.OwnerDomain;
+import com.aliyun.oss.model.Bucket;
 import org.springframework.core.convert.converter.Converter;
 
+import java.util.Optional;
+
 /**
- * <p>Description: Bucket 转 BucketDomain 转换器 </p>
+ * <p>Description: Aliyun Bucket 转 BucketDomain 转换器  </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 10:11
+ * @date : 2023/7/27 16:29
  */
-public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
-
+public class AliyunBucketToDomainConverter implements Converter<Bucket, BucketDomain> {
     @Override
-    public BucketDomain convert(Bucket bucket) {
-        BucketDomain entity = new BucketDomain();
-        entity.setName(bucket.name());
-        if (ObjectUtils.isNotEmpty(bucket.creationDate())) {
-            entity.setCreationDate(DateTimeUtils.zonedDateTimeToString(bucket.creationDate()));
-        }
-        return entity;
+    public BucketDomain convert(Bucket source) {
+
+        Optional<Bucket> optional = Optional.ofNullable(source);
+        return optional.map(bucket -> {
+
+            BucketDomain bucketDomain = new BucketDomain();
+
+            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
+                OwnerDomain ownerDomain = new OwnerDomain();
+                ownerDomain.setId(bucket.getOwner().getId());
+                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
+                bucketDomain.setOwner(ownerDomain);
+            });
+
+            return bucketDomain;
+        }).orElse(null);
     }
 }

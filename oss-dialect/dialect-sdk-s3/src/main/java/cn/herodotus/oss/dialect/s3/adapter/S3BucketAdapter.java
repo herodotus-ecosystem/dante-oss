@@ -23,17 +23,22 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.handler;
+package cn.herodotus.oss.dialect.s3.adapter;
 
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.core.definition.handler.OssBucketHandler;
+import cn.herodotus.oss.definition.domain.BucketDomain;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
+import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
+import cn.herodotus.oss.dialect.s3.converter.S3BucketToDomainConverter;
 import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>Description: Amazon S3 兼容模式存储桶操作处理器 </p>
@@ -42,11 +47,11 @@ import org.springframework.stereotype.Service;
  * @date : 2023/7/24 19:10
  */
 @Service
-public class S3BucketHandler extends BaseS3Service implements OssBucketHandler {
+public class S3BucketAdapter extends BaseS3Service implements OssBucketAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(S3BucketHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(S3BucketAdapter.class);
 
-    public S3BucketHandler(AbstractOssClientObjectPool<AmazonS3> ossClientObjectPool) {
+    public S3BucketAdapter(AbstractOssClientObjectPool<AmazonS3> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 
@@ -57,6 +62,21 @@ public class S3BucketHandler extends BaseS3Service implements OssBucketHandler {
         AmazonS3 amazonS3 = getClient();
         try {
             return amazonS3.doesBucketExistV2(bucketName);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(amazonS3);
+        }
+    }
+
+    @Override
+    public List<BucketDomain> listBuckets() {
+        String function = "listBuckets";
+
+        AmazonS3 amazonS3 = getClient();
+        try {
+            return ConverterUtils.toDomains(amazonS3.listBuckets(), new S3BucketToDomainConverter());
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

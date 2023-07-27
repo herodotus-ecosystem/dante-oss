@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.definition.service;
 
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.core.definition.service.BaseOssService;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.dialect.core.service.BaseOssService;
 import com.amazonaws.services.s3.AmazonS3;
 
 /**

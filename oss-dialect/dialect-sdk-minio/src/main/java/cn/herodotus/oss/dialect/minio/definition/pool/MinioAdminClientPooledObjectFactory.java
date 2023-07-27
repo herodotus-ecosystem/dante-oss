@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.pool;
 
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientPooledObjectFactory;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 import cn.herodotus.oss.dialect.minio.properties.MinioProperties;
 import io.minio.admin.MinioAdminClient;
 import org.slf4j.Logger;

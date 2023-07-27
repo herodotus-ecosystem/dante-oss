@@ -23,21 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.definition.handler;
+package cn.herodotus.oss.dialect.core.utils;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 存储桶操作抽象定义 </p>
+ * <p>Description: 实体转换工具类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 18:29
+ * @date : 2023/7/15 21:37
  */
-public interface OssBucketHandler {
+public class ConverterUtils {
 
-    /**
-     * 检查指定的存储桶是否存在。使用此方法可以确定指定的存储桶名称是否已经存在，因此不能用于创建新的存储桶
-     *
-     * @param bucketName 存储桶名称
-     * @return 如果指定名称的存储桶存在，则该值为true；如果指定名称的存储桶不存在，则值为false
-     */
-    boolean doesBucketExist(String bucketName);
+    public static <T, R> List<R> toDomains(List<T> items, Converter<T, R> toDomain) {
+        if (CollectionUtils.isNotEmpty(items)) {
+            return items.stream().map(toDomain::convert).toList();
+        }
+        return new ArrayList<>();
+    }
 }

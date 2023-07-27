@@ -26,8 +26,8 @@
 package cn.herodotus.oss.dialect.minio.definition.pool;
 
 
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientPooledObjectFactory;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 import io.minio.MinioClient;
 
 /**

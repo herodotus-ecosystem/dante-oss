@@ -23,14 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.definition.handler;
+package cn.herodotus.oss.definition.domain.base;
+
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
+ * <p>Description: Oss 域对象基础定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 16:39
+ * @date : 2023/7/27 15:44
  */
-public interface OssObjectHandler {
-
+public interface OssDomain extends Entity {
 }

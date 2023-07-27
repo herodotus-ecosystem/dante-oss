@@ -37,8 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>Description: Aliyun OSS 存储桶 Service </p>
  *
@@ -79,29 +77,6 @@ public class AliyunBucketService extends BaseAliyunService {
 
         try {
             return client.deleteBucket(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
-        }
-    }
-
-    /**
-     * 获取存储桶列表
-     *
-     * @return 存储桶列表
-     */
-    public List<Bucket> listBuckets() {
-        String function = "listBuckets";
-
-        OSS client = getClient();
-
-        try {
-            return client.listBuckets();
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

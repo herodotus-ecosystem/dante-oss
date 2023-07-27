@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.definition.properties;
+package cn.herodotus.oss.dialect.core.properties;
 
 import com.google.common.base.MoreObjects;
 import org.apache.commons.pool2.impl.BaseObjectPoolConfig;

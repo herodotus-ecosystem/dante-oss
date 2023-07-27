@@ -25,34 +25,38 @@
 
 package cn.herodotus.oss.dialect.s3.converter;
 
-import cn.herodotus.oss.dialect.s3.domain.S3BucketDomain;
-import cn.herodotus.oss.dialect.s3.domain.S3OwnerDomain;
+import cn.herodotus.oss.definition.domain.BucketDomain;
+import cn.herodotus.oss.definition.domain.OwnerDomain;
 import com.amazonaws.services.s3.model.Bucket;
+import com.amazonaws.services.s3.model.Owner;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
+import java.util.Optional;
+
 /**
- * <p>Description: TODO </p>
+ * <p>Description: S3 Bucket 转 BucketDomain 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/15 21:28
  */
-public class S3BucketToDomainConverter implements Converter<Bucket, S3BucketDomain> {
+public class S3BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
     @Override
-    public S3BucketDomain convert(Bucket source) {
-        if (ObjectUtils.isNotEmpty(source)) {
+    public BucketDomain convert(Bucket source) {
 
-            S3OwnerDomain domain = new S3OwnerDomain();
-            domain.setDisplayName(source.getOwner().getDisplayName());
-            domain.setId(source.getOwner().getId());
+        Optional<Bucket> optional = Optional.ofNullable(source);
+        return optional.map(bucket -> {
 
-            S3BucketDomain bucketDomain = new S3BucketDomain();
-            bucketDomain.setName(source.getName());
-            bucketDomain.setOwner(domain);
-            bucketDomain.setCreationDate(source.getCreationDate());
+            BucketDomain bucketDomain = new BucketDomain();
+
+            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
+                OwnerDomain ownerDomain = new OwnerDomain();
+                ownerDomain.setId(bucket.getOwner().getId());
+                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
+                bucketDomain.setOwner(ownerDomain);
+            });
 
             return bucketDomain;
-        }
-        return null;
+        }).orElse(null);
     }
 }

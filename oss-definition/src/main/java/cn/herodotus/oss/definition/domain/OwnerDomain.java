@@ -23,37 +23,54 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.handler;
+package cn.herodotus.oss.definition.domain;
 
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.core.definition.handler.OssBucketHandler;
-import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
-import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
-import io.minio.MinioClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import cn.herodotus.oss.definition.domain.base.OssDomain;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Minio 兼容模式存储桶操作处理器 </p>
+ * <p>Description: 统一所有者域对象定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 19:13
+ * @date : 2023/7/27 15:43
  */
-@Service
-public class MinioBucketHandler extends BaseMinioService implements OssBucketHandler {
+@Schema(title = "所有者")
+public class OwnerDomain implements OssDomain {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioBucketHandler.class);
+    /**
+     * 所有者 ID
+     */
+    @Schema(name = "所有者 ID")
+    private String id;
 
-    private final MinioBucketService minioBucketService;
+    /**
+     * 所有者显示名称
+     */
+    @Schema(name = "所有者显示名称")
+    private String displayName;
 
-    public MinioBucketHandler(AbstractOssClientObjectPool<MinioClient> ossClientObjectPool, MinioBucketService minioBucketService) {
-        super(ossClientObjectPool);
-        this.minioBucketService = minioBucketService;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     @Override
-    public boolean doesBucketExist(String bucketName) {
-        return minioBucketService.bucketExists(bucketName);
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("displayName", displayName)
+                .toString();
     }
 }

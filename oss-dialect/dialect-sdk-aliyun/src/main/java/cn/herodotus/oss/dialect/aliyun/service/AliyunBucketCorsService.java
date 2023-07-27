@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.aliyun.service;
 
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;

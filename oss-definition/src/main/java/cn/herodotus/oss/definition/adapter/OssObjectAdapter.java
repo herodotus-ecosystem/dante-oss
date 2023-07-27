@@ -23,33 +23,14 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.definition.client;
-
-import cn.herodotus.oss.dialect.core.definition.properties.AbstractOssProperties;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+package cn.herodotus.oss.definition.adapter;
 
 /**
- * <p>Description: 对象存储 Client 对象池对象工厂抽象定义 </p>
+ * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 12:24
+ * @date : 2023/7/24 16:39
  */
-public abstract class AbstractOssClientPooledObjectFactory<T> extends BasePooledObjectFactory<T> {
+public interface OssObjectAdapter {
 
-    private final AbstractOssProperties ossProperties;
-
-    public AbstractOssClientPooledObjectFactory(AbstractOssProperties ossProperties) {
-        this.ossProperties = ossProperties;
-    }
-
-    public AbstractOssProperties getOssProperties() {
-        return ossProperties;
-    }
-
-    @Override
-    public PooledObject<T> wrap(T obj) {
-        return new DefaultPooledObject<>(obj);
-    }
 }
