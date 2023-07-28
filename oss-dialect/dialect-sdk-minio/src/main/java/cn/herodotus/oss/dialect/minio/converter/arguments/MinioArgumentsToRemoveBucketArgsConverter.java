@@ -23,22 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.bucket;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.rest.minio.definition.BucketRequest;
-import io.minio.BucketExistsArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
+import io.minio.MakeBucketArgs;
+import io.minio.RemoveBucketArgs;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 检查桶是否存在参数实体 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/1 23:46
+ * @date : 2023/7/28 18:21
  */
-@Schema(name = "检查桶是否存在参数实体", title = "检查桶是否存在参数实体")
-public class BucketExistsRequest extends BucketRequest<BucketExistsArgs.Builder, BucketExistsArgs> {
+public class MinioArgumentsToRemoveBucketArgsConverter implements Converter<DeleteBucketArguments, RemoveBucketArgs> {
     @Override
-    public BucketExistsArgs.Builder getBuilder() {
-        return BucketExistsArgs.builder();
+    public RemoveBucketArgs convert(DeleteBucketArguments source) {
+
+        RemoveBucketArgs.Builder builder = RemoveBucketArgs.builder();
+
+        builder.bucket(source.getBucketName());
+
+        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
+            builder.extraHeaders(source.getExtraHeaders());
+        }
+
+        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
+            builder.extraHeaders(source.getExtraQueryParams());
+        }
+
+        return builder.build();
     }
 }

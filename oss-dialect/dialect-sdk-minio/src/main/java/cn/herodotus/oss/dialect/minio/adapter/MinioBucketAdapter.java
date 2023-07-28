@@ -25,16 +25,23 @@
 
 package cn.herodotus.oss.dialect.minio.adapter;
 
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.BucketDomain;
 import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.minio.converter.MinioBucketToDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.MinioArgumentsToMakeBucketArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.MinioArgumentsToRemoveBucketArgsConverter;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
+import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
+import io.minio.RemoveBucketArgs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -66,4 +73,30 @@ public class MinioBucketAdapter extends BaseMinioService implements OssBucketAda
     public List<BucketDomain> listBuckets() {
         return ConverterUtils.toDomains(minioBucketService.listBuckets(), new MinioBucketToDomainConverter());
     }
+
+    @Override
+    public BucketDomain createBucket(String bucketName) {
+        minioBucketService.makeBucket(bucketName);
+        return null;
+    }
+
+    @Override
+    public BucketDomain createBucket(CreateBucketArguments arguments) {
+        Converter<CreateBucketArguments, MakeBucketArgs> toArgs = new MinioArgumentsToMakeBucketArgsConverter();
+        minioBucketService.makeBucket(toArgs.convert(arguments));
+        return null;
+    }
+
+    @Override
+    public void deleteBucket(String bucketName) {
+        minioBucketService.removeBucket(bucketName);
+    }
+
+    @Override
+    public void deleteBucket(DeleteBucketArguments arguments) {
+        Converter<DeleteBucketArguments, RemoveBucketArgs> toArgs = new MinioArgumentsToRemoveBucketArgsConverter();
+        minioBucketService.removeBucket(toArgs.convert(arguments));
+    }
+
+
 }

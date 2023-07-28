@@ -91,25 +91,6 @@ public class S3BucketService extends BaseS3Service {
     }
 
     /**
-     * 删除存储桶
-     *
-     * @param request {@link CreateBucketRequest}
-     */
-    public void deleteBucket(DeleteBucketRequest request) {
-        String function = "deleteBucket";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            amazonS3.deleteBucket(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
      * 获取存储桶位置
      *
      * @param request {@link GetBucketLocationRequest}
@@ -128,26 +109,4 @@ public class S3BucketService extends BaseS3Service {
             close(amazonS3);
         }
     }
-
-    /**
-     * 创建存储桶
-     *
-     * @param request {@link CreateBucketRequest}
-     * @return {@link Bucket}
-     */
-    public Bucket createBucket(CreateBucketRequest request) {
-        String function = "createBucket";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            return amazonS3.createBucket(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-
 }

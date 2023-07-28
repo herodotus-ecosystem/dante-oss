@@ -23,30 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.utils;
+package cn.herodotus.oss.dialect.aliyun.converter;
 
-import org.apache.commons.collections4.CollectionUtils;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
+import com.aliyun.oss.model.GenericRequest;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * <p>Description: 实体转换工具类 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/15 21:37
+ * @date : 2023/7/28 20:00
  */
-public class ConverterUtils {
+public class AliyunArgumentsToDeleteBucketRequestConverter implements Converter<DeleteBucketArguments, GenericRequest> {
+    @Override
+    public GenericRequest convert(DeleteBucketArguments source) {
 
-    public static <T, R> List<R> toDomains(List<T> items, Converter<T, R> toDomain) {
-        if (CollectionUtils.isNotEmpty(items)) {
-            return items.stream().map(toDomain::convert).toList();
+        GenericRequest request = new GenericRequest(source.getBucketName());
+
+        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
+            request.setHeaders(source.getExtraHeaders());
         }
-        return new ArrayList<>();
-    }
 
-    public static <T, R> R toDomain(T object, Converter<T, R> toDomain) {
-        return toDomain.convert(object);
+        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
+            request.setParameters(source.getExtraQueryParams());
+        }
+
+        return request;
     }
 }

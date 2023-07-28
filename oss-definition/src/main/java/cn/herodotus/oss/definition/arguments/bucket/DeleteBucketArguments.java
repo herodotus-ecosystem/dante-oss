@@ -23,30 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.utils;
+package cn.herodotus.oss.definition.arguments.bucket;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.core.convert.converter.Converter;
-
-import java.util.ArrayList;
-import java.util.List;
+import cn.herodotus.oss.definition.arguments.base.BaseBucketArguments;
 
 /**
- * <p>Description: 实体转换工具类 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/15 21:37
+ * @date : 2023/7/28 19:48
  */
-public class ConverterUtils {
-
-    public static <T, R> List<R> toDomains(List<T> items, Converter<T, R> toDomain) {
-        if (CollectionUtils.isNotEmpty(items)) {
-            return items.stream().map(toDomain::convert).toList();
-        }
-        return new ArrayList<>();
-    }
-
-    public static <T, R> R toDomain(T object, Converter<T, R> toDomain) {
-        return toDomain.convert(object);
-    }
+public class DeleteBucketArguments extends BaseBucketArguments {
 }

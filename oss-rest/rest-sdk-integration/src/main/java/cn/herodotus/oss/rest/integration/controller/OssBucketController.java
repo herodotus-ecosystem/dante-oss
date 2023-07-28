@@ -27,8 +27,11 @@ package cn.herodotus.oss.rest.integration.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
+import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.BucketDomain;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,9 +41,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -97,5 +99,41 @@ public class OssBucketController implements Controller {
     public Result<List<BucketDomain>> listBuckets() {
         List<BucketDomain> domains = ossBucketHandler.listBuckets();
         return result(domains);
+    }
+
+    @Idempotent
+    @Operation(summary = "创建存储桶", description = "创建存储桶接口，该接口仅是创建，不包含是否已存在检查",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
+            responses = {
+                    @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
+                    @ApiResponse(responseCode = "200", description = "操作成功"),
+                    @ApiResponse(responseCode = "500", description = "操作失败，具体查看错误信息内容"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
+            })
+    @Parameters({
+            @Parameter(name = "arguments", required = true, description = "CreateBucketArguments请求参数实体", schema = @Schema(implementation = CreateBucketArguments.class))
+    })
+    @PostMapping
+    public Result<Boolean> createBucket(@Validated @RequestBody CreateBucketArguments arguments) {
+        ossBucketHandler.createBucket(arguments);
+        return result(true);
+    }
+
+    @Idempotent
+    @Operation(summary = "删除存储桶", description = "根据存储桶名称删除数据，可指定 Region",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
+            responses = {
+                    @ApiResponse(description = "Minio API 无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
+                    @ApiResponse(responseCode = "200", description = "操作成功"),
+                    @ApiResponse(responseCode = "500", description = "操作失败，具体查看错误信息内容"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server 无法访问或未启动")
+            })
+    @Parameters({
+            @Parameter(name = "arguments", required = true, description = "DeleteBucketArguments请求参数实体", schema = @Schema(implementation = DeleteBucketArguments.class))
+    })
+    @DeleteMapping
+    public Result<Boolean> deleteBucket(@Validated @RequestBody DeleteBucketArguments arguments) {
+        ossBucketHandler.deleteBucket(arguments);
+        return result(true);
     }
 }

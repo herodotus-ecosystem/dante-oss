@@ -25,17 +25,24 @@
 
 package cn.herodotus.oss.dialect.s3.adapter;
 
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.BucketDomain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
+import cn.herodotus.oss.dialect.s3.converter.S3ArgumentsToCreateBucketRequestConverter;
+import cn.herodotus.oss.dialect.s3.converter.S3ArgumentsToDeleteBucketRequestConverter;
 import cn.herodotus.oss.dialect.s3.converter.S3BucketToDomainConverter;
 import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.CreateBucketRequest;
+import com.amazonaws.services.s3.model.DeleteBucketRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,14 +66,14 @@ public class S3BucketAdapter extends BaseS3Service implements OssBucketAdapter {
     public boolean doesBucketExist(String bucketName) {
         String function = "doesBucketExistV2";
 
-        AmazonS3 amazonS3 = getClient();
+        AmazonS3 client = getClient();
         try {
-            return amazonS3.doesBucketExistV2(bucketName);
+            return client.doesBucketExistV2(bucketName);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } finally {
-            close(amazonS3);
+            close(client);
         }
     }
 
@@ -74,14 +81,77 @@ public class S3BucketAdapter extends BaseS3Service implements OssBucketAdapter {
     public List<BucketDomain> listBuckets() {
         String function = "listBuckets";
 
-        AmazonS3 amazonS3 = getClient();
+        AmazonS3 client = getClient();
         try {
-            return ConverterUtils.toDomains(amazonS3.listBuckets(), new S3BucketToDomainConverter());
+            return ConverterUtils.toDomains(client.listBuckets(), new S3BucketToDomainConverter());
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
         } finally {
-            close(amazonS3);
+            close(client);
+        }
+    }
+
+    @Override
+    public BucketDomain createBucket(String bucketName) {
+        String function = "createBucket";
+
+        AmazonS3 client = getClient();
+        try {
+            return ConverterUtils.toDomain(client.createBucket(bucketName), new S3BucketToDomainConverter());
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public BucketDomain createBucket(CreateBucketArguments arguments) {
+        String function = "createBucket";
+
+        AmazonS3 client = getClient();
+        try {
+            Converter<CreateBucketArguments, CreateBucketRequest> toRequest = new S3ArgumentsToCreateBucketRequestConverter();
+            return ConverterUtils.toDomain(client.createBucket(toRequest.convert(arguments)), new S3BucketToDomainConverter());
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public void deleteBucket(String bucketName) {
+        String function = "deleteBucket";
+
+        AmazonS3 client = getClient();
+        try {
+            client.deleteBucket(bucketName);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public void deleteBucket(DeleteBucketArguments arguments) {
+        String function = "deleteBucket";
+
+        AmazonS3 client = getClient();
+
+        try {
+            Converter<DeleteBucketArguments, DeleteBucketRequest> toRequest = new S3ArgumentsToDeleteBucketRequestConverter();
+            client.deleteBucket(toRequest.convert(arguments));
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
         }
     }
 }

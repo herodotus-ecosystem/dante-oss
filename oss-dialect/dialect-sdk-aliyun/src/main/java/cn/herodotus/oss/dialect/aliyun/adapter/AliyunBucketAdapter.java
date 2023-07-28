@@ -25,8 +25,12 @@
 
 package cn.herodotus.oss.dialect.aliyun.adapter;
 
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.BucketDomain;
 import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
+import cn.herodotus.oss.dialect.aliyun.converter.AliyunArgumentsToCreateBucketRequestConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.AliyunArgumentsToDeleteBucketRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.AliyunBucketToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
@@ -36,8 +40,11 @@ import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.CreateBucketRequest;
+import com.aliyun.oss.model.GenericRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -59,7 +66,7 @@ public class AliyunBucketAdapter extends BaseAliyunService implements OssBucketA
 
     @Override
     public boolean doesBucketExist(String bucketName) {
-        String function = "Aliyun doesBucketExist";
+        String function = "doesBucketExist";
 
         OSS client = getClient();
 
@@ -94,4 +101,84 @@ public class AliyunBucketAdapter extends BaseAliyunService implements OssBucketA
             close(client);
         }
     }
+
+    @Override
+    public BucketDomain createBucket(String bucketName) {
+        String function = "createBucket";
+
+        OSS client = getClient();
+
+        try {
+            return ConverterUtils.toDomain(client.createBucket(bucketName), new AliyunBucketToDomainConverter());
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public BucketDomain createBucket(CreateBucketArguments arguments) {
+        String function = "createBucket";
+
+        OSS client = getClient();
+
+        try {
+            Converter<CreateBucketArguments, CreateBucketRequest> toRequest = new AliyunArgumentsToCreateBucketRequestConverter();
+            return ConverterUtils.toDomain(client.createBucket(toRequest.convert(arguments)), new AliyunBucketToDomainConverter());
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public void deleteBucket(String bucketName) {
+        String function = "deleteBucket";
+
+        OSS client = getClient();
+
+        try {
+            client.deleteBucket(bucketName);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public void deleteBucket(DeleteBucketArguments arguments) {
+        String function = "deleteBucket";
+
+        OSS client = getClient();
+
+        try {
+            Converter<DeleteBucketArguments, GenericRequest> toRequest = new AliyunArgumentsToDeleteBucketRequestConverter();
+            client.deleteBucket(toRequest.convert(arguments));
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+
 }

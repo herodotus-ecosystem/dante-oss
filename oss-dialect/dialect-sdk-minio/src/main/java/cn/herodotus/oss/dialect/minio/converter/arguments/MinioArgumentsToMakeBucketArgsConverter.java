@@ -23,30 +23,40 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.utils;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import org.apache.commons.collections4.CollectionUtils;
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import io.minio.MakeBucketArgs;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * <p>Description: 实体转换工具类 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/15 21:37
+ * @date : 2023/7/28 18:21
  */
-public class ConverterUtils {
+public class MinioArgumentsToMakeBucketArgsConverter implements Converter<CreateBucketArguments, MakeBucketArgs> {
+    @Override
+    public MakeBucketArgs convert(CreateBucketArguments source) {
 
-    public static <T, R> List<R> toDomains(List<T> items, Converter<T, R> toDomain) {
-        if (CollectionUtils.isNotEmpty(items)) {
-            return items.stream().map(toDomain::convert).toList();
+        MakeBucketArgs.Builder builder = MakeBucketArgs.builder();
+
+        builder.bucket(source.getBucketName());
+
+        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
+            builder.extraHeaders(source.getExtraHeaders());
         }
-        return new ArrayList<>();
-    }
 
-    public static <T, R> R toDomain(T object, Converter<T, R> toDomain) {
-        return toDomain.convert(object);
+        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
+            builder.extraHeaders(source.getExtraQueryParams());
+        }
+
+        if (ObjectUtils.isNotEmpty(source.getObjectLock())) {
+            builder.objectLock(source.getObjectLock());
+        }
+
+        return builder.build();
     }
 }

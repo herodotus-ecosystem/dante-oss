@@ -52,42 +52,6 @@ public class AliyunBucketService extends BaseAliyunService {
         super(aliyunClientObjectPool);
     }
 
-    public Bucket createBucket(CreateBucketRequest request) {
-        String function = "createBucket";
-
-        OSS client = getClient();
-
-        try {
-            return client.createBucket(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
-        }
-    }
-
-    public VoidResult deleteBucket(GenericRequest request) {
-        String function = "deleteBucket";
-
-        OSS client = getClient();
-
-        try {
-            return client.deleteBucket(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
-        }
-    }
-
     public BucketMetadata getBucketMetadata(GenericRequest request) {
         String function = "getBucketMetadata";
 
@@ -114,24 +78,6 @@ public class AliyunBucketService extends BaseAliyunService {
 
         try {
             return client.getBucketLocation(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
-        }
-    }
-
-    public boolean doesBucketExist(GenericRequest request) {
-        String function = "doesBucketExist";
-
-        OSS client = getClient();
-
-        try {
-            return client.doesBucketExist(request);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

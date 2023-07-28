@@ -23,23 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.bucket;
+package cn.herodotus.oss.definition.arguments.bucket;
 
-import cn.herodotus.oss.rest.minio.definition.BaseRequest;
-import io.minio.ListBucketsArgs;
+import cn.herodotus.oss.definition.arguments.base.BaseBucketArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 查询存储桶列表请求参数实体 </p>
+ * <p>Description: 创建存储桶请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 9:58
+ * @date : 2023/7/28 18:12
  */
-@Schema(name = "查询存储桶列表请求参数实体", title = "查询存储桶列表请求参数实体")
-public class ListBucketsRequest extends BaseRequest<ListBucketsArgs.Builder, ListBucketsArgs> {
+@Schema(name = "创建存储桶请求参数实体", title = "创建存储桶请求参数实体")
+public class CreateBucketArguments extends BaseBucketArguments {
 
-    @Override
-    public ListBucketsArgs.Builder getBuilder() {
-        return ListBucketsArgs.builder();
+    @Schema(name = "开启对象锁定", description = "仅在Minio环境下使用")
+    private Boolean objectLock;
+
+    public Boolean getObjectLock() {
+        return objectLock;
+    }
+
+    public void setObjectLock(Boolean objectLock) {
+        this.objectLock = objectLock;
     }
 }
