@@ -23,44 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.domain;
+package cn.herodotus.oss.definition.arguments.base;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.Map;
 
 /**
- * <p>Description: Minio Bucket 可序列化实体 </p>
+ * <p>Description: Oss 请求参数对象基础定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/1 22:59
+ * @date : 2023/7/28 0:05
  */
-public class BucketDomain implements Entity {
+public abstract class BaseOssArguments {
 
-    private String name;
+    @Schema(name = "额外的请求头")
+    private Map<String, String> extraHeaders;
 
-    private String creationDate;
+    @Schema(name = "额外的Query参数")
+    private Map<String, String> extraQueryParams;
 
-    public String getName() {
-        return name;
+    public Map<String, String> getExtraHeaders() {
+        return extraHeaders;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setExtraHeaders(Map<String, String> extraHeaders) {
+        this.extraHeaders = extraHeaders;
     }
 
-    public String getCreationDate() {
-        return creationDate;
+    public Map<String, String> getExtraQueryParams() {
+        return extraQueryParams;
     }
 
-    public void setCreationDate(String creationDate) {
-        this.creationDate = creationDate;
+    public void setExtraQueryParams(Map<String, String> extraQueryParams) {
+        this.extraQueryParams = extraQueryParams;
     }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("name", name)
-                .add("creationDate", creationDate)
-                .toString();
-    }
+
 }
