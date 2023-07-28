@@ -23,33 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.definition.client;
+package cn.herodotus.oss.definition.arguments.base;
 
-import cn.herodotus.oss.dialect.core.definition.properties.AbstractOssProperties;
-import org.apache.commons.pool2.BasePooledObjectFactory;
-import org.apache.commons.pool2.PooledObject;
-import org.apache.commons.pool2.impl.DefaultPooledObject;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.Map;
 
 /**
- * <p>Description: 对象存储 Client 对象池对象工厂抽象定义 </p>
+ * <p>Description: Oss 请求参数对象基础定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 12:24
+ * @date : 2023/7/28 0:05
  */
-public abstract class AbstractOssClientPooledObjectFactory<T> extends BasePooledObjectFactory<T> {
+public abstract class BaseOssArguments {
 
-    private final AbstractOssProperties ossProperties;
+    @Schema(name = "额外的请求头")
+    private Map<String, String> extraHeaders;
 
-    public AbstractOssClientPooledObjectFactory(AbstractOssProperties ossProperties) {
-        this.ossProperties = ossProperties;
+    @Schema(name = "额外的Query参数")
+    private Map<String, String> extraQueryParams;
+
+    public Map<String, String> getExtraHeaders() {
+        return extraHeaders;
     }
 
-    public AbstractOssProperties getOssProperties() {
-        return ossProperties;
+    public void setExtraHeaders(Map<String, String> extraHeaders) {
+        this.extraHeaders = extraHeaders;
     }
 
-    @Override
-    public PooledObject<T> wrap(T obj) {
-        return new DefaultPooledObject<>(obj);
+    public Map<String, String> getExtraQueryParams() {
+        return extraQueryParams;
     }
+
+    public void setExtraQueryParams(Map<String, String> extraQueryParams) {
+        this.extraQueryParams = extraQueryParams;
+    }
+
+
 }

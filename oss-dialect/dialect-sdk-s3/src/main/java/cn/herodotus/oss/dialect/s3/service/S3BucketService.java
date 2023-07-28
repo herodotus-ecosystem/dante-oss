@@ -35,8 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 /**
  * <p>Description: Amazon S3 存储桶管理 Service </p>
  *
@@ -84,25 +82,6 @@ public class S3BucketService extends BaseS3Service {
         AmazonS3 amazonS3 = getClient();
         try {
             return amazonS3.headBucket(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
-     * 获取存储桶列表
-     *
-     * @return 存储桶列表
-     */
-    public List<Bucket> listBuckets() {
-        String function = "listBuckets";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            return amazonS3.listBuckets();
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

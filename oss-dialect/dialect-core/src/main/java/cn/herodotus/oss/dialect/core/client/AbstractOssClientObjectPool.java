@@ -23,9 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.definition.client;
+package cn.herodotus.oss.dialect.core.client;
 
-import cn.herodotus.oss.dialect.core.definition.properties.AbstractOssProperties;
+import cn.herodotus.oss.dialect.core.properties.AbstractOssProperties;
 import cn.herodotus.oss.dialect.core.exception.OssClientPoolErrorException;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;

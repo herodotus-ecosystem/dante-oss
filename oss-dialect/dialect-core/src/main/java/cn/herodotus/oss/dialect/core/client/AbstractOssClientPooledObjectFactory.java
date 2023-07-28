@@ -23,26 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.utils;
+package cn.herodotus.oss.dialect.core.client;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.core.convert.converter.Converter;
-
-import java.util.ArrayList;
-import java.util.List;
+import cn.herodotus.oss.dialect.core.properties.AbstractOssProperties;
+import org.apache.commons.pool2.BasePooledObjectFactory;
+import org.apache.commons.pool2.PooledObject;
+import org.apache.commons.pool2.impl.DefaultPooledObject;
 
 /**
- * <p>Description: 实体转换工具类 </p>
+ * <p>Description: 对象存储 Client 对象池对象工厂抽象定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/15 21:37
+ * @date : 2023/7/23 12:24
  */
-public class ConvertUtils {
+public abstract class AbstractOssClientPooledObjectFactory<T> extends BasePooledObjectFactory<T> {
 
-    public static <T, R> List<R> toDomains(List<T> items, Converter<T, R> toDomain) {
-        if (CollectionUtils.isNotEmpty(items)) {
-            return items.stream().map(toDomain::convert).toList();
-        }
-        return new ArrayList<>();
+    private final AbstractOssProperties ossProperties;
+
+    public AbstractOssClientPooledObjectFactory(AbstractOssProperties ossProperties) {
+        this.ossProperties = ossProperties;
+    }
+
+    public AbstractOssProperties getOssProperties() {
+        return ossProperties;
+    }
+
+    @Override
+    public PooledObject<T> wrap(T obj) {
+        return new DefaultPooledObject<>(obj);
     }
 }

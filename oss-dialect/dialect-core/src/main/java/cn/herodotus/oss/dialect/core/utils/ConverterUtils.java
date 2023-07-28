@@ -23,29 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.definition.service;
+package cn.herodotus.oss.dialect.core.utils;
 
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 对象存储 Service 抽象定义 </p>
+ * <p>Description: 实体转换工具类 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 13:50
+ * @date : 2023/7/15 21:37
  */
-public abstract class BaseOssService<T> {
+public class ConverterUtils {
 
-    private final AbstractOssClientObjectPool<T> ossClientObjectPool;
-
-    public BaseOssService(AbstractOssClientObjectPool<T> ossClientObjectPool) {
-        this.ossClientObjectPool = ossClientObjectPool;
-    }
-
-    protected T getClient() {
-        return ossClientObjectPool.get();
-    }
-
-    protected void close(T client) {
-        ossClientObjectPool.close(client);
+    public static <T, R> List<R> toDomains(List<T> items, Converter<T, R> toDomain) {
+        if (CollectionUtils.isNotEmpty(items)) {
+            return items.stream().map(toDomain::convert).toList();
+        }
+        return new ArrayList<>();
     }
 }

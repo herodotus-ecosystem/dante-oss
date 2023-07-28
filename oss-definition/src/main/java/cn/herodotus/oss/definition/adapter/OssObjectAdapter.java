@@ -23,37 +23,14 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.handler;
-
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.core.definition.handler.OssBucketHandler;
-import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
-import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
-import io.minio.MinioClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+package cn.herodotus.oss.definition.adapter;
 
 /**
- * <p>Description: Minio 兼容模式存储桶操作处理器 </p>
+ * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 19:13
+ * @date : 2023/7/24 16:39
  */
-@Service
-public class MinioBucketHandler extends BaseMinioService implements OssBucketHandler {
+public interface OssObjectAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioBucketHandler.class);
-
-    private final MinioBucketService minioBucketService;
-
-    public MinioBucketHandler(AbstractOssClientObjectPool<MinioClient> ossClientObjectPool, MinioBucketService minioBucketService) {
-        super(ossClientObjectPool);
-        this.minioBucketService = minioBucketService;
-    }
-
-    @Override
-    public boolean doesBucketExist(String bucketName) {
-        return minioBucketService.bucketExists(bucketName);
-    }
 }

@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.minio.properties;
 
 import cn.herodotus.oss.dialect.core.constants.OssConstants;
-import cn.herodotus.oss.dialect.core.definition.properties.AbstractOssProperties;
+import cn.herodotus.oss.dialect.core.properties.AbstractOssProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

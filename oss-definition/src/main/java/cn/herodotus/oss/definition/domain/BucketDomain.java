@@ -23,22 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.domain;
+package cn.herodotus.oss.definition.domain;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
+import cn.herodotus.oss.definition.domain.base.OssDomain;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.Date;
 
 /**
- * <p>Description: Minio Bucket 可序列化实体 </p>
+ * <p>Description: 统一存储桶域对象定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/1 22:59
+ * @date : 2023/7/27 15:44
  */
-public class BucketDomain implements Entity {
+@Schema(name = "存储桶")
+public class BucketDomain implements OssDomain {
 
+    /**
+     * 存储桶名称
+     */
+    @Schema(name = "存储桶名称")
     private String name;
 
-    private String creationDate;
+    /**
+     * 存储桶所有者信息
+     */
+    @Schema(name = "存储桶所有者信息", description = "Minio listBuckets API 返回的 Bucket 信息中不包含 Owner 信息")
+    private OwnerDomain owner;
+
+    /**
+     * 存储桶创建时间
+     */
+    @Schema(name = "存储桶创建时间")
+    @JsonFormat(pattern = DefaultConstants.DATE_TIME_FORMAT)
+    private Date creationDate;
 
     public String getName() {
         return name;
@@ -48,11 +69,19 @@ public class BucketDomain implements Entity {
         this.name = name;
     }
 
-    public String getCreationDate() {
+    public OwnerDomain getOwner() {
+        return owner;
+    }
+
+    public void setOwner(OwnerDomain owner) {
+        this.owner = owner;
+    }
+
+    public Date getCreationDate() {
         return creationDate;
     }
 
-    public void setCreationDate(String creationDate) {
+    public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }
 
@@ -60,6 +89,7 @@ public class BucketDomain implements Entity {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("name", name)
+                .add("owner", owner)
                 .add("creationDate", creationDate)
                 .toString();
     }

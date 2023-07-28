@@ -32,7 +32,7 @@
     <parent>
         <groupId>cn.herodotus.engine</groupId>
         <artifactId>dependencies</artifactId>
-        <version>3.1.2.0</version>
+        <version>3.1.2.1</version>
         <relativePath/>
     </parent>
 
@@ -74,6 +74,11 @@
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>oss-definition</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
                 <artifactId>dialect-core</artifactId>

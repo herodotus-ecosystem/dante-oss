@@ -26,17 +26,11 @@
 package cn.herodotus.oss.rest.minio.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.dialect.minio.converter.BucketToDomainConverter;
-import cn.herodotus.oss.dialect.minio.domain.BucketDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
-import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
-import cn.herodotus.oss.rest.minio.request.bucket.ListBucketsRequest;
 import cn.herodotus.oss.rest.minio.request.bucket.MakeBucketRequest;
 import cn.herodotus.oss.rest.minio.request.bucket.RemoveBucketRequest;
-import io.minio.messages.Bucket;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -45,11 +39,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>Description: Minio 对象存储 Bucket 管理接口 </p>
@@ -70,26 +61,6 @@ public class MinioBucketController implements Controller {
 
     public MinioBucketController(MinioBucketService minioBucketService) {
         this.minioBucketService = minioBucketService;
-    }
-
-    @AccessLimited
-    @Operation(summary = "获取全部存储桶(Bucket)", description = "获取全部存储桶(Bucket)",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
-            responses = {
-                    @ApiResponse(description = "所有Buckets", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
-                    @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
-                    @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
-                    @ApiResponse(responseCode = "500", description = "查询失败"),
-                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
-            })
-    @Parameters({
-            @Parameter(name = "request", required = true, description = "ListBucketsRequest请求参数对象", schema = @Schema(implementation = ListBucketsRequest.class))
-    })
-    @GetMapping("/list")
-    public Result<List<BucketDomain>> list(ListBucketsRequest request) {
-        List<Bucket> buckets = minioBucketService.listBuckets(ObjectUtils.isNotEmpty(request) ? request.build() : null);
-        List<BucketDomain> domains = ConverterUtils.toDomains(buckets, new BucketToDomainConverter());
-        return result(domains);
     }
 
     @Idempotent

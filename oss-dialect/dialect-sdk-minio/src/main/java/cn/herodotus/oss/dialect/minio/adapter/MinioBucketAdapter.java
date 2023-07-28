@@ -23,51 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.handler;
+package cn.herodotus.oss.dialect.minio.adapter;
 
-import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
-import cn.herodotus.oss.dialect.core.definition.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.core.definition.handler.OssBucketHandler;
-import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
-import cn.herodotus.oss.dialect.core.exception.OssServerException;
-import com.aliyun.oss.ClientException;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSException;
+import cn.herodotus.oss.definition.domain.BucketDomain;
+import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.dialect.minio.converter.MinioBucketToDomainConverter;
+import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
+import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
+import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
+import io.minio.MinioClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
- * <p>Description: Aliyun 兼容模式存储桶操作处理器 </p>
+ * <p>Description: Minio 兼容模式存储桶操作处理器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 19:15
+ * @date : 2023/7/24 19:13
  */
 @Service
-public class AliyunBucketHandler extends BaseAliyunService implements OssBucketHandler {
+public class MinioBucketAdapter extends BaseMinioService implements OssBucketAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(MinioBucketAdapter.class);
 
-    public AliyunBucketHandler(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    private final MinioBucketService minioBucketService;
+
+    public MinioBucketAdapter(AbstractOssClientObjectPool<MinioClient> ossClientObjectPool, MinioBucketService minioBucketService) {
         super(ossClientObjectPool);
+        this.minioBucketService = minioBucketService;
     }
 
     @Override
     public boolean doesBucketExist(String bucketName) {
-        String function = "Aliyun doesBucketExist";
+        return minioBucketService.bucketExists(bucketName);
+    }
 
-        OSS client = getClient();
-
-        try {
-            return client.doesBucketExist(bucketName);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
-        }
+    @Override
+    public List<BucketDomain> listBuckets() {
+        return ConverterUtils.toDomains(minioBucketService.listBuckets(), new MinioBucketToDomainConverter());
     }
 }

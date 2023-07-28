@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.aliyun.properties;
 
 import cn.herodotus.oss.dialect.core.constants.OssConstants;
-import cn.herodotus.oss.dialect.core.definition.properties.AbstractOssProperties;
+import cn.herodotus.oss.dialect.core.properties.AbstractOssProperties;
 import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

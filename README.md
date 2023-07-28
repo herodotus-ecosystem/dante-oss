@@ -87,6 +87,7 @@ Dante OSS 最初的设计目标，是深度封装 Minio Java SDK，可以更方�
 ```
 dante-oss
 ├── oss-bom -- Dante OSS 顶级 Maven 依赖，统一控制依赖及其版本
+├── oss-definition -- OSS 抽象定义
 ├── oss-dialect -- 不同厂商 OSS 实现。
 ├    ├── dialect-core -- 不同厂商 OSS 实现通用代码模块
 ├    ├── dialect-sdk-aliyun -- Aliyun OSS Java SDK 封装代码模块
@@ -161,7 +162,7 @@ if (ex instanceof HerodotusException exception) {
 
 ### 二、选择使用
 
-除了 `dialect-core` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
+除了 `dialect-core` 和 `oss-definition` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
 
 #### 1. dialect-sdk-aliyun
 
