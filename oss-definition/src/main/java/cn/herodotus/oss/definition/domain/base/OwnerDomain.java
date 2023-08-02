@@ -23,74 +23,54 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain;
+package cn.herodotus.oss.definition.domain.base;
 
-import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
 import cn.herodotus.oss.definition.domain.base.OssDomain;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.Date;
-
 /**
- * <p>Description: 统一存储桶域对象定义 </p>
+ * <p>Description: 统一所有者域对象定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:44
+ * @date : 2023/7/27 15:43
  */
-@Schema(name = "存储桶")
-public class BucketDomain implements OssDomain {
+@Schema(title = "所有者")
+public class OwnerDomain implements OssDomain {
 
     /**
-     * 存储桶名称
+     * 所有者 ID
      */
-    @Schema(name = "存储桶名称")
-    private String name;
+    @Schema(name = "所有者 ID")
+    private String id;
 
     /**
-     * 存储桶所有者信息
+     * 所有者显示名称
      */
-    @Schema(name = "存储桶所有者信息", description = "Minio listBuckets API 返回的 Bucket 信息中不包含 Owner 信息")
-    private OwnerDomain owner;
+    @Schema(name = "所有者显示名称")
+    private String displayName;
 
-    /**
-     * 存储桶创建时间
-     */
-    @Schema(name = "存储桶创建时间")
-    @JsonFormat(pattern = DefaultConstants.DATE_TIME_FORMAT)
-    private Date creationDate;
-
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public OwnerDomain getOwner() {
-        return owner;
+    public String getDisplayName() {
+        return displayName;
     }
 
-    public void setOwner(OwnerDomain owner) {
-        this.owner = owner;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("name", name)
-                .add("owner", owner)
-                .add("creationDate", creationDate)
+                .add("id", id)
+                .add("displayName", displayName)
                 .toString();
     }
 }

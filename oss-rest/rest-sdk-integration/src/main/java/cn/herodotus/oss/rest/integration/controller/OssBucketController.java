@@ -32,7 +32,7 @@ import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.definition.domain.BucketDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

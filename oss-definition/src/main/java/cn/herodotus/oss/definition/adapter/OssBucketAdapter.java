@@ -27,7 +27,7 @@ package cn.herodotus.oss.definition.adapter;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.definition.domain.BucketDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 
 import java.util.List;
 

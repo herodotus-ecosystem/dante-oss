@@ -27,7 +27,7 @@ package cn.herodotus.oss.dialect.s3.adapter;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.definition.domain.BucketDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
