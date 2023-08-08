@@ -23,34 +23,48 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.definition.domain.object;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import io.minio.messages.Bucket;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.domain.base.OssDomain;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 
 import java.util.Date;
-import java.util.Optional;
 
 /**
- * <p>Description: Bucket 转 BucketDomain 转换器 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 10:11
+ * @date : 2023/7/28 22:46
  */
-public class MinioBucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+public class ObjectDomain implements OssDomain {
 
-    @Override
-    public BucketDomain convert(Bucket source) {
+    /**
+     * 存储桶名称
+     */
+    protected String bucketName;
+    /**
+     * 存储此对象的密钥
+     */
+    protected String key;
+    /**
+     * ETag。此对象内容的十六进制编码MD5哈希
+     */
+    protected String eTag;
+    /**
+     * 此对象的大小，以字节为单位
+     */
+    protected long size;
+    /**
+     * 对象最后一次被修改的日期
+     */
+    protected Date lastModified;
+    /**
+     * 存储此对象的存储类
+     */
+    protected String storageClass;
+    /**
+     * 如果请求者没有查看对象所有权信息的权限，则此对象的所有者可以为null
+     */
+    protected OwnerDomain owner;
 
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-            BucketDomain domain = new BucketDomain();
-            domain.setName(bucket.name());
-            Optional.ofNullable(bucket.creationDate()).ifPresent(zonedDateTime ->
-                    domain.setCreationDate(new Date(zonedDateTime.toInstant().toEpochMilli()))
-            );
-            return domain;
-        }).orElse(null);
-    }
 }

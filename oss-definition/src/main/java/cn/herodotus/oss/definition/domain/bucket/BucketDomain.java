@@ -23,10 +23,11 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain;
+package cn.herodotus.oss.definition.domain.bucket;
 
 import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
 import cn.herodotus.oss.definition.domain.base.OssDomain;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;

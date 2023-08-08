@@ -31,17 +31,22 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>dante-oss</artifactId>
-        <version>1.2.0</version>
+        <version>1.2.1</version>
     </parent>
 
     <artifactId>oss-definition</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.engine</groupId>
             <artifactId>assistant-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>data-core</artifactId>
         </dependency>
     </dependencies>
 

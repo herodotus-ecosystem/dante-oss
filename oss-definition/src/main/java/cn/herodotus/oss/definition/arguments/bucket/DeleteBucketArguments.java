@@ -23,34 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.definition.arguments.bucket;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import io.minio.messages.Bucket;
-import org.springframework.core.convert.converter.Converter;
-
-import java.util.Date;
-import java.util.Optional;
+import cn.herodotus.oss.definition.arguments.base.BaseBucketArguments;
 
 /**
- * <p>Description: Bucket 转 BucketDomain 转换器 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 10:11
+ * @date : 2023/7/28 19:48
  */
-public class MinioBucketToDomainConverter implements Converter<Bucket, BucketDomain> {
-
-    @Override
-    public BucketDomain convert(Bucket source) {
-
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-            BucketDomain domain = new BucketDomain();
-            domain.setName(bucket.name());
-            Optional.ofNullable(bucket.creationDate()).ifPresent(zonedDateTime ->
-                    domain.setCreationDate(new Date(zonedDateTime.toInstant().toEpochMilli()))
-            );
-            return domain;
-        }).orElse(null);
-    }
+public class DeleteBucketArguments extends BaseBucketArguments {
 }

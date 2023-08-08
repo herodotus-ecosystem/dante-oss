@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter;
 
-import cn.herodotus.oss.definition.domain.BucketDomain;
-import cn.herodotus.oss.definition.domain.OwnerDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 import com.aliyun.oss.model.Bucket;
 import org.springframework.core.convert.converter.Converter;
 

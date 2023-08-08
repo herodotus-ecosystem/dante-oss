@@ -45,4 +45,8 @@ public class ConverterUtils {
         }
         return new ArrayList<>();
     }
+
+    public static <T, R> R toDomain(T object, Converter<T, R> toDomain) {
+        return toDomain.convert(object);
+    }
 }

@@ -25,7 +25,9 @@
 
 package cn.herodotus.oss.definition.adapter;
 
-import cn.herodotus.oss.definition.domain.BucketDomain;
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 
 import java.util.List;
 
@@ -47,7 +49,46 @@ public interface OssBucketAdapter {
 
     /**
      * 返回当前帐户的所有存储桶实例列表
+     *
      * @return 存储桶 {@link BucketDomain} 列表
      */
     List<BucketDomain> listBuckets();
+
+    /**
+     * 创建存储桶实例
+     * <p>
+     * 说明：Minio 的 createBucket 方法没有返回值
+     *
+     * @param bucketName 存储桶名称
+     * @return 存储桶信息 {@link BucketDomain}
+     */
+    BucketDomain createBucket(String bucketName);
+
+    /**
+     * 创建存储桶实例
+     * <p>
+     * 说明：Minio 的 createBucket 方法没有返回值
+     *
+     * @param arguments 参数实体 {@link CreateBucketArguments}
+     * @return 存储桶信息 {@link BucketDomain}
+     */
+    BucketDomain createBucket(CreateBucketArguments arguments);
+
+    /**
+     * 删除存储桶实例
+     * <p>
+     * 说明：Aliyun 的 deleteBucket 方法会返回一个 VoidResult。目前用不到，等用到时再重构
+     *
+     * @param bucketName 存储桶名称
+     */
+    void deleteBucket(String bucketName);
+
+    /**
+     * 删除存储桶实例
+     * <p>
+     * 说明：Aliyun 的 deleteBucket 方法会返回一个 VoidResult。目前用不到，等用到时再重构
+     *
+     * @param arguments 参数实体 {@link DeleteBucketArguments}
+     */
+    void deleteBucket(DeleteBucketArguments arguments);
 }

@@ -23,22 +23,35 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.bucket;
+package cn.herodotus.oss.dialect.s3.converter;
 
-import cn.herodotus.oss.rest.minio.definition.BucketRequest;
-import io.minio.BucketExistsArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
+import com.amazonaws.services.s3.model.CreateBucketRequest;
+import com.amazonaws.services.s3.model.DeleteBucketRequest;
+import org.apache.commons.collections4.MapUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 检查桶是否存在参数实体 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/1 23:46
+ * @date : 2023/7/28 19:59
  */
-@Schema(name = "检查桶是否存在参数实体", title = "检查桶是否存在参数实体")
-public class BucketExistsRequest extends BucketRequest<BucketExistsArgs.Builder, BucketExistsArgs> {
+public class S3ArgumentsToDeleteBucketRequestConverter implements Converter<DeleteBucketArguments, DeleteBucketRequest> {
     @Override
-    public BucketExistsArgs.Builder getBuilder() {
-        return BucketExistsArgs.builder();
+    public DeleteBucketRequest convert(DeleteBucketArguments source) {
+
+        DeleteBucketRequest request = new DeleteBucketRequest(source.getBucketName());
+
+        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
+            source.getExtraHeaders().entrySet().forEach((entry -> request.putCustomRequestHeader(entry.getKey(), entry.getValue())));
+        }
+
+        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
+            source.getExtraQueryParams().entrySet().forEach((entry -> request.putCustomQueryParameter(entry.getKey(), entry.getValue())));
+        }
+
+        return request;
     }
 }

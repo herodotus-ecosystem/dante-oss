@@ -25,11 +25,9 @@
 
 package cn.herodotus.oss.dialect.s3.converter;
 
-import cn.herodotus.oss.definition.domain.BucketDomain;
-import cn.herodotus.oss.definition.domain.OwnerDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 import com.amazonaws.services.s3.model.Bucket;
-import com.amazonaws.services.s3.model.Owner;
-import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
 import java.util.Optional;

@@ -23,34 +23,40 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import io.minio.messages.Bucket;
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import io.minio.MakeBucketArgs;
+import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.Date;
-import java.util.Optional;
-
 /**
- * <p>Description: Bucket 转 BucketDomain 转换器 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 10:11
+ * @date : 2023/7/28 18:21
  */
-public class MinioBucketToDomainConverter implements Converter<Bucket, BucketDomain> {
-
+public class MinioArgumentsToMakeBucketArgsConverter implements Converter<CreateBucketArguments, MakeBucketArgs> {
     @Override
-    public BucketDomain convert(Bucket source) {
+    public MakeBucketArgs convert(CreateBucketArguments source) {
 
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-            BucketDomain domain = new BucketDomain();
-            domain.setName(bucket.name());
-            Optional.ofNullable(bucket.creationDate()).ifPresent(zonedDateTime ->
-                    domain.setCreationDate(new Date(zonedDateTime.toInstant().toEpochMilli()))
-            );
-            return domain;
-        }).orElse(null);
+        MakeBucketArgs.Builder builder = MakeBucketArgs.builder();
+
+        builder.bucket(source.getBucketName());
+
+        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
+            builder.extraHeaders(source.getExtraHeaders());
+        }
+
+        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
+            builder.extraHeaders(source.getExtraQueryParams());
+        }
+
+        if (ObjectUtils.isNotEmpty(source.getObjectLock())) {
+            builder.objectLock(source.getObjectLock());
+        }
+
+        return builder.build();
     }
 }

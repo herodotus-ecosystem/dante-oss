@@ -23,34 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.dialect.aliyun.converter;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import io.minio.messages.Bucket;
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import com.aliyun.oss.model.CreateBucketRequest;
+import org.apache.commons.collections4.MapUtils;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.Date;
-import java.util.Optional;
-
 /**
- * <p>Description: Bucket 转 BucketDomain 转换器 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 10:11
+ * @date : 2023/7/28 18:35
  */
-public class MinioBucketToDomainConverter implements Converter<Bucket, BucketDomain> {
-
+public class AliyunArgumentsToCreateBucketRequestConverter implements Converter<CreateBucketArguments, CreateBucketRequest> {
     @Override
-    public BucketDomain convert(Bucket source) {
+    public CreateBucketRequest convert(CreateBucketArguments source) {
 
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-            BucketDomain domain = new BucketDomain();
-            domain.setName(bucket.name());
-            Optional.ofNullable(bucket.creationDate()).ifPresent(zonedDateTime ->
-                    domain.setCreationDate(new Date(zonedDateTime.toInstant().toEpochMilli()))
-            );
-            return domain;
-        }).orElse(null);
+        CreateBucketRequest request = new CreateBucketRequest(source.getBucketName());
+
+        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
+            request.setHeaders(source.getExtraHeaders());
+        }
+
+        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
+            request.setParameters(source.getExtraQueryParams());
+        }
+
+        return request;
     }
 }

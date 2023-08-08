@@ -23,54 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain;
+package cn.herodotus.oss.definition.arguments.bucket;
 
-import cn.herodotus.oss.definition.domain.base.OssDomain;
-import com.google.common.base.MoreObjects;
+import cn.herodotus.oss.definition.arguments.base.BaseBucketArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 统一所有者域对象定义 </p>
+ * <p>Description: 创建存储桶请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:43
+ * @date : 2023/7/28 18:12
  */
-@Schema(title = "所有者")
-public class OwnerDomain implements OssDomain {
+@Schema(name = "创建存储桶请求参数实体", title = "创建存储桶请求参数实体")
+public class CreateBucketArguments extends BaseBucketArguments {
 
-    /**
-     * 所有者 ID
-     */
-    @Schema(name = "所有者 ID")
-    private String id;
+    @Schema(name = "开启对象锁定", description = "仅在Minio环境下使用")
+    private Boolean objectLock;
 
-    /**
-     * 所有者显示名称
-     */
-    @Schema(name = "所有者显示名称")
-    private String displayName;
-
-    public String getId() {
-        return id;
+    public Boolean getObjectLock() {
+        return objectLock;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("displayName", displayName)
-                .toString();
+    public void setObjectLock(Boolean objectLock) {
+        this.objectLock = objectLock;
     }
 }
