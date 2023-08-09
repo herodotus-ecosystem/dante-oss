@@ -54,6 +54,9 @@ public class S3BucketToDomainConverter implements Converter<Bucket, BucketDomain
                 bucketDomain.setOwner(ownerDomain);
             });
 
+            bucketDomain.setName(bucket.getName());
+            bucketDomain.setCreationDate(bucket.getCreationDate());
+
             return bucketDomain;
         }).orElse(null);
     }

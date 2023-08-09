@@ -54,6 +54,9 @@ public class AliyunBucketToDomainConverter implements Converter<Bucket, BucketDo
                 bucketDomain.setOwner(ownerDomain);
             });
 
+            bucketDomain.setName(bucket.getName());
+            bucketDomain.setCreationDate(bucket.getCreationDate());
+
             return bucketDomain;
         }).orElse(null);
     }

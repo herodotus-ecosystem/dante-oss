@@ -44,10 +44,10 @@ public abstract class BaseBucketArguments extends BaseOssArguments {
     @Length(min = 3, max = 62, message = "存储桶名称不能少于3个字符，不能大于63个字符")
     @Pattern(regexp = RegexPool.DNS_COMPATIBLE, message = "存储桶名称无法与DNS兼容")
     private String bucketName;
-    @Schema(name = "存储区域", description = "仅在Minio环境下使用")
+    @Schema(name = "存储区域", description = "仅在Minio环境下使用，Amazon S3 已废弃")
     private String region;
 
-    @Schema(name = "存储区域", description = "仅在Minio环境下使用")
+    @Schema(name = "Key", description = "目前已知仅Aliyun环境下在使用")
     private String key;
 
     public String getBucketName() {
@@ -64,5 +64,13 @@ public abstract class BaseBucketArguments extends BaseOssArguments {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 }
