@@ -44,8 +44,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.apache.commons.collections4.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -68,8 +66,6 @@ import java.util.List;
         @Tag(name = "Minio 对象存储Object管理接口")
 })
 public class MinioObjectController implements Controller {
-
-    private static final Logger log = LoggerFactory.getLogger(MinioObjectController.class);
 
     private final MinioObjectService minioObjectService;
 
