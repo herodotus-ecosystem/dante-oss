@@ -51,7 +51,7 @@ public class ObjectSummaryToDomainConverter implements Converter<OSSObjectSummar
 
         ObjectDomain objectDomain = new ObjectDomain();
         objectDomain.setBucketName(source.getBucketName());
-        objectDomain.setKey(source.getKey());
+        objectDomain.setObjectName(source.getKey());
         objectDomain.setETag(source.getETag());
         objectDomain.setSize(source.getSize());
         objectDomain.setLastModified(source.getLastModified());

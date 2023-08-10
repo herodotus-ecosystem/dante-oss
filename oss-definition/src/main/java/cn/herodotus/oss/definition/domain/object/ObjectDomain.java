@@ -49,7 +49,7 @@ public class ObjectDomain implements OssDomain {
      * 存储此对象的密钥
      */
     @Schema(name = "存储此对象的密钥")
-    private String key;
+    private String objectName;
     /**
      * ETag。此对象内容的十六进制编码MD5哈希
      */
@@ -87,12 +87,12 @@ public class ObjectDomain implements OssDomain {
         this.bucketName = bucketName;
     }
 
-    public String getKey() {
-        return key;
+    public String getObjectName() {
+        return objectName;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
     }
 
     public String getETag() {

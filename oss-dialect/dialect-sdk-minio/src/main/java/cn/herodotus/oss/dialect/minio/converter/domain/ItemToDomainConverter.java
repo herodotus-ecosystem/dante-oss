@@ -66,7 +66,7 @@ public class ItemToDomainConverter implements Converter<Result<Item>, ObjectDoma
             Item item = result.get();
             ObjectDomain objectDomain = new ObjectDomain();
             objectDomain.setBucketName(bucketName);
-            objectDomain.setKey(item.objectName());
+            objectDomain.setObjectName(item.objectName());
             objectDomain.setDir(item.isDir());
             if (!item.isDir()) {
                 objectDomain.setETag(item.etag());
