@@ -23,41 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.arguments.base.BucketArguments;
+import com.amazonaws.AmazonWebServiceRequest;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
+ * <p>Description: 统一定义存储桶请求参数转换为 S3 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 16:39
+ * @date : 2023/8/10 15:37
  */
-public interface OssObjectAdapter {
-
-    /**
-     * 根据存储桶名称获取对象列表
-     *
-     * @param bucketName 存储桶名称
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName);
-
-    /**
-     * 根据存储桶名称和前缀获取对象列表
-     *
-     * @param bucketName 存储桶名
-     * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName, String prefix);
-
-    /**
-     * 获取对象列表
-     *
-     * @param arguments 对象列表请求参数 {@link ListObjectsArguments}
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(ListObjectsArguments arguments);
+public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends AmazonWebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
 }

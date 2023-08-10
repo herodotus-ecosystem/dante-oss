@@ -23,40 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.definition.arguments.base;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import io.minio.MakeBucketArgs;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 对象存储统一定义请求参数 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:21
+ * @date : 2023/8/9 22:53
  */
-public class MinioArgumentsToMakeBucketArgsConverter implements Converter<CreateBucketArguments, MakeBucketArgs> {
-    @Override
-    public MakeBucketArgs convert(CreateBucketArguments source) {
-
-        MakeBucketArgs.Builder builder = MakeBucketArgs.builder();
-
-        builder.bucket(source.getBucketName());
-
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            builder.extraHeaders(source.getExtraHeaders());
-        }
-
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            builder.extraHeaders(source.getExtraQueryParams());
-        }
-
-        if (ObjectUtils.isNotEmpty(source.getObjectLock())) {
-            builder.objectLock(source.getObjectLock());
-        }
-
-        return builder.build();
-    }
+public interface OssArguments extends Entity {
 }

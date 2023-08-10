@@ -23,38 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import io.minio.MakeBucketArgs;
-import io.minio.RemoveBucketArgs;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import com.aliyun.oss.model.ListObjectsRequest;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 统一定义 ListObjectsArguments 转 S3 ListObjectsRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:21
+ * @date : 2023/8/10 19:31
  */
-public class MinioArgumentsToRemoveBucketArgsConverter implements Converter<DeleteBucketArguments, RemoveBucketArgs> {
+public class ArgumentsToListObjectsRequestConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsRequest> {
+
     @Override
-    public RemoveBucketArgs convert(DeleteBucketArguments source) {
-
-        RemoveBucketArgs.Builder builder = RemoveBucketArgs.builder();
-
-        builder.bucket(source.getBucketName());
-
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            builder.extraHeaders(source.getExtraHeaders());
-        }
-
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            builder.extraHeaders(source.getExtraQueryParams());
-        }
-
-        return builder.build();
+    public ListObjectsRequest getRequest(ListObjectsArguments arguments) {
+        return new ListObjectsRequest(arguments.getBucketName(), arguments.getPrefix(), arguments.getMarker(), arguments.getDelimiter(), arguments.getMaxKeys());
     }
 }

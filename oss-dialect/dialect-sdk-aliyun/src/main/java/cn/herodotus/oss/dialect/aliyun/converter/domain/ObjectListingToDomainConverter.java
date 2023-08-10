@@ -23,33 +23,39 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import com.aliyun.oss.model.CreateBucketRequest;
-import org.apache.commons.collections4.MapUtils;
+import cn.herodotus.oss.definition.domain.object.ObjectDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
+import com.aliyun.oss.model.ObjectListing;
 import org.springframework.core.convert.converter.Converter;
 
+import java.util.List;
+
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Aliyun ObjectListing 转 ObjectListingDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:35
+ * @date : 2023/8/10 19:35
  */
-public class AliyunArgumentsToCreateBucketRequestConverter implements Converter<CreateBucketArguments, CreateBucketRequest> {
+public class ObjectListingToDomainConverter implements Converter<ObjectListing, ObjectListingDomain> {
     @Override
-    public CreateBucketRequest convert(CreateBucketArguments source) {
+    public ObjectListingDomain convert(ObjectListing source) {
 
-        CreateBucketRequest request = new CreateBucketRequest(source.getBucketName());
+        List<ObjectDomain> summaries = ConverterUtils.toDomains(source.getObjectSummaries(), new ObjectSummaryToDomainConverter(source.getDelimiter()));
 
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            request.setHeaders(source.getExtraHeaders());
-        }
+        ObjectListingDomain domain = new ObjectListingDomain();
+        domain.setSummaries(summaries);
+        domain.setNextMarker(source.getNextMarker());
+        domain.setTruncated(source.isTruncated());
+        domain.setPrefix(source.getPrefix());
+        domain.setMarker(source.getMarker());
+        domain.setDelimiter(source.getDelimiter());
+        domain.setMaxKeys(source.getMaxKeys());
+        domain.setEncodingType(source.getEncodingType());
+        domain.setBucketName(source.getBucketName());
 
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            request.setParameters(source.getExtraQueryParams());
-        }
-
-        return request;
+        return domain;
     }
 }

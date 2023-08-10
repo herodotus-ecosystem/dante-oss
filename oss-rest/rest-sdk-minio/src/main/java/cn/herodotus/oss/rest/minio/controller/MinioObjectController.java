@@ -26,20 +26,15 @@
 package cn.herodotus.oss.rest.minio.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
-import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.dialect.minio.converter.ResultDeleteErrorToDomainConverter;
-import cn.herodotus.oss.dialect.minio.converter.ResultItemToDomainConverter;
 import cn.herodotus.oss.dialect.minio.domain.DeleteErrorDomain;
-import cn.herodotus.oss.dialect.minio.domain.ObjectDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
-import cn.herodotus.oss.rest.minio.request.object.ListObjectsRequest;
 import cn.herodotus.oss.rest.minio.request.object.RemoveObjectRequest;
 import cn.herodotus.oss.rest.minio.request.object.RemoveObjectsRequest;
 import io.minio.messages.DeleteError;
-import io.minio.messages.Item;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -52,7 +47,10 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -77,26 +75,6 @@ public class MinioObjectController implements Controller {
 
     public MinioObjectController(MinioObjectService minioObjectService) {
         this.minioObjectService = minioObjectService;
-    }
-
-    @AccessLimited
-    @Operation(summary = "获取对象列表", description = "获取对象列表",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
-            responses = {
-                    @ApiResponse(description = "所有对象", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
-                    @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
-                    @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
-                    @ApiResponse(responseCode = "500", description = "查询失败"),
-                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
-            })
-    @Parameters({
-            @Parameter(name = "request", required = true, description = "ListObjectsRequest参数实体", schema = @Schema(implementation = ListObjectsRequest.class))
-    })
-    @GetMapping("/list")
-    public Result<List<ObjectDomain>> list(@Validated ListObjectsRequest request) {
-        Iterable<io.minio.Result<Item>> items = minioObjectService.listObjects(request.build());
-        List<ObjectDomain> domains = ConverterUtils.toDomains(items, new ResultItemToDomainConverter());
-        return result(domains);
     }
 
     @Idempotent

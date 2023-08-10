@@ -23,41 +23,58 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.definition.domain.object;
 
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.List;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
+ * <p>Description: 对象结果 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 16:39
+ * @date : 2023/8/9 16:36
  */
-public interface OssObjectAdapter {
+@Schema(name = "对象结果")
+public class ObjectListingDomain extends ListObjectsArguments {
+
+    @Schema(name = "对象列表")
+    private List<ObjectDomain> summaries;
 
     /**
-     * 根据存储桶名称获取对象列表
-     *
-     * @param bucketName 存储桶名称
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * 用于请求下一页结果的标记-仅当isTruncated成员指示此对象列表被截断时才会填充
      */
-    ObjectListingDomain listObjects(String bucketName);
+    @Schema(name = "请求下一页结果的标记", description = "仅当isTruncated成员指示此对象列表被截断时才会填充")
+    private String nextMarker;
 
     /**
-     * 根据存储桶名称和前缀获取对象列表
-     *
-     * @param bucketName 存储桶名
-     * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * 指示这是否是一个完整的列表，或者调用者是否需要向AmazonS3发出额外请求以查看S3 bucket的完整对象列表
      */
-    ObjectListingDomain listObjects(String bucketName, String prefix);
+    @Schema(name = "否是一个完整的列表")
+    private Boolean isTruncated;
 
-    /**
-     * 获取对象列表
-     *
-     * @param arguments 对象列表请求参数 {@link ListObjectsArguments}
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(ListObjectsArguments arguments);
+    public List<ObjectDomain> getSummaries() {
+        return summaries;
+    }
+
+    public void setSummaries(List<ObjectDomain> summaries) {
+        this.summaries = summaries;
+    }
+
+    public String getNextMarker() {
+        return nextMarker;
+    }
+
+    public void setNextMarker(String nextMarker) {
+        this.nextMarker = nextMarker;
+    }
+
+    public Boolean getTruncated() {
+        return isTruncated;
+    }
+
+    public void setTruncated(Boolean truncated) {
+        isTruncated = truncated;
+    }
 }

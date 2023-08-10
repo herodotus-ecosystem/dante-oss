@@ -23,41 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter;
+package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
-import com.aliyun.oss.model.Bucket;
-import org.springframework.core.convert.converter.Converter;
-
-import java.util.Optional;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
 
 /**
- * <p>Description: Aliyun Bucket 转 BucketDomain 转换器  </p>
+ * <p>Description: 统一定义 ListObjectsArguments 转 S3 ListObjectsRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 16:29
+ * @date : 2023/8/10 19:31
  */
-public class AliyunBucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+public class ArgumentsToListObjectsRequestConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsRequest> {
+
     @Override
-    public BucketDomain convert(Bucket source) {
-
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-
-            BucketDomain bucketDomain = new BucketDomain();
-
-            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-                OwnerDomain ownerDomain = new OwnerDomain();
-                ownerDomain.setId(bucket.getOwner().getId());
-                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
-                bucketDomain.setOwner(ownerDomain);
-            });
-
-            bucketDomain.setName(bucket.getName());
-            bucketDomain.setCreationDate(bucket.getCreationDate());
-
-            return bucketDomain;
-        }).orElse(null);
+    public ListObjectsRequest getRequest(ListObjectsArguments arguments) {
+        return new ListObjectsRequest(arguments.getBucketName(), arguments.getPrefix(), arguments.getMarker(), arguments.getDelimiter(), arguments.getMaxKeys());
     }
 }

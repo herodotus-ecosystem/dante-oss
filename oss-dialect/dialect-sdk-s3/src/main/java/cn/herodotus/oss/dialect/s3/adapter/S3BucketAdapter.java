@@ -25,16 +25,16 @@
 
 package cn.herodotus.oss.dialect.s3.adapter;
 
+import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
-import cn.herodotus.oss.dialect.s3.converter.S3ArgumentsToCreateBucketRequestConverter;
-import cn.herodotus.oss.dialect.s3.converter.S3ArgumentsToDeleteBucketRequestConverter;
-import cn.herodotus.oss.dialect.s3.converter.S3BucketToDomainConverter;
+import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToCreateBucketRequestConverter;
+import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToDeleteBucketRequestConverter;
+import cn.herodotus.oss.dialect.s3.converter.domain.BucketToDomainConverter;
 import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
@@ -83,7 +83,7 @@ public class S3BucketAdapter extends BaseS3Service implements OssBucketAdapter {
 
         AmazonS3 client = getClient();
         try {
-            return ConverterUtils.toDomains(client.listBuckets(), new S3BucketToDomainConverter());
+            return ConverterUtils.toDomains(client.listBuckets(), new BucketToDomainConverter());
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -98,7 +98,7 @@ public class S3BucketAdapter extends BaseS3Service implements OssBucketAdapter {
 
         AmazonS3 client = getClient();
         try {
-            return ConverterUtils.toDomain(client.createBucket(bucketName), new S3BucketToDomainConverter());
+            return ConverterUtils.toDomain(client.createBucket(bucketName), new BucketToDomainConverter());
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -113,8 +113,8 @@ public class S3BucketAdapter extends BaseS3Service implements OssBucketAdapter {
 
         AmazonS3 client = getClient();
         try {
-            Converter<CreateBucketArguments, CreateBucketRequest> toRequest = new S3ArgumentsToCreateBucketRequestConverter();
-            return ConverterUtils.toDomain(client.createBucket(toRequest.convert(arguments)), new S3BucketToDomainConverter());
+            Converter<CreateBucketArguments, CreateBucketRequest> toRequest = new ArgumentsToCreateBucketRequestConverter();
+            return ConverterUtils.toDomain(client.createBucket(toRequest.convert(arguments)), new BucketToDomainConverter());
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -145,7 +145,7 @@ public class S3BucketAdapter extends BaseS3Service implements OssBucketAdapter {
         AmazonS3 client = getClient();
 
         try {
-            Converter<DeleteBucketArguments, DeleteBucketRequest> toRequest = new S3ArgumentsToDeleteBucketRequestConverter();
+            Converter<DeleteBucketArguments, DeleteBucketRequest> toRequest = new ArgumentsToDeleteBucketRequestConverter();
             client.deleteBucket(toRequest.convert(arguments));
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);

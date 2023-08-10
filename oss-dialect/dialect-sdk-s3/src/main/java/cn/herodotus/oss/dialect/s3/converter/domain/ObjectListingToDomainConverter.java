@@ -23,41 +23,39 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.domain.object.ObjectDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
+import com.amazonaws.services.s3.model.ObjectListing;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.List;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
+ * <p>Description: ObjectListing 转 ObjectListingDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 16:39
+ * @date : 2023/8/10 19:35
  */
-public interface OssObjectAdapter {
+public class ObjectListingToDomainConverter implements Converter<ObjectListing, ObjectListingDomain> {
+    @Override
+    public ObjectListingDomain convert(ObjectListing source) {
 
-    /**
-     * 根据存储桶名称获取对象列表
-     *
-     * @param bucketName 存储桶名称
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName);
+        List<ObjectDomain> summaries = ConverterUtils.toDomains(source.getObjectSummaries(), new ObjectSummaryToDomainConverter(source.getDelimiter()));
 
-    /**
-     * 根据存储桶名称和前缀获取对象列表
-     *
-     * @param bucketName 存储桶名
-     * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName, String prefix);
+        ObjectListingDomain domain = new ObjectListingDomain();
+        domain.setSummaries(summaries);
+        domain.setNextMarker(source.getNextMarker());
+        domain.setTruncated(source.isTruncated());
+        domain.setPrefix(source.getPrefix());
+        domain.setMarker(source.getMarker());
+        domain.setDelimiter(source.getDelimiter());
+        domain.setMaxKeys(source.getMaxKeys());
+        domain.setEncodingType(source.getEncodingType());
+        domain.setBucketName(source.getBucketName());
 
-    /**
-     * 获取对象列表
-     *
-     * @param arguments 对象列表请求参数 {@link ListObjectsArguments}
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(ListObjectsArguments arguments);
+        return domain;
+    }
 }

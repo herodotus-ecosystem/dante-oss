@@ -23,41 +23,45 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import com.amazonaws.AmazonWebServiceRequest;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
+ * <p>Description: 统一定义请求参数转换为 S3 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 16:39
+ * @date : 2023/8/10 15:16
  */
-public interface OssObjectAdapter {
+public interface ArgumentsConverter<S extends BaseArguments, T extends AmazonWebServiceRequest> extends Converter<S, T> {
 
     /**
-     * 根据存储桶名称获取对象列表
+     * 参数准备
      *
-     * @param bucketName 存储桶名称
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * @param arguments 统一定义请求参数
+     * @param request   S3 请求参数实体
      */
-    ObjectListingDomain listObjects(String bucketName);
+    void prepare(S arguments, T request);
 
     /**
-     * 根据存储桶名称和前缀获取对象列表
+     * 获取最终生成对象
      *
-     * @param bucketName 存储桶名
-     * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * @return S3 请求参数实体
      */
-    ObjectListingDomain listObjects(String bucketName, String prefix);
+    T getRequest(S arguments);
 
     /**
-     * 获取对象列表
+     * 参数实体转换
      *
-     * @param arguments 对象列表请求参数 {@link ListObjectsArguments}
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * @param arguments 统一定义请求参数
+     * @return S3 请求参数实体
      */
-    ObjectListingDomain listObjects(ListObjectsArguments arguments);
+    @Override
+    default T convert(S arguments) {
+        T target = getRequest(arguments);
+        prepare(arguments, target);
+        return target;
+    }
 }

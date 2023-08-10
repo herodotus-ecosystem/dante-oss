@@ -25,13 +25,13 @@
 
 package cn.herodotus.oss.dialect.aliyun.adapter;
 
+import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
-import cn.herodotus.oss.dialect.aliyun.converter.AliyunArgumentsToCreateBucketRequestConverter;
-import cn.herodotus.oss.dialect.aliyun.converter.AliyunArgumentsToDeleteBucketRequestConverter;
-import cn.herodotus.oss.dialect.aliyun.converter.AliyunBucketToDomainConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToCreateBucketRequestConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteBucketRequestConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.domain.BucketToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
@@ -90,7 +90,7 @@ public class AliyunBucketAdapter extends BaseAliyunService implements OssBucketA
         OSS client = getClient();
 
         try {
-            return ConverterUtils.toDomains(client.listBuckets(), new AliyunBucketToDomainConverter());
+            return ConverterUtils.toDomains(client.listBuckets(), new BucketToDomainConverter());
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -109,7 +109,7 @@ public class AliyunBucketAdapter extends BaseAliyunService implements OssBucketA
         OSS client = getClient();
 
         try {
-            return ConverterUtils.toDomain(client.createBucket(bucketName), new AliyunBucketToDomainConverter());
+            return ConverterUtils.toDomain(client.createBucket(bucketName), new BucketToDomainConverter());
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -128,8 +128,8 @@ public class AliyunBucketAdapter extends BaseAliyunService implements OssBucketA
         OSS client = getClient();
 
         try {
-            Converter<CreateBucketArguments, CreateBucketRequest> toRequest = new AliyunArgumentsToCreateBucketRequestConverter();
-            return ConverterUtils.toDomain(client.createBucket(toRequest.convert(arguments)), new AliyunBucketToDomainConverter());
+            Converter<CreateBucketArguments, CreateBucketRequest> toRequest = new ArgumentsToCreateBucketRequestConverter();
+            return ConverterUtils.toDomain(client.createBucket(toRequest.convert(arguments)), new BucketToDomainConverter());
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -167,7 +167,7 @@ public class AliyunBucketAdapter extends BaseAliyunService implements OssBucketA
         OSS client = getClient();
 
         try {
-            Converter<DeleteBucketArguments, GenericRequest> toRequest = new AliyunArgumentsToDeleteBucketRequestConverter();
+            Converter<DeleteBucketArguments, GenericRequest> toRequest = new ArgumentsToDeleteBucketRequestConverter();
             client.deleteBucket(toRequest.convert(arguments));
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);

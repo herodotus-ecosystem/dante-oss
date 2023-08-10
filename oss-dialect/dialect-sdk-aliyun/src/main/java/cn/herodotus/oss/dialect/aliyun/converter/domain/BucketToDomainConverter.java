@@ -23,41 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
+import com.aliyun.oss.model.Bucket;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.Optional;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
+ * <p>Description: Aliyun Bucket 转 BucketDomain 转换器  </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 16:39
+ * @date : 2023/7/27 16:29
  */
-public interface OssObjectAdapter {
+public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+    @Override
+    public BucketDomain convert(Bucket source) {
 
-    /**
-     * 根据存储桶名称获取对象列表
-     *
-     * @param bucketName 存储桶名称
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName);
+        Optional<Bucket> optional = Optional.ofNullable(source);
+        return optional.map(bucket -> {
 
-    /**
-     * 根据存储桶名称和前缀获取对象列表
-     *
-     * @param bucketName 存储桶名
-     * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName, String prefix);
+            BucketDomain bucketDomain = new BucketDomain();
 
-    /**
-     * 获取对象列表
-     *
-     * @param arguments 对象列表请求参数 {@link ListObjectsArguments}
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(ListObjectsArguments arguments);
+            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
+                OwnerDomain ownerDomain = new OwnerDomain();
+                ownerDomain.setId(bucket.getOwner().getId());
+                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
+                bucketDomain.setOwner(ownerDomain);
+            });
+
+            bucketDomain.setName(bucket.getName());
+            bucketDomain.setCreationDate(bucket.getCreationDate());
+
+            return bucketDomain;
+        }).orElse(null);
+    }
 }

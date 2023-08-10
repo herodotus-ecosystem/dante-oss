@@ -23,62 +23,71 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.service;
+package cn.herodotus.oss.dialect.aliyun.adapter;
 
-import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientObjectPool;
+import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.domain.ObjectListingToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.BucketMetadata;
-import com.aliyun.oss.model.GenericRequest;
+import com.aliyun.oss.model.ListObjectsRequest;
+import com.aliyun.oss.model.ObjectListing;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: Aliyun OSS 存储桶 Service </p>
+ * <p>Description: Aliyun 兼容模式对象操作处理器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 11:58
+ * @date : 2023/8/9 16:49
  */
 @Service
-public class AliyunBucketService extends BaseAliyunService {
+public class AliyunObjectAdapter extends BaseAliyunService implements OssObjectAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunObjectAdapter.class);
 
-    protected AliyunBucketService(AliyunClientObjectPool aliyunClientObjectPool) {
-        super(aliyunClientObjectPool);
+    public AliyunObjectAdapter(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+        super(ossClientObjectPool);
     }
 
-    public BucketMetadata getBucketMetadata(GenericRequest request) {
-        String function = "getBucketMetadata";
+    @Override
+    public ObjectListingDomain listObjects(String bucketName) {
+        return listObjects(bucketName, null);
+    }
 
-        OSS client = getClient();
-
-        try {
-            return client.getBucketMetadata(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
+    @Override
+    public ObjectListingDomain listObjects(String bucketName, String prefix) {
+        ListObjectsArguments arguments = new ListObjectsArguments();
+        arguments.setBucketName(bucketName);
+        if (StringUtils.isNotBlank(prefix)) {
+            arguments.setPrefix(prefix);
         }
+
+        return listObjects(arguments);
     }
 
+    @Override
+    public ObjectListingDomain listObjects(ListObjectsArguments arguments) {
+        String function = "listObjects";
 
-    public String getBucketLocation(GenericRequest request) {
-        String function = "getBucketLocation";
+        Converter<ListObjectsArguments, ListObjectsRequest> toArgs = new ArgumentsToListObjectsRequestConverter();
+        Converter<ObjectListing, ObjectListingDomain> toDomain = new ObjectListingToDomainConverter();
 
         OSS client = getClient();
 
         try {
-            return client.getBucketLocation(request);
+            ObjectListing objectListing = client.listObjects(toArgs.convert(arguments));
+            return toDomain.convert(objectListing);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

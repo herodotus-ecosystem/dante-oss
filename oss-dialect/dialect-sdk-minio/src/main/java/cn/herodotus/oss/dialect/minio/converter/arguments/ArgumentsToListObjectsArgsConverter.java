@@ -23,41 +23,36 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import io.minio.ListObjectsArgs;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
+ * <p>Description: 统一定义 OssArguments 转 Minio ListObjectsArgs 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 16:39
+ * @date : 2023/8/9 22:14
  */
-public interface OssObjectAdapter {
+public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
 
-    /**
-     * 根据存储桶名称获取对象列表
-     *
-     * @param bucketName 存储桶名称
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName);
+    @Override
+    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
+        builder.delimiter(arguments.getDelimiter());
+        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
+        builder.maxKeys(arguments.getMaxKeys());
+        builder.prefix(arguments.getPrefix());
 
-    /**
-     * 根据存储桶名称和前缀获取对象列表
-     *
-     * @param bucketName 存储桶名
-     * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName, String prefix);
+        if (StringUtils.isNotBlank(arguments.getMarker())) {
+            builder.keyMarker(arguments.getMarker());
+        }
 
-    /**
-     * 获取对象列表
-     *
-     * @param arguments 对象列表请求参数 {@link ListObjectsArguments}
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(ListObjectsArguments arguments);
+        super.prepare(arguments, builder);
+    }
+
+    @Override
+    public ListObjectsArgs.Builder getBuilder() {
+        return ListObjectsArgs.builder();
+    }
 }

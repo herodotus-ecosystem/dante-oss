@@ -37,7 +37,7 @@ import org.hibernate.validator.constraints.Length;
  * @author : gengwei.zheng
  * @date : 2023/7/28 18:01
  */
-public abstract class BaseBucketArguments extends BaseOssArguments {
+public abstract class BucketArguments extends BaseArguments {
 
     @Schema(name = "存储桶名称", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "存储桶名称不能为空")
@@ -46,9 +46,6 @@ public abstract class BaseBucketArguments extends BaseOssArguments {
     private String bucketName;
     @Schema(name = "存储区域", description = "仅在Minio环境下使用，Amazon S3 已废弃")
     private String region;
-
-    @Schema(name = "Key", description = "目前已知仅Aliyun环境下在使用")
-    private String key;
 
     public String getBucketName() {
         return bucketName;
@@ -64,13 +61,5 @@ public abstract class BaseBucketArguments extends BaseOssArguments {
 
     public void setRegion(String region) {
         this.region = region;
-    }
-
-    public String getKey() {
-        return key;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
     }
 }

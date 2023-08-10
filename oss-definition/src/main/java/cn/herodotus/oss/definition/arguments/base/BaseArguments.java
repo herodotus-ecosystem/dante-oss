@@ -23,34 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.definition.arguments.base;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import io.minio.messages.Bucket;
-import org.springframework.core.convert.converter.Converter;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-import java.util.Date;
-import java.util.Optional;
+import java.util.Map;
 
 /**
- * <p>Description: Bucket 转 BucketDomain 转换器 </p>
+ * <p>Description: 请求参数对象基础定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 10:11
+ * @date : 2023/7/28 0:05
  */
-public class MinioBucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+public abstract class BaseArguments implements OssArguments {
 
-    @Override
-    public BucketDomain convert(Bucket source) {
+    @Schema(name = "额外的请求头")
+    private Map<String, String> extraHeaders;
 
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-            BucketDomain domain = new BucketDomain();
-            domain.setName(bucket.name());
-            Optional.ofNullable(bucket.creationDate()).ifPresent(zonedDateTime ->
-                    domain.setCreationDate(new Date(zonedDateTime.toInstant().toEpochMilli()))
-            );
-            return domain;
-        }).orElse(null);
+    @Schema(name = "额外的Query参数")
+    private Map<String, String> extraQueryParams;
+
+    public Map<String, String> getExtraHeaders() {
+        return extraHeaders;
     }
+
+    public void setExtraHeaders(Map<String, String> extraHeaders) {
+        this.extraHeaders = extraHeaders;
+    }
+
+    public Map<String, String> getExtraQueryParams() {
+        return extraQueryParams;
+    }
+
+    public void setExtraQueryParams(Map<String, String> extraQueryParams) {
+        this.extraQueryParams = extraQueryParams;
+    }
+
+
 }

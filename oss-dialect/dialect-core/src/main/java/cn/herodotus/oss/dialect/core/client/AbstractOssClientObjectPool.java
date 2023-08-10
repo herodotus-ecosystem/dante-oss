@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.core.client;
 
-import cn.herodotus.oss.dialect.core.properties.AbstractOssProperties;
 import cn.herodotus.oss.dialect.core.exception.OssClientPoolErrorException;
+import cn.herodotus.oss.dialect.core.properties.AbstractOssProperties;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;

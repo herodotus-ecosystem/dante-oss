@@ -23,35 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter;
+package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
-import com.amazonaws.services.s3.model.DeleteBucketRequest;
-import org.apache.commons.collections4.MapUtils;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
+import com.amazonaws.services.s3.model.Bucket;
 import org.springframework.core.convert.converter.Converter;
 
+import java.util.Optional;
+
 /**
- * <p>Description: TODO </p>
+ * <p>Description: S3 Bucket 转 BucketDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 19:59
+ * @date : 2023/7/15 21:28
  */
-public class S3ArgumentsToDeleteBucketRequestConverter implements Converter<DeleteBucketArguments, DeleteBucketRequest> {
+public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
     @Override
-    public DeleteBucketRequest convert(DeleteBucketArguments source) {
+    public BucketDomain convert(Bucket source) {
 
-        DeleteBucketRequest request = new DeleteBucketRequest(source.getBucketName());
+        Optional<Bucket> optional = Optional.ofNullable(source);
+        return optional.map(bucket -> {
 
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            source.getExtraHeaders().entrySet().forEach((entry -> request.putCustomRequestHeader(entry.getKey(), entry.getValue())));
-        }
+            BucketDomain bucketDomain = new BucketDomain();
 
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            source.getExtraQueryParams().entrySet().forEach((entry -> request.putCustomQueryParameter(entry.getKey(), entry.getValue())));
-        }
+            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
+                OwnerDomain ownerDomain = new OwnerDomain();
+                ownerDomain.setId(bucket.getOwner().getId());
+                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
+                bucketDomain.setOwner(ownerDomain);
+            });
 
-        return request;
+            bucketDomain.setName(bucket.getName());
+            bucketDomain.setCreationDate(bucket.getCreationDate());
+
+            return bucketDomain;
+        }).orElse(null);
     }
 }

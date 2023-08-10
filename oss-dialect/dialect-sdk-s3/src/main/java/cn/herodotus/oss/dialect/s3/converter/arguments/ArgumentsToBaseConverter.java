@@ -23,41 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import com.amazonaws.AmazonWebServiceRequest;
+import org.apache.commons.collections4.MapUtils;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
+ * <p>Description: 基础的统一定义请求参数转换为 S3 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/24 16:39
+ * @date : 2023/8/10 15:33
  */
-public interface OssObjectAdapter {
+public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extends AmazonWebServiceRequest> implements ArgumentsConverter<S, T> {
 
-    /**
-     * 根据存储桶名称获取对象列表
-     *
-     * @param bucketName 存储桶名称
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName);
+    @Override
+    public void prepare(S arguments, T request) {
+        if (MapUtils.isNotEmpty(arguments.getExtraHeaders())) {
+            arguments.getExtraHeaders().entrySet().forEach((entry -> request.putCustomRequestHeader(entry.getKey(), entry.getValue())));
+        }
 
-    /**
-     * 根据存储桶名称和前缀获取对象列表
-     *
-     * @param bucketName 存储桶名
-     * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(String bucketName, String prefix);
-
-    /**
-     * 获取对象列表
-     *
-     * @param arguments 对象列表请求参数 {@link ListObjectsArguments}
-     * @return 对象列表结果 {@link ObjectListingDomain}
-     */
-    ObjectListingDomain listObjects(ListObjectsArguments arguments);
+        if (MapUtils.isNotEmpty(arguments.getExtraQueryParams())) {
+            arguments.getExtraQueryParams().entrySet().forEach((entry -> request.putCustomQueryParameter(entry.getKey(), entry.getValue())));
+        }
+    }
 }

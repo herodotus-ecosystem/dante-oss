@@ -23,33 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import com.aliyun.oss.model.GenericRequest;
-import org.apache.commons.collections4.MapUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
+import io.minio.MakeBucketArgs;
+import org.apache.commons.lang3.ObjectUtils;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 统一定义 CreateBucketArguments 转 Minio MakeBucketArgs 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 20:00
+ * @date : 2023/7/28 18:21
  */
-public class AliyunArgumentsToDeleteBucketRequestConverter implements Converter<DeleteBucketArguments, GenericRequest> {
+public class ArgumentsToMakeBucketArgsConverter extends ArgumentsToBucketConverter<CreateBucketArguments, MakeBucketArgs, MakeBucketArgs.Builder> {
+
     @Override
-    public GenericRequest convert(DeleteBucketArguments source) {
-
-        GenericRequest request = new GenericRequest(source.getBucketName());
-
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            request.setHeaders(source.getExtraHeaders());
+    public void prepare(CreateBucketArguments arguments, MakeBucketArgs.Builder builder) {
+        if (ObjectUtils.isNotEmpty(arguments.getObjectLock())) {
+            builder.objectLock(arguments.getObjectLock());
         }
+        super.prepare(arguments, builder);
+    }
 
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            request.setParameters(source.getExtraQueryParams());
-        }
-
-        return request;
+    @Override
+    public MakeBucketArgs.Builder getBuilder() {
+        return MakeBucketArgs.builder();
     }
 }

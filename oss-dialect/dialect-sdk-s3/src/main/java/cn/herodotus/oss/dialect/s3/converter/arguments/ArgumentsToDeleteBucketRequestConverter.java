@@ -23,41 +23,20 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.base;
+package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.Map;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
+import com.amazonaws.services.s3.model.DeleteBucketRequest;
 
 /**
- * <p>Description: Oss 请求参数对象基础定义 </p>
+ * <p>Description: 统一定义 DeleteBucketArguments 转 Minio DeleteBucketRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 0:05
+ * @date : 2023/7/28 19:59
  */
-public abstract class BaseOssArguments {
-
-    @Schema(name = "额外的请求头")
-    private Map<String, String> extraHeaders;
-
-    @Schema(name = "额外的Query参数")
-    private Map<String, String> extraQueryParams;
-
-    public Map<String, String> getExtraHeaders() {
-        return extraHeaders;
+public class ArgumentsToDeleteBucketRequestConverter extends ArgumentsToBucketConverter<DeleteBucketArguments, DeleteBucketRequest> {
+    @Override
+    public DeleteBucketRequest getRequest(DeleteBucketArguments arguments) {
+        return new DeleteBucketRequest(arguments.getBucketName());
     }
-
-    public void setExtraHeaders(Map<String, String> extraHeaders) {
-        this.extraHeaders = extraHeaders;
-    }
-
-    public Map<String, String> getExtraQueryParams() {
-        return extraQueryParams;
-    }
-
-    public void setExtraQueryParams(Map<String, String> extraQueryParams) {
-        this.extraQueryParams = extraQueryParams;
-    }
-
-
 }

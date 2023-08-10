@@ -23,41 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
-import com.amazonaws.services.s3.model.Bucket;
-import org.springframework.core.convert.converter.Converter;
-
-import java.util.Optional;
+import cn.herodotus.oss.definition.arguments.base.BucketArguments;
+import io.minio.BucketArgs;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: S3 Bucket 转 BucketDomain 转换器 </p>
+ * <p>Description: 统一定义存储桶请求参数转换为 Minio 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/15 21:28
+ * @date : 2023/8/9 23:07
  */
-public class S3BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends BucketArgs, B extends BucketArgs.Builder<B, T>> extends ArgumentsToBaseConverter<S, T, B> {
+
     @Override
-    public BucketDomain convert(Bucket source) {
+    public void prepare(S arguments, B builder) {
 
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
+        builder.bucket(arguments.getBucketName());
 
-            BucketDomain bucketDomain = new BucketDomain();
+        if (StringUtils.isNotBlank(arguments.getRegion())) {
+            builder.region(arguments.getRegion());
+        }
 
-            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-                OwnerDomain ownerDomain = new OwnerDomain();
-                ownerDomain.setId(bucket.getOwner().getId());
-                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
-                bucketDomain.setOwner(ownerDomain);
-            });
-
-            bucketDomain.setName(bucket.getName());
-            bucketDomain.setCreationDate(bucket.getCreationDate());
-
-            return bucketDomain;
-        }).orElse(null);
+        super.prepare(arguments, builder);
     }
 }
