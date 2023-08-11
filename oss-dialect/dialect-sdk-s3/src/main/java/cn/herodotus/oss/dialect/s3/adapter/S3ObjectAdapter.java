@@ -27,17 +27,22 @@ package cn.herodotus.oss.dialect.s3.adapter;
 
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToListObjectsRequestConverter;
+import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToListObjectsV2RequestConverter;
+import cn.herodotus.oss.dialect.s3.converter.domain.ListObjectsV2ResultToDomainConverter;
 import cn.herodotus.oss.dialect.s3.converter.domain.ObjectListingToDomainConverter;
 import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ListObjectsV2Request;
+import com.amazonaws.services.s3.model.ListObjectsV2Result;
 import com.amazonaws.services.s3.model.ObjectListing;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -59,22 +64,6 @@ public class S3ObjectAdapter extends BaseS3Service implements OssObjectAdapter {
     }
 
     @Override
-    public ObjectListingDomain listObjects(String bucketName) {
-        return listObjects(bucketName, null);
-    }
-
-    @Override
-    public ObjectListingDomain listObjects(String bucketName, String prefix) {
-        ListObjectsArguments arguments = new ListObjectsArguments();
-        arguments.setBucketName(bucketName);
-        if (StringUtils.isNotBlank(prefix)) {
-            arguments.setPrefix(prefix);
-        }
-
-        return listObjects(arguments);
-    }
-
-    @Override
     public ObjectListingDomain listObjects(ListObjectsArguments arguments) {
         String function = "listObjects";
 
@@ -85,6 +74,25 @@ public class S3ObjectAdapter extends BaseS3Service implements OssObjectAdapter {
         try {
             ObjectListing objectListing = client.listObjects(toArgs.convert(arguments));
             return toDomain.convert(objectListing);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments) {
+        String function = "listObjectsV2";
+
+        Converter<ListObjectsV2Arguments, ListObjectsV2Request> toArgs = new ArgumentsToListObjectsV2RequestConverter();
+        Converter<ListObjectsV2Result, ObjectListingV2Domain> toDomain = new ListObjectsV2ResultToDomainConverter();
+
+        AmazonS3 client = getClient();
+        try {
+            ListObjectsV2Result listObjectsV2Result = client.listObjectsV2(toArgs.convert(arguments));
+            return toDomain.convert(listObjectsV2Result);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

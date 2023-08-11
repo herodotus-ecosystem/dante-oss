@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
 import io.minio.Result;
 import io.minio.messages.Item;
@@ -37,48 +37,48 @@ import org.springframework.core.convert.converter.Converter;
 import java.util.List;
 
 /**
- * <p>Description: Iterable<Result<Item>> 转 BucketDomain 转换器 </p>
+ * <p>Description: Iterable<Result<Item>> V2 转 BucketDomain 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/10 10:55
  */
-public class IterableResultItemToDomainConverter implements Converter<Iterable<Result<Item>>, ObjectListingDomain> {
+public class IterableResultItemV2ToDomainConverter implements Converter<Iterable<Result<Item>>, ObjectListingV2Domain> {
 
     private final String bucketName;
 
     private String prefix;
-    private ListObjectsArguments listObjectsArguments;
+    private ListObjectsV2Arguments listObjectsV2Arguments;
 
-    public IterableResultItemToDomainConverter(String bucketName) {
+    public IterableResultItemV2ToDomainConverter(String bucketName) {
         this.bucketName = bucketName;
     }
 
-    public IterableResultItemToDomainConverter(String bucketName, String prefix) {
+    public IterableResultItemV2ToDomainConverter(String bucketName, String prefix) {
         this.bucketName = bucketName;
         this.prefix = prefix;
     }
 
-    public IterableResultItemToDomainConverter(ListObjectsArguments listObjectsArguments) {
-        this.listObjectsArguments = listObjectsArguments;
-        this.bucketName = listObjectsArguments.getBucketName();
-        this.prefix = listObjectsArguments.getPrefix();
+    public IterableResultItemV2ToDomainConverter(ListObjectsV2Arguments listObjectsV2Arguments) {
+        this.listObjectsV2Arguments = listObjectsV2Arguments;
+        this.bucketName = listObjectsV2Arguments.getBucketName();
+        this.prefix = listObjectsV2Arguments.getPrefix();
     }
 
     @Override
-    public ObjectListingDomain convert(Iterable<Result<Item>> source) {
+    public ObjectListingV2Domain convert(Iterable<Result<Item>> source) {
 
         List<ObjectDomain> objectDomains = ConverterUtils.toDomains(source, new ItemToDomainConverter(this.bucketName));
 
-        ObjectListingDomain domain = new ObjectListingDomain();
+        ObjectListingV2Domain domain = new ObjectListingV2Domain();
         domain.setBucketName(this.bucketName);
         domain.setPrefix(this.prefix);
 
-        if (ObjectUtils.isNotEmpty(listObjectsArguments)) {
-            domain.setMarker(listObjectsArguments.getMarker());
-            domain.setDelimiter(listObjectsArguments.getDelimiter());
-            domain.setMaxKeys(listObjectsArguments.getMaxKeys());
-            domain.setEncodingType(listObjectsArguments.getEncodingType());
-            domain.setBucketName(listObjectsArguments.getBucketName());
+        if (ObjectUtils.isNotEmpty(listObjectsV2Arguments)) {
+            domain.setMarker(listObjectsV2Arguments.getMarker());
+            domain.setDelimiter(listObjectsV2Arguments.getDelimiter());
+            domain.setMaxKeys(listObjectsV2Arguments.getMaxKeys());
+            domain.setEncodingType(listObjectsV2Arguments.getEncodingType());
+            domain.setBucketName(listObjectsV2Arguments.getBucketName());
         }
 
         domain.setSummaries(objectDomains);

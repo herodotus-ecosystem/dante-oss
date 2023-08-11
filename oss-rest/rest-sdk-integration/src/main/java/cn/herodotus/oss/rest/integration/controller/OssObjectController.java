@@ -30,7 +30,9 @@ import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -81,6 +83,25 @@ public class OssObjectController implements Controller {
     @GetMapping("/list")
     public Result<ObjectListingDomain> list(@Validated ListObjectsArguments arguments) {
         ObjectListingDomain domain = ossObjectAdapter.listObjects(arguments);
+        return result(domain);
+    }
+
+    @AccessLimited
+    @Operation(summary = "获取对象列表V2", description = "获取对象列表V2",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
+            responses = {
+                    @ApiResponse(description = "所有对象", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ObjectListingDomain.class))),
+                    @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
+                    @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
+                    @ApiResponse(responseCode = "500", description = "查询失败"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
+            })
+    @Parameters({
+            @Parameter(name = "arguments", required = true, description = "ListObjectsV2Arguments参数实体", schema = @Schema(implementation = ListObjectsV2Arguments.class))
+    })
+    @GetMapping("/listV2")
+    public Result<ObjectListingV2Domain> list(@Validated ListObjectsV2Arguments arguments) {
+        ObjectListingV2Domain domain = ossObjectAdapter.listObjectsV2(arguments);
         return result(domain);
     }
 }

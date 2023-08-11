@@ -26,7 +26,10 @@
 package cn.herodotus.oss.definition.adapter;
 
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
@@ -42,7 +45,9 @@ public interface OssObjectAdapter {
      * @param bucketName 存储桶名称
      * @return 对象列表结果 {@link ObjectListingDomain}
      */
-    ObjectListingDomain listObjects(String bucketName);
+    default ObjectListingDomain listObjects(String bucketName) {
+        return listObjects(bucketName, null);
+    }
 
     /**
      * 根据存储桶名称和前缀获取对象列表
@@ -51,7 +56,15 @@ public interface OssObjectAdapter {
      * @param prefix     前缀
      * @return 对象列表结果 {@link ObjectListingDomain}
      */
-    ObjectListingDomain listObjects(String bucketName, String prefix);
+    default ObjectListingDomain listObjects(String bucketName, String prefix) {
+        ListObjectsArguments arguments = new ListObjectsArguments();
+        arguments.setBucketName(bucketName);
+        if (StringUtils.isNotBlank(prefix)) {
+            arguments.setPrefix(prefix);
+        }
+
+        return listObjects(arguments);
+    }
 
     /**
      * 获取对象列表
@@ -60,4 +73,39 @@ public interface OssObjectAdapter {
      * @return 对象列表结果 {@link ObjectListingDomain}
      */
     ObjectListingDomain listObjects(ListObjectsArguments arguments);
+
+    /**
+     * 根据存储桶名称和前缀获取对象列表V2
+     *
+     * @param bucketName 存储桶名
+     * @return 对象列表结果 {@link ObjectListingDomain}
+     */
+    default ObjectListingV2Domain listObjectsV2(String bucketName) {
+        return listObjectsV2(bucketName, null);
+    }
+
+    /**
+     * 根据存储桶名称和前缀获取对象列表V2
+     *
+     * @param bucketName 存储桶名
+     * @param prefix     前缀
+     * @return 对象列表结果 {@link ObjectListingV2Domain}
+     */
+    default ObjectListingV2Domain listObjectsV2(String bucketName, String prefix) {
+        ListObjectsV2Arguments arguments = new ListObjectsV2Arguments();
+        arguments.setBucketName(bucketName);
+        if (StringUtils.isNotBlank(prefix)) {
+            arguments.setPrefix(prefix);
+        }
+
+        return listObjectsV2(arguments);
+    }
+
+    /**
+     * 获取对象列表V2
+     *
+     * @param arguments 对象列表请求参数 {@link ListObjectsV2Arguments}
+     * @return 对象列表结果 {@link ObjectListingV2Domain}
+     */
+    ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments);
 }

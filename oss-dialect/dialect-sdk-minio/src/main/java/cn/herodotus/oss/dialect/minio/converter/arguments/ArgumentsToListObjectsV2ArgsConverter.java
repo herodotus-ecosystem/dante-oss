@@ -25,8 +25,9 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import io.minio.ListObjectsArgs;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -35,19 +36,29 @@ import org.apache.commons.lang3.StringUtils;
  * @author : gengwei.zheng
  * @date : 2023/8/9 22:14
  */
-public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
+public class ArgumentsToListObjectsV2ArgsConverter extends ArgumentsToBucketConverter<ListObjectsV2Arguments, ListObjectsArgs, ListObjectsArgs.Builder> {
 
     @Override
-    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
+    public void prepare(ListObjectsV2Arguments arguments, ListObjectsArgs.Builder builder) {
         builder.delimiter(arguments.getDelimiter());
         builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
         builder.maxKeys(arguments.getMaxKeys());
         builder.prefix(arguments.getPrefix());
         builder.recursive(false);
-        builder.useApiVersion1(true);
+        builder.useApiVersion1(false);
+        builder.includeUserMetadata(true);
+        builder.includeVersions(true);
 
         if (StringUtils.isNotBlank(arguments.getMarker())) {
             builder.keyMarker(arguments.getMarker());
+        }
+
+        if (StringUtils.isNotBlank(arguments.getContinuationToken())) {
+            builder.continuationToken(arguments.getContinuationToken());
+        }
+
+        if (ObjectUtils.isNotEmpty(arguments.getFetchOwner())) {
+            builder.fetchOwner(arguments.getFetchOwner());
         }
 
         super.prepare(arguments, builder);

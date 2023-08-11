@@ -27,14 +27,17 @@ package cn.herodotus.oss.dialect.minio.adapter;
 
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToListObjectsArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToListObjectsV2ArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.IterableResultItemToDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.IterableResultItemV2ToDomainConverter;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import io.minio.ListObjectsArgs;
 import io.minio.Result;
 import io.minio.messages.Item;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -58,26 +61,18 @@ public class MinioObjectAdapter implements OssObjectAdapter {
     }
 
     @Override
-    public ObjectListingDomain listObjects(String bucketName) {
-        return listObjects(bucketName, null);
-    }
-
-    @Override
-    public ObjectListingDomain listObjects(String bucketName, String prefix) {
-        ListObjectsArguments arguments  = new ListObjectsArguments();
-        arguments.setBucketName(bucketName);
-        if (StringUtils.isNotBlank(prefix)) {
-            arguments.setPrefix(prefix);
-        }
-
-        return listObjects(arguments);
-    }
-
-    @Override
     public ObjectListingDomain listObjects(ListObjectsArguments arguments) {
         Converter<ListObjectsArguments, ListObjectsArgs> toArgs = new ArgumentsToListObjectsArgsConverter();
         Iterable<Result<Item>> iterable = minioObjectService.listObjects(toArgs.convert(arguments));
         Converter<Iterable<Result<Item>>, ObjectListingDomain> toDomain = new IterableResultItemToDomainConverter(arguments);
+        return toDomain.convert(iterable);
+    }
+
+    @Override
+    public ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments) {
+        Converter<ListObjectsV2Arguments, ListObjectsArgs> toArgs = new ArgumentsToListObjectsV2ArgsConverter();
+        Iterable<Result<Item>> iterable = minioObjectService.listObjects(toArgs.convert(arguments));
+        Converter<Iterable<Result<Item>>, ObjectListingV2Domain> toDomain = new IterableResultItemV2ToDomainConverter(arguments);
         return toDomain.convert(iterable);
     }
 }

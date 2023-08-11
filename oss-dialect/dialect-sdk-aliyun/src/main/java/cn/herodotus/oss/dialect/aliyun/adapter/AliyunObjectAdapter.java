@@ -27,8 +27,12 @@ package cn.herodotus.oss.dialect.aliyun.adapter;
 
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsV2RequestConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.domain.ListObjectsV2ResultToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.domain.ObjectListingToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
@@ -38,8 +42,9 @@ import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
 import com.aliyun.oss.model.ListObjectsRequest;
+import com.aliyun.oss.model.ListObjectsV2Request;
+import com.aliyun.oss.model.ListObjectsV2Result;
 import com.aliyun.oss.model.ObjectListing;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -61,22 +66,6 @@ public class AliyunObjectAdapter extends BaseAliyunService implements OssObjectA
     }
 
     @Override
-    public ObjectListingDomain listObjects(String bucketName) {
-        return listObjects(bucketName, null);
-    }
-
-    @Override
-    public ObjectListingDomain listObjects(String bucketName, String prefix) {
-        ListObjectsArguments arguments = new ListObjectsArguments();
-        arguments.setBucketName(bucketName);
-        if (StringUtils.isNotBlank(prefix)) {
-            arguments.setPrefix(prefix);
-        }
-
-        return listObjects(arguments);
-    }
-
-    @Override
     public ObjectListingDomain listObjects(ListObjectsArguments arguments) {
         String function = "listObjects";
 
@@ -88,6 +77,29 @@ public class AliyunObjectAdapter extends BaseAliyunService implements OssObjectA
         try {
             ObjectListing objectListing = client.listObjects(toArgs.convert(arguments));
             return toDomain.convert(objectListing);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments) {
+        String function = "listObjectsV2";
+
+        Converter<ListObjectsV2Arguments, ListObjectsV2Request> toArgs = new ArgumentsToListObjectsV2RequestConverter();
+        Converter<ListObjectsV2Result, ObjectListingV2Domain> toDomain = new ListObjectsV2ResultToDomainConverter();
+
+        OSS client = getClient();
+
+        try {
+            ListObjectsV2Result listObjectsV2Result = client.listObjectsV2(toArgs.convert(arguments));
+            return toDomain.convert(listObjectsV2Result);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

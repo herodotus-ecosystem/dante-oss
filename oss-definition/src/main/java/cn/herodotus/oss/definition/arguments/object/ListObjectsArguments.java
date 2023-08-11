@@ -43,7 +43,7 @@ public class ListObjectsArguments extends BucketArguments {
     @Schema(name = "前缀")
     private String prefix;
 
-    @Schema(name = "关键字")
+    @Schema(name = "关键字", description = "ListObjectV2 版本中对应的名称为 startMarker, 这里为了方便统一使用 marker")
     private String marker;
 
     @Schema(name = "分隔符", description = "如果recursive为true，那么默认值为'', 否则默认值为'/'")
@@ -56,6 +56,9 @@ public class ListObjectsArguments extends BucketArguments {
 
     @Schema(name = "encodingType")
     private String encodingType;
+
+    @Schema(name = "是否递归", description = "该属性仅在 Minio 环境下使用")
+    private Boolean recursive = false;
 
     public String getPrefix() {
         return prefix;
@@ -97,6 +100,14 @@ public class ListObjectsArguments extends BucketArguments {
         this.encodingType = encodingType;
     }
 
+    public Boolean getRecursive() {
+        return recursive;
+    }
+
+    public void setRecursive(Boolean recursive) {
+        this.recursive = recursive;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -105,6 +116,7 @@ public class ListObjectsArguments extends BucketArguments {
                 .add("delimiter", delimiter)
                 .add("maxKeys", maxKeys)
                 .add("encodingType", encodingType)
+                .add("recursive", recursive)
                 .toString();
     }
 }

@@ -25,14 +25,14 @@
 
 package cn.herodotus.oss.dialect.minio.adapter;
 
+import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.minio.converter.domain.BucketToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToMakeBucketArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveBucketArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.BucketToDomainConverter;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;

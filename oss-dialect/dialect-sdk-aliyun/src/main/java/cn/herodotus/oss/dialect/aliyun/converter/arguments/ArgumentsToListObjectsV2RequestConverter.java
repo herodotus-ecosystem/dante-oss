@@ -23,38 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import io.minio.ListObjectsArgs;
-import org.apache.commons.lang3.StringUtils;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import com.aliyun.oss.model.ListObjectsV2Request;
 
 /**
- * <p>Description: 统一定义 OssArguments 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: 统一定义 ListObjectsV2Arguments 转 S3 ListObjectsV2Request 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:14
+ * @date : 2023/8/10 19:31
  */
-public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
+public class ArgumentsToListObjectsV2RequestConverter extends ArgumentsToBucketConverter<ListObjectsV2Arguments, ListObjectsV2Request> {
 
     @Override
-    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
-        builder.delimiter(arguments.getDelimiter());
-        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
-        builder.maxKeys(arguments.getMaxKeys());
-        builder.prefix(arguments.getPrefix());
-        builder.recursive(false);
-        builder.useApiVersion1(true);
-
-        if (StringUtils.isNotBlank(arguments.getMarker())) {
-            builder.keyMarker(arguments.getMarker());
-        }
-
-        super.prepare(arguments, builder);
-    }
-
-    @Override
-    public ListObjectsArgs.Builder getBuilder() {
-        return ListObjectsArgs.builder();
+    public ListObjectsV2Request getRequest(ListObjectsV2Arguments arguments) {
+        return new ListObjectsV2Request(arguments.getBucketName(), arguments.getPrefix(), arguments.getContinuationToken(), arguments.getMarker(), arguments.getDelimiter(), arguments.getMaxKeys(), arguments.getEncodingType(), arguments.getFetchOwner());
     }
 }
