@@ -23,38 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter;
+package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
-import com.amazonaws.services.s3.model.Bucket;
-import org.springframework.core.convert.converter.Converter;
-
-import java.util.Optional;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 
 /**
- * <p>Description: S3 Bucket 转 BucketDomain 转换器 </p>
+ * <p>Description: 统一定义 DeleteBucketArguments 转 Aliyun GenericRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/15 21:28
+ * @date : 2023/7/28 20:00
  */
-public class S3BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
-    @Override
-    public BucketDomain convert(Bucket source) {
-
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-
-            BucketDomain bucketDomain = new BucketDomain();
-
-            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-                OwnerDomain ownerDomain = new OwnerDomain();
-                ownerDomain.setId(bucket.getOwner().getId());
-                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
-                bucketDomain.setOwner(ownerDomain);
-            });
-
-            return bucketDomain;
-        }).orElse(null);
-    }
+public class ArgumentsToDeleteBucketRequestConverter extends ArgumentsToGenericRequestConverter<DeleteBucketArguments> {
 }

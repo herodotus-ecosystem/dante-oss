@@ -25,13 +25,15 @@
 
 package cn.herodotus.oss.definition.arguments.bucket;
 
-import cn.herodotus.oss.definition.arguments.base.BaseBucketArguments;
+import cn.herodotus.oss.definition.arguments.base.BucketArguments;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 删除存储桶请求参数实体 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/28 19:48
  */
-public class DeleteBucketArguments extends BaseBucketArguments {
+@Schema(name = "删除存储桶请求参数实体", title = "删除存储桶请求参数实体")
+public class DeleteBucketArguments extends BucketArguments {
 }

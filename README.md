@@ -29,58 +29,42 @@
 
 ## 简介 | Intro
 
-Dante OSS 是一款简化 Minio 操作的开源框架。通过对原有 Minio Java SDK 的深度封装，简化 Minio API 使用复杂度，更方便的实现复杂的 Minio 管理操作，降低 Minio 应用开发门槛。
+Dante OSS 是一款简化对象存储（OSS）操作的开源框架。借鉴 JPA 标准化设计思想，逐步提取和抽象各厂商 OSS 标准化操作，构建统一的 Java OSS API 规范。形成类似于 JPA 规范的、以 Java OSS API 为核心的、不同 OSS 厂商 SDK 为实现的对象存储使用模式，方便大家在不同厂商 OSS 之间切换而不需要修改代码。
 
-MinIO 是一款高性能、分布式的对象存储系统。Minio 这款开源的分布式对象存储服务在国外已经相当受欢迎，并且国内也有多中小型互联网公司使用它来作为对象存储服务。虽然 Minio 相关的资料和示例在网络上已经非常丰富，但是为什么还要推出 Dante OSS 这样的项目？
+## 目标 | Goal
 
-- 初次接触 Minio，特别是想要通过 Java 集成 Minio 开发对象存储应用是，还是需要投入一定的时间和精力去了解其原理阅读相关文档。
-- Minio SDK 中的函数方法，涉及的参数较多，抽象层度比较高，每次使用都需要反复查阅源代码才能摸清具体使用方式。
-- 想要与已有的应用进行整合，多少都要投入时间精力，进行一定程度的封装和改造。
-- 网上相关资料多，要么比较零散不成体系，要么比较单一仅针对常规上传下载应用，Minio 自身很多特性都不涉及。
+- 构建类似于 JPA 的 Java OSS API 规范，目标在不改变 API 的情况，通过切换厂商 OSS SDK 实现即可完成对象存储的切换。
+- 不局限于常用的上传、下载，而是覆盖所有 OSS SDK 的共性操作。不仅可以方便的实现上传、下载，而且可以快速构建自己的 OSS 管理应用。
+- 对共性操作提供统一的 Java API 和 REST API，对 OSS 厂商个性化操作视情况提供单独的 REST API 实现。
+
+> 目前以 Minio 作为 Java OSS API 规范的默认实现，当前仅提供 Minio 个性化操作 REST API 实现。
 
 ## 设计 | Design thinking
 
-Dante OSS 最初的设计目标，是深度封装 Minio Java SDK，可以更方便的实现复杂的 Minio 管理操作。随着版本的不断迭代，以及更多用户需求的收集，Amazon S3、阿里云等 OSS 操作也不断地被融入进来，Dante OSS 的设计思想也在不断迭代。
+Dante OSS 最初的设计目标，是深度封装 Minio Java SDK，可以更方便的实现复杂的 Minio 管理操作，同时提升使用 Minio 自定义开发的便捷度。随着版本的不断迭代，以及更多用户需求的收集，Dante OSS 的设计思想也在不断迭代。
 
-目前 Amazon S3 已经成为 OSS 事实的标准，各 OSS 产品大多兼容 S3 标准。常规的、基础的 OSS 操作除了使用各厂商 OSS 提供的 SDK 外，使用 Amazon S3 SDK 也可以支持。如果你的需求仅是常规的上传、下载等，那么使用 Amazon S3 SDK 作为统一实现可完全满足。
+随着 Amazon S3、阿里云等不同 OSS 厂商 SDK 的不断融入，发现虽然各 OSS 产品大多兼容 S3 标准，使用 Amazon S3 SDK 是可以完成其它厂商的 OSS 操作，但也仅限于常规的、基础的 OSS 操作，不能充分发挥个厂商 OSS 的特性。而且由于实现的不同，即使相同的 OSS 操作，传递的参数和返回值也不同，是的相同业务逻辑的代码，如果使用 A 厂商 SDK 实现，在 B 厂商 SDK 上是无法使用的，必须要重新实现一遍才能使用，这极大地的提高了迁移 OSS 的成本。
 
-但是如果您的需求涉及更丰富、更新细致的OSS管理功能，那么 Amazon S3 SDK 是无法满足的。因为即使相同的功能，比如说 Tagging、Replication，不同的 OSS 产品实现不同，至少请求参数和返回值就不同；还存在各 OSS 结合自身实际个性化定义的功能，比如说阿里云的 Qos、Vpcip 等。
+虽然，现在也有很多优秀的对象存储操作的封装框架，可以支持的 OSS 厂商 非常多，但是其中支持的操作没有那么丰富。Dante OSS 的目标除了满足 OSS 常规操作的使用以外，还行希望提供更丰富的、统一的 OSS 管理操作，用户可以更方便的在自己的应用中集成和开发更丰富、更新细致 OSS 管理功能。
 
-因此，Dante OSS 在维持原有简化 Minio 常规及复杂管理操作目标的基础之上，借鉴 JPA 标准化设计思想，逐步提取和抽象 OSS 标准化操作，形成统一的 Java API 定义，同时封装可操作任意厂商的、统一的 REST API，形成定义统一、动态实现的应用模式（类似于 Hibernate 是 JPA 的一种实现），以方便不同 OSS 的切换和迁移。
+因此，Dante OSS 在维持原有简化 Minio 管理操作目标的基础之上，借鉴 JPA 标准化设计思想，提取和抽象 OSS 标准化操作，形成统一的 Java OSS API 规范。同时封装可操作任意厂商的、统一的 REST API，形成定义统一、动态实现的应用模式（类似于 Hibernate 是 JPA 的一种实现，Hibernate 以 Dialect 方式支持不同的数据库一样），以方便不同 OSS 的切换和迁移。
+
+![结构](./readme/structure.png)
 
 ## 优点 | Advantages
 
 - **零额外学习成本**: 开发者只要会 Spring 和 REST 基本开发，即可无缝集成和使用 Dante OSS
-- **降低开发者门槛**: 屏蔽 Minio 标准 Java SDK 使用复杂度，使用 Spring 环境标准方式对原有 API 进行简化封装。Service API 和 REST API 开箱即用
+- **降低开发者门槛**: 屏蔽 Minio 等 Java OSS SDK 使用复杂度，使用 Spring 环境标准方式对原有 API 进行简化封装。Service API 和 REST API 开箱即用
+- **统一的开发接口**: 构建统一的 Java OSS API 规范，形成统一的 Service API 和 REST API 接口，不需要修改代码即可切换不同厂商 OSS
 - **包含的功能丰富**: 改造了 Minio Java SDK 的几乎全部功能，且对大文件分片上传、秒传、直传、断点续传等功能，均采用业内最优解决方案进行实现和融合
-- **规范优雅的代码**: 所有函数参数，并未破坏原有 Minio 代码构造器结构，而是在原有方式的基础上抽象简化，编程体验和代码可读性大幅提升
+- **规范优雅的代码**: 所有函数参数，并未破坏原有 OSS SDK 代码构造器结构，而是在原有方式的基础上抽象简化，编程体验和代码可读性大幅提升
 - **完善的注释文档**: 对请求参数、方法、REST API、Validation 提供详实的注释、说明和 OpenAPI 标注，用途用法一目了然，无需再翻阅 Minio 文档和源代码，帮助您节省更多时间
 - **丰富的稳定保障**: 统一的、人性化的错误体系、内置的 REST API 防刷、幂等保护、详实准确的 Spring Validation 校验。
 - **完整的前端示例**：前端采用一个完整的项目而非 Demo 的形式，全面的展示了前后端交互涉及、接口调用、参数使用、TS 类型定义等各方面内容，可直接用于实际项目或简单改造后构建自己的产品
 
 ## 对比 | Compare
 
-### 1. 不只是简单的 Spring Boot Starter 构建
-
-1. 构建统一的错误，可以返回更人性化、更易理解的错误信息，同时兼顾更详细错误信息的返回，方便开发人员理解和定位问题。
-2. 采用更易理解和使用的格式对 Minio Java SDK 参数进行重新定义。规避 Minio 默认 XML 方式参数多、不易理解使用、与前端交互不方便等问题。
-3. 隐藏 Minio Java SDK 不易理解和使用的细节，提供详实的注释说明，开发人员在使用时无需再通过翻阅 Minio 在线文档和源代码来了解各个 API 使用细节。
-4. 提供统一标准的 REST API，以及 OpenAPI Swagger3 文档描述和准确的 Spring Validation 校验，可直接集成至系统中使用。
-5. Minio Client 对象池、自定义极简 Minio Server 访问反向代理，提升
-6. 逐步丰富不同厂商 OSS 操作，作为不同 OSS 实现。
-7. 抽象统一 REST API，实现统一接口操作不同厂商 OSS。
-
-### 2. 标准化业务逻辑和解决方案集合
-
-1. 不只是上传、下载等常用方法的封装，涵盖 Minio Java SDK 支持的所有方法和操作。
-2. 选择业内最优的解决方案，实现和集成大文件分片上传、秒传、直传、断点续传等主要业务需求功能。
-3. 结合自身应用经验和需求，将 Minio API 进一步组合成符合实际应用的业务逻辑和功能处理。
-4. 采用一个基于 Vue3、Typescript5、Vite4、Pinia 2 的完整的前端项目作为集成示例，包括详细的 Typescript 类型定义以及 vue-simple-uploader 等主流组件集成和使用方法。
-5. 提供基于 Spring Authorization Server 的单体版、微服务版案例，从 SDK、Spring Boot Starter 到完整项目任你选择。
-
-### 3. 具体差异说明
-
-具体差异，参见在线文档[【功能说明章节】](http://www.herodotus.cn/ecosphere/oss/how-to-use.html)
+具体对比，参见在线文档[【功能说明章节】](http://www.herodotus.cn/ecosphere/oss/how-to-use.html)
 
 ## 结构 | Structure
 
@@ -216,6 +200,8 @@ Dante OSS 的所有内容，可直接引入使用。以 OSS 共性抽象为基�
 ## 演示 | Example
 
 Dante OSS 作为 Dante Cloud 生态产品，不在单独提供演示环境和示例，请直接使用 Dante 环境查看效果和了解使用，这样也更贴近实际。
+
+提供基于 Spring Authorization Server 的单体版、微服务版案例，从 SDK、Spring Boot Starter 到完整项目任你选择。前端采用一个基于 Vue3、Typescript5、Vite4、Pinia 2 的完整的前端项目作为集成示例，包括详细的 Typescript 类型定义以及 vue-simple-uploader 等主流组件集成和使用方法。
 
 - 微服务演示环境：[https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)
 - 单体架构演示环境：[https://gitee.com/herodotus/dante-cloud-athena](https://gitee.com/herodotus/dante-cloud-athena)

@@ -23,53 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.base;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import com.google.common.base.MoreObjects;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
+import com.aliyun.oss.model.Bucket;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.Optional;
 
 /**
- * <p>Description: 统一所有者域对象定义 </p>
+ * <p>Description: Aliyun Bucket 转 BucketDomain 转换器  </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:43
+ * @date : 2023/7/27 16:29
  */
-@Schema(title = "所有者")
-public class OwnerDomain implements OssDomain {
-
-    /**
-     * 所有者 ID
-     */
-    @Schema(name = "所有者 ID")
-    private String id;
-
-    /**
-     * 所有者显示名称
-     */
-    @Schema(name = "所有者显示名称")
-    private String displayName;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
+public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("displayName", displayName)
-                .toString();
+    public BucketDomain convert(Bucket source) {
+
+        Optional<Bucket> optional = Optional.ofNullable(source);
+        return optional.map(bucket -> {
+
+            BucketDomain bucketDomain = new BucketDomain();
+
+            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
+                OwnerDomain ownerDomain = new OwnerDomain();
+                ownerDomain.setId(bucket.getOwner().getId());
+                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
+                bucketDomain.setOwner(ownerDomain);
+            });
+
+            bucketDomain.setName(bucket.getName());
+            bucketDomain.setCreationDate(bucket.getCreationDate());
+
+            return bucketDomain;
+        }).orElse(null);
     }
 }

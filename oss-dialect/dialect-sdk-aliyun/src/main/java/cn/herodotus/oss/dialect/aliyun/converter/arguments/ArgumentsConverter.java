@@ -23,53 +23,45 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.base;
+package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import com.google.common.base.MoreObjects;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import com.aliyun.oss.model.WebServiceRequest;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 统一所有者域对象定义 </p>
+ * <p>Description: 统一定义请求参数转换为 S3 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:43
+ * @date : 2023/8/10 15:16
  */
-@Schema(title = "所有者")
-public class OwnerDomain implements OssDomain {
+public interface ArgumentsConverter<S extends BaseArguments, T extends WebServiceRequest> extends Converter<S, T> {
 
     /**
-     * 所有者 ID
+     * 参数准备
+     *
+     * @param arguments 统一定义请求参数
+     * @param request   S3 请求参数实体
      */
-    @Schema(name = "所有者 ID")
-    private String id;
+    void prepare(S arguments, T request);
 
     /**
-     * 所有者显示名称
+     * 获取最终生成对象
+     *
+     * @return S3 请求参数实体
      */
-    @Schema(name = "所有者显示名称")
-    private String displayName;
+    T getRequest(S arguments);
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
+    /**
+     * 参数实体转换
+     *
+     * @param arguments 统一定义请求参数
+     * @return S3 请求参数实体
+     */
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("displayName", displayName)
-                .toString();
+    default T convert(S arguments) {
+        T target = getRequest(arguments);
+        prepare(arguments, target);
+        return target;
     }
 }

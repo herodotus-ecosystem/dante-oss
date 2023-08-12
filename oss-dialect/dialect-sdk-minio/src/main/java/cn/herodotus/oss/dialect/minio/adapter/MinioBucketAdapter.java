@@ -25,14 +25,14 @@
 
 package cn.herodotus.oss.dialect.minio.adapter;
 
+import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.minio.converter.MinioBucketToDomainConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.MinioArgumentsToMakeBucketArgsConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.MinioArgumentsToRemoveBucketArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToMakeBucketArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveBucketArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.BucketToDomainConverter;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
@@ -71,7 +71,7 @@ public class MinioBucketAdapter extends BaseMinioService implements OssBucketAda
 
     @Override
     public List<BucketDomain> listBuckets() {
-        return ConverterUtils.toDomains(minioBucketService.listBuckets(), new MinioBucketToDomainConverter());
+        return ConverterUtils.toDomains(minioBucketService.listBuckets(), new BucketToDomainConverter());
     }
 
     @Override
@@ -82,7 +82,7 @@ public class MinioBucketAdapter extends BaseMinioService implements OssBucketAda
 
     @Override
     public BucketDomain createBucket(CreateBucketArguments arguments) {
-        Converter<CreateBucketArguments, MakeBucketArgs> toArgs = new MinioArgumentsToMakeBucketArgsConverter();
+        Converter<CreateBucketArguments, MakeBucketArgs> toArgs = new ArgumentsToMakeBucketArgsConverter();
         minioBucketService.makeBucket(toArgs.convert(arguments));
         return null;
     }
@@ -94,7 +94,7 @@ public class MinioBucketAdapter extends BaseMinioService implements OssBucketAda
 
     @Override
     public void deleteBucket(DeleteBucketArguments arguments) {
-        Converter<DeleteBucketArguments, RemoveBucketArgs> toArgs = new MinioArgumentsToRemoveBucketArgsConverter();
+        Converter<DeleteBucketArguments, RemoveBucketArgs> toArgs = new ArgumentsToRemoveBucketArgsConverter();
         minioBucketService.removeBucket(toArgs.convert(arguments));
     }
 

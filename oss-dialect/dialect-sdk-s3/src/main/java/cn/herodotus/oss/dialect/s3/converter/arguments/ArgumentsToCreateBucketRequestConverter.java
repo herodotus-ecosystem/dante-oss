@@ -23,33 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter;
+package cn.herodotus.oss.dialect.s3.converter.arguments;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import com.amazonaws.services.s3.model.CreateBucketRequest;
-import org.apache.commons.collections4.MapUtils;
-import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 统一定义 CreateBucketArguments 转 S3 CreateBucketRequest 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/28 18:35
  */
-public class S3ArgumentsToCreateBucketRequestConverter implements Converter<CreateBucketArguments, CreateBucketRequest> {
+public class ArgumentsToCreateBucketRequestConverter extends ArgumentsToBucketConverter<CreateBucketArguments, CreateBucketRequest> {
+
     @Override
-    public CreateBucketRequest convert(CreateBucketArguments source) {
-
-        CreateBucketRequest request = new CreateBucketRequest(source.getBucketName());
-
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            source.getExtraHeaders().entrySet().forEach((entry -> request.putCustomRequestHeader(entry.getKey(), entry.getValue())));
-        }
-
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            source.getExtraQueryParams().entrySet().forEach((entry -> request.putCustomQueryParameter(entry.getKey(), entry.getValue())));
-        }
-
-        return request;
+    public CreateBucketRequest getRequest(CreateBucketArguments arguments) {
+        return new CreateBucketRequest(arguments.getBucketName());
     }
 }

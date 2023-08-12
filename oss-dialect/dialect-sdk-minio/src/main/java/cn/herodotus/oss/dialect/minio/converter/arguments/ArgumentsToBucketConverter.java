@@ -23,33 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import com.aliyun.oss.model.CreateBucketRequest;
-import org.apache.commons.collections4.MapUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.arguments.base.BucketArguments;
+import io.minio.BucketArgs;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 统一定义存储桶请求参数转换为 Minio 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:35
+ * @date : 2023/8/9 23:07
  */
-public class AliyunArgumentsToCreateBucketRequestConverter implements Converter<CreateBucketArguments, CreateBucketRequest> {
+public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends BucketArgs, B extends BucketArgs.Builder<B, T>> extends ArgumentsToBaseConverter<S, T, B> {
+
     @Override
-    public CreateBucketRequest convert(CreateBucketArguments source) {
+    public void prepare(S arguments, B builder) {
 
-        CreateBucketRequest request = new CreateBucketRequest(source.getBucketName());
+        builder.bucket(arguments.getBucketName());
 
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            request.setHeaders(source.getExtraHeaders());
+        if (StringUtils.isNotBlank(arguments.getRegion())) {
+            builder.region(arguments.getRegion());
         }
 
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            request.setParameters(source.getExtraQueryParams());
-        }
-
-        return request;
+        super.prepare(arguments, builder);
     }
 }

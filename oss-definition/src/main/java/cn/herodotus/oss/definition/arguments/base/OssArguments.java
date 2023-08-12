@@ -25,44 +25,13 @@
 
 package cn.herodotus.oss.definition.arguments.base;
 
-import cn.herodotus.engine.assistant.core.definition.constants.RegexPool;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.Length;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 
 /**
- * <p>Description: 基础的存储桶参数 </p>
+ * <p>Description: 对象存储统一定义请求参数 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:01
+ * @date : 2023/8/9 22:53
  */
-public abstract class BaseBucketArguments extends BaseOssArguments {
-
-    @Schema(name = "存储桶名称", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "存储桶名称不能为空")
-    @Length(min = 3, max = 62, message = "存储桶名称不能少于3个字符，不能大于63个字符")
-    @Pattern(regexp = RegexPool.DNS_COMPATIBLE, message = "存储桶名称无法与DNS兼容")
-    private String bucketName;
-    @Schema(name = "存储区域", description = "仅在Minio环境下使用")
-    private String region;
-
-    @Schema(name = "存储区域", description = "仅在Minio环境下使用")
-    private String key;
-
-    public String getBucketName() {
-        return bucketName;
-    }
-
-    public void setBucketName(String bucketName) {
-        this.bucketName = bucketName;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
+public interface OssArguments extends Entity {
 }

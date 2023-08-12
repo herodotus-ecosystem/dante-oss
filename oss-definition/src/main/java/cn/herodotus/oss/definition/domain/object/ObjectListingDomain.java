@@ -23,53 +23,58 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.base;
+package cn.herodotus.oss.definition.domain.object;
 
-import com.google.common.base.MoreObjects;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.List;
+
 /**
- * <p>Description: 统一所有者域对象定义 </p>
+ * <p>Description: 对象结果 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:43
+ * @date : 2023/8/9 16:36
  */
-@Schema(title = "所有者")
-public class OwnerDomain implements OssDomain {
+@Schema(name = "对象结果")
+public class ObjectListingDomain extends ListObjectsArguments {
+
+    @Schema(name = "对象列表")
+    private List<ObjectDomain> summaries;
 
     /**
-     * 所有者 ID
+     * 用于请求下一页结果的标记-仅当isTruncated成员指示此对象列表被截断时才会填充
      */
-    @Schema(name = "所有者 ID")
-    private String id;
+    @Schema(name = "请求下一页结果的标记", description = "仅当isTruncated成员指示此对象列表被截断时才会填充")
+    private String nextMarker;
 
     /**
-     * 所有者显示名称
+     * 指示这是否是一个完整的列表，或者调用者是否需要向AmazonS3发出额外请求以查看S3 bucket的完整对象列表
      */
-    @Schema(name = "所有者显示名称")
-    private String displayName;
+    @Schema(name = "否是一个完整的列表")
+    private Boolean isTruncated;
 
-    public String getId() {
-        return id;
+    public List<ObjectDomain> getSummaries() {
+        return summaries;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setSummaries(List<ObjectDomain> summaries) {
+        this.summaries = summaries;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getNextMarker() {
+        return nextMarker;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setNextMarker(String nextMarker) {
+        this.nextMarker = nextMarker;
     }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("displayName", displayName)
-                .toString();
+    public Boolean getTruncated() {
+        return isTruncated;
+    }
+
+    public void setTruncated(Boolean truncated) {
+        isTruncated = truncated;
     }
 }

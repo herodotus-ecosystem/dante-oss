@@ -23,56 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.domain;
+package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
+import com.amazonaws.services.s3.model.Bucket;
+import org.springframework.core.convert.converter.Converter;
 
-import java.util.Date;
+import java.util.Optional;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: S3 Bucket 转 BucketDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/14 22:13
+ * @date : 2023/7/15 21:28
  */
-public class S3BucketDomain implements Entity {
+public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+    @Override
+    public BucketDomain convert(Bucket source) {
 
-    /**
-     * The name of this S3 bucket
-     */
-    private String name = null;
+        Optional<Bucket> optional = Optional.ofNullable(source);
+        return optional.map(bucket -> {
 
-    /**
-     * The details on the owner of this bucket
-     */
-    private S3OwnerDomain owner = null;
+            BucketDomain bucketDomain = new BucketDomain();
 
-    /**
-     * The date this bucket was created
-     */
-    private Date creationDate = null;
+            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
+                OwnerDomain ownerDomain = new OwnerDomain();
+                ownerDomain.setId(bucket.getOwner().getId());
+                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
+                bucketDomain.setOwner(ownerDomain);
+            });
 
-    public String getName() {
-        return name;
-    }
+            bucketDomain.setName(bucket.getName());
+            bucketDomain.setCreationDate(bucket.getCreationDate());
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public S3OwnerDomain getOwner() {
-        return owner;
-    }
-
-    public void setOwner(S3OwnerDomain owner) {
-        this.owner = owner;
-    }
-
-    public Date getCreationDate() {
-        return creationDate;
-    }
-
-    public void setCreationDate(Date creationDate) {
-        this.creationDate = creationDate;
+            return bucketDomain;
+        }).orElse(null);
     }
 }

@@ -23,53 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.base;
+package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import com.google.common.base.MoreObjects;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import com.aliyun.oss.model.WebServiceRequest;
+import org.apache.commons.collections4.MapUtils;
 
 /**
- * <p>Description: 统一所有者域对象定义 </p>
+ * <p>Description: 基础的统一定义请求参数转换为 Aliyun 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:43
+ * @date : 2023/8/10 15:33
  */
-@Schema(title = "所有者")
-public class OwnerDomain implements OssDomain {
-
-    /**
-     * 所有者 ID
-     */
-    @Schema(name = "所有者 ID")
-    private String id;
-
-    /**
-     * 所有者显示名称
-     */
-    @Schema(name = "所有者显示名称")
-    private String displayName;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
+public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extends WebServiceRequest> implements ArgumentsConverter<S, T> {
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("displayName", displayName)
-                .toString();
+    public void prepare(S arguments, T request) {
+        if (MapUtils.isNotEmpty(arguments.getExtraHeaders())) {
+            request.setHeaders(arguments.getExtraHeaders());
+        }
+
+        if (MapUtils.isNotEmpty(arguments.getExtraQueryParams())) {
+            request.setParameters(arguments.getExtraQueryParams());
+        }
     }
 }

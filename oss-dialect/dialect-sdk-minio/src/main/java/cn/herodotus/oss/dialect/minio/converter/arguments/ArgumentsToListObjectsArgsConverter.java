@@ -25,36 +25,36 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import io.minio.MakeBucketArgs;
-import io.minio.RemoveBucketArgs;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import io.minio.ListObjectsArgs;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 统一定义 OssArguments 转 Minio ListObjectsArgs 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:21
+ * @date : 2023/8/9 22:14
  */
-public class MinioArgumentsToRemoveBucketArgsConverter implements Converter<DeleteBucketArguments, RemoveBucketArgs> {
+public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
+
     @Override
-    public RemoveBucketArgs convert(DeleteBucketArguments source) {
+    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
+        builder.delimiter(arguments.getDelimiter());
+        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
+        builder.maxKeys(arguments.getMaxKeys());
+        builder.prefix(arguments.getPrefix());
+        builder.recursive(false);
+        builder.useApiVersion1(true);
 
-        RemoveBucketArgs.Builder builder = RemoveBucketArgs.builder();
-
-        builder.bucket(source.getBucketName());
-
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            builder.extraHeaders(source.getExtraHeaders());
+        if (StringUtils.isNotBlank(arguments.getMarker())) {
+            builder.keyMarker(arguments.getMarker());
         }
 
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            builder.extraHeaders(source.getExtraQueryParams());
-        }
+        super.prepare(arguments, builder);
+    }
 
-        return builder.build();
+    @Override
+    public ListObjectsArgs.Builder getBuilder() {
+        return ListObjectsArgs.builder();
     }
 }

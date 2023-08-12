@@ -23,22 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.bucket;
+package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.rest.minio.definition.BucketRequest;
-import io.minio.RemoveBucketArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import com.aliyun.oss.model.ListObjectsV2Request;
 
 /**
- * <p>Description: 删除桶参数实体 </p>
+ * <p>Description: 统一定义 ListObjectsV2Arguments 转 S3 ListObjectsV2Request 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/2 14:40
+ * @date : 2023/8/10 19:31
  */
-@Schema(name = "删除桶参数实体", title = "删除桶参数实体")
-public class RemoveBucketRequest extends BucketRequest<RemoveBucketArgs.Builder, RemoveBucketArgs> {
+public class ArgumentsToListObjectsV2RequestConverter extends ArgumentsToBucketConverter<ListObjectsV2Arguments, ListObjectsV2Request> {
+
     @Override
-    public RemoveBucketArgs.Builder getBuilder() {
-        return RemoveBucketArgs.builder();
+    public ListObjectsV2Request getRequest(ListObjectsV2Arguments arguments) {
+        return new ListObjectsV2Request(arguments.getBucketName(), arguments.getPrefix(), arguments.getContinuationToken(), arguments.getMarker(), arguments.getDelimiter(), arguments.getMaxKeys(), arguments.getEncodingType(), arguments.getFetchOwner());
     }
 }

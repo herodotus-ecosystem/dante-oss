@@ -23,38 +23,39 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
-import com.aliyun.oss.model.Bucket;
+import cn.herodotus.oss.definition.domain.object.ObjectDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
+import com.aliyun.oss.model.ObjectListing;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
- * <p>Description: Aliyun Bucket 转 BucketDomain 转换器  </p>
+ * <p>Description: Aliyun ObjectListing 转 ObjectListingDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 16:29
+ * @date : 2023/8/10 19:35
  */
-public class AliyunBucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+public class ObjectListingToDomainConverter implements Converter<ObjectListing, ObjectListingDomain> {
     @Override
-    public BucketDomain convert(Bucket source) {
+    public ObjectListingDomain convert(ObjectListing source) {
 
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
+        List<ObjectDomain> summaries = ConverterUtils.toDomains(source.getObjectSummaries(), new ObjectSummaryToDomainConverter(source.getDelimiter()));
 
-            BucketDomain bucketDomain = new BucketDomain();
+        ObjectListingDomain domain = new ObjectListingDomain();
+        domain.setSummaries(summaries);
+        domain.setNextMarker(source.getNextMarker());
+        domain.setTruncated(source.isTruncated());
+        domain.setPrefix(source.getPrefix());
+        domain.setMarker(source.getMarker());
+        domain.setDelimiter(source.getDelimiter());
+        domain.setMaxKeys(source.getMaxKeys());
+        domain.setEncodingType(source.getEncodingType());
+        domain.setBucketName(source.getBucketName());
 
-            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-                OwnerDomain ownerDomain = new OwnerDomain();
-                ownerDomain.setId(bucket.getOwner().getId());
-                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
-                bucketDomain.setOwner(ownerDomain);
-            });
-
-            return bucketDomain;
-        }).orElse(null);
+        return domain;
     }
 }

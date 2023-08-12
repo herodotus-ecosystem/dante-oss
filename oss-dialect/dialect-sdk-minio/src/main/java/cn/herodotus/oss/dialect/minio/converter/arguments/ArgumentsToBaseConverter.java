@@ -23,45 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.bucket;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.rest.minio.definition.BucketRequest;
-import io.minio.MakeBucketArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import io.minio.BaseArgs;
+import org.apache.commons.collections4.MapUtils;
 
 /**
- * <p>Description: 创建桶是参数实体 </p>
- * <p>
- * 与 Create Bucket 不同，这里仅是创建，Create Bucket 包含桶是否存在检查
+ * <p>Description: 基础的统一定义请求参数转换为 Minio 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/2 0:09
+ * @date : 2023/8/9 22:18
  */
-@Schema(name = "创建桶是参数实体", title = "创建桶是参数实体")
-public class MakeBucketRequest extends BucketRequest<MakeBucketArgs.Builder, MakeBucketArgs> {
-
-    @Schema(name = "开启对象锁定")
-    private Boolean objectLock;
-
-    public Boolean getObjectLock() {
-        return objectLock;
-    }
-
-    public void setObjectLock(Boolean objectLock) {
-        this.objectLock = objectLock;
-    }
+public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extends BaseArgs, B extends BaseArgs.Builder<B, T>> implements ArgumentsConverter<S, T, B> {
 
     @Override
-    public void prepare(MakeBucketArgs.Builder builder) {
-        if (ObjectUtils.isNotEmpty(getObjectLock())) {
-            builder.objectLock(getObjectLock());
+    public void prepare(S arguments, B builder) {
+        if (MapUtils.isNotEmpty(arguments.getExtraHeaders())) {
+            builder.extraHeaders(arguments.getExtraHeaders());
         }
-        super.prepare(builder);
-    }
 
-    @Override
-    public MakeBucketArgs.Builder getBuilder() {
-        return MakeBucketArgs.builder();
+        if (MapUtils.isNotEmpty(arguments.getExtraQueryParams())) {
+            builder.extraHeaders(arguments.getExtraQueryParams());
+        }
     }
 }

@@ -71,11 +71,23 @@ public class MinioObjectService extends BaseMinioService {
      * 列出桶的对象信息. 仅用于 only for ListObjectsV1
      *
      * @param bucketName 存储桶名称
-     * @param region     区域
+     * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region) {
-        return listObjects(bucketName, region, null);
+    public Iterable<Result<Item>> listObjects(String bucketName, String prefix) {
+        return listObjects(bucketName, null, prefix);
+    }
+
+    /**
+     * 列出桶的对象信息. 仅用于 only for ListObjectsV1
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param prefix     前缀
+     * @return Iterable<Result < Item>>
+     */
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String prefix) {
+        return listObjects(bucketName, region, prefix, null);
     }
 
     /**
@@ -84,10 +96,11 @@ public class MinioObjectService extends BaseMinioService {
      * @param bucketName 存储桶名称
      * @param region     区域
      * @param delimiter  分隔符
+     * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter) {
-        return listObjects(bucketName, region, delimiter, false);
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter) {
+        return listObjects(bucketName, region, prefix, delimiter, false);
     }
 
     /**
@@ -97,24 +110,11 @@ public class MinioObjectService extends BaseMinioService {
      * @param region     区域
      * @param delimiter  分隔符
      * @param recursive  是否递归
+     * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive) {
-        return listObjects(bucketName, region, delimiter, recursive, null);
-    }
-
-    /**
-     * 列出桶的对象信息. 仅用于 only for ListObjectsV1
-     *
-     * @param bucketName 存储桶名称
-     * @param region     区域
-     * @param delimiter  分隔符
-     * @param recursive  是否递归
-     * @param keyMarker  关键字
-     * @return Iterable<Result < Item>>
-     */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, String keyMarker) {
-        return listObjects(bucketName, region, delimiter, recursive, keyMarker, null);
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive) {
+        return listObjects(bucketName, region, prefix, delimiter, recursive, null);
     }
 
     /**
@@ -128,8 +128,8 @@ public class MinioObjectService extends BaseMinioService {
      * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, String keyMarker, String prefix) {
-        return listObjects(bucketName, region, delimiter, recursive, true, keyMarker, prefix);
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, String keyMarker) {
+        return listObjects(bucketName, region, prefix, delimiter, recursive, true, keyMarker);
     }
 
     /**
@@ -144,8 +144,8 @@ public class MinioObjectService extends BaseMinioService {
      * @param prefix             前缀
      * @return Iterable<Result < Item>>
      */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, String prefix) {
-        return listObjects(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, 1000, prefix);
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker) {
+        return listObjects(bucketName, region, prefix, delimiter, recursive, useUrlEncodingType, keyMarker, 1000);
     }
 
     /**
@@ -161,8 +161,8 @@ public class MinioObjectService extends BaseMinioService {
      * @param prefix             前缀
      * @return Iterable<Result < Item>>
      */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix) {
-        return listObjects(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, false);
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys) {
+        return listObjects(bucketName, region, prefix, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, false);
     }
 
     /**
@@ -179,8 +179,8 @@ public class MinioObjectService extends BaseMinioService {
      * @param includeVersions    是否包含版本
      * @return Iterable<Result < Item>>
      */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions) {
-        return listObjects(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, null);
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, boolean includeVersions) {
+        return listObjects(bucketName, region, prefix, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, includeVersions, null);
     }
 
     /**
@@ -198,7 +198,7 @@ public class MinioObjectService extends BaseMinioService {
      * @param versionIdMarker    版本关键字
      * @return Iterable<Result < Item>>
      */
-    public Iterable<Result<Item>> listObjects(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker) {
+    public Iterable<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, boolean includeVersions, String versionIdMarker) {
         return listObjects(ListObjectsArgs.builder()
                 .bucket(bucketName)
                 .region(region)

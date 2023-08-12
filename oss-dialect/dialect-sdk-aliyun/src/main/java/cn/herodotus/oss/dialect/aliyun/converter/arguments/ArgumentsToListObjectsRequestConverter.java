@@ -23,34 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.domain;
+package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import com.aliyun.oss.model.ListObjectsRequest;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 统一定义 ListObjectsArguments 转 S3 ListObjectsRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/15 21:25
+ * @date : 2023/8/10 19:31
  */
-public class S3OwnerDomain implements Entity {
+public class ArgumentsToListObjectsRequestConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsRequest> {
 
-    private String displayName;
-    private String id;
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    @Override
+    public ListObjectsRequest getRequest(ListObjectsArguments arguments) {
+        return new ListObjectsRequest(arguments.getBucketName(), arguments.getPrefix(), arguments.getMarker(), arguments.getDelimiter(), arguments.getMaxKeys());
     }
 }

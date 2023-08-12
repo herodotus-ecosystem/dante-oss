@@ -23,35 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter;
+package cn.herodotus.oss.definition.arguments.base;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
-import com.amazonaws.services.s3.model.DeleteBucketRequest;
-import org.apache.commons.collections4.MapUtils;
-import org.springframework.core.convert.converter.Converter;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.Map;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 请求参数对象基础定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 19:59
+ * @date : 2023/7/28 0:05
  */
-public class S3ArgumentsToDeleteBucketRequestConverter implements Converter<DeleteBucketArguments, DeleteBucketRequest> {
-    @Override
-    public DeleteBucketRequest convert(DeleteBucketArguments source) {
+public abstract class BaseArguments implements OssArguments {
 
-        DeleteBucketRequest request = new DeleteBucketRequest(source.getBucketName());
+    @Schema(name = "额外的请求头")
+    private Map<String, String> extraHeaders;
 
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            source.getExtraHeaders().entrySet().forEach((entry -> request.putCustomRequestHeader(entry.getKey(), entry.getValue())));
-        }
+    @Schema(name = "额外的Query参数")
+    private Map<String, String> extraQueryParams;
 
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            source.getExtraQueryParams().entrySet().forEach((entry -> request.putCustomQueryParameter(entry.getKey(), entry.getValue())));
-        }
-
-        return request;
+    public Map<String, String> getExtraHeaders() {
+        return extraHeaders;
     }
+
+    public void setExtraHeaders(Map<String, String> extraHeaders) {
+        this.extraHeaders = extraHeaders;
+    }
+
+    public Map<String, String> getExtraQueryParams() {
+        return extraQueryParams;
+    }
+
+    public void setExtraQueryParams(Map<String, String> extraQueryParams) {
+        this.extraQueryParams = extraQueryParams;
+    }
+
+
 }

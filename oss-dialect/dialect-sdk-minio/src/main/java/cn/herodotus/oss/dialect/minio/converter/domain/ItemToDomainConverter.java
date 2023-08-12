@@ -23,11 +23,12 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.dialect.minio.converter.domain;
 
 import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectDomain;
 import cn.herodotus.oss.dialect.core.exception.*;
-import cn.herodotus.oss.dialect.minio.domain.ObjectDomain;
 import io.minio.Result;
 import io.minio.errors.*;
 import io.minio.messages.Item;
@@ -42,39 +43,45 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * <p>Description: Result<Item> 转 ObjectDomain 转换器 </p>
+ * <p>Description: Minio Item 转 ObjectDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 21:33
+ * @date : 2023/8/9 23:43
  */
-public class ResultItemToDomainConverter implements Converter<Result<Item>, ObjectDomain> {
+public class ItemToDomainConverter implements Converter<Result<Item>, ObjectDomain> {
 
-    private static final Logger log = LoggerFactory.getLogger(ResultItemToDomainConverter.class);
+    private static final Logger log = LoggerFactory.getLogger(ItemToDomainConverter.class);
+
+    private final String bucketName;
+
+    public ItemToDomainConverter(String bucketName) {
+        this.bucketName = bucketName;
+    }
 
     @Override
     public ObjectDomain convert(Result<Item> result) {
-
         String function = "convert";
 
         try {
             Item item = result.get();
-            ObjectDomain entity = new ObjectDomain();
-            entity.setObjectName(item.objectName());
-            entity.setLatest(item.isLatest());
-            entity.setDir(item.isDir());
+            ObjectDomain objectDomain = new ObjectDomain();
+            objectDomain.setBucketName(bucketName);
+            objectDomain.setObjectName(item.objectName());
+            objectDomain.setDir(item.isDir());
             if (!item.isDir()) {
-                entity.setEtag(item.etag());
-                entity.setLastModified(DateTimeUtils.zonedDateTimeToString(item.lastModified()));
+                objectDomain.setETag(item.etag());
+                objectDomain.setLastModified(DateTimeUtils.zonedDateTimeToDate(item.lastModified()));
                 if (ObjectUtils.isNotEmpty(item.owner())) {
-                    entity.setOwnerId(item.owner().id());
-                    entity.setOwnerDisplayName(item.owner().displayName());
+                    OwnerDomain ownerDomain = new OwnerDomain();
+                    ownerDomain.setId(item.owner().id());
+                    ownerDomain.setDisplayName(item.owner().displayName());
+                    objectDomain.setOwner(ownerDomain);
                 }
-                entity.setSize(item.size());
-                entity.setStorageClass(item.storageClass());
-                entity.setUserMetadata(item.userMetadata());
-            }
+                objectDomain.setSize(item.size());
+                objectDomain.setStorageClass(item.storageClass());
 
-            return entity;
+            }
+            return objectDomain;
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new OssErrorResponseException(e.getMessage());

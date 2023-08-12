@@ -33,7 +33,6 @@ import cn.herodotus.oss.dialect.minio.converter.UserInfoToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.UsersToDomainsConverter;
 import cn.herodotus.oss.dialect.minio.domain.UserDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioAdminUserService;
-import cn.herodotus.oss.rest.minio.request.bucket.RemoveBucketRequest;
 import io.minio.admin.UserInfo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -139,7 +138,7 @@ public class MinioAdminUserController implements Controller {
                     @ApiResponse(responseCode = "503", description = "Minio Server 无法访问或未启动")
             })
     @Parameters({
-            @Parameter(name = "accessKey", required = true, description = "用户对应 AccessKey 标识", schema = @Schema(implementation = RemoveBucketRequest.class))
+            @Parameter(name = "accessKey", required = true, description = "用户对应 AccessKey 标识")
     })
     @DeleteMapping
     public Result<Boolean> remove(String accessKey) {

@@ -25,38 +25,43 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import io.minio.MakeBucketArgs;
-import org.apache.commons.collections4.MapUtils;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import io.minio.BaseArgs;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 统一定义请求参数转换为 Minio 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:21
+ * @date : 2023/8/9 22:23
  */
-public class MinioArgumentsToMakeBucketArgsConverter implements Converter<CreateBucketArguments, MakeBucketArgs> {
+public interface ArgumentsConverter<S extends BaseArguments, T extends BaseArgs, B extends BaseArgs.Builder<B, T>> extends Converter<S, T> {
+
+    /**
+     * 参数准备
+     *
+     * @param arguments 统一定义请求参数
+     * @param builder   Minio 请求参数构造器
+     */
+    void prepare(S arguments, B builder);
+
+    /**
+     * 获取Minio 请求参数构造器
+     *
+     * @return Minio 请求参数构造器
+     */
+    B getBuilder();
+
+    /**
+     * 对象转换
+     *
+     * @param arguments 统一定义请求参数
+     * @return Minio 请求参数
+     */
     @Override
-    public MakeBucketArgs convert(CreateBucketArguments source) {
-
-        MakeBucketArgs.Builder builder = MakeBucketArgs.builder();
-
-        builder.bucket(source.getBucketName());
-
-        if (MapUtils.isNotEmpty(source.getExtraHeaders())) {
-            builder.extraHeaders(source.getExtraHeaders());
-        }
-
-        if (MapUtils.isNotEmpty(source.getExtraQueryParams())) {
-            builder.extraHeaders(source.getExtraQueryParams());
-        }
-
-        if (ObjectUtils.isNotEmpty(source.getObjectLock())) {
-            builder.objectLock(source.getObjectLock());
-        }
-
+    default T convert(S arguments) {
+        B builder = getBuilder();
+        prepare(arguments, builder);
         return builder.build();
     }
 }

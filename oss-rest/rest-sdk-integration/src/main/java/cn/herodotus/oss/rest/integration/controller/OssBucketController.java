@@ -115,6 +115,7 @@ public class OssBucketController implements Controller {
     })
     @PostMapping
     public Result<Boolean> createBucket(@Validated @RequestBody CreateBucketArguments arguments) {
+        // Minio 的 MakeBucket 没有返回值
         ossBucketHandler.createBucket(arguments);
         return result(true);
     }

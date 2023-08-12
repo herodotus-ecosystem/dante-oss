@@ -23,43 +23,60 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.service;
+package cn.herodotus.oss.dialect.aliyun.adapter;
 
-import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientObjectPool;
+import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
+import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsV2RequestConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.domain.ListObjectsV2ResultToDomainConverter;
+import cn.herodotus.oss.dialect.aliyun.converter.domain.ObjectListingToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.BucketMetadata;
-import com.aliyun.oss.model.GenericRequest;
+import com.aliyun.oss.model.ListObjectsRequest;
+import com.aliyun.oss.model.ListObjectsV2Request;
+import com.aliyun.oss.model.ListObjectsV2Result;
+import com.aliyun.oss.model.ObjectListing;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 /**
- * <p>Description: Aliyun OSS 存储桶 Service </p>
+ * <p>Description: Aliyun 兼容模式对象操作处理器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 11:58
+ * @date : 2023/8/9 16:49
  */
 @Service
-public class AliyunBucketService extends BaseAliyunService {
+public class AliyunObjectAdapter extends BaseAliyunService implements OssObjectAdapter {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketService.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunObjectAdapter.class);
 
-    protected AliyunBucketService(AliyunClientObjectPool aliyunClientObjectPool) {
-        super(aliyunClientObjectPool);
+    public AliyunObjectAdapter(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+        super(ossClientObjectPool);
     }
 
-    public BucketMetadata getBucketMetadata(GenericRequest request) {
-        String function = "getBucketMetadata";
+    @Override
+    public ObjectListingDomain listObjects(ListObjectsArguments arguments) {
+        String function = "listObjects";
+
+        Converter<ListObjectsArguments, ListObjectsRequest> toArgs = new ArgumentsToListObjectsRequestConverter();
+        Converter<ObjectListing, ObjectListingDomain> toDomain = new ObjectListingToDomainConverter();
 
         OSS client = getClient();
 
         try {
-            return client.getBucketMetadata(request);
+            ObjectListing objectListing = client.listObjects(toArgs.convert(arguments));
+            return toDomain.convert(objectListing);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
@@ -71,14 +88,18 @@ public class AliyunBucketService extends BaseAliyunService {
         }
     }
 
+    @Override
+    public ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments) {
+        String function = "listObjectsV2";
 
-    public String getBucketLocation(GenericRequest request) {
-        String function = "getBucketLocation";
+        Converter<ListObjectsV2Arguments, ListObjectsV2Request> toArgs = new ArgumentsToListObjectsV2RequestConverter();
+        Converter<ListObjectsV2Result, ObjectListingV2Domain> toDomain = new ListObjectsV2ResultToDomainConverter();
 
         OSS client = getClient();
 
         try {
-            return client.getBucketLocation(request);
+            ListObjectsV2Result listObjectsV2Result = client.listObjectsV2(toArgs.convert(arguments));
+            return toDomain.convert(listObjectsV2Result);
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

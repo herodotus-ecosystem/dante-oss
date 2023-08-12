@@ -27,44 +27,119 @@ package cn.herodotus.oss.definition.domain.object;
 
 import cn.herodotus.oss.definition.domain.base.OssDomain;
 import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 对象 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/28 22:46
  */
+@Schema(name = "对象")
 public class ObjectDomain implements OssDomain {
 
     /**
      * 存储桶名称
      */
-    protected String bucketName;
+    @Schema(name = "存储桶名称")
+    private String bucketName;
     /**
      * 存储此对象的密钥
      */
-    protected String key;
+    @Schema(name = "存储此对象的密钥")
+    private String objectName;
     /**
      * ETag。此对象内容的十六进制编码MD5哈希
      */
-    protected String eTag;
+    @Schema(name = "ETag", description = "此对象内容的十六进制编码MD5哈希")
+    private String eTag;
     /**
      * 此对象的大小，以字节为单位
      */
-    protected long size;
+    @Schema(name = "对象大小", description = "以字节为单位")
+    private Long size;
     /**
      * 对象最后一次被修改的日期
      */
-    protected Date lastModified;
+    @Schema(name = "对象最后一次被修改的日期")
+    private Date lastModified;
     /**
      * 存储此对象的存储类
      */
-    protected String storageClass;
+    @Schema(name = "存储此对象的存储类")
+    private String storageClass;
     /**
      * 如果请求者没有查看对象所有权信息的权限，则此对象的所有者可以为null
      */
-    protected OwnerDomain owner;
+    @Schema(name = "请求者")
+    private OwnerDomain owner;
 
+    @Schema(name = "是否为文件夹")
+    private Boolean isDir;
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
+    }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+
+    public String getETag() {
+        return eTag;
+    }
+
+    public void setETag(String eTag) {
+        this.eTag = eTag;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public String getStorageClass() {
+        return storageClass;
+    }
+
+    public void setStorageClass(String storageClass) {
+        this.storageClass = storageClass;
+    }
+
+    public OwnerDomain getOwner() {
+        return owner;
+    }
+
+    public void setOwner(OwnerDomain owner) {
+        this.owner = owner;
+    }
+
+    public Boolean getDir() {
+        return isDir;
+    }
+
+    public void setDir(Boolean dir) {
+        isDir = dir;
+    }
 }

@@ -23,53 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.base;
+package cn.herodotus.oss.definition.arguments.base;
 
-import com.google.common.base.MoreObjects;
+import cn.herodotus.engine.assistant.core.definition.constants.RegexPool;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import org.hibernate.validator.constraints.Length;
 
 /**
- * <p>Description: 统一所有者域对象定义 </p>
+ * <p>Description: 基础的存储桶参数 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:43
+ * @date : 2023/7/28 18:01
  */
-@Schema(title = "所有者")
-public class OwnerDomain implements OssDomain {
+public abstract class BucketArguments extends BaseArguments {
 
-    /**
-     * 所有者 ID
-     */
-    @Schema(name = "所有者 ID")
-    private String id;
+    @Schema(name = "存储桶名称", requiredMode = Schema.RequiredMode.REQUIRED)
+    @NotBlank(message = "存储桶名称不能为空")
+    @Length(min = 3, max = 62, message = "存储桶名称不能少于3个字符，不能大于63个字符")
+    @Pattern(regexp = RegexPool.DNS_COMPATIBLE, message = "存储桶名称无法与DNS兼容")
+    private String bucketName;
+    @Schema(name = "存储区域", description = "仅在Minio环境下使用，Amazon S3 已废弃")
+    private String region;
 
-    /**
-     * 所有者显示名称
-     */
-    @Schema(name = "所有者显示名称")
-    private String displayName;
-
-    public String getId() {
-        return id;
+    public String getBucketName() {
+        return bucketName;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getRegion() {
+        return region;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("displayName", displayName)
-                .toString();
+    public void setRegion(String region) {
+        this.region = region;
     }
 }
