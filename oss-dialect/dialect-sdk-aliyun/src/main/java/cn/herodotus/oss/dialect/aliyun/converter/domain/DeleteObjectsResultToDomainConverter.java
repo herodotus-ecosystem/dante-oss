@@ -23,21 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectArguments;
-import io.minio.ObjectArgs;
+import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
+import com.aliyun.oss.model.DeleteObjectsResult;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 统一定义对象请求参数转换为 Minio 参数转换器 </p>
+ * <p>Description: Aliyun DeleteObjectsResult 转 DeleteObjectDomain 转换器  </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 23:07
+ * @date : 2023/8/12 15:30
  */
-public abstract class ArgumentsToObjectConverter<S extends ObjectArguments, T extends ObjectArgs, B extends ObjectArgs.Builder<B, T>> extends ArgumentsToBucketConverter<S, T, B> {
+public class DeleteObjectsResultToDomainConverter implements Converter<DeleteObjectsResult, List<DeleteObjectDomain>> {
     @Override
-    public void prepare(S arguments, B builder) {
-        builder.object(arguments.getObjectName());
-        super.prepare(arguments, builder);
+    public List<DeleteObjectDomain> convert(DeleteObjectsResult source) {
+
+        List<String> items = source.getDeletedObjects();
+
+        if (CollectionUtils.isNotEmpty(items)) {
+            return items.stream().map(DeleteObjectDomain::new).toList();
+        }
+
+        return new ArrayList<>();
     }
 }

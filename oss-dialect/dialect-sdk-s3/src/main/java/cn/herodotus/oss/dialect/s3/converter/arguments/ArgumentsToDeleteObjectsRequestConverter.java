@@ -25,19 +25,35 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
-import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
+import cn.herodotus.oss.definition.arguments.object.DeletedObjectArguments;
+import com.amazonaws.services.s3.model.DeleteObjectsRequest;
+import org.apache.commons.collections4.CollectionUtils;
+
+import java.util.List;
 
 /**
- * <p>Description: 统一定义 DeleteBucketArguments 转 Minio DeleteBucketRequest 转换器 </p>
+ * <p>Description: 统一定义 DeleteObjectsArguments 转 Aliyun DeleteObjectsRequest 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/28 19:59
  */
-public class ArgumentsToDeleteObjectRequestConverter extends ArgumentsToBucketConverter<DeleteObjectArguments, DeleteObjectRequest> {
+public class ArgumentsToDeleteObjectsRequestConverter extends ArgumentsToBucketConverter<DeleteObjectsArguments, DeleteObjectsRequest> {
 
     @Override
-    public DeleteObjectRequest getRequest(DeleteObjectArguments arguments) {
-        return new DeleteObjectRequest(arguments.getBucketName(), arguments.getObjectName());
+    public void prepare(DeleteObjectsArguments arguments, DeleteObjectsRequest request) {
+        List<DeletedObjectArguments> keys = arguments.getObjects();
+        if (CollectionUtils.isNotEmpty(keys)) {
+            List<DeleteObjectsRequest.KeyVersion> values = keys.stream().map(item -> new DeleteObjectsRequest.KeyVersion(item.getObjectName(), item.getVersionId())).toList();
+            request.setKeys(values);
+        }
+
+        request.setQuiet(arguments.getQuiet());
+        super.prepare(arguments, request);
+    }
+
+    @Override
+    public DeleteObjectsRequest getRequest(DeleteObjectsArguments arguments) {
+        return new DeleteObjectsRequest(arguments.getBucketName());
     }
 }

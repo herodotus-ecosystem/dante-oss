@@ -23,21 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.definition.domain.object;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectArguments;
-import io.minio.ObjectArgs;
+import cn.herodotus.oss.definition.domain.base.OssDomain;
+
+import java.util.List;
 
 /**
- * <p>Description: 统一定义对象请求参数转换为 Minio 参数转换器 </p>
+ * <p>Description: 批量删除对象结果 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 23:07
+ * @date : 2023/8/12 15:12
  */
-public abstract class ArgumentsToObjectConverter<S extends ObjectArguments, T extends ObjectArgs, B extends ObjectArgs.Builder<B, T>> extends ArgumentsToBucketConverter<S, T, B> {
-    @Override
-    public void prepare(S arguments, B builder) {
-        builder.object(arguments.getObjectName());
-        super.prepare(arguments, builder);
+public class DeleteObjectsDomain implements OssDomain {
+
+    List<DeleteObjectDomain> deletedObjects;
+
+    public List<DeleteObjectDomain> getDeletedObjects() {
+        return deletedObjects;
+    }
+
+    public void setDeletedObjects(List<DeleteObjectDomain> deletedObjects) {
+        this.deletedObjects = deletedObjects;
     }
 }

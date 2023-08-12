@@ -131,31 +131,11 @@ public class S3ObjectService extends BaseS3Service {
     }
 
     /**
-     * 删除多个对象
-     *
-     * @param request {@link DeleteObjectsRequest}
-     * @return {@link DeleteObjectsResult}
-     */
-    public DeleteObjectsResult deleteObjects(DeleteObjectsRequest request) {
-        String function = "deleteObjects";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            return amazonS3.deleteObjects(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
      * 删除对象指定版本
      *
      * @param request {@link DeleteVersionRequest}
      */
-    public void deleteObjects(DeleteVersionRequest request) {
+    public void deleteVersion(DeleteVersionRequest request) {
         String function = "deleteObjects";
 
         AmazonS3 amazonS3 = getClient();

@@ -23,28 +23,23 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.bucket;
+package cn.herodotus.oss.definition.domain.object;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.arguments.object.DeletedObjectArguments;
 
 /**
- * <p>Description: 批量删除对象请求参数实体 </p>
+ * <p>Description: 批量删除对象中的结果对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/12 11:00
+ * @date : 2023/8/12 13:49
  */
-@Schema(name = "批量删除对象请求参数实体", title = "批量删除对象请求参数实体")
-public class DeleteObjectsArguments extends BucketArguments {
+public class DeleteObjectDomain extends DeletedObjectArguments {
 
-    @Schema(name = "使用治理模式进行删除", description = "治理模式用户不能覆盖或删除对象版本或更改其锁定设置，可通过设置该参数进行强制操作")
-    private Boolean bypassGovernanceMode;
-
-    public Boolean getBypassGovernanceMode() {
-        return bypassGovernanceMode;
+    public DeleteObjectDomain() {
+        super();
     }
 
-    public void setBypassGovernanceMode(Boolean bypassGovernanceMode) {
-        this.bypassGovernanceMode = bypassGovernanceMode;
+    public DeleteObjectDomain(String objectName) {
+        super(objectName);
     }
 }

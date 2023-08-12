@@ -23,13 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.dialect.minio.converter.domain;
 
+import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectDomain;
 import cn.herodotus.oss.dialect.core.exception.*;
-import cn.herodotus.oss.dialect.minio.domain.DeleteErrorDomain;
 import io.minio.Result;
 import io.minio.errors.*;
-import io.minio.messages.DeleteError;
+import io.minio.messages.Item;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,33 +43,45 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * <p>Description: Result<DeleteError> 转 DeleteErrorEntity 转换器 </p>
+ * <p>Description: Minio Item 转 ObjectDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 22:34
+ * @date : 2023/8/9 23:43
  */
-public class ResultDeleteErrorToDomainConverter implements Converter<Result<DeleteError>, DeleteErrorDomain> {
+public class ResultItemToDomainConverter implements Converter<Result<Item>, ObjectDomain> {
 
-    private static final Logger log = LoggerFactory.getLogger(ResultDeleteErrorToDomainConverter.class);
+    private static final Logger log = LoggerFactory.getLogger(ResultItemToDomainConverter.class);
+
+    private final String bucketName;
+
+    public ResultItemToDomainConverter(String bucketName) {
+        this.bucketName = bucketName;
+    }
 
     @Override
-    public DeleteErrorDomain convert(Result<DeleteError> result) {
-        String function = "converter";
+    public ObjectDomain convert(Result<Item> result) {
+        String function = "convert";
 
         try {
-            DeleteError deleteError = result.get();
+            Item item = result.get();
+            ObjectDomain objectDomain = new ObjectDomain();
+            objectDomain.setBucketName(bucketName);
+            objectDomain.setObjectName(item.objectName());
+            objectDomain.setDir(item.isDir());
+            if (!item.isDir()) {
+                objectDomain.setETag(item.etag());
+                objectDomain.setLastModified(DateTimeUtils.zonedDateTimeToDate(item.lastModified()));
+                if (ObjectUtils.isNotEmpty(item.owner())) {
+                    OwnerDomain ownerDomain = new OwnerDomain();
+                    ownerDomain.setId(item.owner().id());
+                    ownerDomain.setDisplayName(item.owner().displayName());
+                    objectDomain.setOwner(ownerDomain);
+                }
+                objectDomain.setSize(item.size());
+                objectDomain.setStorageClass(item.storageClass());
 
-            DeleteErrorDomain domain = new DeleteErrorDomain();
-            if (ObjectUtils.isNotEmpty(deleteError)) {
-                domain.setCode(deleteError.code());
-                domain.setMessage(deleteError.message());
-                domain.setBucketName(deleteError.bucketName());
-                domain.setObjectName(deleteError.objectName());
-                domain.setResource(deleteError.resource());
-                domain.setRequestId(deleteError.requestId());
-                domain.setHostId(deleteError.hostId());
             }
-            return domain;
+            return objectDomain;
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new OssErrorResponseException(e.getMessage());

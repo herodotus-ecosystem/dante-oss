@@ -47,7 +47,7 @@ public class BucketDomain implements OssDomain {
      * 存储桶名称
      */
     @Schema(name = "存储桶名称")
-    private String name;
+    private String bucketName;
 
     /**
      * 存储桶所有者信息
@@ -62,12 +62,12 @@ public class BucketDomain implements OssDomain {
     @JsonFormat(pattern = DefaultConstants.DATE_TIME_FORMAT)
     private Date creationDate;
 
-    public String getName() {
-        return name;
+    public String getBucketName() {
+        return bucketName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
     }
 
     public OwnerDomain getOwner() {
@@ -89,7 +89,7 @@ public class BucketDomain implements OssDomain {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("name", name)
+                .add("name", bucketName)
                 .add("owner", owner)
                 .add("creationDate", creationDate)
                 .toString();

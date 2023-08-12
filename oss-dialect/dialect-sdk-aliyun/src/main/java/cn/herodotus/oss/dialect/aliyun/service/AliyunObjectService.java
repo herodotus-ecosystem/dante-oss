@@ -232,24 +232,6 @@ public class AliyunObjectService extends BaseAliyunService {
         }
     }
 
-    public DeleteObjectsResult deleteObjects(DeleteObjectsRequest request) {
-        String function = "deleteObjects";
-
-        OSS client = getClient();
-
-        try {
-            return client.deleteObjects(request);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
-        } finally {
-            close(client);
-        }
-    }
-
     public VoidResult deleteVersion(DeleteVersionRequest request) {
         String function = "deleteVersion";
 

@@ -25,12 +25,12 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import io.minio.RemoveObjectArgs;
 import org.apache.commons.lang3.ObjectUtils;
 
 /**
- * <p>Description: 统一定义 DeleteObjectArguments 转 Minio RemoveObjectArgs 转换器 </p>
+ * <p>Description: 统一定义 DeletedObjectArguments 转 Minio RemoveObjectArgs 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/28 18:21

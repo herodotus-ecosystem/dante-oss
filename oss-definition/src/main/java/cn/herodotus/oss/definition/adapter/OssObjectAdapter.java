@@ -25,12 +25,16 @@
 
 package cn.herodotus.oss.definition.adapter;
 
-import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * <p>Description: 兼容 S3 协议的各类 OSS 对象操作抽象定义 </p>
@@ -113,7 +117,28 @@ public interface OssObjectAdapter {
     /**
      * 删除一个对象
      *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     */
+    default void deleteObject(String bucketName, String objectName) {
+        DeleteObjectArguments arguments = new DeleteObjectArguments();
+        arguments.setBucketName(bucketName);
+        arguments.setObjectName(objectName);
+        deleteObject(arguments);
+    }
+
+    /**
+     * 删除一个对象
+     *
      * @param arguments 删除对象请求参数 {@link DeleteObjectArguments}
      */
     void deleteObject(DeleteObjectArguments arguments);
+
+    /**
+     * 批量删除对象
+     *
+     * @param arguments 批量删除对象请求参数 {@link DeleteObjectsArguments}
+     * @return 批量删除对象结果对象
+     */
+    List<DeleteObjectDomain> deleteObjects(DeleteObjectsArguments arguments);
 }

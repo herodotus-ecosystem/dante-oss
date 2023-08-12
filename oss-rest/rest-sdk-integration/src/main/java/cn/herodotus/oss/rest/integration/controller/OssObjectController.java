@@ -30,9 +30,11 @@ import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
-import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,6 +47,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>Description: OSS统一对象管理接口 </p>
@@ -121,5 +125,24 @@ public class OssObjectController implements Controller {
     public Result<Boolean> deleteObject(@Validated @RequestBody DeleteObjectArguments arguments) {
         ossObjectAdapter.deleteObject(arguments);
         return result(true);
+    }
+
+    @Idempotent
+    @Operation(summary = "删除多个对象", description = "根据传入的参数对指定多个对象进行删除",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
+            responses = {
+                    @ApiResponse(description = "返回删除操作出错对象的具体信息", content = @Content(mediaType = "application/json", schema = @Schema(implementation = List.class))),
+                    @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
+                    @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
+                    @ApiResponse(responseCode = "500", description = "查询失败"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
+            })
+    @Parameters({
+            @Parameter(name = "arguments", required = true, description = "删除对象请求参数实体", schema = @Schema(implementation = DeleteObjectsArguments.class))
+    })
+    @DeleteMapping("/multi")
+    public Result<List<DeleteObjectDomain>> removeObjects(@Validated @RequestBody DeleteObjectsArguments arguments) {
+        List<DeleteObjectDomain> domains = ossObjectAdapter.deleteObjects(arguments);
+        return result(domains);
     }
 }

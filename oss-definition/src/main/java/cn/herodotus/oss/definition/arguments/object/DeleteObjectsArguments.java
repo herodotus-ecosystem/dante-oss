@@ -23,32 +23,30 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.object;
+package cn.herodotus.oss.definition.arguments.object;
 
-import cn.herodotus.oss.definition.arguments.object.DeletedObjectArguments;
-import cn.herodotus.oss.rest.minio.definition.BucketRequest;
-import io.minio.RemoveObjectsArgs;
-import io.minio.messages.DeleteObject;
+import cn.herodotus.oss.definition.arguments.base.BucketArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.List;
 
 /**
- * <p>Description: 删除对象 </p>
+ * <p>Description: 批量删除对象请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/4/18 11:32
+ * @date : 2023/8/12 11:00
  */
 @Schema(name = "批量删除对象请求参数实体", title = "批量删除对象请求参数实体")
-public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builder, RemoveObjectsArgs> {
+public class DeleteObjectsArguments extends BucketArguments {
 
-    @Schema(name = "使用治理模式进行删除", description = "治理模式用户不能覆盖或删除对象版本或更改其锁定设置，可通过设置该参数进行强制操作")
+    @Schema(name = "使用治理模式进行删除", description = "Minio 专用参数")
     private Boolean bypassGovernanceMode;
 
     @NotEmpty(message = "删除对象不能为空")
     private List<DeletedObjectArguments> objects;
+
+    private Boolean quiet = false;
 
     public Boolean getBypassGovernanceMode() {
         return bypassGovernanceMode;
@@ -66,19 +64,11 @@ public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builde
         this.objects = objects;
     }
 
-    @Override
-    public void prepare(RemoveObjectsArgs.Builder builder) {
-        if (ObjectUtils.isNotEmpty(getBypassGovernanceMode())) {
-            builder.bypassGovernanceMode(getBypassGovernanceMode());
-        }
-
-        List<DeleteObject> deleteObjects = getObjects().stream().map(item -> new DeleteObject(item.getObjectName(), item.getVersionId())).toList();
-        builder.objects(deleteObjects);
-        super.prepare(builder);
+    public Boolean getQuiet() {
+        return quiet;
     }
 
-    @Override
-    public RemoveObjectsArgs.Builder getBuilder() {
-        return RemoveObjectsArgs.builder();
+    public void setQuiet(Boolean quiet) {
+        this.quiet = quiet;
     }
 }

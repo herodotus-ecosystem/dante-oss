@@ -67,7 +67,7 @@ public class IterableResultItemV2ToDomainConverter implements Converter<Iterable
     @Override
     public ObjectListingV2Domain convert(Iterable<Result<Item>> source) {
 
-        List<ObjectDomain> objectDomains = ConverterUtils.toDomains(source, new ItemToDomainConverter(this.bucketName));
+        List<ObjectDomain> objectDomains = ConverterUtils.toDomains(source, new ResultItemToDomainConverter(this.bucketName));
 
         ObjectListingV2Domain domain = new ObjectListingV2Domain();
         domain.setBucketName(this.bucketName);

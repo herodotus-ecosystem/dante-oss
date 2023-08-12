@@ -23,21 +23,54 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.definition.arguments.object;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectArguments;
-import io.minio.ObjectArgs;
+import cn.herodotus.oss.definition.arguments.base.OssArguments;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 统一定义对象请求参数转换为 Minio 参数转换器 </p>
+ * <p>Description: 删除对象参数 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 23:07
+ * @date : 2023/5/30 22:54
  */
-public abstract class ArgumentsToObjectConverter<S extends ObjectArguments, T extends ObjectArgs, B extends ObjectArgs.Builder<B, T>> extends ArgumentsToBucketConverter<S, T, B> {
+public class DeletedObjectArguments implements OssArguments {
+
+    @Schema(name = "对象名称")
+    private String objectName;
+
+    @Schema(name = "对象版本ID")
+    private String versionId;
+
+    public DeletedObjectArguments() {
+    }
+
+    public DeletedObjectArguments(String objectName) {
+        this.objectName = objectName;
+    }
+
+    public String getObjectName() {
+        return objectName;
+    }
+
+    public void setObjectName(String objectName) {
+        this.objectName = objectName;
+    }
+
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
+
     @Override
-    public void prepare(S arguments, B builder) {
-        builder.object(arguments.getObjectName());
-        super.prepare(arguments, builder);
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("name", objectName)
+                .add("versionId", versionId)
+                .toString();
     }
 }

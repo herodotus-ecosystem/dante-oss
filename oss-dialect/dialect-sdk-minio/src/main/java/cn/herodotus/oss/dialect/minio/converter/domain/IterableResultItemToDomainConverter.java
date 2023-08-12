@@ -67,7 +67,7 @@ public class IterableResultItemToDomainConverter implements Converter<Iterable<R
     @Override
     public ObjectListingDomain convert(Iterable<Result<Item>> source) {
 
-        List<ObjectDomain> objectDomains = ConverterUtils.toDomains(source, new ItemToDomainConverter(this.bucketName));
+        List<ObjectDomain> objectDomains = ConverterUtils.toDomains(source, new ResultItemToDomainConverter(this.bucketName));
 
         ObjectListingDomain domain = new ObjectListingDomain();
         domain.setBucketName(this.bucketName);

@@ -23,47 +23,37 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.domain;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
-import com.google.common.base.MoreObjects;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
+import io.minio.RemoveObjectsArgs;
+import io.minio.messages.DeleteObject;
+import org.apache.commons.lang3.ObjectUtils;
+
+import java.util.List;
 
 /**
- * <p>Description: 删除对象参数 </p>
+ * <p>Description: 统一定义 DeletedObjectArguments 转 Minio RemoveObjectArgs 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 22:54
+ * @date : 2023/7/28 18:21
  */
-public class DeleteObjectDomain implements Entity {
+public class ArgumentsToRemoveObjectsArgsConverter extends ArgumentsToBucketConverter<DeleteObjectsArguments, RemoveObjectsArgs, RemoveObjectsArgs.Builder> {
 
-    @Schema(name = "对象名称")
-    private String name;
+    @Override
+    public void prepare(DeleteObjectsArguments arguments, RemoveObjectsArgs.Builder builder) {
+        if (ObjectUtils.isNotEmpty(arguments.getBypassGovernanceMode())) {
+            builder.bypassGovernanceMode(arguments.getBypassGovernanceMode());
+        }
 
-    @Schema(name = "对象版本ID")
-    private String versionId;
+        List<DeleteObject> deleteObjects = arguments.getObjects().stream().map(item -> new DeleteObject(item.getObjectName(), item.getVersionId())).toList();
+        builder.objects(deleteObjects);
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVersionId() {
-        return versionId;
-    }
-
-    public void setVersionId(String versionId) {
-        this.versionId = versionId;
+        super.prepare(arguments, builder);
     }
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("name", name)
-                .add("versionId", versionId)
-                .toString();
+    public RemoveObjectsArgs.Builder getBuilder() {
+        return RemoveObjectsArgs.builder();
     }
 }
