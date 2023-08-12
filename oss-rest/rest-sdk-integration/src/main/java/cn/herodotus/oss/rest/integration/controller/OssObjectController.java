@@ -27,8 +27,10 @@ package cn.herodotus.oss.rest.integration.controller;
 
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
+import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
@@ -42,9 +44,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>Description: OSS统一对象管理接口 </p>
@@ -99,9 +99,27 @@ public class OssObjectController implements Controller {
     @Parameters({
             @Parameter(name = "arguments", required = true, description = "ListObjectsV2Arguments参数实体", schema = @Schema(implementation = ListObjectsV2Arguments.class))
     })
-    @GetMapping("/listV2")
+    @GetMapping("/v2/list")
     public Result<ObjectListingV2Domain> list(@Validated ListObjectsV2Arguments arguments) {
         ObjectListingV2Domain domain = ossObjectAdapter.listObjectsV2(arguments);
         return result(domain);
+    }
+
+    @Idempotent
+    @Operation(summary = "删除一个对象", description = "根据传入的参数对指定对象进行删除",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
+            responses = {
+                    @ApiResponse(description = "Minio API无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
+                    @ApiResponse(responseCode = "200", description = "操作成功"),
+                    @ApiResponse(responseCode = "500", description = "操作失败，具体查看错误信息内容"),
+                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
+            })
+    @Parameters({
+            @Parameter(name = "arguments", required = true, description = "DeleteObjectArguments参数实体", schema = @Schema(implementation = DeleteObjectArguments.class))
+    })
+    @DeleteMapping
+    public Result<Boolean> deleteObject(@Validated @RequestBody DeleteObjectArguments arguments) {
+        ossObjectAdapter.deleteObject(arguments);
+        return result(true);
     }
 }

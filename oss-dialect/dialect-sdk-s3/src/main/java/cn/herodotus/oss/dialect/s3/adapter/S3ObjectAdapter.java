@@ -26,12 +26,14 @@
 package cn.herodotus.oss.dialect.s3.adapter;
 
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
+import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
 import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToListObjectsRequestConverter;
 import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToListObjectsV2RequestConverter;
 import cn.herodotus.oss.dialect.s3.converter.domain.ListObjectsV2ResultToDomainConverter;
@@ -39,10 +41,7 @@ import cn.herodotus.oss.dialect.s3.converter.domain.ObjectListingToDomainConvert
 import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.ListObjectsRequest;
-import com.amazonaws.services.s3.model.ListObjectsV2Request;
-import com.amazonaws.services.s3.model.ListObjectsV2Result;
-import com.amazonaws.services.s3.model.ObjectListing;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -93,6 +92,22 @@ public class S3ObjectAdapter extends BaseS3Service implements OssObjectAdapter {
         try {
             ListObjectsV2Result listObjectsV2Result = client.listObjectsV2(toArgs.convert(arguments));
             return toDomain.convert(listObjectsV2Result);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public void deleteObject(DeleteObjectArguments arguments) {
+        String function = "deleteObject";
+
+        AmazonS3 client = getClient();
+        try {
+            Converter<DeleteObjectArguments, DeleteObjectRequest> toArgs = new ArgumentsToDeleteObjectRequestConverter();
+            client.deleteObject(toArgs.convert(arguments));
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

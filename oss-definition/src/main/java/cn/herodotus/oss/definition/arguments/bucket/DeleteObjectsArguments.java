@@ -23,21 +23,19 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.object;
+package cn.herodotus.oss.definition.arguments.bucket;
 
-import cn.herodotus.oss.rest.minio.definition.ObjectVersionRequest;
-import io.minio.RemoveObjectArgs;
+import cn.herodotus.oss.definition.arguments.base.BucketArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
-import org.apache.commons.lang3.ObjectUtils;
 
 /**
- * <p>Description: 删除对象请求参数 </p>
+ * <p>Description: 批量删除对象请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/4/18 12:01
+ * @date : 2023/8/12 11:00
  */
-@Schema(name = "删除对象请求参数实体", title = "删除对象请求参数实体")
-public class RemoveObjectRequest extends ObjectVersionRequest<RemoveObjectArgs.Builder, RemoveObjectArgs> {
+@Schema(name = "批量删除对象请求参数实体", title = "批量删除对象请求参数实体")
+public class DeleteObjectsArguments extends BucketArguments {
 
     @Schema(name = "使用治理模式进行删除", description = "治理模式用户不能覆盖或删除对象版本或更改其锁定设置，可通过设置该参数进行强制操作")
     private Boolean bypassGovernanceMode;
@@ -48,18 +46,5 @@ public class RemoveObjectRequest extends ObjectVersionRequest<RemoveObjectArgs.B
 
     public void setBypassGovernanceMode(Boolean bypassGovernanceMode) {
         this.bypassGovernanceMode = bypassGovernanceMode;
-    }
-
-    @Override
-    public void prepare(RemoveObjectArgs.Builder builder) {
-        if (ObjectUtils.isNotEmpty(getBypassGovernanceMode())) {
-            builder.bypassGovernanceMode(getBypassGovernanceMode());
-        }
-        super.prepare(builder);
-    }
-
-    @Override
-    public RemoveObjectArgs.Builder getBuilder() {
-        return RemoveObjectArgs.builder();
     }
 }

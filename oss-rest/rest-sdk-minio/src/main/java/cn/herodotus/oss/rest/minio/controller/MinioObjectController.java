@@ -32,7 +32,6 @@ import cn.herodotus.oss.dialect.minio.converter.ResultDeleteErrorToDomainConvert
 import cn.herodotus.oss.dialect.minio.domain.DeleteErrorDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
-import cn.herodotus.oss.rest.minio.request.object.RemoveObjectRequest;
 import cn.herodotus.oss.rest.minio.request.object.RemoveObjectsRequest;
 import io.minio.messages.DeleteError;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,24 +70,6 @@ public class MinioObjectController implements Controller {
 
     public MinioObjectController(MinioObjectService minioObjectService) {
         this.minioObjectService = minioObjectService;
-    }
-
-    @Idempotent
-    @Operation(summary = "删除一个对象", description = "根据传入的参数对指定对象进行删除",
-            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
-            responses = {
-                    @ApiResponse(description = "Minio API无返回值，所以返回200即表示成功，不成功会抛错", content = @Content(mediaType = "application/json")),
-                    @ApiResponse(responseCode = "200", description = "操作成功"),
-                    @ApiResponse(responseCode = "500", description = "操作失败，具体查看错误信息内容"),
-                    @ApiResponse(responseCode = "503", description = "Minio Server无法访问或未启动")
-            })
-    @Parameters({
-            @Parameter(name = "request", required = true, description = "RemoveObjectRequest参数实体", schema = @Schema(implementation = RemoveObjectRequest.class))
-    })
-    @DeleteMapping
-    public Result<Boolean> removeObject(@Validated @RequestBody RemoveObjectRequest request) {
-        minioObjectService.removeObject(request.build());
-        return result(true);
     }
 
     @Idempotent

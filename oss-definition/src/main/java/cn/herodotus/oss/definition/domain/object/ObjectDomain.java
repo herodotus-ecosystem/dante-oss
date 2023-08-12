@@ -25,8 +25,7 @@
 
 package cn.herodotus.oss.definition.domain.object;
 
-import cn.herodotus.oss.definition.domain.base.OssDomain;
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
@@ -38,13 +37,8 @@ import java.util.Date;
  * @date : 2023/7/28 22:46
  */
 @Schema(name = "对象")
-public class ObjectDomain implements OssDomain {
+public class ObjectDomain extends BucketDomain {
 
-    /**
-     * 存储桶名称
-     */
-    @Schema(name = "存储桶名称")
-    private String bucketName;
     /**
      * 存储此对象的密钥
      */
@@ -70,22 +64,9 @@ public class ObjectDomain implements OssDomain {
      */
     @Schema(name = "存储此对象的存储类")
     private String storageClass;
-    /**
-     * 如果请求者没有查看对象所有权信息的权限，则此对象的所有者可以为null
-     */
-    @Schema(name = "请求者")
-    private OwnerDomain owner;
 
     @Schema(name = "是否为文件夹")
     private Boolean isDir;
-
-    public String getBucketName() {
-        return bucketName;
-    }
-
-    public void setBucketName(String bucketName) {
-        this.bucketName = bucketName;
-    }
 
     public String getObjectName() {
         return objectName;
@@ -125,14 +106,6 @@ public class ObjectDomain implements OssDomain {
 
     public void setStorageClass(String storageClass) {
         this.storageClass = storageClass;
-    }
-
-    public OwnerDomain getOwner() {
-        return owner;
-    }
-
-    public void setOwner(OwnerDomain owner) {
-        this.owner = owner;
     }
 
     public Boolean getDir() {

@@ -26,10 +26,12 @@
 package cn.herodotus.oss.dialect.aliyun.adapter;
 
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
+import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsV2RequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.domain.ListObjectsV2ResultToDomainConverter;
@@ -41,10 +43,7 @@ import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.ListObjectsRequest;
-import com.aliyun.oss.model.ListObjectsV2Request;
-import com.aliyun.oss.model.ListObjectsV2Result;
-import com.aliyun.oss.model.ObjectListing;
+import com.aliyun.oss.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
@@ -100,6 +99,26 @@ public class AliyunObjectAdapter extends BaseAliyunService implements OssObjectA
         try {
             ListObjectsV2Result listObjectsV2Result = client.listObjectsV2(toArgs.convert(arguments));
             return toDomain.convert(listObjectsV2Result);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public void deleteObject(DeleteObjectArguments arguments) {
+        String function = "deleteObject";
+
+        OSS client = getClient();
+
+        try {
+            Converter<DeleteObjectArguments, GenericRequest> toArgs = new ArgumentsToDeleteObjectRequestConverter();
+            client.deleteObject(toArgs.convert(arguments));
         } catch (ClientException e) {
             log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

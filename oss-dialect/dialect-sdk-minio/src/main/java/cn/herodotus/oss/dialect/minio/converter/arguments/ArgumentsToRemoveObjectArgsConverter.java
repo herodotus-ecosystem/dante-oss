@@ -25,47 +25,28 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
-import io.minio.ListObjectsArgs;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
+import io.minio.RemoveObjectArgs;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: 统一定义 OssArguments 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: 统一定义 DeleteObjectArguments 转 Minio RemoveObjectArgs 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:14
+ * @date : 2023/7/28 18:21
  */
-public class ArgumentsToListObjectsV2ArgsConverter extends ArgumentsToBucketConverter<ListObjectsV2Arguments, ListObjectsArgs, ListObjectsArgs.Builder> {
+public class ArgumentsToRemoveObjectArgsConverter extends ArgumentsToObjectVersionConverter<DeleteObjectArguments, RemoveObjectArgs, RemoveObjectArgs.Builder> {
 
     @Override
-    public void prepare(ListObjectsV2Arguments arguments, ListObjectsArgs.Builder builder) {
-        builder.delimiter(arguments.getDelimiter());
-        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
-        builder.maxKeys(arguments.getMaxKeys());
-        builder.prefix(arguments.getPrefix());
-        builder.recursive(false);
-        builder.useApiVersion1(false);
-        builder.includeUserMetadata(true);
-        builder.includeVersions(false);
-
-        if (StringUtils.isNotBlank(arguments.getMarker())) {
-            builder.keyMarker(arguments.getMarker());
+    public void prepare(DeleteObjectArguments arguments, RemoveObjectArgs.Builder builder) {
+        if (ObjectUtils.isNotEmpty(arguments.getBypassGovernanceMode())) {
+            builder.bypassGovernanceMode(arguments.getBypassGovernanceMode());
         }
-
-        if (StringUtils.isNotBlank(arguments.getContinuationToken())) {
-            builder.continuationToken(arguments.getContinuationToken());
-        }
-
-        if (ObjectUtils.isNotEmpty(arguments.getFetchOwner())) {
-            builder.fetchOwner(arguments.getFetchOwner());
-        }
-
         super.prepare(arguments, builder);
     }
 
     @Override
-    public ListObjectsArgs.Builder getBuilder() {
-        return ListObjectsArgs.builder();
+    public RemoveObjectArgs.Builder getBuilder() {
+        return RemoveObjectArgs.builder();
     }
 }

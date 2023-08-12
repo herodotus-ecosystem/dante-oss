@@ -26,16 +26,19 @@
 package cn.herodotus.oss.dialect.minio.adapter;
 
 import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToListObjectsArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToListObjectsV2ArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveObjectArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.IterableResultItemToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.IterableResultItemV2ToDomainConverter;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import io.minio.ListObjectsArgs;
+import io.minio.RemoveObjectArgs;
 import io.minio.Result;
 import io.minio.messages.Item;
 import org.slf4j.Logger;
@@ -74,5 +77,11 @@ public class MinioObjectAdapter implements OssObjectAdapter {
         Iterable<Result<Item>> iterable = minioObjectService.listObjects(toArgs.convert(arguments));
         Converter<Iterable<Result<Item>>, ObjectListingV2Domain> toDomain = new IterableResultItemV2ToDomainConverter(arguments);
         return toDomain.convert(iterable);
+    }
+
+    @Override
+    public void deleteObject(DeleteObjectArguments arguments) {
+        Converter<DeleteObjectArguments, RemoveObjectArgs> toArgs = new ArgumentsToRemoveObjectArgsConverter();
+        minioObjectService.removeObject(toArgs.convert(arguments));
     }
 }

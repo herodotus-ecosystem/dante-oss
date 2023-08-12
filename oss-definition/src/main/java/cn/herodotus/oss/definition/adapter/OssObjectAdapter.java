@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.definition.adapter;
 
+import cn.herodotus.oss.definition.arguments.bucket.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
@@ -108,4 +109,11 @@ public interface OssObjectAdapter {
      * @return 对象列表结果 {@link ObjectListingV2Domain}
      */
     ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments);
+
+    /**
+     * 删除一个对象
+     *
+     * @param arguments 删除对象请求参数 {@link DeleteObjectArguments}
+     */
+    void deleteObject(DeleteObjectArguments arguments);
 }

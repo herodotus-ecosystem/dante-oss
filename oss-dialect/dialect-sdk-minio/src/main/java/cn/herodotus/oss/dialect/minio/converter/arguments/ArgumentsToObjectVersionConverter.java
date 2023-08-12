@@ -25,47 +25,22 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
-import io.minio.ListObjectsArgs;
-import org.apache.commons.lang3.ObjectUtils;
+import cn.herodotus.oss.definition.arguments.base.ObjectVersionArguments;
+import io.minio.ObjectVersionArgs;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: 统一定义 OssArguments 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: 统一定义对象版本请求参数转换为 Minio 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:14
+ * @date : 2023/8/9 23:07
  */
-public class ArgumentsToListObjectsV2ArgsConverter extends ArgumentsToBucketConverter<ListObjectsV2Arguments, ListObjectsArgs, ListObjectsArgs.Builder> {
-
+public abstract class ArgumentsToObjectVersionConverter<S extends ObjectVersionArguments, T extends ObjectVersionArgs, B extends ObjectVersionArgs.Builder<B, T>> extends ArgumentsToObjectConverter<S, T, B> {
     @Override
-    public void prepare(ListObjectsV2Arguments arguments, ListObjectsArgs.Builder builder) {
-        builder.delimiter(arguments.getDelimiter());
-        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
-        builder.maxKeys(arguments.getMaxKeys());
-        builder.prefix(arguments.getPrefix());
-        builder.recursive(false);
-        builder.useApiVersion1(false);
-        builder.includeUserMetadata(true);
-        builder.includeVersions(false);
-
-        if (StringUtils.isNotBlank(arguments.getMarker())) {
-            builder.keyMarker(arguments.getMarker());
+    public void prepare(S arguments, B builder) {
+        if (StringUtils.isNotBlank(arguments.getVersionId())) {
+            builder.versionId(arguments.getVersionId());
         }
-
-        if (StringUtils.isNotBlank(arguments.getContinuationToken())) {
-            builder.continuationToken(arguments.getContinuationToken());
-        }
-
-        if (ObjectUtils.isNotEmpty(arguments.getFetchOwner())) {
-            builder.fetchOwner(arguments.getFetchOwner());
-        }
-
         super.prepare(arguments, builder);
-    }
-
-    @Override
-    public ListObjectsArgs.Builder getBuilder() {
-        return ListObjectsArgs.builder();
     }
 }
