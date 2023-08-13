@@ -70,12 +70,11 @@ public class MinioChunkUploadService {
      * 第一步：创建分片上传请求, 返回 UploadId
      *
      * @param bucketName 存储桶名称
-     * @param region     区域
      * @param objectName 对象名称
      * @return 大文件分片上传 UploadId
      */
-    private String createUploadId(String bucketName, String region, String objectName) {
-        CreateMultipartUploadResponse response = minioMultipartUploadService.createMultipartUpload(bucketName, region, objectName, null, null);
+    private String createUploadId(String bucketName, String objectName) {
+        CreateMultipartUploadResponse response = minioMultipartUploadService.createMultipartUpload(bucketName, objectName);
         return response.result().uploadId();
     }
 
@@ -83,20 +82,18 @@ public class MinioChunkUploadService {
      * 第二步：创建文件预上传地址
      *
      * @param bucketName 存储桶名称
-     * @param region     区域
      * @param objectName 对象名称
      * @param uploadId   第一步中创建的 UploadId
      * @param partNumber 分片号
      * @return 预上传地址
      */
-    private String createPresignedObjectUrl(String bucketName, String region, String objectName, String uploadId, int partNumber) {
+    private String createPresignedObjectUrl(String bucketName, String objectName, String uploadId, int partNumber) {
         Map<String, String> extraQueryParams = new HashMap<>();
         extraQueryParams.put("partNumber", String.valueOf(partNumber));
         extraQueryParams.put("uploadId", uploadId);
 
         GetPresignedObjectUrlArgs args = GetPresignedObjectUrlArgs.builder()
                 .bucket(bucketName)
-                .region(region)
                 .object(objectName)
                 .method(Method.PUT)
                 .extraQueryParams(extraQueryParams)
@@ -109,13 +106,12 @@ public class MinioChunkUploadService {
      * 第三步：获取指定 uploadId 下所有的分片文件
      *
      * @param bucketName 存储桶名称
-     * @param region     区域
      * @param objectName 对象名称
      * @param uploadId   第一步中创建的 UploadId
      * @return uploadId 对应的所有分片
      */
-    private Part[] listParts(String bucketName, String region, String objectName, String uploadId) {
-        ListPartsResponse response = minioMultipartUploadService.listParts(bucketName, region, objectName, uploadId);
+    private Part[] listParts(String bucketName, String objectName, String uploadId) {
+        ListPartsResponse response = minioMultipartUploadService.listParts(bucketName, objectName, uploadId);
         List<Part> partList = response.result().partList();
         Part[] parts = new Part[partList.size()];
         return partList.toArray(parts);
@@ -126,54 +122,19 @@ public class MinioChunkUploadService {
      * 创建大文件分片上传
      *
      * @param bucketName 存储桶名称
-     * @param region     区域
      * @param objectName 对象名称
      * @param totalParts 分片总数
      * @return {@link ChunkUploadCreateBusiness}
      */
-    private ChunkUploadCreateBusiness createMultipartUpload(String bucketName, String region, String objectName, int totalParts) {
-        String uploadId = createUploadId(bucketName, region, objectName);
+    public ChunkUploadCreateBusiness createMultipartUpload(String bucketName,String objectName, int totalParts) {
+        String uploadId = createUploadId(bucketName, objectName);
         ChunkUploadCreateBusiness entity = new ChunkUploadCreateBusiness(uploadId);
 
         for (int i = 1; i <= totalParts; i++) {
-            String uploadUrl = createPresignedObjectUrl(bucketName, region, objectName, uploadId, i);
+            String uploadUrl = createPresignedObjectUrl(bucketName, objectName, uploadId, i);
             entity.appendChunk(converter.toServiceUrl(uploadUrl));
         }
         return entity;
-    }
-
-    /**
-     * 创建大文件分片上传
-     *
-     * @param bucketName 存储桶名称
-     * @param objectName 对象名称
-     * @param totalParts 分片总数
-     * @return {@link ChunkUploadCreateBusiness}
-     */
-    public ChunkUploadCreateBusiness createMultipartUpload(String bucketName, String objectName, int totalParts) {
-        return createMultipartUpload(bucketName, null, objectName, totalParts);
-    }
-
-    /**
-     * 合并已经上传完成的分片
-     *
-     * @param bucketName 存储桶名称
-     * @param region     区域
-     * @param objectName 对象名称
-     * @param uploadId   第一步中创建的 UploadId
-     * @return {@link ObjectWriteDomain}
-     */
-    private ObjectWriteDomain completeMultipartUpload(String bucketName, String region, String objectName, String uploadId) {
-        Part[] parts = listParts(bucketName, region, objectName, uploadId);
-        if (ArrayUtils.isNotEmpty(parts)) {
-            ObjectWriteResponse response = minioMultipartUploadService.completeMultipartUpload(bucketName, region, objectName, uploadId, parts);
-            Converter<ObjectWriteResponse, ObjectWriteDomain> toDomain = new ResponseToObjectWriteDomainConverter();
-            if (ObjectUtils.isNotEmpty(response)) {
-                return toDomain.convert(response);
-            }
-        }
-
-        return null;
     }
 
     /**
@@ -185,6 +146,15 @@ public class MinioChunkUploadService {
      * @return {@link ObjectWriteDomain}
      */
     public ObjectWriteDomain completeMultipartUpload(String bucketName, String objectName, String uploadId) {
-        return completeMultipartUpload(bucketName, null, objectName, uploadId);
+        Part[] parts = listParts(bucketName, objectName, uploadId);
+        if (ArrayUtils.isNotEmpty(parts)) {
+            ObjectWriteResponse response = minioMultipartUploadService.completeMultipartUpload(bucketName, objectName, uploadId, parts);
+            Converter<ObjectWriteResponse, ObjectWriteDomain> toDomain = new ResponseToObjectWriteDomainConverter();
+            if (ObjectUtils.isNotEmpty(response)) {
+                return toDomain.convert(response);
+            }
+        }
+
+        return null;
     }
 }

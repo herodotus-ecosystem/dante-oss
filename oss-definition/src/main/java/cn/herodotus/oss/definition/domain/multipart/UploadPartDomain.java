@@ -23,52 +23,18 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.domain.base;
+package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.definition.attribute.PartAttribute;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotBlank;
 
 /**
- * <p>Description: 共性属性 </p>
+ * <p>Description: 分片上传返回结果域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/11 15:45
+ * @date : 2023/8/13 16:03
  */
-public abstract class BaseDomain implements Entity {
+@Schema(name = "分片上传返回结果域对象", title = "分片上传返回结果域对象")
+public class UploadPartDomain extends PartAttribute {
 
-    @NotBlank(message = "存储桶名称不能为空")
-    @Schema(name = "存储桶名称")
-    private String bucketName;
-
-    @Schema(name = "存储区域")
-    private String region;
-
-    @NotBlank(message = "对象名称不能为空")
-    @Schema(name = "对象名称")
-    private String objectName;
-
-    public String getBucketName() {
-        return bucketName;
-    }
-
-    public void setBucketName(String bucketName) {
-        this.bucketName = bucketName;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getObjectName() {
-        return objectName;
-    }
-
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
-    }
 }

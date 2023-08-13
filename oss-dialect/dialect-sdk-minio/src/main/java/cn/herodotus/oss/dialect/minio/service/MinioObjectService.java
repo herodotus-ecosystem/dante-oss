@@ -393,7 +393,7 @@ public class MinioObjectService extends BaseMinioService {
      * @param includeVersions    是否包含版本
      * @param versionIdMarker    版本关键字
      * @param continuationToken  持续集成 Token
-     * @param fetchOwner         获取 Owner
+     * @param fetchOwner         获取 OwnerAttribute
      * @return Iterable<Result < Item>>
      */
     public Iterable<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner) {
@@ -414,7 +414,7 @@ public class MinioObjectService extends BaseMinioService {
      * @param includeVersions     是否包含版本
      * @param versionIdMarker     版本关键字
      * @param continuationToken   持续集成 Token
-     * @param fetchOwner          获取 Owner
+     * @param fetchOwner          获取 OwnerAttribute
      * @param includeUserMetadata 包含用户自定义信息
      * @return Iterable<Result < Item>>
      */

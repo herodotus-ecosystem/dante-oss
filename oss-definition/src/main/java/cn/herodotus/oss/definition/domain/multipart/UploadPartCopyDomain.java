@@ -23,15 +23,36 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.base;
+package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.definition.attribute.PartAttribute;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Oss 域对象基础定义 </p>
+ * <p>Description: 分片上传拷贝返回结果域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:44
+ * @date : 2023/8/13 16:32
  */
-public interface OssDomain extends Entity {
+@Schema(name = "分片上传拷贝返回结果域对象", title = "分片上传拷贝返回结果域对象")
+public class UploadPartCopyDomain extends PartAttribute {
+
+    @Schema(name = "分片上传ID")
+    private String uploadId;
+
+    public String getUploadId() {
+        return uploadId;
+    }
+
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("uploadId", uploadId)
+                .toString();
+    }
 }

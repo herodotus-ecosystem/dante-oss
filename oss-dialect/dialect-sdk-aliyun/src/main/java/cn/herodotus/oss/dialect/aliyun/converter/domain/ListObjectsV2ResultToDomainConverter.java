@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
+import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
 import cn.herodotus.oss.definition.domain.object.ObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
 import com.aliyun.oss.model.ListObjectsV2Result;
 import org.springframework.core.convert.converter.Converter;
@@ -34,18 +34,18 @@ import org.springframework.core.convert.converter.Converter;
 import java.util.List;
 
 /**
- * <p>Description: Aliyun ListObjectsV2Result 转 ObjectListingV2Domain 转换器 </p>
+ * <p>Description: Aliyun ListObjectsV2Result 转 ListObjectsV2Domain 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/10 19:35
  */
-public class ListObjectsV2ResultToDomainConverter implements Converter<ListObjectsV2Result, ObjectListingV2Domain> {
+public class ListObjectsV2ResultToDomainConverter implements Converter<ListObjectsV2Result, ListObjectsV2Domain> {
     @Override
-    public ObjectListingV2Domain convert(ListObjectsV2Result source) {
+    public ListObjectsV2Domain convert(ListObjectsV2Result source) {
 
         List<ObjectDomain> summaries = ConverterUtils.toDomains(source.getObjectSummaries(), new ObjectSummaryToDomainConverter(source.getDelimiter()));
 
-        ObjectListingV2Domain domain = new ObjectListingV2Domain();
+        ListObjectsV2Domain domain = new ListObjectsV2Domain();
         domain.setSummaries(summaries);
         domain.setTruncated(source.isTruncated());
         domain.setKeyCount(source.getKeyCount());

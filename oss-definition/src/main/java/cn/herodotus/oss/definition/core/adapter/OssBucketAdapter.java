@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.definition.core.adapter;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.adapter;
 
-import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
+import cn.herodotus.oss.definition.core.adapter.OssBucketAdapter;
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;

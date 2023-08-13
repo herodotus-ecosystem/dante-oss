@@ -29,7 +29,7 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.definition.adapter.OssBucketAdapter;
+import cn.herodotus.oss.definition.core.adapter.OssBucketAdapter;
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;

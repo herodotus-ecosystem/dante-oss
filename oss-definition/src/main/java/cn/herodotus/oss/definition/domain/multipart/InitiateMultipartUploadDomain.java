@@ -23,15 +23,18 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.base;
+package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.definition.attribute.MultipartUploadAttribute;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 对象存储统一定义请求参数 </p>
+ * <p>Description: 初始化分片上传返回结果 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:53
+ * @date : 2023/8/12 22:14
  */
-public interface OssArguments extends Entity {
+@Schema(name = "初始化分片上传返回结果", title = "初始化分片上传返回结果")
+public class InitiateMultipartUploadDomain extends MultipartUploadAttribute {
+
 }

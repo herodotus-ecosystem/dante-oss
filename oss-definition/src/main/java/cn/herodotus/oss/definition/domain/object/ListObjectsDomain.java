@@ -37,7 +37,7 @@ import java.util.List;
  * @date : 2023/8/9 16:36
  */
 @Schema(name = "对象结果")
-public class ObjectListingDomain extends ListObjectsArguments {
+public class ListObjectsDomain extends ListObjectsArguments {
 
     @Schema(name = "对象列表")
     private List<ObjectDomain> summaries;

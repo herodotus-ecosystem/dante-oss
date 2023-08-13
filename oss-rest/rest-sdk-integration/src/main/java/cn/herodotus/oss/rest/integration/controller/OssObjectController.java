@@ -29,14 +29,14 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.core.adapter.OssObjectAdapter;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
+import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
+import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -75,7 +75,7 @@ public class OssObjectController implements Controller {
     @Operation(summary = "获取对象列表", description = "获取对象列表",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "所有对象", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ObjectListingDomain.class))),
+                    @ApiResponse(description = "所有对象", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListObjectsDomain.class))),
                     @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
                     @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
                     @ApiResponse(responseCode = "500", description = "查询失败"),
@@ -85,8 +85,8 @@ public class OssObjectController implements Controller {
             @Parameter(name = "arguments", required = true, description = "ListObjectsArguments参数实体", schema = @Schema(implementation = ListObjectsArguments.class))
     })
     @GetMapping("/list")
-    public Result<ObjectListingDomain> list(@Validated ListObjectsArguments arguments) {
-        ObjectListingDomain domain = ossObjectAdapter.listObjects(arguments);
+    public Result<ListObjectsDomain> list(@Validated ListObjectsArguments arguments) {
+        ListObjectsDomain domain = ossObjectAdapter.listObjects(arguments);
         return result(domain);
     }
 
@@ -94,7 +94,7 @@ public class OssObjectController implements Controller {
     @Operation(summary = "获取对象列表V2", description = "获取对象列表V2",
             requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(content = @Content(mediaType = "application/json")),
             responses = {
-                    @ApiResponse(description = "所有对象", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ObjectListingDomain.class))),
+                    @ApiResponse(description = "所有对象", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ListObjectsDomain.class))),
                     @ApiResponse(responseCode = "200", description = "查询成功，查到数据"),
                     @ApiResponse(responseCode = "204", description = "查询成功，未查到数据"),
                     @ApiResponse(responseCode = "500", description = "查询失败"),
@@ -104,8 +104,8 @@ public class OssObjectController implements Controller {
             @Parameter(name = "arguments", required = true, description = "ListObjectsV2Arguments参数实体", schema = @Schema(implementation = ListObjectsV2Arguments.class))
     })
     @GetMapping("/v2/list")
-    public Result<ObjectListingV2Domain> list(@Validated ListObjectsV2Arguments arguments) {
-        ObjectListingV2Domain domain = ossObjectAdapter.listObjectsV2(arguments);
+    public Result<ListObjectsV2Domain> list(@Validated ListObjectsV2Arguments arguments) {
+        ListObjectsV2Domain domain = ossObjectAdapter.listObjectsV2(arguments);
         return result(domain);
     }
 

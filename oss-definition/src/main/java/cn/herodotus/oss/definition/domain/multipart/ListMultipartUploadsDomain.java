@@ -23,42 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.object;
+package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import cn.herodotus.oss.definition.arguments.multipart.ListMultipartUploadsArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>Description: V2对象列表结果 </p>
+ * <p>Description: 分片上传列表返回结果域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/11 15:03
+ * @date : 2023/8/13 20:46
  */
-public class ObjectListingV2Domain extends ListObjectsV2Arguments {
+@Schema(name = "分片上传列表返回结果域对象", title = "分片上传列表返回结果域对象")
+public class ListMultipartUploadsDomain extends ListMultipartUploadsArguments {
 
-    @Schema(name = "对象列表")
-    private List<ObjectDomain> summaries;
-
-    /**
-     * 指示这是否是一个完整的列表，或者调用者是否需要向AmazonS3发出额外请求以查看S3 bucket的完整对象列表
-     */
-    @Schema(name = "否是一个完整的列表")
     private boolean isTruncated;
 
-    /**
-     * KeyCount是此请求返回的密钥数。KeyCount将始终小于或等于MaxKeys字段
-     */
-    @Schema(name = "Key 数量")
-    private int keyCount;
+    private String nextKeyMarker;
 
-    /**
-     * 当 isTruncated为 true 时，发送 NextContinuationToken，这意味着存储桶中可以列出更多对象。请求亚马逊
-     * 可以通过提供此NextContinuationToken来继续下一个列表
-     */
-    @Schema(name = "下一个列表标记")
-    private String nextContinuationToken;
+    private String nextUploadIdMarker;
+
+    private List<MultipartUploadDomain> multipartUploads = new ArrayList<>();
+
+    private List<String> commonPrefixes = new ArrayList<>();
 
     public boolean isTruncated() {
         return isTruncated;
@@ -68,27 +58,35 @@ public class ObjectListingV2Domain extends ListObjectsV2Arguments {
         isTruncated = truncated;
     }
 
-    public int getKeyCount() {
-        return keyCount;
+    public String getNextKeyMarker() {
+        return nextKeyMarker;
     }
 
-    public void setKeyCount(int keyCount) {
-        this.keyCount = keyCount;
+    public void setNextKeyMarker(String nextKeyMarker) {
+        this.nextKeyMarker = nextKeyMarker;
     }
 
-    public String getNextContinuationToken() {
-        return nextContinuationToken;
+    public String getNextUploadIdMarker() {
+        return nextUploadIdMarker;
     }
 
-    public void setNextContinuationToken(String nextContinuationToken) {
-        this.nextContinuationToken = nextContinuationToken;
+    public void setNextUploadIdMarker(String nextUploadIdMarker) {
+        this.nextUploadIdMarker = nextUploadIdMarker;
     }
 
-    public List<ObjectDomain> getSummaries() {
-        return summaries;
+    public List<MultipartUploadDomain> getMultipartUploads() {
+        return multipartUploads;
     }
 
-    public void setSummaries(List<ObjectDomain> summaries) {
-        this.summaries = summaries;
+    public void setMultipartUploads(List<MultipartUploadDomain> multipartUploads) {
+        this.multipartUploads = multipartUploads;
+    }
+
+    public List<String> getCommonPrefixes() {
+        return commonPrefixes;
+    }
+
+    public void setCommonPrefixes(List<String> commonPrefixes) {
+        this.commonPrefixes = commonPrefixes;
     }
 }

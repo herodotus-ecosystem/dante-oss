@@ -26,8 +26,8 @@
 package cn.herodotus.oss.definition.domain.bucket;
 
 import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
-import cn.herodotus.oss.definition.domain.base.OssDomain;
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.attribute.OwnerAttribute;
+import cn.herodotus.oss.definition.core.domain.OssDomain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,8 +52,8 @@ public class BucketDomain implements OssDomain {
     /**
      * 存储桶所有者信息
      */
-    @Schema(name = "存储桶所有者信息", description = "Minio listBuckets API 返回的 Bucket 信息中不包含 Owner 信息")
-    private OwnerDomain owner;
+    @Schema(name = "存储桶所有者信息", description = "Minio listBuckets API 返回的 Bucket 信息中不包含 OwnerAttribute 信息")
+    private OwnerAttribute ownerAttribute;
 
     /**
      * 存储桶创建时间
@@ -70,12 +70,12 @@ public class BucketDomain implements OssDomain {
         this.bucketName = bucketName;
     }
 
-    public OwnerDomain getOwner() {
-        return owner;
+    public OwnerAttribute getOwner() {
+        return ownerAttribute;
     }
 
-    public void setOwner(OwnerDomain owner) {
-        this.owner = owner;
+    public void setOwner(OwnerAttribute ownerAttribute) {
+        this.ownerAttribute = ownerAttribute;
     }
 
     public Date getCreationDate() {
@@ -90,7 +90,7 @@ public class BucketDomain implements OssDomain {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("name", bucketName)
-                .add("owner", owner)
+                .add("ownerAttribute", ownerAttribute)
                 .add("creationDate", creationDate)
                 .toString();
     }

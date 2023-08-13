@@ -23,27 +23,54 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.object;
+package cn.herodotus.oss.definition.attribute;
 
-import cn.herodotus.oss.definition.domain.base.OssDomain;
-
-import java.util.List;
+import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 批量删除对象结果 </p>
+ * <p>Description: 所有者基础属性实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/12 15:12
+ * @date : 2023/7/27 15:43
  */
-public class DeleteObjectsDomain implements OssDomain {
+@Schema(title = "所有者")
+public class OwnerAttribute implements Entity {
 
-    List<DeleteObjectDomain> deletedObjects;
+    /**
+     * 所有者 ID
+     */
+    @Schema(name = "所有者 ID")
+    private String id;
 
-    public List<DeleteObjectDomain> getDeletedObjects() {
-        return deletedObjects;
+    /**
+     * 所有者显示名称
+     */
+    @Schema(name = "所有者显示名称")
+    private String displayName;
+
+    public String getId() {
+        return id;
     }
 
-    public void setDeletedObjects(List<DeleteObjectDomain> deletedObjects) {
-        this.deletedObjects = deletedObjects;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("displayName", displayName)
+                .toString();
     }
 }

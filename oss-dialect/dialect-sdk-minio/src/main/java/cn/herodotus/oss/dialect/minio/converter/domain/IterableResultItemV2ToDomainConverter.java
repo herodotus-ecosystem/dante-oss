@@ -26,8 +26,8 @@
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
 import cn.herodotus.oss.definition.domain.object.ObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
 import io.minio.Result;
 import io.minio.messages.Item;
@@ -42,7 +42,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/8/10 10:55
  */
-public class IterableResultItemV2ToDomainConverter implements Converter<Iterable<Result<Item>>, ObjectListingV2Domain> {
+public class IterableResultItemV2ToDomainConverter implements Converter<Iterable<Result<Item>>, ListObjectsV2Domain> {
 
     private final String bucketName;
 
@@ -65,11 +65,11 @@ public class IterableResultItemV2ToDomainConverter implements Converter<Iterable
     }
 
     @Override
-    public ObjectListingV2Domain convert(Iterable<Result<Item>> source) {
+    public ListObjectsV2Domain convert(Iterable<Result<Item>> source) {
 
         List<ObjectDomain> objectDomains = ConverterUtils.toDomains(source, new ResultItemToDomainConverter(this.bucketName));
 
-        ObjectListingV2Domain domain = new ObjectListingV2Domain();
+        ListObjectsV2Domain domain = new ListObjectsV2Domain();
         domain.setBucketName(this.bucketName);
         domain.setPrefix(this.prefix);
 

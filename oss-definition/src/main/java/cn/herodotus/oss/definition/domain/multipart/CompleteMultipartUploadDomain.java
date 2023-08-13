@@ -23,53 +23,48 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.base;
+package cn.herodotus.oss.definition.domain.multipart;
 
+import cn.herodotus.oss.definition.attribute.BaseAttribute;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 统一所有者域对象定义 </p>
+ * <p>Description: 完成分片上传返回结果 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 15:43
+ * @date : 2023/8/13 18:21
  */
-@Schema(title = "所有者")
-public class OwnerDomain implements OssDomain {
+@Schema(name = "完成分片上传返回结果", title = "完成分片上传返回结果")
+public class CompleteMultipartUploadDomain extends BaseAttribute {
 
-    /**
-     * 所有者 ID
-     */
-    @Schema(name = "所有者 ID")
-    private String id;
+    @Schema(name = "ETag 值")
+    private String etag;
 
-    /**
-     * 所有者显示名称
-     */
-    @Schema(name = "所有者显示名称")
-    private String displayName;
+    @Schema(name = "版本ID")
+    private String versionId;
 
-    public String getId() {
-        return id;
+    public String getEtag() {
+        return etag;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setEtag(String etag) {
+        this.etag = etag;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getVersionId() {
+        return versionId;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
     }
 
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("id", id)
-                .add("displayName", displayName)
+                .add("etag", etag)
+                .add("versionId", versionId)
                 .toString();
     }
 }

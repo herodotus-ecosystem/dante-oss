@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
+import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
 import com.aliyun.oss.model.ObjectListing;
 import org.springframework.core.convert.converter.Converter;
@@ -34,18 +34,18 @@ import org.springframework.core.convert.converter.Converter;
 import java.util.List;
 
 /**
- * <p>Description: Aliyun ObjectListing 转 ObjectListingDomain 转换器 </p>
+ * <p>Description: Aliyun ObjectListing 转 ListObjectsDomain 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/10 19:35
  */
-public class ObjectListingToDomainConverter implements Converter<ObjectListing, ObjectListingDomain> {
+public class ObjectListingToDomainConverter implements Converter<ObjectListing, ListObjectsDomain> {
     @Override
-    public ObjectListingDomain convert(ObjectListing source) {
+    public ListObjectsDomain convert(ObjectListing source) {
 
         List<ObjectDomain> summaries = ConverterUtils.toDomains(source.getObjectSummaries(), new ObjectSummaryToDomainConverter(source.getDelimiter()));
 
-        ObjectListingDomain domain = new ObjectListingDomain();
+        ListObjectsDomain domain = new ListObjectsDomain();
         domain.setSummaries(summaries);
         domain.setNextMarker(source.getNextMarker());
         domain.setTruncated(source.isTruncated());

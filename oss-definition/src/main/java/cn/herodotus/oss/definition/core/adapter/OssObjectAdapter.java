@@ -23,15 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.adapter;
+package cn.herodotus.oss.definition.core.adapter;
 
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
+import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
+import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
@@ -48,9 +48,9 @@ public interface OssObjectAdapter {
      * 根据存储桶名称获取对象列表
      *
      * @param bucketName 存储桶名称
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * @return 对象列表结果 {@link ListObjectsDomain}
      */
-    default ObjectListingDomain listObjects(String bucketName) {
+    default ListObjectsDomain listObjects(String bucketName) {
         return listObjects(bucketName, null);
     }
 
@@ -59,9 +59,9 @@ public interface OssObjectAdapter {
      *
      * @param bucketName 存储桶名
      * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * @return 对象列表结果 {@link ListObjectsDomain}
      */
-    default ObjectListingDomain listObjects(String bucketName, String prefix) {
+    default ListObjectsDomain listObjects(String bucketName, String prefix) {
         ListObjectsArguments arguments = new ListObjectsArguments();
         arguments.setBucketName(bucketName);
         if (StringUtils.isNotBlank(prefix)) {
@@ -75,17 +75,17 @@ public interface OssObjectAdapter {
      * 获取对象列表
      *
      * @param arguments 对象列表请求参数 {@link ListObjectsArguments}
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * @return 对象列表结果 {@link ListObjectsDomain}
      */
-    ObjectListingDomain listObjects(ListObjectsArguments arguments);
+    ListObjectsDomain listObjects(ListObjectsArguments arguments);
 
     /**
      * 根据存储桶名称和前缀获取对象列表V2
      *
      * @param bucketName 存储桶名
-     * @return 对象列表结果 {@link ObjectListingDomain}
+     * @return 对象列表结果 {@link ListObjectsDomain}
      */
-    default ObjectListingV2Domain listObjectsV2(String bucketName) {
+    default ListObjectsV2Domain listObjectsV2(String bucketName) {
         return listObjectsV2(bucketName, null);
     }
 
@@ -94,9 +94,9 @@ public interface OssObjectAdapter {
      *
      * @param bucketName 存储桶名
      * @param prefix     前缀
-     * @return 对象列表结果 {@link ObjectListingV2Domain}
+     * @return 对象列表结果 {@link ListObjectsV2Domain}
      */
-    default ObjectListingV2Domain listObjectsV2(String bucketName, String prefix) {
+    default ListObjectsV2Domain listObjectsV2(String bucketName, String prefix) {
         ListObjectsV2Arguments arguments = new ListObjectsV2Arguments();
         arguments.setBucketName(bucketName);
         if (StringUtils.isNotBlank(prefix)) {
@@ -110,9 +110,9 @@ public interface OssObjectAdapter {
      * 获取对象列表V2
      *
      * @param arguments 对象列表请求参数 {@link ListObjectsV2Arguments}
-     * @return 对象列表结果 {@link ObjectListingV2Domain}
+     * @return 对象列表结果 {@link ListObjectsV2Domain}
      */
-    ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments);
+    ListObjectsV2Domain listObjectsV2(ListObjectsV2Arguments arguments);
 
     /**
      * 删除一个对象

@@ -25,14 +25,14 @@
 
 package cn.herodotus.oss.dialect.s3.adapter;
 
-import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.core.adapter.OssObjectAdapter;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
+import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
+import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
@@ -69,11 +69,11 @@ public class S3ObjectAdapter extends BaseS3Service implements OssObjectAdapter {
     }
 
     @Override
-    public ObjectListingDomain listObjects(ListObjectsArguments arguments) {
+    public ListObjectsDomain listObjects(ListObjectsArguments arguments) {
         String function = "listObjects";
 
         Converter<ListObjectsArguments, ListObjectsRequest> toArgs = new ArgumentsToListObjectsRequestConverter();
-        Converter<ObjectListing, ObjectListingDomain> toDomain = new ObjectListingToDomainConverter();
+        Converter<ObjectListing, ListObjectsDomain> toDomain = new ObjectListingToDomainConverter();
 
         AmazonS3 client = getClient();
         try {
@@ -88,11 +88,11 @@ public class S3ObjectAdapter extends BaseS3Service implements OssObjectAdapter {
     }
 
     @Override
-    public ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments) {
+    public ListObjectsV2Domain listObjectsV2(ListObjectsV2Arguments arguments) {
         String function = "listObjectsV2";
 
         Converter<ListObjectsV2Arguments, ListObjectsV2Request> toArgs = new ArgumentsToListObjectsV2RequestConverter();
-        Converter<ListObjectsV2Result, ObjectListingV2Domain> toDomain = new ListObjectsV2ResultToDomainConverter();
+        Converter<ListObjectsV2Result, ListObjectsV2Domain> toDomain = new ListObjectsV2ResultToDomainConverter();
 
         AmazonS3 client = getClient();
         try {
