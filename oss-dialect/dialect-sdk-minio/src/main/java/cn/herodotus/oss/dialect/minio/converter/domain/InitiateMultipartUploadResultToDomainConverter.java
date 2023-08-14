@@ -23,42 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter.domain;
+package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import com.aliyun.oss.model.Bucket;
+import cn.herodotus.oss.definition.domain.multipart.InitiateMultipartUploadDomain;
+import io.minio.messages.InitiateMultipartUploadResult;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.Optional;
-
 /**
- * <p>Description: Aliyun Bucket 转 BucketDomain 转换器  </p>
+ * <p>Description: Minio InitiateMultipartUploadResult 转 InitiateMultipartUploadDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 16:29
+ * @date : 2023/8/14 16:42
  */
-public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+public class InitiateMultipartUploadResultToDomainConverter implements Converter<InitiateMultipartUploadResult, InitiateMultipartUploadDomain> {
     @Override
-    public BucketDomain convert(Bucket source) {
+    public InitiateMultipartUploadDomain convert(InitiateMultipartUploadResult source) {
 
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-
-            BucketDomain bucketDomain = new BucketDomain();
-
-            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-
-                OwnerAttribute ownerAttributeDomain = new OwnerAttribute();
-                ownerAttributeDomain.setId(bucket.getOwner().getId());
-                ownerAttributeDomain.setDisplayName(bucket.getOwner().getDisplayName());
-                bucketDomain.setOwner(ownerAttributeDomain);
-            });
-
-            bucketDomain.setBucketName(bucket.getName());
-            bucketDomain.setCreationDate(bucket.getCreationDate());
-
-            return bucketDomain;
-        }).orElse(null);
+        InitiateMultipartUploadDomain domain = new InitiateMultipartUploadDomain();
+        domain.setUploadId(source.uploadId());
+        domain.setBucketName(source.bucketName());
+        domain.setObjectName(source.objectName());
+        return domain;
     }
 }

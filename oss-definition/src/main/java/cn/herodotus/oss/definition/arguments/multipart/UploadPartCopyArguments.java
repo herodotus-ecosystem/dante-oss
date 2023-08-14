@@ -26,6 +26,7 @@
 package cn.herodotus.oss.definition.arguments.multipart;
 
 import cn.herodotus.engine.assistant.core.definition.constants.RegexPool;
+import cn.herodotus.oss.definition.arguments.base.BasePartArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -44,7 +45,7 @@ import java.util.List;
  * @date : 2023/8/13 16:16
  */
 @Schema(name = "上传分片拷贝请求参数实体", title = "上传分片拷贝请求参数实体")
-public class UploadPartCopyArguments extends InitiateMultipartUploadArguments {
+public class UploadPartCopyArguments extends BasePartArguments {
 
 
     /**

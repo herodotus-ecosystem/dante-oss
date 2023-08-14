@@ -26,9 +26,21 @@
 package cn.herodotus.oss.dialect.minio.adapter;
 
 import cn.herodotus.oss.definition.arguments.multipart.*;
+import cn.herodotus.oss.definition.attribute.PartAttribute;
 import cn.herodotus.oss.definition.core.adapter.OssMultipartUploadAdapter;
 import cn.herodotus.oss.definition.domain.multipart.*;
+import cn.herodotus.oss.dialect.minio.converter.attribute.AttributeToPartConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.*;
 import cn.herodotus.oss.dialect.minio.service.MinioMultipartUploadService;
+import io.minio.*;
+import io.minio.messages.InitiateMultipartUploadResult;
+import io.minio.messages.ListMultipartUploadsResult;
+import io.minio.messages.ListPartsResult;
+import io.minio.messages.Part;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>Description: Minio 兼容模式分片上传操作处理适配器 </p>
@@ -36,8 +48,8 @@ import cn.herodotus.oss.dialect.minio.service.MinioMultipartUploadService;
  * @author : gengwei.zheng
  * @date : 2023/8/13 21:11
  */
+@Service
 public class MinioMultipartUploadAdapter implements OssMultipartUploadAdapter {
-
 
     private final MinioMultipartUploadService minioMultipartUploadService;
 
@@ -47,36 +59,124 @@ public class MinioMultipartUploadAdapter implements OssMultipartUploadAdapter {
 
     @Override
     public InitiateMultipartUploadDomain initiateMultipartUpload(InitiateMultipartUploadArguments arguments) {
-        return null;
+
+        Converter<InitiateMultipartUploadResult, InitiateMultipartUploadDomain> toDomain = new InitiateMultipartUploadResultToDomainConverter();
+
+        CreateMultipartUploadResponse response = minioMultipartUploadService.createMultipartUpload(
+                arguments.getBucketName(),
+                arguments.getRegion(),
+                arguments.getObjectName(),
+                arguments.getExtraHeaders(),
+                arguments.getExtraQueryParams());
+
+        return toDomain.convert(response.result());
     }
 
     @Override
     public UploadPartDomain uploadPart(UploadPartArguments arguments) {
-        return null;
+
+        Converter<UploadPartResponse, UploadPartDomain> toDomain = new UploadPartResponseToDomainConverter();
+
+        UploadPartResponse response = minioMultipartUploadService.uploadPart(
+                arguments.getBucketName(),
+                arguments.getRegion(),
+                arguments.getObjectName(),
+                arguments.getInputStream(),
+                arguments.getPartSize(),
+                arguments.getUploadId(),
+                arguments.getPartNumber(),
+                arguments.getExtraHeaders(),
+                arguments.getExtraQueryParams());
+
+        return toDomain.convert(response);
     }
 
     @Override
     public UploadPartCopyDomain uploadPartCopy(UploadPartCopyArguments arguments) {
-        return null;
+
+        Converter<UploadPartCopyResponse, UploadPartCopyDomain> toDomain = new UploadPartCopyResponseToDomainConverter();
+
+        UploadPartCopyResponse response = minioMultipartUploadService.uploadPartCopy(
+                arguments.getBucketName(),
+                arguments.getRegion(),
+                arguments.getObjectName(),
+                arguments.getUploadId(),
+                arguments.getPartNumber(),
+                arguments.getExtraHeaders(),
+                arguments.getExtraQueryParams());
+
+        return toDomain.convert(response);
     }
 
     @Override
     public CompleteMultipartUploadDomain completeMultipartUpload(CompleteMultipartUploadArguments arguments) {
-        return null;
+
+        Converter<List<PartAttribute>, Part[]> toPart = new AttributeToPartConverter();
+        Converter<ObjectWriteResponse, CompleteMultipartUploadDomain> toDomain = new ObjectWriteResponseToDomainConverter();
+
+        ObjectWriteResponse response = minioMultipartUploadService.completeMultipartUpload(
+                arguments.getBucketName(),
+                arguments.getRegion(),
+                arguments.getObjectName(),
+                arguments.getUploadId(),
+                toPart.convert(arguments.getParts()),
+                arguments.getExtraHeaders(),
+                arguments.getExtraQueryParams());
+
+        return toDomain.convert(response);
     }
 
     @Override
     public AbortMultipartUploadDomain abortMultipartUpload(AbortMultipartUploadArguments arguments) {
-        return null;
+
+        Converter<AbortMultipartUploadResponse, AbortMultipartUploadDomain> toDomain = new AbortMultipartUploadResponseToDomainConverter();
+
+        AbortMultipartUploadResponse response = minioMultipartUploadService.abortMultipartUpload(
+                arguments.getBucketName(),
+                arguments.getRegion(),
+                arguments.getObjectName(),
+                arguments.getUploadId(),
+                arguments.getExtraHeaders(),
+                arguments.getExtraQueryParams());
+
+        return toDomain.convert(response);
     }
 
     @Override
     public ListPartsDomain listParts(ListPartsArguments arguments) {
-        return null;
+
+        Converter<ListPartsResult, ListPartsDomain> toDomain = new ListPartsResultToDomainConverter(arguments);
+
+        ListPartsResponse response = minioMultipartUploadService.listParts(
+                arguments.getBucketName(),
+                arguments.getRegion(),
+                arguments.getObjectName(),
+                arguments.getMaxParts(),
+                arguments.getPartNumberMarker(),
+                arguments.getUploadId(),
+                arguments.getExtraHeaders(),
+                arguments.getExtraQueryParams());
+
+        return toDomain.convert(response.result());
     }
 
     @Override
     public ListMultipartUploadsDomain listMultipartUploads(ListMultipartUploadsArguments arguments) {
-        return null;
+
+        Converter<ListMultipartUploadsResult, ListMultipartUploadsDomain> toDomain = new ListMultipartUploadsResultToDomainConverter(arguments);
+
+        ListMultipartUploadsResponse response = minioMultipartUploadService.listMultipartUploads(
+                arguments.getBucketName(),
+                arguments.getRegion(),
+                arguments.getDelimiter(),
+                arguments.getEncodingType(),
+                arguments.getKeyMarker(),
+                arguments.getMaxUploads(),
+                arguments.getPrefix(),
+                arguments.getUploadIdMarker(),
+                arguments.getExtraHeaders(),
+                arguments.getExtraQueryParams());
+
+        return toDomain.convert(response.result());
     }
 }

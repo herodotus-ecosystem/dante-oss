@@ -27,6 +27,7 @@ package cn.herodotus.oss.definition.domain.multipart;
 
 import cn.herodotus.oss.definition.attribute.MultipartUploadAttribute;
 import cn.herodotus.oss.definition.attribute.OwnerAttribute;
+import cn.herodotus.oss.definition.attribute.PartAttribute;
 
 import java.util.List;
 
@@ -52,13 +53,13 @@ public class ListPartsDomain extends MultipartUploadAttribute {
 
     private Boolean isTruncated;
 
-    private List<PartSummaryDomain> partList;
+    private List<PartAttribute> parts;
 
-    public OwnerAttribute getOwner() {
+    public OwnerAttribute getOwnerAttribute() {
         return ownerAttribute;
     }
 
-    public void setOwner(OwnerAttribute ownerAttribute) {
+    public void setOwnerAttribute(OwnerAttribute ownerAttribute) {
         this.ownerAttribute = ownerAttribute;
     }
 
@@ -110,11 +111,11 @@ public class ListPartsDomain extends MultipartUploadAttribute {
         isTruncated = truncated;
     }
 
-    public List<PartSummaryDomain> getPartList() {
-        return partList;
+    public List<PartAttribute> getParts() {
+        return parts;
     }
 
-    public void setPartList(List<PartSummaryDomain> partList) {
-        this.partList = partList;
+    public void setParts(List<PartAttribute> parts) {
+        this.parts = parts;
     }
 }

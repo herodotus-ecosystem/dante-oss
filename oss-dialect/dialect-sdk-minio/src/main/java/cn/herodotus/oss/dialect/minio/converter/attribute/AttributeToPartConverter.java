@@ -23,42 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter.domain;
+package cn.herodotus.oss.dialect.minio.converter.attribute;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import com.aliyun.oss.model.Bucket;
+import cn.herodotus.oss.definition.attribute.PartAttribute;
+import io.minio.messages.Part;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
- * <p>Description: Aliyun Bucket 转 BucketDomain 转换器  </p>
+ * <p>Description: 基础的统一定义请求属性转换为 Minio Parts 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 16:29
+ * @date : 2023/8/13 22:45
  */
-public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+public class AttributeToPartConverter implements Converter<List<PartAttribute>, Part[]> {
     @Override
-    public BucketDomain convert(Bucket source) {
-
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-
-            BucketDomain bucketDomain = new BucketDomain();
-
-            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-
-                OwnerAttribute ownerAttributeDomain = new OwnerAttribute();
-                ownerAttributeDomain.setId(bucket.getOwner().getId());
-                ownerAttributeDomain.setDisplayName(bucket.getOwner().getDisplayName());
-                bucketDomain.setOwner(ownerAttributeDomain);
-            });
-
-            bucketDomain.setBucketName(bucket.getName());
-            bucketDomain.setCreationDate(bucket.getCreationDate());
-
-            return bucketDomain;
-        }).orElse(null);
+    public Part[] convert(List<PartAttribute> source) {
+        if (CollectionUtils.isNotEmpty(source)) {
+            List<Part> parts = source.stream().map(item -> new Part(item.getPartNumber(), item.getEtag())).toList();
+            Part[] result = new Part[parts.size()];
+            return parts.toArray(result);
+        }
+        return new Part[]{};
     }
 }

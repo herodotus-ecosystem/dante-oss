@@ -23,42 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter.domain;
+package cn.herodotus.oss.definition.domain.base;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
-import com.aliyun.oss.model.Bucket;
+import cn.herodotus.oss.definition.attribute.PartAttribute;
 import org.springframework.core.convert.converter.Converter;
 
-import java.util.Optional;
-
 /**
- * <p>Description: Aliyun Bucket 转 BucketDomain 转换器  </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/27 16:29
+ * @date : 2023/8/14 16:37
  */
-public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> {
+public abstract class BasePartToDomainConverter<S, T extends PartAttribute> implements Converter<S, T> {
+
     @Override
-    public BucketDomain convert(Bucket source) {
-
-        Optional<Bucket> optional = Optional.ofNullable(source);
-        return optional.map(bucket -> {
-
-            BucketDomain bucketDomain = new BucketDomain();
-
-            Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-
-                OwnerAttribute ownerAttributeDomain = new OwnerAttribute();
-                ownerAttributeDomain.setId(bucket.getOwner().getId());
-                ownerAttributeDomain.setDisplayName(bucket.getOwner().getDisplayName());
-                bucketDomain.setOwner(ownerAttributeDomain);
-            });
-
-            bucketDomain.setBucketName(bucket.getName());
-            bucketDomain.setCreationDate(bucket.getCreationDate());
-
-            return bucketDomain;
-        }).orElse(null);
+    public T convert(S source) {
+        return null;
     }
 }

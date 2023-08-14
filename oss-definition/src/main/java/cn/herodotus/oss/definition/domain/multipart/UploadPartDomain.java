@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.oss.definition.attribute.PartAttribute;
+import cn.herodotus.oss.definition.attribute.BasePartAttribute;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -35,6 +35,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @date : 2023/8/13 16:03
  */
 @Schema(name = "分片上传返回结果域对象", title = "分片上传返回结果域对象")
-public class UploadPartDomain extends PartAttribute {
+public class UploadPartDomain extends BasePartAttribute {
 
 }

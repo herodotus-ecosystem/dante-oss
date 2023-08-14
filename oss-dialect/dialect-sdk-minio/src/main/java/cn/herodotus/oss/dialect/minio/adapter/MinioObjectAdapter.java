@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.dialect.minio.adapter;
 
-import cn.herodotus.oss.definition.core.adapter.OssObjectAdapter;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import cn.herodotus.oss.definition.core.adapter.OssObjectAdapter;
 import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
 import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
 import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;

@@ -26,6 +26,7 @@
 package cn.herodotus.oss.definition.domain.multipart;
 
 import cn.herodotus.oss.definition.attribute.OwnerAttribute;
+import cn.herodotus.oss.definition.core.domain.OssDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
@@ -37,7 +38,7 @@ import java.util.Date;
  * @date : 2023/8/13 20:53
  */
 @Schema(name = "分片上传列表返回条目域对象", title = "分片上传列表返回条目域对象")
-public class MultipartUploadDomain {
+public class MultipartUploadDomain implements OssDomain {
 
     /**
      * 存储此upload的密钥

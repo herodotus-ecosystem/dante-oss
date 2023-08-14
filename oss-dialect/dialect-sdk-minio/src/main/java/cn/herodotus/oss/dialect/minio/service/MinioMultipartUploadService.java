@@ -30,7 +30,9 @@ import cn.herodotus.oss.dialect.core.exception.*;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioAsyncClient;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioAsyncClientObjectPool;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioAsyncService;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.collect.Multimaps;
 import io.minio.*;
 import io.minio.errors.InsufficientDataException;
 import io.minio.errors.InternalException;
@@ -44,6 +46,7 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -59,6 +62,14 @@ public class MinioMultipartUploadService extends BaseMinioAsyncService {
 
     public MinioMultipartUploadService(MinioAsyncClientObjectPool minioAsyncClientObjectPool) {
         super(minioAsyncClientObjectPool);
+    }
+
+    protected Multimap<String, String> toMultimap(Map<String, String> map) {
+        Multimap<String, String> multimap = HashMultimap.create();
+        if (map != null) {
+            multimap.putAll(Multimaps.forMap(map));
+        }
+        return Multimaps.unmodifiableMultimap(multimap);
     }
 
     /**
@@ -94,12 +105,12 @@ public class MinioMultipartUploadService extends BaseMinioAsyncService {
      * @param extraQueryParams 额外查询参数 (可选).
      * @return 创建分片上传响应对象 {@link CreateMultipartUploadResponse}
      */
-    public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String region, String objectName, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
+    public CreateMultipartUploadResponse createMultipartUpload(String bucketName, String region, String objectName, Map<String, String> extraHeaders, Map<String, String> extraQueryParams) {
         String function = "createMultipartUpload";
         MinioAsyncClient client = getClient();
 
         try {
-            return client.createMultipartUploadAsync(bucketName, region, objectName, extraHeaders, extraQueryParams).get();
+            return client.createMultipartUploadAsync(bucketName, region, objectName, toMultimap(extraHeaders), toMultimap(extraQueryParams)).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
             throw new OssInsufficientDataException("Minio async insufficient data error.");
@@ -179,12 +190,12 @@ public class MinioMultipartUploadService extends BaseMinioAsyncService {
      * @param extraQueryParams 额外查询参数 (可选).
      * @return 上传分片传响应对象 {@link UploadPartResponse}
      */
-    public UploadPartResponse uploadPart(String bucketName, String region, String objectName, Object data, long length, String uploadId, int partNumber, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
+    public UploadPartResponse uploadPart(String bucketName, String region, String objectName, Object data, long length, String uploadId, int partNumber, Map<String, String> extraHeaders, Map<String, String> extraQueryParams) {
         String function = "uploadPart";
         MinioAsyncClient client = getClient();
 
         try {
-            return client.uploadPartAsync(bucketName, region, objectName, data, length, uploadId, partNumber, extraHeaders, extraQueryParams).get();
+            return client.uploadPartAsync(bucketName, region, objectName, data, length, uploadId, partNumber, toMultimap(extraHeaders), toMultimap(extraQueryParams)).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
             throw new OssInsufficientDataException("Minio async insufficient data error.");
@@ -257,12 +268,12 @@ public class MinioMultipartUploadService extends BaseMinioAsyncService {
      * @param extraQueryParams 额外查询参数 (可选).
      * @return 上传分片拷贝传响应对象 {@link UploadPartCopyResponse}
      */
-    public UploadPartCopyResponse uploadPartCopy(String bucketName, String region, String objectName, String uploadId, int partNumber, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
+    public UploadPartCopyResponse uploadPartCopy(String bucketName, String region, String objectName, String uploadId, int partNumber, Map<String, String> extraHeaders, Map<String, String> extraQueryParams) {
         String function = "uploadPartCopy";
         MinioAsyncClient client = getClient();
 
         try {
-            return client.uploadPartCopyAsync(bucketName, region, objectName, uploadId, partNumber, extraHeaders, extraQueryParams).get();
+            return client.uploadPartCopyAsync(bucketName, region, objectName, uploadId, partNumber, toMultimap(extraHeaders), toMultimap(extraQueryParams)).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
             throw new OssInsufficientDataException("Minio async insufficient data error.");
@@ -332,12 +343,12 @@ public class MinioMultipartUploadService extends BaseMinioAsyncService {
      * @param extraQueryParams 额外查询参数 (可选).
      * @return 完成分片上传响应对象 {@link AbortMultipartUploadResponse}
      */
-    public AbortMultipartUploadResponse abortMultipartUpload(String bucketName, String region, String objectName, String uploadId, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
+    public AbortMultipartUploadResponse abortMultipartUpload(String bucketName, String region, String objectName, String uploadId, Map<String, String> extraHeaders, Map<String, String> extraQueryParams) {
         String function = "abortMultipartUpload";
         MinioAsyncClient client = getClient();
 
         try {
-            return client.abortMultipartUploadAsync(bucketName, region, objectName, uploadId, extraHeaders, extraQueryParams).get();
+            return client.abortMultipartUploadAsync(bucketName, region, objectName, uploadId, toMultimap(extraHeaders), toMultimap(extraQueryParams)).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
             throw new OssInsufficientDataException("Minio async insufficient data error.");
@@ -410,12 +421,12 @@ public class MinioMultipartUploadService extends BaseMinioAsyncService {
      * @param extraQueryParams 额外查询参数 (可选).
      * @return 完成分片上传响应对象 {@link ObjectWriteResponse}
      */
-    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId, Part[] parts, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
+    public ObjectWriteResponse completeMultipartUpload(String bucketName, String region, String objectName, String uploadId, Part[] parts, Map<String, String> extraHeaders, Map<String, String> extraQueryParams) {
         String function = "listParts";
         MinioAsyncClient client = getClient();
 
         try {
-            return client.completeMultipartUploadAsync(bucketName, region, objectName, uploadId, parts, extraHeaders, extraQueryParams).get();
+            return client.completeMultipartUploadAsync(bucketName, region, objectName, uploadId, parts, toMultimap(extraHeaders), toMultimap(extraQueryParams)).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
             throw new OssInsufficientDataException("Minio async insufficient data error.");
@@ -516,12 +527,12 @@ public class MinioMultipartUploadService extends BaseMinioAsyncService {
      * @param extraQueryParams 额外查询参数 (可选).
      * @return 列出分片响应对象 {@link ListPartsResponse}
      */
-    public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
+    public ListPartsResponse listParts(String bucketName, String region, String objectName, Integer maxParts, Integer partNumberMarker, String uploadId, Map<String, String> extraHeaders, Map<String, String> extraQueryParams) {
         String function = "listParts";
         MinioAsyncClient client = getClient();
 
         try {
-            return client.listPartsAsync(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, extraHeaders, extraQueryParams).get();
+            return client.listPartsAsync(bucketName, region, objectName, maxParts, partNumberMarker, uploadId, toMultimap(extraHeaders), toMultimap(extraQueryParams)).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
             throw new OssInsufficientDataException("Minio async insufficient data error.");
@@ -664,12 +675,12 @@ public class MinioMultipartUploadService extends BaseMinioAsyncService {
      * @param extraQueryParams 额外查询参数 (可选).
      * @return 列出正在进行的分片上传响应对象 {@link ListMultipartUploadsResponse}
      */
-    public ListMultipartUploadsResponse listMultipartUploads(String bucketName, String region, String delimiter, String encodingType, String keyMarker, Integer maxUploads, String prefix, String uploadIdMarker, Multimap<String, String> extraHeaders, Multimap<String, String> extraQueryParams) {
+    public ListMultipartUploadsResponse listMultipartUploads(String bucketName, String region, String delimiter, String encodingType, String keyMarker, Integer maxUploads, String prefix, String uploadIdMarker, Map<String, String> extraHeaders, Map<String, String> extraQueryParams) {
         String function = "listMultipartUploads";
         MinioAsyncClient client = getClient();
 
         try {
-            return client.listMultipartUploadsAsync(bucketName, region, delimiter, encodingType, keyMarker, maxUploads, prefix, uploadIdMarker, extraHeaders, extraQueryParams).get();
+            return client.listMultipartUploadsAsync(bucketName, region, delimiter, encodingType, keyMarker, maxUploads, prefix, uploadIdMarker, toMultimap(extraHeaders), toMultimap(extraQueryParams)).get();
         } catch (InsufficientDataException e) {
             log.error("[Herodotus] |- Minio async catch InsufficientDataException in [{}].", function, e);
             throw new OssInsufficientDataException("Minio async insufficient data error.");

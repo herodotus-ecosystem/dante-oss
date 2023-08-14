@@ -29,9 +29,11 @@ import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
 import cn.herodotus.oss.definition.attribute.OwnerAttribute;
 import cn.herodotus.oss.definition.domain.object.ObjectDomain;
 import cn.herodotus.oss.dialect.core.exception.*;
+import cn.herodotus.oss.dialect.minio.converter.attribute.OwnerToAttributeConverter;
 import io.minio.Result;
 import io.minio.errors.*;
 import io.minio.messages.Item;
+import io.minio.messages.Owner;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,10 +74,8 @@ public class ResultItemToDomainConverter implements Converter<Result<Item>, Obje
                 objectDomain.setETag(item.etag());
                 objectDomain.setLastModified(DateTimeUtils.zonedDateTimeToDate(item.lastModified()));
                 if (ObjectUtils.isNotEmpty(item.owner())) {
-                    OwnerAttribute ownerAttributeDomain = new OwnerAttribute();
-                    ownerAttributeDomain.setId(item.owner().id());
-                    ownerAttributeDomain.setDisplayName(item.owner().displayName());
-                    objectDomain.setOwner(ownerAttributeDomain);
+                    Converter<Owner, OwnerAttribute> toAttr = new OwnerToAttributeConverter();
+                    objectDomain.setOwner(toAttr.convert(item.owner()));
                 }
                 objectDomain.setSize(item.size());
                 objectDomain.setStorageClass(item.storageClass());
