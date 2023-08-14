@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.attribute.OwnerAttribute;
 import cn.herodotus.oss.definition.domain.object.ObjectDomain;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.apache.commons.lang3.ObjectUtils;
@@ -58,10 +58,10 @@ public class ObjectSummaryToDomainConverter implements Converter<S3ObjectSummary
         objectDomain.setStorageClass(source.getStorageClass());
 
         if (ObjectUtils.isNotEmpty(source.getOwner())) {
-            OwnerDomain ownerDomain = new OwnerDomain();
-            ownerDomain.setId(ownerDomain.getId());
-            ownerDomain.setDisplayName(ownerDomain.getDisplayName());
-            objectDomain.setOwner(ownerDomain);
+            OwnerAttribute ownerAttributeDomain = new OwnerAttribute();
+            ownerAttributeDomain.setId(ownerAttributeDomain.getId());
+            ownerAttributeDomain.setDisplayName(ownerAttributeDomain.getDisplayName());
+            objectDomain.setOwner(ownerAttributeDomain);
         }
 
         objectDomain.setDir(StringUtils.isNotBlank(this.delimiter) && StringUtils.contains(source.getKey(), this.delimiter));

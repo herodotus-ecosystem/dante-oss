@@ -31,7 +31,7 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: 统一定义 OssArguments 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: 统一定义 OssDomain 转 Minio ListObjectsArgs 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/9 22:14
@@ -47,7 +47,7 @@ public class ArgumentsToListObjectsV2ArgsConverter extends ArgumentsToBucketConv
         builder.recursive(false);
         builder.useApiVersion1(false);
         builder.includeUserMetadata(true);
-        builder.includeVersions(true);
+        builder.includeVersions(false);
 
         if (StringUtils.isNotBlank(arguments.getMarker())) {
             builder.keyMarker(arguments.getMarker());

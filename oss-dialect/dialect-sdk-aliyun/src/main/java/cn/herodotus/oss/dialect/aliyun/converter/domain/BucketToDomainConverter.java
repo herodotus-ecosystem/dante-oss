@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.attribute.OwnerAttribute;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import com.aliyun.oss.model.Bucket;
 import org.springframework.core.convert.converter.Converter;
@@ -48,13 +48,14 @@ public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> 
             BucketDomain bucketDomain = new BucketDomain();
 
             Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-                OwnerDomain ownerDomain = new OwnerDomain();
-                ownerDomain.setId(bucket.getOwner().getId());
-                ownerDomain.setDisplayName(bucket.getOwner().getDisplayName());
-                bucketDomain.setOwner(ownerDomain);
+
+                OwnerAttribute ownerAttributeDomain = new OwnerAttribute();
+                ownerAttributeDomain.setId(bucket.getOwner().getId());
+                ownerAttributeDomain.setDisplayName(bucket.getOwner().getDisplayName());
+                bucketDomain.setOwner(ownerAttributeDomain);
             });
 
-            bucketDomain.setName(bucket.getName());
+            bucketDomain.setBucketName(bucket.getName());
             bucketDomain.setCreationDate(bucket.getCreationDate());
 
             return bucketDomain;

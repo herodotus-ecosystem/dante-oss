@@ -38,7 +38,7 @@
 
     <groupId>cn.herodotus.oss</groupId>
     <artifactId>oss-bom</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.8</version>
     <packaging>pom</packaging>
 
     <description>Dante Cloud 生态产品 Dante OSS Dependencies Bom</description>

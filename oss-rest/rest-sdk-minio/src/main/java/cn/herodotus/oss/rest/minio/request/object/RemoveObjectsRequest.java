@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.request.object;
 
-import cn.herodotus.oss.dialect.minio.domain.DeleteObjectDomain;
+import cn.herodotus.oss.definition.arguments.object.DeletedObjectArguments;
 import cn.herodotus.oss.rest.minio.definition.BucketRequest;
 import io.minio.RemoveObjectsArgs;
 import io.minio.messages.DeleteObject;
@@ -48,7 +48,7 @@ public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builde
     private Boolean bypassGovernanceMode;
 
     @NotEmpty(message = "删除对象不能为空")
-    private List<DeleteObjectDomain> objects;
+    private List<DeletedObjectArguments> objects;
 
     public Boolean getBypassGovernanceMode() {
         return bypassGovernanceMode;
@@ -58,11 +58,11 @@ public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builde
         this.bypassGovernanceMode = bypassGovernanceMode;
     }
 
-    public List<DeleteObjectDomain> getObjects() {
+    public List<DeletedObjectArguments> getObjects() {
         return objects;
     }
 
-    public void setObjects(List<DeleteObjectDomain> objects) {
+    public void setObjects(List<DeletedObjectArguments> objects) {
         this.objects = objects;
     }
 
@@ -72,7 +72,7 @@ public class RemoveObjectsRequest extends BucketRequest<RemoveObjectsArgs.Builde
             builder.bypassGovernanceMode(getBypassGovernanceMode());
         }
 
-        List<DeleteObject> deleteObjects = getObjects().stream().map(item -> new DeleteObject(item.getName(), item.getVersionId())).toList();
+        List<DeleteObject> deleteObjects = getObjects().stream().map(item -> new DeleteObject(item.getObjectName(), item.getVersionId())).toList();
         builder.objects(deleteObjects);
         super.prepare(builder);
     }

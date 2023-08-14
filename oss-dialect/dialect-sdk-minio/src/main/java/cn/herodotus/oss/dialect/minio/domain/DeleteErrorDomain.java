@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -35,7 +35,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author : gengwei.zheng
  * @date : 2023/4/18 15:11
  */
-public class DeleteErrorDomain implements Entity {
+public class DeleteErrorDomain extends DeleteObjectDomain {
 
     @Schema(name = "错误代码")
     private String code;
@@ -43,8 +43,6 @@ public class DeleteErrorDomain implements Entity {
     private String message;
     @Schema(name = "存储桶名称")
     private String bucketName;
-    @Schema(name = "对象名称")
-    private String objectName;
     @Schema(name = "资源名称")
     private String resource;
     @Schema(name = "请求ID")
@@ -74,14 +72,6 @@ public class DeleteErrorDomain implements Entity {
 
     public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
-    }
-
-    public String getObjectName() {
-        return objectName;
-    }
-
-    public void setObjectName(String objectName) {
-        this.objectName = objectName;
     }
 
     public String getResource() {
@@ -114,7 +104,6 @@ public class DeleteErrorDomain implements Entity {
                 .add("code", code)
                 .add("message", message)
                 .add("bucketName", bucketName)
-                .add("objectName", objectName)
                 .add("resource", resource)
                 .add("requestId", requestId)
                 .add("hostId", hostId)

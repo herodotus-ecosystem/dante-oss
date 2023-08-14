@@ -131,50 +131,11 @@ public class S3ObjectService extends BaseS3Service {
     }
 
     /**
-     * 删除对象
-     *
-     * @param request {@link DeleteObjectRequest}
-     */
-    public void deleteObject(DeleteObjectRequest request) {
-        String function = "deleteObject";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            amazonS3.deleteObject(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
-     * 删除多个对象
-     *
-     * @param request {@link DeleteObjectsRequest}
-     * @return {@link DeleteObjectsResult}
-     */
-    public DeleteObjectsResult deleteObjects(DeleteObjectsRequest request) {
-        String function = "deleteObjects";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            return amazonS3.deleteObjects(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
      * 删除对象指定版本
      *
      * @param request {@link DeleteVersionRequest}
      */
-    public void deleteObjects(DeleteVersionRequest request) {
+    public void deleteVersion(DeleteVersionRequest request) {
         String function = "deleteObjects";
 
         AmazonS3 amazonS3 = getClient();
@@ -240,46 +201,6 @@ public class S3ObjectService extends BaseS3Service {
         AmazonS3 amazonS3 = getClient();
         try {
             return amazonS3.writeGetObjectResponse(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
-     * 获取对象列表
-     *
-     * @param request {@link ListObjectsRequest }
-     * @return {@link ObjectListing}
-     */
-    public ObjectListing listObjects(ListObjectsRequest request) {
-        String function = "listObjects";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            return amazonS3.listObjects(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
-     * 获取对象列表 V2
-     *
-     * @param request {@link ListObjectsV2Request }
-     * @return {@link ListObjectsV2Result}
-     */
-    public ListObjectsV2Result listObjectsV2(ListObjectsV2Request request) {
-        String function = "listObjectsV2";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            return amazonS3.listObjectsV2(request);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());

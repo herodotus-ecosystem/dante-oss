@@ -46,7 +46,7 @@ public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> 
         Optional<Bucket> optional = Optional.ofNullable(source);
         return optional.map(bucket -> {
             BucketDomain domain = new BucketDomain();
-            domain.setName(bucket.name());
+            domain.setBucketName(bucket.name());
             Optional.ofNullable(bucket.creationDate()).ifPresent(zonedDateTime ->
                     domain.setCreationDate(new Date(zonedDateTime.toInstant().toEpochMilli()))
             );

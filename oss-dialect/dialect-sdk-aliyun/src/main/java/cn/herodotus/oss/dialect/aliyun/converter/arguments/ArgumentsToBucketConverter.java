@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
 import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.GenericRequest;
+import com.aliyun.oss.model.WebServiceRequest;
 
 /**
  * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
@@ -34,7 +34,7 @@ import com.aliyun.oss.model.GenericRequest;
  * @author : gengwei.zheng
  * @date : 2023/8/10 15:37
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends GenericRequest> extends ArgumentsToBaseConverter<S, T> {
+public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
 
     @Override
     public T getRequest(S arguments) {

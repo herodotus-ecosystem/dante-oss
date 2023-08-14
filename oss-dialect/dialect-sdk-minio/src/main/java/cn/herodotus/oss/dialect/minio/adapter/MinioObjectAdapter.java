@@ -25,23 +25,35 @@
 
 package cn.herodotus.oss.dialect.minio.adapter;
 
-import cn.herodotus.oss.definition.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
+import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
-import cn.herodotus.oss.definition.domain.object.ObjectListingDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectListingV2Domain;
+import cn.herodotus.oss.definition.core.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
+import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
+import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToListObjectsArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToListObjectsV2ArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveObjectArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveObjectsArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.IterableResultItemToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.IterableResultItemV2ToDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.ResultDeleteErrorToDomainConverter;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
+import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
 import io.minio.ListObjectsArgs;
+import io.minio.RemoveObjectArgs;
+import io.minio.RemoveObjectsArgs;
 import io.minio.Result;
+import io.minio.messages.DeleteError;
 import io.minio.messages.Item;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>Description: Minio 兼容模式对象操作处理器 </p>
@@ -61,18 +73,31 @@ public class MinioObjectAdapter implements OssObjectAdapter {
     }
 
     @Override
-    public ObjectListingDomain listObjects(ListObjectsArguments arguments) {
+    public ListObjectsDomain listObjects(ListObjectsArguments arguments) {
         Converter<ListObjectsArguments, ListObjectsArgs> toArgs = new ArgumentsToListObjectsArgsConverter();
         Iterable<Result<Item>> iterable = minioObjectService.listObjects(toArgs.convert(arguments));
-        Converter<Iterable<Result<Item>>, ObjectListingDomain> toDomain = new IterableResultItemToDomainConverter(arguments);
+        Converter<Iterable<Result<Item>>, ListObjectsDomain> toDomain = new IterableResultItemToDomainConverter(arguments);
         return toDomain.convert(iterable);
     }
 
     @Override
-    public ObjectListingV2Domain listObjectsV2(ListObjectsV2Arguments arguments) {
+    public ListObjectsV2Domain listObjectsV2(ListObjectsV2Arguments arguments) {
         Converter<ListObjectsV2Arguments, ListObjectsArgs> toArgs = new ArgumentsToListObjectsV2ArgsConverter();
         Iterable<Result<Item>> iterable = minioObjectService.listObjects(toArgs.convert(arguments));
-        Converter<Iterable<Result<Item>>, ObjectListingV2Domain> toDomain = new IterableResultItemV2ToDomainConverter(arguments);
+        Converter<Iterable<Result<Item>>, ListObjectsV2Domain> toDomain = new IterableResultItemV2ToDomainConverter(arguments);
         return toDomain.convert(iterable);
+    }
+
+    @Override
+    public void deleteObject(DeleteObjectArguments arguments) {
+        Converter<DeleteObjectArguments, RemoveObjectArgs> toArgs = new ArgumentsToRemoveObjectArgsConverter();
+        minioObjectService.removeObject(toArgs.convert(arguments));
+    }
+
+    @Override
+    public List<DeleteObjectDomain> deleteObjects(DeleteObjectsArguments arguments) {
+        Converter<DeleteObjectsArguments, RemoveObjectsArgs> toArgs = new ArgumentsToRemoveObjectsArgsConverter();
+        Iterable<Result<DeleteError>> deletesErrors = minioObjectService.removeObjects(toArgs.convert(arguments));
+        return ConverterUtils.toDomains(deletesErrors, new ResultDeleteErrorToDomainConverter());
     }
 }

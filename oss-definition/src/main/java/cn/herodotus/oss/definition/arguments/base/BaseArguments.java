@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.definition.arguments.base;
 
+import cn.herodotus.oss.definition.core.request.OssArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Map;

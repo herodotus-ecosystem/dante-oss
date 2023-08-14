@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.scenario.request;
 
-import cn.herodotus.oss.dialect.minio.domain.base.BaseDomain;
+import cn.herodotus.oss.definition.attribute.BaseAttribute;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -35,5 +35,5 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @date : 2023/6/9 16:41
  */
 @Schema(name = "对象下载请求参数实体", title = "对象下载请求参数实体", description = "用于前后端交互方式的下载")
-public class ObjectDownloadRequest extends BaseDomain {
+public class ObjectDownloadRequest extends BaseAttribute {
 }

@@ -35,4 +35,5 @@ import com.amazonaws.AmazonWebServiceRequest;
  * @date : 2023/8/10 15:37
  */
 public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends AmazonWebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
+
 }

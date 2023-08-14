@@ -25,6 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.domain.base;
 
+import cn.herodotus.oss.definition.attribute.BaseAttribute;
+
 import java.util.Map;
 
 /**
@@ -35,7 +37,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2023/6/1 21:47
  */
-public class GenericDomain extends BaseDomain {
+public class GenericDomain extends BaseAttribute {
 
     private Map<String, String> headers;
 
