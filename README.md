@@ -47,7 +47,7 @@ Dante OSS 最初的设计目标，是深度封装 Minio Java SDK，可以更方�
 
 因此，Dante OSS 在维持原有简化 Minio 管理操作目标的基础之上，借鉴 JPA 标准化设计思想，提取和抽象 OSS 标准化操作，形成统一的 Java OSS API 规范。同时封装可操作任意厂商的、统一的 REST API，形成定义统一、动态实现的应用模式（类似于 Hibernate 是 JPA 的一种实现，Hibernate 以 Dialect 方式支持不同的数据库一样），以方便不同 OSS 的切换和迁移。
 
-![结构](./readme/structure.png)
+![结构](./readme/structure.jpg)
 
 > 目前以 Minio 作为 Java OSS API 规范的默认实现，当前仅提供 Minio 个性化操作 REST API 实现。
 
