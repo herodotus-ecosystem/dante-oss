@@ -31,11 +31,11 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>dante-oss</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.8</version>
     </parent>
 
     <artifactId>oss-dialect</artifactId>
-    <version>1.2.1</version>
+    <version>1.2.8</version>
     <packaging>pom</packaging>
 
     <modules>
