@@ -23,21 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter.arguments;
+package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.definition.domain.multipart.CompleteMultipartUploadDomain;
+import com.amazonaws.services.s3.model.CompleteMultipartUploadResult;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: CompleteMultipartUploadResult 转 CompleteMultipartUploadDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/14 20:58
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
-
+public class CompleteMultipartUploadResultToDomainConverter implements Converter<CompleteMultipartUploadResult, CompleteMultipartUploadDomain> {
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public CompleteMultipartUploadDomain convert(CompleteMultipartUploadResult source) {
+
+        CompleteMultipartUploadDomain domain = new CompleteMultipartUploadDomain();
+        domain.setEtag(source.getETag());
+        domain.setVersionId(source.getVersionId());
+        domain.setBucketName(source.getBucketName());
+        domain.setObjectName(source.getKey());
+
+        return domain;
     }
 }

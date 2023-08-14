@@ -23,21 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter.arguments;
+package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.definition.arguments.multipart.ListMultipartUploadsArguments;
+import com.amazonaws.services.s3.model.ListMultipartUploadsRequest;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: 统一定义 ListMultipartUploadsArguments 转 S3 ListMultipartUploadsRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/14 20:26
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
-
+public class ArgumentsToListMultipartUploadsRequest implements Converter<ListMultipartUploadsArguments, ListMultipartUploadsRequest> {
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public ListMultipartUploadsRequest convert(ListMultipartUploadsArguments source) {
+
+        ListMultipartUploadsRequest request = new ListMultipartUploadsRequest(source.getBucketName());
+        return request
+                .withDelimiter(source.getDelimiter())
+                .withPrefix(source.getPrefix())
+                .withMaxUploads(source.getMaxUploads())
+                .withKeyMarker(source.getKeyMarker())
+                .withUploadIdMarker(source.getUploadIdMarker())
+                .withEncodingType(source.getEncodingType());
     }
 }

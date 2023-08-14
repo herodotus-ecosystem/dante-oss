@@ -27,11 +27,10 @@ package cn.herodotus.oss.dialect.minio.converter.domain;
 
 import cn.herodotus.oss.definition.arguments.multipart.ListPartsArguments;
 import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import cn.herodotus.oss.definition.attribute.PartAttribute;
 import cn.herodotus.oss.definition.domain.multipart.ListPartsDomain;
+import cn.herodotus.oss.definition.domain.multipart.PartSummaryDomain;
 import cn.herodotus.oss.dialect.minio.converter.attribute.InitiatorToAttributeConverter;
 import cn.herodotus.oss.dialect.minio.converter.attribute.OwnerToAttributeConverter;
-import cn.herodotus.oss.dialect.minio.converter.attribute.PartToAttributeConverter;
 import io.minio.messages.Initiator;
 import io.minio.messages.ListPartsResult;
 import io.minio.messages.Owner;
@@ -50,7 +49,7 @@ public class ListPartsResultToDomainConverter implements Converter<ListPartsResu
 
     private final Converter<Owner, OwnerAttribute> owner = new OwnerToAttributeConverter();
     private final Converter<Initiator, OwnerAttribute> initiator = new InitiatorToAttributeConverter();
-    private final Converter<List<Part>, List<PartAttribute>> parts = new PartToAttributeConverter();
+    private final Converter<List<Part>, List<PartSummaryDomain>> parts = new PartToDomainConverter();
 
     private final ListPartsArguments arguments;
 
@@ -62,7 +61,7 @@ public class ListPartsResultToDomainConverter implements Converter<ListPartsResu
     public ListPartsDomain convert(ListPartsResult source) {
 
         ListPartsDomain domain = new ListPartsDomain();
-        domain.setOwnerAttribute(owner.convert(source.owner()));
+        domain.setOwner(owner.convert(source.owner()));
         domain.setInitiator(initiator.convert(source.initiator()));
         domain.setStorageClass(source.storageClass());
         domain.setMaxParts(source.maxParts());

@@ -23,40 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.attribute;
+package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
+import cn.herodotus.oss.definition.arguments.multipart.CompleteMultipartUploadArguments;
 import cn.herodotus.oss.definition.attribute.PartAttribute;
-import io.minio.messages.Part;
+import com.aliyun.oss.model.CompleteMultipartUploadRequest;
+import com.aliyun.oss.model.PartETag;
 import org.apache.commons.collections4.CollectionUtils;
-import org.springframework.core.convert.converter.Converter;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
- * <p>Description: 基础的统一定义请求属性转换为 Minio Parts 参数转换器 </p>
+ * <p>Description: 统一定义 CompleteMultipartUploadArguments 转 S3 CompleteMultipartUploadRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 22:45
+ * @date : 2023/8/14 17:58
  */
-public class PartToAttributeConverter implements Converter<List<Part>, List<PartAttribute>> {
-
+public class ArgumentsToCompleteMultipartUploadRequestConverter extends ArgumentsToBucketConverter<CompleteMultipartUploadArguments, CompleteMultipartUploadRequest> {
     @Override
-    public List<PartAttribute> convert(List<Part> source) {
-        if (CollectionUtils.isNotEmpty(source)) {
-            return source.stream().map(this::convert).toList();
-        }
-        return new ArrayList<>();
+    public CompleteMultipartUploadRequest getRequest(CompleteMultipartUploadArguments arguments) {
+        return new CompleteMultipartUploadRequest(arguments.getBucketName(), arguments.getObjectName(), arguments.getUploadId(), convert(arguments.getParts()));
     }
 
-    private PartAttribute convert(Part source) {
-
-        PartAttribute attribute = new PartAttribute();
-        attribute.setPartSize(source.partSize());
-        attribute.setLastModifiedDate(Date.from(source.lastModified().toInstant()));
-        attribute.setPartNumber(source.partNumber());
-        attribute.setEtag(source.etag());
-        return attribute;
+    private List<PartETag> convert(List<PartAttribute> attributes) {
+        if (CollectionUtils.isNotEmpty(attributes)) {
+            return attributes.stream().map(item -> new PartETag(item.getPartNumber(), item.getEtag())).toList();
+        }
+        return new ArrayList<>();
     }
 }

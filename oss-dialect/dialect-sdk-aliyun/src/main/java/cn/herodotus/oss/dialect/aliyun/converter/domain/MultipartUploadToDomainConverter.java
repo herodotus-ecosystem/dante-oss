@@ -23,21 +23,40 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.definition.domain.multipart.MultipartUploadDomain;
+import com.aliyun.oss.model.MultipartUpload;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: List<MultipartUpload> 转 List<MultipartUploadDomain> 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/14 20:35
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
+public class MultipartUploadToDomainConverter implements Converter<List<MultipartUpload>, List<MultipartUploadDomain>> {
 
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public List<MultipartUploadDomain> convert(List<MultipartUpload> source) {
+
+        if (CollectionUtils.isNotEmpty(source)) {
+            return source.stream().map(this::convert).toList();
+        }
+
+        return new ArrayList<>();
+    }
+
+    private MultipartUploadDomain convert(MultipartUpload source) {
+        MultipartUploadDomain domain = new MultipartUploadDomain();
+        domain.setKey(source.getKey());
+        domain.setUploadId(source.getUploadId());
+        domain.setStorageClass(source.getStorageClass());
+        domain.setInitiated(source.getInitiated());
+        return domain;
     }
 }

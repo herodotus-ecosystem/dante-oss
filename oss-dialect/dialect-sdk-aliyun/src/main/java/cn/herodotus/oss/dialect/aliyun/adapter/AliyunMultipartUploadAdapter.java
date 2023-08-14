@@ -28,6 +28,19 @@ package cn.herodotus.oss.dialect.aliyun.adapter;
 import cn.herodotus.oss.definition.arguments.multipart.*;
 import cn.herodotus.oss.definition.core.adapter.OssMultipartUploadAdapter;
 import cn.herodotus.oss.definition.domain.multipart.*;
+import cn.herodotus.oss.dialect.aliyun.converter.arguments.*;
+import cn.herodotus.oss.dialect.aliyun.converter.domain.*;
+import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
+import cn.herodotus.oss.dialect.core.exception.OssServerException;
+import com.aliyun.oss.ClientException;
+import com.aliyun.oss.OSS;
+import com.aliyun.oss.OSSException;
+import com.aliyun.oss.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 
 /**
  * <p>Description: Aliyun 兼容模式分片上传操作处理适配器 </p>
@@ -35,39 +48,175 @@ import cn.herodotus.oss.definition.domain.multipart.*;
  * @author : gengwei.zheng
  * @date : 2023/8/13 21:13
  */
-public class AliyunMultipartUploadAdapter implements OssMultipartUploadAdapter {
+public class AliyunMultipartUploadAdapter extends BaseAliyunService implements OssMultipartUploadAdapter {
+
+    private static final Logger log = LoggerFactory.getLogger(AliyunMultipartUploadAdapter.class);
+
+    public AliyunMultipartUploadAdapter(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+        super(ossClientObjectPool);
+    }
+
     @Override
     public InitiateMultipartUploadDomain initiateMultipartUpload(InitiateMultipartUploadArguments arguments) {
-        return null;
+        String function = "initiateMultipartUpload";
+
+        Converter<InitiateMultipartUploadArguments, InitiateMultipartUploadRequest> toRequest = new ArgumentsToInitiateMultipartUploadRequestConverter();
+        Converter<InitiateMultipartUploadResult, InitiateMultipartUploadDomain> toDomain = new InitiateMultipartUploadResultToDomainConverter();
+
+        OSS client = getClient();
+
+        try {
+            InitiateMultipartUploadResult result = client.initiateMultipartUpload(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public UploadPartDomain uploadPart(UploadPartArguments arguments) {
-        return null;
+        String function = "uploadPart";
+
+        Converter<UploadPartArguments, UploadPartRequest> toRequest = new ArgumentsToUploadPartRequestConverter();
+        Converter<UploadPartResult, UploadPartDomain> toDomain = new UploadPartResultToDomainConverter();
+
+        OSS client = getClient();
+
+        try {
+            UploadPartResult result = client.uploadPart(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public UploadPartCopyDomain uploadPartCopy(UploadPartCopyArguments arguments) {
-        return null;
+        String function = "uploadPartCopy";
+
+        Converter<UploadPartCopyArguments, UploadPartCopyRequest> toRequest = new ArgumentsToUploadPartCopyRequestConverter();
+        Converter<UploadPartCopyResult, UploadPartCopyDomain> toDomain = new UploadPartCopyResultToDomainConverter();
+
+        OSS client = getClient();
+
+        try {
+            UploadPartCopyResult result = client.uploadPartCopy(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public CompleteMultipartUploadDomain completeMultipartUpload(CompleteMultipartUploadArguments arguments) {
-        return null;
+        String function = "completeMultipartUpload";
+
+        Converter<CompleteMultipartUploadArguments, CompleteMultipartUploadRequest> toRequest = new ArgumentsToCompleteMultipartUploadRequestConverter();
+        Converter<CompleteMultipartUploadResult, CompleteMultipartUploadDomain> toDomain = new CompleteMultipartUploadResultToDomainConverter();
+
+        OSS client = getClient();
+
+        try {
+            CompleteMultipartUploadResult result = client.completeMultipartUpload(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public AbortMultipartUploadDomain abortMultipartUpload(AbortMultipartUploadArguments arguments) {
-        return null;
+        String function = "abortMultipartUpload";
+
+        Converter<AbortMultipartUploadArguments, AbortMultipartUploadRequest> toRequest = new ArgumentsToAbortMultipartUploadRequestConverter();
+
+        OSS client = getClient();
+
+        try {
+            client.abortMultipartUpload(toRequest.convert(arguments));
+            AbortMultipartUploadDomain domain = new AbortMultipartUploadDomain();
+            domain.setUploadId(arguments.getUploadId());
+            domain.setBucketName(arguments.getBucketName());
+            domain.setObjectName(arguments.getObjectName());
+            return domain;
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public ListPartsDomain listParts(ListPartsArguments arguments) {
-        return null;
+        String function = "listParts";
+
+        Converter<ListPartsArguments, ListPartsRequest> toRequest = new ArgumentsToListPartsRequestConverter();
+        Converter<PartListing, ListPartsDomain> toDomain = new PartListingToDomainConverter();
+
+        OSS client = getClient();
+
+        try {
+            PartListing listing = client.listParts(toRequest.convert(arguments));
+            return toDomain.convert(listing);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public ListMultipartUploadsDomain listMultipartUploads(ListMultipartUploadsArguments arguments) {
-        return null;
+        String function = "listMultipartUploads";
+
+        Converter<ListMultipartUploadsArguments, ListMultipartUploadsRequest> toRequest = new ArgumentsToListMultipartUploadsRequest();
+        Converter<MultipartUploadListing, ListMultipartUploadsDomain> toDomain = new MultipartUploadListingToDomainConverter();
+
+        OSS client = getClient();
+
+        try {
+            MultipartUploadListing listing = client.listMultipartUploads(toRequest.convert(arguments));
+            return toDomain.convert(listing);
+        } catch (ClientException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (OSSException e) {
+            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
+            throw new OssExecutionException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 }

@@ -23,21 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.definition.domain.multipart.PartSummaryDomain;
+import com.aliyun.oss.model.PartSummary;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: List<PartSummary> 转 List<PartSummaryDomain> 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/14 20:47
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
+public class PartSummaryToDomainConverter implements Converter<List<PartSummary>, List<PartSummaryDomain>> {
 
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public List<PartSummaryDomain> convert(List<PartSummary> source) {
+        if (CollectionUtils.isNotEmpty(source)) {
+            return source.stream().map(this::convert).toList();
+        }
+        return new ArrayList<>();
+    }
+
+    private PartSummaryDomain convert(PartSummary source) {
+        PartSummaryDomain domain = new PartSummaryDomain();
+        domain.setPartSize(source.getSize());
+        domain.setLastModifiedDate(source.getLastModified());
+        domain.setPartNumber(source.getPartNumber());
+        domain.setEtag(source.getETag());
+        return domain;
     }
 }

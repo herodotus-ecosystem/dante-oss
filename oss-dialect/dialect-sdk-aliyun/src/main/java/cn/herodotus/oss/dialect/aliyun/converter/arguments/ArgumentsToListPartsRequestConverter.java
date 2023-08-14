@@ -25,19 +25,23 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.definition.arguments.multipart.ListPartsArguments;
+import com.aliyun.oss.model.ListPartsRequest;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: 统一定义 ListPartsArguments 转 S3 ListPartsRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/14 20:21
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
-
+public class ArgumentsToListPartsRequestConverter implements Converter<ListPartsArguments, ListPartsRequest> {
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public ListPartsRequest convert(ListPartsArguments source) {
+
+        ListPartsRequest request = new ListPartsRequest(source.getBucketName(), source.getObjectName(), source.getUploadId());
+        request.setMaxParts(source.getMaxParts());
+        request.setPartNumberMarker(source.getPartNumberMarker());
+        return request;
     }
 }

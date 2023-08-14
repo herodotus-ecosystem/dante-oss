@@ -43,7 +43,7 @@ public class CompleteMultipartUploadArguments extends BasePartArguments {
 
     @Schema(name = "分片列表不能为空")
     @NotEmpty(message = "分片列表不能为空")
-    public List<PartAttribute> parts;
+    private List<PartAttribute> parts;
 
     public List<PartAttribute> getParts() {
         return parts;

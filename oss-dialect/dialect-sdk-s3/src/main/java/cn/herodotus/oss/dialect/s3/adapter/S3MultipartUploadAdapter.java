@@ -28,6 +28,17 @@ package cn.herodotus.oss.dialect.s3.adapter;
 import cn.herodotus.oss.definition.arguments.multipart.*;
 import cn.herodotus.oss.definition.core.adapter.OssMultipartUploadAdapter;
 import cn.herodotus.oss.definition.domain.multipart.*;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.oss.dialect.core.exception.OssServerException;
+import cn.herodotus.oss.dialect.s3.converter.arguments.*;
+import cn.herodotus.oss.dialect.s3.converter.domain.*;
+import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.convert.converter.Converter;
 
 /**
  * <p>Description: Amazon S3 兼容模式分片上传操作处理适配器 </p>
@@ -35,39 +46,155 @@ import cn.herodotus.oss.definition.domain.multipart.*;
  * @author : gengwei.zheng
  * @date : 2023/8/13 21:12
  */
-public class S3MultipartUploadAdapter implements OssMultipartUploadAdapter {
+public class S3MultipartUploadAdapter extends BaseS3Service implements OssMultipartUploadAdapter {
+
+    private static final Logger log = LoggerFactory.getLogger(S3MultipartUploadAdapter.class);
+
+    public S3MultipartUploadAdapter(AbstractOssClientObjectPool<AmazonS3> ossClientObjectPool) {
+        super(ossClientObjectPool);
+    }
+
     @Override
     public InitiateMultipartUploadDomain initiateMultipartUpload(InitiateMultipartUploadArguments arguments) {
-        return null;
+
+        String function = "initiateMultipartUpload";
+
+        Converter<InitiateMultipartUploadArguments, InitiateMultipartUploadRequest> toRequest = new ArgumentsToInitiateMultipartUploadRequestConverter();
+        Converter<InitiateMultipartUploadResult, InitiateMultipartUploadDomain> toDomain = new InitiateMultipartUploadResultToDomainConverter();
+
+        AmazonS3 client = getClient();
+        try {
+            InitiateMultipartUploadResult result = client.initiateMultipartUpload(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public UploadPartDomain uploadPart(UploadPartArguments arguments) {
-        return null;
+
+        String function = "uploadPart";
+
+        Converter<UploadPartArguments, UploadPartRequest> toRequest = new ArgumentsToUploadPartRequestConverter();
+        Converter<UploadPartResult, UploadPartDomain> toDomain = new UploadPartResultToDomainConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            UploadPartResult result = client.uploadPart(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public UploadPartCopyDomain uploadPartCopy(UploadPartCopyArguments arguments) {
-        return null;
+        String function = "uploadPartCopy";
+
+        Converter<UploadPartCopyArguments, CopyPartRequest> toRequest = new ArgumentsToCopyPartRequestConverter();
+        Converter<CopyPartResult, UploadPartCopyDomain> toDomain = new CopyPartResultToDomainConverter();
+
+        AmazonS3 client = getClient();
+        try {
+            CopyPartResult result = client.copyPart(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public CompleteMultipartUploadDomain completeMultipartUpload(CompleteMultipartUploadArguments arguments) {
-        return null;
+        String function = "completeMultipartUpload";
+
+        Converter<CompleteMultipartUploadArguments, CompleteMultipartUploadRequest> toRequest = new ArgumentsToCompleteMultipartUploadRequestConverter();
+        Converter<CompleteMultipartUploadResult, CompleteMultipartUploadDomain> toDomain = new CompleteMultipartUploadResultToDomainConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            CompleteMultipartUploadResult result = client.completeMultipartUpload(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public AbortMultipartUploadDomain abortMultipartUpload(AbortMultipartUploadArguments arguments) {
-        return null;
+        String function = "abortMultipartUpload";
+
+        Converter<AbortMultipartUploadArguments, AbortMultipartUploadRequest> toRequest = new ArgumentsToAbortMultipartUploadRequestConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            client.abortMultipartUpload(toRequest.convert(arguments));
+            AbortMultipartUploadDomain domain = new AbortMultipartUploadDomain();
+            domain.setUploadId(arguments.getUploadId());
+            domain.setBucketName(arguments.getBucketName());
+            domain.setObjectName(arguments.getObjectName());
+            return domain;
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public ListPartsDomain listParts(ListPartsArguments arguments) {
-        return null;
+
+        String function = "listParts";
+
+        Converter<ListPartsArguments, ListPartsRequest> toRequest = new ArgumentsToListPartsRequestConverter();
+        Converter<PartListing, ListPartsDomain> toDomain = new PartListingToDomainConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            PartListing partListing = client.listParts(toRequest.convert(arguments));
+            return toDomain.convert(partListing);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 
     @Override
     public ListMultipartUploadsDomain listMultipartUploads(ListMultipartUploadsArguments arguments) {
-        return null;
+        String function = "listMultipartUploads";
+
+        Converter<ListMultipartUploadsArguments, ListMultipartUploadsRequest> toRequest = new ArgumentsToListMultipartUploadsRequest();
+        Converter<MultipartUploadListing, ListMultipartUploadsDomain> toDomain = new MultipartUploadListingToDomainConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            MultipartUploadListing multipartUploadListing = client.listMultipartUploads(toRequest.convert(arguments));
+            return toDomain.convert(multipartUploadListing);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
     }
 }

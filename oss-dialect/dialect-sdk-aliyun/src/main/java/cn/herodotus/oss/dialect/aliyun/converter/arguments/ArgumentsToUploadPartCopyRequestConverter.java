@@ -25,19 +25,32 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.definition.arguments.multipart.UploadPartCopyArguments;
+import com.aliyun.oss.model.UploadPartCopyRequest;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: 统一定义 UploadPartCopyArguments 转 S3 CopyPartRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/14 17:46
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
-
+public class ArgumentsToUploadPartCopyRequestConverter extends ArgumentsToBucketConverter<UploadPartCopyArguments, UploadPartCopyRequest> {
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public UploadPartCopyRequest getRequest(UploadPartCopyArguments arguments) {
+
+        UploadPartCopyRequest request = new UploadPartCopyRequest();
+
+        request.setSourceBucketName(arguments.getBucketName());
+        request.setSourceKey(arguments.getObjectName());
+        request.setUploadId(arguments.getUploadId());
+        request.setPartNumber(arguments.getPartNumber());
+        request.setBucketName(arguments.getDestinationBucketName());
+        request.setKey(arguments.getDestinationObjectName());
+        request.setMatchingETagConstraints(arguments.getMatchingETagConstraints());
+        request.setNonmatchingETagConstraints(arguments.getNonmatchingEtagConstraints());
+        request.setModifiedSinceConstraint(arguments.getModifiedSinceConstraint());
+        request.setUnmodifiedSinceConstraint(arguments.getUnmodifiedSinceConstraint());
+
+        return request;
     }
 }

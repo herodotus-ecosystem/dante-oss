@@ -23,37 +23,40 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.DeletedObjectArguments;
-import com.amazonaws.services.s3.model.DeleteObjectsRequest;
-import org.apache.commons.collections4.CollectionUtils;
+import cn.herodotus.oss.definition.domain.multipart.ListPartsDomain;
+import cn.herodotus.oss.definition.domain.multipart.PartSummaryDomain;
+import com.aliyun.oss.model.PartListing;
+import com.aliyun.oss.model.PartSummary;
+import org.springframework.core.convert.converter.Converter;
 
 import java.util.List;
 
 /**
- * <p>Description: 统一定义 DeleteObjectsArguments 转 S3 DeleteObjectsRequest 转换器 </p>
+ * <p>Description: PartListing 转 ListPartsDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 19:59
+ * @date : 2023/8/14 20:44
  */
-public class ArgumentsToDeleteObjectsRequestConverter extends ArgumentsToBucketConverter<DeleteObjectsArguments, DeleteObjectsRequest> {
+public class PartListingToDomainConverter implements Converter<PartListing, ListPartsDomain> {
+
+    private final Converter<List<PartSummary>, List<PartSummaryDomain>> toDomain = new PartSummaryToDomainConverter();
 
     @Override
-    public void prepare(DeleteObjectsArguments arguments, DeleteObjectsRequest request) {
-        List<DeletedObjectArguments> keys = arguments.getObjects();
-        if (CollectionUtils.isNotEmpty(keys)) {
-            List<DeleteObjectsRequest.KeyVersion> values = keys.stream().map(item -> new DeleteObjectsRequest.KeyVersion(item.getObjectName(), item.getVersionId())).toList();
-            request.setKeys(values);
-        }
+    public ListPartsDomain convert(PartListing source) {
 
-        request.setQuiet(arguments.getQuiet());
-        super.prepare(arguments, request);
-    }
+        ListPartsDomain domain = new ListPartsDomain();
+        domain.setStorageClass(source.getStorageClass());
+        domain.setMaxParts(source.getMaxParts());
+        domain.setPartNumberMarker(source.getPartNumberMarker());
+        domain.setNextPartNumberMarker(source.getNextPartNumberMarker());
+        domain.setTruncated(source.isTruncated());
+        domain.setParts(toDomain.convert(source.getParts()));
+        domain.setUploadId(source.getUploadId());
+        domain.setBucketName(source.getBucketName());
+        domain.setObjectName(source.getKey());
 
-    @Override
-    public DeleteObjectsRequest getRequest(DeleteObjectsArguments arguments) {
-        return new DeleteObjectsRequest(arguments.getBucketName());
+        return domain;
     }
 }

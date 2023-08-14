@@ -25,19 +25,27 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.definition.arguments.multipart.ListMultipartUploadsArguments;
+import com.aliyun.oss.model.ListMultipartUploadsRequest;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: 统一定义 ListMultipartUploadsArguments 转 S3 ListMultipartUploadsRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/14 20:26
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
-
+public class ArgumentsToListMultipartUploadsRequest implements Converter<ListMultipartUploadsArguments, ListMultipartUploadsRequest> {
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public ListMultipartUploadsRequest convert(ListMultipartUploadsArguments source) {
+
+        ListMultipartUploadsRequest request = new ListMultipartUploadsRequest(source.getBucketName());
+        request.setDelimiter(source.getDelimiter());
+        request.setPrefix(source.getPrefix());
+        request.setMaxUploads(source.getMaxUploads());
+        request.setKeyMarker(source.getKeyMarker());
+        request.setUploadIdMarker(source.getUploadIdMarker());
+        request.setEncodingType(source.getEncodingType());
+        return request;
     }
 }

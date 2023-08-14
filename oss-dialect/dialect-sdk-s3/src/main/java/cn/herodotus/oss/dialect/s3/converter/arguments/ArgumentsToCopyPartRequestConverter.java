@@ -25,35 +25,31 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.DeletedObjectArguments;
-import com.amazonaws.services.s3.model.DeleteObjectsRequest;
-import org.apache.commons.collections4.CollectionUtils;
-
-import java.util.List;
+import cn.herodotus.oss.definition.arguments.multipart.UploadPartCopyArguments;
+import com.amazonaws.services.s3.model.CopyPartRequest;
 
 /**
- * <p>Description: 统一定义 DeleteObjectsArguments 转 S3 DeleteObjectsRequest 转换器 </p>
+ * <p>Description: 统一定义 UploadPartCopyArguments 转 S3 CopyPartRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 19:59
+ * @date : 2023/8/14 17:46
  */
-public class ArgumentsToDeleteObjectsRequestConverter extends ArgumentsToBucketConverter<DeleteObjectsArguments, DeleteObjectsRequest> {
-
+public class ArgumentsToCopyPartRequestConverter extends ArgumentsToBucketConverter<UploadPartCopyArguments, CopyPartRequest> {
     @Override
-    public void prepare(DeleteObjectsArguments arguments, DeleteObjectsRequest request) {
-        List<DeletedObjectArguments> keys = arguments.getObjects();
-        if (CollectionUtils.isNotEmpty(keys)) {
-            List<DeleteObjectsRequest.KeyVersion> values = keys.stream().map(item -> new DeleteObjectsRequest.KeyVersion(item.getObjectName(), item.getVersionId())).toList();
-            request.setKeys(values);
-        }
+    public CopyPartRequest getRequest(UploadPartCopyArguments arguments) {
 
-        request.setQuiet(arguments.getQuiet());
-        super.prepare(arguments, request);
-    }
+        CopyPartRequest request = new CopyPartRequest();
 
-    @Override
-    public DeleteObjectsRequest getRequest(DeleteObjectsArguments arguments) {
-        return new DeleteObjectsRequest(arguments.getBucketName());
+        return request
+                .withSourceBucketName(arguments.getBucketName())
+                .withSourceKey(arguments.getObjectName())
+                .withUploadId(arguments.getUploadId())
+                .withPartNumber(arguments.getPartNumber())
+                .withDestinationBucketName(arguments.getDestinationBucketName())
+                .withDestinationKey(arguments.getDestinationObjectName())
+                .withMatchingETagConstraints(arguments.getMatchingETagConstraints())
+                .withNonmatchingETagConstraints(arguments.getNonmatchingEtagConstraints())
+                .withModifiedSinceConstraint(arguments.getModifiedSinceConstraint())
+                .withUnmodifiedSinceConstraint(arguments.getUnmodifiedSinceConstraint());
     }
 }

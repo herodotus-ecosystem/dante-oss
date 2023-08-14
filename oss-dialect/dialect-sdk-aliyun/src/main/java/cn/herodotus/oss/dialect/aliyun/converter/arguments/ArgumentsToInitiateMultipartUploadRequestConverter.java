@@ -25,19 +25,19 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.definition.arguments.multipart.InitiateMultipartUploadArguments;
+import com.aliyun.oss.model.InitiateMultipartUploadRequest;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: 统一定义 InitiateMultipartUploadArguments 转 S3 InitiateMultipartUploadRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/14 17:31
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
+public class ArgumentsToInitiateMultipartUploadRequestConverter extends ArgumentsToBucketConverter<InitiateMultipartUploadArguments, InitiateMultipartUploadRequest> {
 
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public InitiateMultipartUploadRequest getRequest(InitiateMultipartUploadArguments arguments) {
+        return new InitiateMultipartUploadRequest(arguments.getBucketName(), arguments.getObjectName());
     }
 }

@@ -29,7 +29,7 @@ import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import com.amazonaws.services.s3.model.DeleteBucketRequest;
 
 /**
- * <p>Description: 统一定义 DeleteBucketArguments 转 Minio DeleteBucketRequest 转换器 </p>
+ * <p>Description: 统一定义 DeleteBucketArguments 转 S3 DeleteBucketRequest 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/28 19:59
