@@ -23,17 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.amazonaws.AmazonWebServiceRequest;
+import cn.herodotus.oss.definition.arguments.base.ObjectVersionArguments;
+import com.aliyun.oss.model.GenericRequest;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 S3 参数转换器 </p>
+ * <p>Description: 统一定义对象版本请求参数转换为 Aliyun 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:37
+ * @date : 2023/8/15 12:30
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends AmazonWebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
+public abstract class ArgumentsToObjectVersionConverter  <S extends ObjectVersionArguments, T extends GenericRequest> extends ArgumentsToObjectConverter<S, T>{
 
+    @Override
+    public void prepare(S arguments, T request) {
+        request.setBucketName(arguments.getBucketName());
+        request.setKey(arguments.getObjectName());
+
+        if (StringUtils.isNotBlank(arguments.getVersionId())) {
+            request.setVersionId(arguments.getVersionId());
+        }
+
+        super.prepare(arguments, request);
+    }
 }

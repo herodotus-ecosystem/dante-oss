@@ -23,22 +23,18 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
-import com.amazonaws.services.s3.model.ListObjectsRequest;
+import cn.herodotus.oss.definition.arguments.base.BucketArguments;
+import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBaseConverter;
+import com.aliyun.oss.model.WebServiceRequest;
 
 /**
- * <p>Description: 统一定义 ListObjectsArguments 转 S3 ListObjectsRequest 转换器 </p>
+ * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 19:31
+ * @date : 2023/8/10 15:37
  */
-public class ArgumentsToListObjectsRequestConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsRequest> {
+public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
 
-    @Override
-    public ListObjectsRequest getRequest(ListObjectsArguments arguments) {
-        return new ListObjectsRequest(arguments.getBucketName(), arguments.getPrefix(), arguments.getMarker(), arguments.getDelimiter(), arguments.getMaxKeys());
-    }
 }

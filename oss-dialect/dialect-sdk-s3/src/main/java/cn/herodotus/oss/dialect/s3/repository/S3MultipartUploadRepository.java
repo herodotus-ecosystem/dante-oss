@@ -23,57 +23,52 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.adapter;
+package cn.herodotus.oss.dialect.s3.repository;
 
 import cn.herodotus.oss.definition.arguments.multipart.*;
 import cn.herodotus.oss.definition.core.repository.OssMultipartUploadRepository;
 import cn.herodotus.oss.definition.domain.multipart.*;
-import cn.herodotus.oss.dialect.aliyun.converter.arguments.*;
-import cn.herodotus.oss.dialect.aliyun.converter.domain.*;
-import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
-import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
-import com.aliyun.oss.ClientException;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSException;
-import com.aliyun.oss.model.*;
+import cn.herodotus.oss.dialect.s3.converter.arguments.*;
+import cn.herodotus.oss.dialect.s3.converter.domain.*;
+import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Aliyun 兼容模式分片上传操作处理适配器 </p>
+ * <p>Description: Amazon S3 兼容模式分片上传操作处理适配器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 21:13
+ * @date : 2023/8/13 21:12
  */
-public class AliyunMultipartUploadRepository extends BaseAliyunService implements OssMultipartUploadRepository {
+public class S3MultipartUploadRepository extends BaseS3Service implements OssMultipartUploadRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunMultipartUploadRepository.class);
+    private static final Logger log = LoggerFactory.getLogger(S3MultipartUploadRepository.class);
 
-    public AliyunMultipartUploadRepository(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public S3MultipartUploadRepository(AbstractOssClientObjectPool<AmazonS3> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 
     @Override
     public InitiateMultipartUploadDomain initiateMultipartUpload(InitiateMultipartUploadArguments arguments) {
+
         String function = "initiateMultipartUpload";
 
         Converter<InitiateMultipartUploadArguments, InitiateMultipartUploadRequest> toRequest = new ArgumentsToInitiateMultipartUploadRequestConverter();
         Converter<InitiateMultipartUploadResult, InitiateMultipartUploadDomain> toDomain = new InitiateMultipartUploadResultToDomainConverter();
 
-        OSS client = getClient();
-
+        AmazonS3 client = getClient();
         try {
             InitiateMultipartUploadResult result = client.initiateMultipartUpload(toRequest.convert(arguments));
             return toDomain.convert(result);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
         } finally {
             close(client);
         }
@@ -81,22 +76,20 @@ public class AliyunMultipartUploadRepository extends BaseAliyunService implement
 
     @Override
     public UploadPartDomain uploadPart(UploadPartArguments arguments) {
+
         String function = "uploadPart";
 
         Converter<UploadPartArguments, UploadPartRequest> toRequest = new ArgumentsToUploadPartRequestConverter();
         Converter<UploadPartResult, UploadPartDomain> toDomain = new UploadPartResultToDomainConverter();
 
-        OSS client = getClient();
+        AmazonS3 client = getClient();
 
         try {
             UploadPartResult result = client.uploadPart(toRequest.convert(arguments));
             return toDomain.convert(result);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
         } finally {
             close(client);
         }
@@ -106,20 +99,16 @@ public class AliyunMultipartUploadRepository extends BaseAliyunService implement
     public UploadPartCopyDomain uploadPartCopy(UploadPartCopyArguments arguments) {
         String function = "uploadPartCopy";
 
-        Converter<UploadPartCopyArguments, UploadPartCopyRequest> toRequest = new ArgumentsToUploadPartCopyRequestConverter();
-        Converter<UploadPartCopyResult, UploadPartCopyDomain> toDomain = new UploadPartCopyResultToDomainConverter();
+        Converter<UploadPartCopyArguments, CopyPartRequest> toRequest = new ArgumentsToCopyPartRequestConverter();
+        Converter<CopyPartResult, UploadPartCopyDomain> toDomain = new CopyPartResultToDomainConverter();
 
-        OSS client = getClient();
-
+        AmazonS3 client = getClient();
         try {
-            UploadPartCopyResult result = client.uploadPartCopy(toRequest.convert(arguments));
+            CopyPartResult result = client.copyPart(toRequest.convert(arguments));
             return toDomain.convert(result);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
         } finally {
             close(client);
         }
@@ -132,17 +121,14 @@ public class AliyunMultipartUploadRepository extends BaseAliyunService implement
         Converter<CompleteMultipartUploadArguments, CompleteMultipartUploadRequest> toRequest = new ArgumentsToCompleteMultipartUploadRequestConverter();
         Converter<CompleteMultipartUploadResult, CompleteMultipartUploadDomain> toDomain = new CompleteMultipartUploadResultToDomainConverter();
 
-        OSS client = getClient();
+        AmazonS3 client = getClient();
 
         try {
             CompleteMultipartUploadResult result = client.completeMultipartUpload(toRequest.convert(arguments));
             return toDomain.convert(result);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
         } finally {
             close(client);
         }
@@ -154,7 +140,7 @@ public class AliyunMultipartUploadRepository extends BaseAliyunService implement
 
         Converter<AbortMultipartUploadArguments, AbortMultipartUploadRequest> toRequest = new ArgumentsToAbortMultipartUploadRequestConverter();
 
-        OSS client = getClient();
+        AmazonS3 client = getClient();
 
         try {
             client.abortMultipartUpload(toRequest.convert(arguments));
@@ -163,12 +149,9 @@ public class AliyunMultipartUploadRepository extends BaseAliyunService implement
             domain.setBucketName(arguments.getBucketName());
             domain.setObjectName(arguments.getObjectName());
             return domain;
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
         } finally {
             close(client);
         }
@@ -176,22 +159,20 @@ public class AliyunMultipartUploadRepository extends BaseAliyunService implement
 
     @Override
     public ListPartsDomain listParts(ListPartsArguments arguments) {
+
         String function = "listParts";
 
         Converter<ListPartsArguments, ListPartsRequest> toRequest = new ArgumentsToListPartsRequestConverter();
         Converter<PartListing, ListPartsDomain> toDomain = new PartListingToDomainConverter();
 
-        OSS client = getClient();
+        AmazonS3 client = getClient();
 
         try {
-            PartListing listing = client.listParts(toRequest.convert(arguments));
-            return toDomain.convert(listing);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            PartListing partListing = client.listParts(toRequest.convert(arguments));
+            return toDomain.convert(partListing);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
         } finally {
             close(client);
         }
@@ -204,17 +185,14 @@ public class AliyunMultipartUploadRepository extends BaseAliyunService implement
         Converter<ListMultipartUploadsArguments, ListMultipartUploadsRequest> toRequest = new ArgumentsToListMultipartUploadsRequest();
         Converter<MultipartUploadListing, ListMultipartUploadsDomain> toDomain = new MultipartUploadListingToDomainConverter();
 
-        OSS client = getClient();
+        AmazonS3 client = getClient();
 
         try {
-            MultipartUploadListing listing = client.listMultipartUploads(toRequest.convert(arguments));
-            return toDomain.convert(listing);
-        } catch (ClientException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch ClientException in [{}].", function, e);
+            MultipartUploadListing multipartUploadListing = client.listMultipartUploads(toRequest.convert(arguments));
+            return toDomain.convert(multipartUploadListing);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
             throw new OssServerException(e.getMessage());
-        } catch (OSSException e) {
-            log.error("[Herodotus] |- Aliyun OSS catch OSSException in [{}].", function, e);
-            throw new OssExecutionException(e.getMessage());
         } finally {
             close(client);
         }

@@ -47,7 +47,7 @@ import org.springframework.context.annotation.Import;
 })
 @ComponentScan(basePackages = {
         "cn.herodotus.oss.dialect.aliyun.service",
-        "cn.herodotus.oss.dialect.aliyun.adapter",
+        "cn.herodotus.oss.dialect.aliyun.repository",
 })
 public class OssDialectAliyunConfiguration {
 

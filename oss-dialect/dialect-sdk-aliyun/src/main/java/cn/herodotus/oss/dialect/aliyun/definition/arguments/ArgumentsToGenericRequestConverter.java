@@ -23,21 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
 import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import com.aliyun.oss.model.WebServiceRequest;
+import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBaseConverter;
+import com.aliyun.oss.model.GenericRequest;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Aliyun 参数转换器 </p>
+ * <p>Description: 统一定义存储桶请求参数转换为 GenericRequest 参数转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/10 15:37
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends WebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
-
+public class ArgumentsToGenericRequestConverter<S extends BucketArguments> extends ArgumentsToBaseConverter<S, GenericRequest> {
     @Override
-    public T getRequest(S arguments) {
-        return null;
+    public GenericRequest getRequest(S arguments) {
+        return new GenericRequest(arguments.getBucketName());
     }
 }

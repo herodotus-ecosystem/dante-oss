@@ -27,6 +27,7 @@ package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
 import cn.herodotus.oss.definition.arguments.multipart.CompleteMultipartUploadArguments;
 import cn.herodotus.oss.definition.attribute.PartAttribute;
+import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
 import com.aliyun.oss.model.CompleteMultipartUploadRequest;
 import com.aliyun.oss.model.PartETag;
 import org.apache.commons.collections4.CollectionUtils;

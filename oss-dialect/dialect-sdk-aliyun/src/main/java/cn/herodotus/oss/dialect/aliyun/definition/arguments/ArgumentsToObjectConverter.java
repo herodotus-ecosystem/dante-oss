@@ -23,28 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.arguments;
+package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BaseArguments;
-import com.amazonaws.AmazonWebServiceRequest;
-import org.apache.commons.collections4.MapUtils;
+import cn.herodotus.oss.definition.arguments.base.ObjectArguments;
+import com.aliyun.oss.model.WebServiceRequest;
 
 /**
- * <p>Description: 基础的统一定义请求参数转换为 S3 参数转换器 </p>
+ * <p>Description: 统一定义对象请求参数转换为 Aliyun 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:33
+ * @date : 2023/8/15 12:28
  */
-public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extends AmazonWebServiceRequest> implements ArgumentsConverter<S, T> {
-
-    @Override
-    public void prepare(S arguments, T request) {
-        if (MapUtils.isNotEmpty(arguments.getExtraHeaders())) {
-            arguments.getExtraHeaders().entrySet().forEach((entry -> request.putCustomRequestHeader(entry.getKey(), entry.getValue())));
-        }
-
-        if (MapUtils.isNotEmpty(arguments.getExtraQueryParams())) {
-            arguments.getExtraQueryParams().entrySet().forEach((entry -> request.putCustomQueryParameter(entry.getKey(), entry.getValue())));
-        }
-    }
+public abstract class ArgumentsToObjectConverter <S extends ObjectArguments, T extends WebServiceRequest> extends ArgumentsToBucketConverter<S, T>{
 }

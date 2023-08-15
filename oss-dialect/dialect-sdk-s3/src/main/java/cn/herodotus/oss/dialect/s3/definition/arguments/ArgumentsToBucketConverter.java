@@ -23,45 +23,18 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.arguments;
+package cn.herodotus.oss.dialect.s3.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import cn.herodotus.oss.definition.arguments.base.BucketArguments;
+import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBaseConverter;
 import com.amazonaws.AmazonWebServiceRequest;
-import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 统一定义请求参数转换为 S3 参数转换器 </p>
+ * <p>Description: 统一定义存储桶请求参数转换为 S3 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:16
+ * @date : 2023/8/10 15:37
  */
-public interface ArgumentsConverter<S extends BaseArguments, T extends AmazonWebServiceRequest> extends Converter<S, T> {
+public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends AmazonWebServiceRequest> extends ArgumentsToBaseConverter<S, T> {
 
-    /**
-     * 参数准备
-     *
-     * @param arguments 统一定义请求参数
-     * @param request   S3 请求参数实体
-     */
-    void prepare(S arguments, T request);
-
-    /**
-     * 获取最终生成对象
-     *
-     * @return S3 请求参数实体
-     */
-    T getRequest(S arguments);
-
-    /**
-     * 参数实体转换
-     *
-     * @param arguments 统一定义请求参数
-     * @return S3 请求参数实体
-     */
-    @Override
-    default T convert(S arguments) {
-        T target = getRequest(arguments);
-        prepare(arguments, target);
-        return target;
-    }
 }
