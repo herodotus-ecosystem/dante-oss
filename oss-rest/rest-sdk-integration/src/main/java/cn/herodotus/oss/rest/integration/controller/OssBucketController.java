@@ -29,7 +29,7 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.definition.core.adapter.OssBucketAdapter;
+import cn.herodotus.oss.definition.core.repository.OssBucketRepository;
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
@@ -61,9 +61,9 @@ import java.util.List;
 })
 public class OssBucketController implements Controller {
 
-    private final OssBucketAdapter ossBucketHandler;
+    private final OssBucketRepository ossBucketHandler;
 
-    public OssBucketController(OssBucketAdapter ossBucketHandler) {
+    public OssBucketController(OssBucketRepository ossBucketHandler) {
         this.ossBucketHandler = ossBucketHandler;
     }
 

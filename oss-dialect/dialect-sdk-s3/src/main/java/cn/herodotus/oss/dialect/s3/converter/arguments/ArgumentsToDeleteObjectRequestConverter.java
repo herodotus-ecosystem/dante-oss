@@ -26,6 +26,7 @@
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
+import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 
 /**

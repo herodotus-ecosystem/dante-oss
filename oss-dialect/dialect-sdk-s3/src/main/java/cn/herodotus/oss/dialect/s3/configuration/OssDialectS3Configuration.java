@@ -47,7 +47,7 @@ import org.springframework.context.annotation.Import;
 })
 @ComponentScan(basePackages = {
         "cn.herodotus.oss.dialect.s3.service",
-        "cn.herodotus.oss.dialect.s3.adapter",
+        "cn.herodotus.oss.dialect.s3.repository",
 })
 public class OssDialectS3Configuration {
 

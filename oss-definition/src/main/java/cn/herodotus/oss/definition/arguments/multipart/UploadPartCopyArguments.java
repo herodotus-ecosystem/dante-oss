@@ -47,7 +47,6 @@ import java.util.List;
 @Schema(name = "上传分片拷贝请求参数实体", title = "上传分片拷贝请求参数实体")
 public class UploadPartCopyArguments extends BasePartArguments {
 
-
     /**
      * ETag值反向匹配约束列表，该列表将复制请求约束为仅在源对象的ETag与任何指定的ETag约束值不匹配时执行。
      */

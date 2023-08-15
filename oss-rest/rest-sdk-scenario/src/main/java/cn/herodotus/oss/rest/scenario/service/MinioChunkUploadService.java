@@ -28,7 +28,7 @@ package cn.herodotus.oss.rest.scenario.service;
 import cn.herodotus.oss.dialect.minio.converter.ResponseToObjectWriteDomainConverter;
 import cn.herodotus.oss.dialect.minio.domain.ObjectWriteDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioMultipartUploadService;
-import cn.herodotus.oss.dialect.minio.service.MinioPresignedObjectUrlService;
+import cn.herodotus.oss.dialect.minio.service.MinioPreSignedUrlService;
 import cn.herodotus.oss.rest.scenario.bo.ChunkUploadCreateBusiness;
 import cn.herodotus.oss.rest.scenario.proxy.MinioProxyAddressConverter;
 import io.minio.CreateMultipartUploadResponse;
@@ -57,12 +57,12 @@ import java.util.concurrent.TimeUnit;
 public class MinioChunkUploadService {
 
     private final MinioMultipartUploadService minioMultipartUploadService;
-    private final MinioPresignedObjectUrlService minioPresignedObjectUrlService;
+    private final MinioPreSignedUrlService minioPreSignedUrlService;
     private final MinioProxyAddressConverter converter;
 
-    public MinioChunkUploadService(MinioMultipartUploadService minioMultipartUploadService, MinioPresignedObjectUrlService minioPresignedObjectUrlService, MinioProxyAddressConverter converter) {
+    public MinioChunkUploadService(MinioMultipartUploadService minioMultipartUploadService, MinioPreSignedUrlService minioPreSignedUrlService, MinioProxyAddressConverter converter) {
         this.minioMultipartUploadService = minioMultipartUploadService;
-        this.minioPresignedObjectUrlService = minioPresignedObjectUrlService;
+        this.minioPreSignedUrlService = minioPreSignedUrlService;
         this.converter = converter;
     }
 
@@ -99,7 +99,7 @@ public class MinioChunkUploadService {
                 .extraQueryParams(extraQueryParams)
                 .expiry(1, TimeUnit.HOURS)
                 .build();
-        return minioPresignedObjectUrlService.getPresignedObjectUrl(args);
+        return minioPreSignedUrlService.getPreSignedObjectUrl(args);
     }
 
     /**

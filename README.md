@@ -88,6 +88,15 @@ dante-oss
 └──  └── oss-spring-boot-starter -- Dante OSS 统一 Starter
 ```
 
+## 专栏 | Cookbook
+
+**Dante Cloud 技术解析高级文档专栏【试行】**
+
+| 序号 | 文章标题                          | 付费 | 说明                                                                        | 扫码阅读                                                         |
+|:--:|-------------------------------|:--:|---------------------------------------------------------------------------|--------------------------------------------------------------|
+| 1  | Dante Cloud 及相关知识学习方法和学习路径的建议 | 免费 |                                                                           | ![Dante Cloud 及相关知识学习方法和学习路径的建议](./readme/cookbook/0001.png) |
+| 2  | OAuth 2 中的 Scope 与 Role 深度解析  | 付费 | 全网独家，深度解析 OAuth2 协议中和 Spring Security 生态各组件中 Scope 和 Role 概念与原理，以及在实战中的应用 | ![OAuth 2 中的 Scope 与 Role 深度解析](./readme/cookbook/0002.png)  |
+
 ## 使用 | How to use
 
 ### 一、基本使用
