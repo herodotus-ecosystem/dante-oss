@@ -23,39 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToBucketConverter;
-import io.minio.ListObjectsArgs;
-import org.apache.commons.lang3.StringUtils;
+import cn.herodotus.oss.definition.arguments.load.GeneratePreSignedUrlArguments;
+import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
+import com.amazonaws.HttpMethod;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import org.dromara.hutool.core.date.DateUtil;
 
 /**
- * <p>Description: 统一定义 OssDomain 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: 统一定义 GeneratePreSignedUrlArguments 转 S3 GeneratePreSignedUrlRequest 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:14
+ * @date : 2023/8/15 21:04
  */
-public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
-
+public class ArgumentsToGeneratePreSignedUrlRequestConverter extends ArgumentsToBucketConverter<GeneratePreSignedUrlArguments, GeneratePresignedUrlRequest> {
     @Override
-    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
-        builder.delimiter(arguments.getDelimiter());
-        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
-        builder.maxKeys(arguments.getMaxKeys());
-        builder.prefix(arguments.getPrefix());
-        builder.recursive(false);
-        builder.useApiVersion1(true);
+    public GeneratePresignedUrlRequest getRequest(GeneratePreSignedUrlArguments arguments) {
 
-        if (StringUtils.isNotBlank(arguments.getMarker())) {
-            builder.keyMarker(arguments.getMarker());
-        }
+        GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(arguments.getBucketName(), arguments.getObjectName());
+        request.setMethod(HttpMethod.valueOf(arguments.getMethod().name()));
+        request.setVersionId(arguments.getVersionId());
+        request.setContentMd5(arguments.getContentMD5());
+        request.setContentType(arguments.getContentType());
+        request.setExpiration(DateUtil.offsetSecond(DateUtil.now(), arguments.getExpiry()));
 
-        super.prepare(arguments, builder);
-    }
-
-    @Override
-    public ListObjectsArgs.Builder getBuilder() {
-        return ListObjectsArgs.builder();
+        return request;
     }
 }

@@ -23,29 +23,28 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import io.minio.BucketArgs;
-import org.apache.commons.lang3.StringUtils;
+import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import io.minio.BaseArgs;
+import org.apache.commons.collections4.MapUtils;
 
 /**
- * <p>Description: 统一定义存储桶请求参数转换为 Minio 参数转换器 </p>
+ * <p>Description: 基础的统一定义请求参数转换为 Minio 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 23:07
+ * @date : 2023/8/9 22:18
  */
-public abstract class ArgumentsToBucketConverter<S extends BucketArguments, T extends BucketArgs, B extends BucketArgs.Builder<B, T>> extends ArgumentsToBaseConverter<S, T, B> {
+public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extends BaseArgs, B extends BaseArgs.Builder<B, T>> implements ArgumentsConverter<S, T, B> {
 
     @Override
     public void prepare(S arguments, B builder) {
-
-        builder.bucket(arguments.getBucketName());
-
-        if (StringUtils.isNotBlank(arguments.getRegion())) {
-            builder.region(arguments.getRegion());
+        if (MapUtils.isNotEmpty(arguments.getExtraHeaders())) {
+            builder.extraHeaders(arguments.getExtraHeaders());
         }
 
-        super.prepare(arguments, builder);
+        if (MapUtils.isNotEmpty(arguments.getExtraQueryParams())) {
+            builder.extraHeaders(arguments.getExtraQueryParams());
+        }
     }
 }

@@ -23,24 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.definition.arguments.load;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectVersionArguments;
-import io.minio.ObjectVersionArgs;
-import org.apache.commons.lang3.StringUtils;
+import cn.herodotus.oss.definition.arguments.base.ObjectConditionalReadArguments;
 
 /**
- * <p>Description: 统一定义对象版本请求参数转换为 Minio 参数转换器 </p>
+ * <p>Description: 下载对象请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 23:07
+ * @date : 2023/8/15 13:40
  */
-public abstract class ArgumentsToObjectVersionConverter<S extends ObjectVersionArguments, T extends ObjectVersionArgs, B extends ObjectVersionArgs.Builder<B, T>> extends ArgumentsToObjectConverter<S, T, B> {
-    @Override
-    public void prepare(S arguments, B builder) {
-        if (StringUtils.isNotBlank(arguments.getVersionId())) {
-            builder.versionId(arguments.getVersionId());
-        }
-        super.prepare(arguments, builder);
-    }
+public class GetObjectArguments extends ObjectConditionalReadArguments {
+
 }

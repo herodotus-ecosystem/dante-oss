@@ -23,39 +23,43 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
-
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToBucketConverter;
-import io.minio.ListObjectsArgs;
-import org.apache.commons.lang3.StringUtils;
+package cn.herodotus.oss.definition.enums;
 
 /**
- * <p>Description: 统一定义 OssDomain 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: Http Methods </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:14
+ * @date : 2023/8/15 17:41
  */
-public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
+public enum HttpMethod {
 
-    @Override
-    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
-        builder.delimiter(arguments.getDelimiter());
-        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
-        builder.maxKeys(arguments.getMaxKeys());
-        builder.prefix(arguments.getPrefix());
-        builder.recursive(false);
-        builder.useApiVersion1(true);
+    /**
+     * HTTP DELETE.
+     */
+    DELETE,
 
-        if (StringUtils.isNotBlank(arguments.getMarker())) {
-            builder.keyMarker(arguments.getMarker());
-        }
+    /**
+     * HTTP GET
+     */
+    GET,
 
-        super.prepare(arguments, builder);
-    }
+    /**
+     * HTTP HEAD
+     */
+    HEAD,
 
-    @Override
-    public ListObjectsArgs.Builder getBuilder() {
-        return ListObjectsArgs.builder();
-    }
+    /**
+     * HTTP POST
+     */
+    POST,
+
+    /**
+     * HTTP PUT
+     */
+    PUT,
+
+    /**
+     * HTTP OPTION
+     */
+    OPTIONS
 }

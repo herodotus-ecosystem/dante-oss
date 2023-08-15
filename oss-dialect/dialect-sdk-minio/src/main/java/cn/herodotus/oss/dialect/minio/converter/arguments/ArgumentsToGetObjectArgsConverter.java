@@ -25,26 +25,20 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BaseArguments;
-import io.minio.BaseArgs;
-import org.apache.commons.collections4.MapUtils;
+import cn.herodotus.oss.definition.arguments.load.GetObjectArguments;
+import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectConditionalReadConverter;
+import io.minio.GetObjectArgs;
 
 /**
- * <p>Description: 基础的统一定义请求参数转换为 Minio 参数转换器 </p>
+ * <p>Description: 统一定义 GetObjectArguments 转 Minio GetObjectArgs 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:18
+ * @date : 2023/8/15 21:36
  */
-public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extends BaseArgs, B extends BaseArgs.Builder<B, T>> implements ArgumentsConverter<S, T, B> {
+public class ArgumentsToGetObjectArgsConverter extends ArgumentsToObjectConditionalReadConverter<GetObjectArguments, GetObjectArgs, GetObjectArgs.Builder> {
 
     @Override
-    public void prepare(S arguments, B builder) {
-        if (MapUtils.isNotEmpty(arguments.getExtraHeaders())) {
-            builder.extraHeaders(arguments.getExtraHeaders());
-        }
-
-        if (MapUtils.isNotEmpty(arguments.getExtraQueryParams())) {
-            builder.extraHeaders(arguments.getExtraQueryParams());
-        }
+    public GetObjectArgs.Builder getBuilder() {
+        return GetObjectArgs.builder();
     }
 }

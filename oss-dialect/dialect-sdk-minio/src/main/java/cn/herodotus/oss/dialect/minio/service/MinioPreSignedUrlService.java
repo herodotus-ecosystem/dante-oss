@@ -51,11 +51,11 @@ import java.util.concurrent.TimeUnit;
  * @date : 2023/4/16 15:57
  */
 @Service
-public class MinioPresignedObjectUrlService extends BaseMinioService {
+public class MinioPreSignedUrlService extends BaseMinioService {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioPresignedObjectUrlService.class);
+    private static final Logger log = LoggerFactory.getLogger(MinioPreSignedUrlService.class);
 
-    public MinioPresignedObjectUrlService(MinioClientObjectPool minioClientObjectPool) {
+    public MinioPreSignedUrlService(MinioClientObjectPool minioClientObjectPool) {
         super(minioClientObjectPool);
     }
 
@@ -118,8 +118,8 @@ public class MinioPresignedObjectUrlService extends BaseMinioService {
      * @param objectName 对象名称
      * @return url string
      */
-    public String getPresignedObjectUrl(String bucketName, String objectName) {
-        return getPresignedObjectUrl(bucketName, null, objectName);
+    public String getPreSignedObjectUrl(String bucketName, String objectName) {
+        return getPreSignedObjectUrl(bucketName, null, objectName);
     }
 
     /**
@@ -132,8 +132,8 @@ public class MinioPresignedObjectUrlService extends BaseMinioService {
      * @param objectName 对象名称
      * @return url string
      */
-    public String getPresignedObjectUrl(String bucketName, String region, String objectName) {
-        return getPresignedObjectUrl(bucketName, region, objectName, Method.GET);
+    public String getPreSignedObjectUrl(String bucketName, String region, String objectName) {
+        return getPreSignedObjectUrl(bucketName, region, objectName, Method.GET);
     }
 
     /**
@@ -147,8 +147,8 @@ public class MinioPresignedObjectUrlService extends BaseMinioService {
      * @param method     方法类型 {@link Method}
      * @return url string
      */
-    public String getPresignedObjectUrl(String bucketName, String region, String objectName, Method method) {
-        return getPresignedObjectUrl(bucketName, region, objectName, method, 7, TimeUnit.DAYS);
+    public String getPreSignedObjectUrl(String bucketName, String region, String objectName, Method method) {
+        return getPreSignedObjectUrl(bucketName, region, objectName, method, 7, TimeUnit.DAYS);
     }
 
     /**
@@ -162,8 +162,8 @@ public class MinioPresignedObjectUrlService extends BaseMinioService {
      * @param unit       过期时间单位
      * @return url string
      */
-    public String getPresignedObjectUrl(String bucketName, String region, String objectName, Method method, int duration, TimeUnit unit) {
-        return getPresignedObjectUrl(bucketName, region, objectName, method, duration, unit, null);
+    public String getPreSignedObjectUrl(String bucketName, String region, String objectName, Method method, int duration, TimeUnit unit) {
+        return getPreSignedObjectUrl(bucketName, region, objectName, method, duration, unit, null);
     }
 
     /**
@@ -178,8 +178,8 @@ public class MinioPresignedObjectUrlService extends BaseMinioService {
      * @param versionId  版本ID
      * @return url string
      */
-    public String getPresignedObjectUrl(String bucketName, String region, String objectName, Method method, int duration, TimeUnit unit, String versionId) {
-        return getPresignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+    public String getPreSignedObjectUrl(String bucketName, String region, String objectName, Method method, int duration, TimeUnit unit, String versionId) {
+        return getPreSignedObjectUrl(GetPresignedObjectUrlArgs.builder()
                 .bucket(bucketName)
                 .region(region)
                 .object(objectName)
@@ -192,15 +192,15 @@ public class MinioPresignedObjectUrlService extends BaseMinioService {
     /**
      * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
      *
-     * @param getPresignedObjectUrlArgs {@link GetPresignedObjectUrlArgs}
+     * @param args {@link GetPresignedObjectUrlArgs}
      * @return url string
      */
-    public String getPresignedObjectUrl(GetPresignedObjectUrlArgs getPresignedObjectUrlArgs) {
-        String function = "getPresignedObjectUrl";
+    public String getPreSignedObjectUrl(GetPresignedObjectUrlArgs args) {
+        String function = "getPreSignedObjectUrl";
         MinioClient minioClient = getClient();
 
         try {
-            return minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
+            return minioClient.getPresignedObjectUrl(args);
         } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
             throw new OssErrorResponseException(e.getMessage());

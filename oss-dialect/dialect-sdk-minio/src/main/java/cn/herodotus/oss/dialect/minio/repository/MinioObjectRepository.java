@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.adapter;
+package cn.herodotus.oss.dialect.minio.repository;
 
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
@@ -56,7 +56,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>Description: Minio 兼容模式对象操作处理器 </p>
+ * <p>Description: Minio Java OSS API 对象操作实现 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/9 16:50

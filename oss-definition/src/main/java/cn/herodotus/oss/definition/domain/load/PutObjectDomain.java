@@ -23,39 +23,38 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.definition.domain.load;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToBucketConverter;
-import io.minio.ListObjectsArgs;
-import org.apache.commons.lang3.StringUtils;
+import cn.herodotus.oss.definition.attribute.BaseAttribute;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 统一定义 OssDomain 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: 放置对象返回结果域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:14
+ * @date : 2023/8/15 15:24
  */
-public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
+public class PutObjectDomain extends BaseAttribute {
 
-    @Override
-    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
-        builder.delimiter(arguments.getDelimiter());
-        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
-        builder.maxKeys(arguments.getMaxKeys());
-        builder.prefix(arguments.getPrefix());
-        builder.recursive(false);
-        builder.useApiVersion1(true);
+    @Schema(name = "ETag 值")
+    private String etag;
 
-        if (StringUtils.isNotBlank(arguments.getMarker())) {
-            builder.keyMarker(arguments.getMarker());
-        }
+    @Schema(name = "版本ID")
+    private String versionId;
 
-        super.prepare(arguments, builder);
+    public String getEtag() {
+        return etag;
     }
 
-    @Override
-    public ListObjectsArgs.Builder getBuilder() {
-        return ListObjectsArgs.builder();
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
+
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
     }
 }

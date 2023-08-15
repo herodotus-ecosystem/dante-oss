@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Amazon S3 兼容模式分片上传操作处理适配器 </p>
+ * <p>Description: Amazon S3 Java OSS API 分片上传操作实现 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/13 21:12

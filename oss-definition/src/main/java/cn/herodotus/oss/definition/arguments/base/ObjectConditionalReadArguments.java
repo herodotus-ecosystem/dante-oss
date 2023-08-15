@@ -23,47 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.multipart;
+package cn.herodotus.oss.definition.arguments.base;
 
-import cn.herodotus.engine.assistant.core.definition.constants.RegexPool;
-import cn.herodotus.oss.definition.arguments.base.BasePartArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import org.hibernate.validator.constraints.Length;
+import jakarta.validation.constraints.DecimalMin;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * <p>Description: 上传分片拷贝请求参数实体 </p>
+ * <p>Description: 基础的 Object Conditional Read 请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 16:16
+ * @date : 2023/8/15 13:52
  */
-@Schema(name = "上传分片拷贝请求参数实体", title = "上传分片拷贝请求参数实体")
-public class UploadPartCopyArguments extends BasePartArguments {
+public abstract class ObjectConditionalReadArguments extends ObjectReadArguments {
 
     /**
      * ETag值反向匹配约束列表，该列表将复制请求约束为仅在源对象的ETag与任何指定的ETag约束值不匹配时执行。
      */
     @Schema(name = "ETag值反向匹配约束列表")
     private final List<String> nonmatchingEtagConstraints = new ArrayList<String>();
-    @Schema(name = "分片编号", description = "当前分片在所有分片中的编号", requiredMode = Schema.RequiredMode.REQUIRED)
-    @Min(value = 1, message = "分片变化不能小于1")
-    @Max(value = 10000, message = "分片变化不能大于10000")
-    private int partNumber;
-    @Schema(name = "目标存储桶名称", requiredMode = Schema.RequiredMode.REQUIRED)
-    @NotBlank(message = "目标存储桶名称不能为空")
-    @Length(min = 3, max = 62, message = "目标存储桶名称不能少于3个字符，不能大于63个字符")
-    @Pattern(regexp = RegexPool.DNS_COMPATIBLE, message = "存储桶名称无法与DNS兼容")
-    private String destinationBucketName;
-    @NotBlank(message = "目的对象名称不能为空")
-    @Schema(name = "目的对象名称", requiredMode = Schema.RequiredMode.REQUIRED)
-    private String destinationObjectName;
+    @Schema(name = "offset")
+    @DecimalMin(value = "0", message = "offset 参数不能小于 0")
+    private Long offset;
+    @Schema(name = "length")
+    @DecimalMin(value = "0", message = "length 参数不能小于 0")
+    private Long length;
     /**
      * ETag值匹配约束列表，该列表约束复制请求仅在源对象的ETag与指定的ETag值之一匹配时执行。
      */
@@ -81,28 +68,20 @@ public class UploadPartCopyArguments extends BasePartArguments {
     @Schema(name = "修改时间反向匹配约束")
     private Date unmodifiedSinceConstraint;
 
-    public int getPartNumber() {
-        return partNumber;
+    public Long getOffset() {
+        return offset;
     }
 
-    public void setPartNumber(int partNumber) {
-        this.partNumber = partNumber;
+    public void setOffset(Long offset) {
+        this.offset = offset;
     }
 
-    public String getDestinationBucketName() {
-        return destinationBucketName;
+    public Long getLength() {
+        return length;
     }
 
-    public void setDestinationBucketName(String destinationBucketName) {
-        this.destinationBucketName = destinationBucketName;
-    }
-
-    public String getDestinationObjectName() {
-        return destinationObjectName;
-    }
-
-    public void setDestinationObjectName(String destinationObjectName) {
-        this.destinationObjectName = destinationObjectName;
+    public void setLength(Long length) {
+        this.length = length;
     }
 
     public List<String> getMatchingETagConstraints() {

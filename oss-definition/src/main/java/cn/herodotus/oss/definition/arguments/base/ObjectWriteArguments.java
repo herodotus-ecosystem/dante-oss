@@ -23,39 +23,48 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.definition.arguments.base;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToBucketConverter;
-import io.minio.ListObjectsArgs;
-import org.apache.commons.lang3.StringUtils;
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import java.util.Map;
 
 /**
- * <p>Description: 统一定义 OssDomain 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: 基础 Object Write 请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:14
+ * @date : 2023/8/15 15:10
  */
-public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
+public abstract class ObjectWriteArguments extends ObjectArguments {
 
-    @Override
-    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
-        builder.delimiter(arguments.getDelimiter());
-        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
-        builder.maxKeys(arguments.getMaxKeys());
-        builder.prefix(arguments.getPrefix());
-        builder.recursive(false);
-        builder.useApiVersion1(true);
+    // allowed maximum object size is 5TiB.
+    public static final long MAX_OBJECT_SIZE = 5L * 1024 * 1024 * 1024 * 1024;
+    // allowed minimum part size is 5MiB in multipart upload.
+    public static final int MIN_MULTIPART_SIZE = 5 * 1024 * 1024;
+    // allowed minimum part size is 5GiB in multipart upload.
+    public static final long MAX_PART_SIZE = 5L * 1024 * 1024 * 1024;
+    public static final int MAX_MULTIPART_COUNT = 10000;
 
-        if (StringUtils.isNotBlank(arguments.getMarker())) {
-            builder.keyMarker(arguments.getMarker());
-        }
 
-        super.prepare(arguments, builder);
+    @Schema(name = "请求头信息")
+    private Map<String, String> requestHeaders;
+
+    @Schema(name = "对象元数据")
+    private Map<String, String> metadata;
+
+    public Map<String, String> getRequestHeaders() {
+        return requestHeaders;
     }
 
-    @Override
-    public ListObjectsArgs.Builder getBuilder() {
-        return ListObjectsArgs.builder();
+    public void setRequestHeaders(Map<String, String> requestHeaders) {
+        this.requestHeaders = requestHeaders;
+    }
+
+    public Map<String, String> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
     }
 }

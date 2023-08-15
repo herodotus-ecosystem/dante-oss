@@ -48,7 +48,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>Description: Amazon S3 兼容模式存储桶操作处理器 </p>
+ * <p>Description: Amazon S3 Java OSS API 存储桶操作实现 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/24 19:10

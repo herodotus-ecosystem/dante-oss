@@ -23,21 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.base;
+package cn.herodotus.oss.definition.arguments.load;
 
-import cn.herodotus.oss.definition.attribute.PartAttribute;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.arguments.base.PutObjectBaseArguments;
+
+import java.io.InputStream;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 上传对象请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/14 16:37
+ * @date : 2023/8/15 15:19
  */
-public abstract class BasePartToDomainConverter<S, T extends PartAttribute> implements Converter<S, T> {
+public class PutObjectArguments extends PutObjectBaseArguments {
 
-    @Override
-    public T convert(S source) {
-        return null;
+    private InputStream inputStream;
+
+    public InputStream getInputStream() {
+        return inputStream;
+    }
+
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
     }
 }

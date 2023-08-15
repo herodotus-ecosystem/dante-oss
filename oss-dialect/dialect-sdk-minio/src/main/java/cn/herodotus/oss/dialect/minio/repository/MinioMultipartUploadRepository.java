@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.adapter;
+package cn.herodotus.oss.dialect.minio.repository;
 
 import cn.herodotus.oss.definition.arguments.multipart.*;
 import cn.herodotus.oss.definition.attribute.PartAttribute;
@@ -43,7 +43,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>Description: Minio 兼容模式分片上传操作处理适配器 </p>
+ * <p>Description: Minio Java OSS API 分片上传操作实现 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/13 21:11

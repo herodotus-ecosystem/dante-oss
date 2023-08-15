@@ -25,6 +25,15 @@
 
 package cn.herodotus.oss.definition.core.repository;
 
+import cn.herodotus.oss.definition.arguments.load.GeneratePreSignedUrlArguments;
+import cn.herodotus.oss.definition.arguments.load.GetObjectArguments;
+import cn.herodotus.oss.definition.arguments.load.PutObjectArguments;
+import cn.herodotus.oss.definition.domain.load.GetObjectDomain;
+import cn.herodotus.oss.definition.domain.load.PutObjectDomain;
+import cn.herodotus.oss.definition.enums.HttpMethod;
+
+import java.net.URL;
+
 /**
  * <p>Description: Dante Java OSS API 对象上传、下载操作抽象定义 </p>
  *
@@ -33,11 +42,67 @@ package cn.herodotus.oss.definition.core.repository;
  */
 public interface OssObjectLoadRepository {
 
-    void getObject();
+    /**
+     * 获取（下载）对象
+     *
+     * @param arguments 获取（下载）对象请求参数实体 {@link GetObjectArguments}
+     * @return 获取（下载）对象结果域对象 {@link GetObjectDomain}
+     */
+    GetObjectDomain getObject(GetObjectArguments arguments);
 
-    void putObject();
+    /**
+     * 放置（上传）对象
+     *
+     * @param arguments 放置（上传）对象请求参数实体 {@link PutObjectArguments}
+     * @return 放置（上传）对象结果域对象 {@link PutObjectDomain}
+     */
+    PutObjectDomain putObject(PutObjectArguments arguments);
+
+
+    /**
+     * 创建预签名 URL
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param expiry     中止时间
+     * @return 预签名地址 {@link URL}
+     */
+    default URL generatePreSignedUrl(String bucketName, String objectName, Integer expiry) {
+        return generatePreSignedUrl(bucketName, objectName, expiry, HttpMethod.GET);
+    }
+
+
+    /**
+     * 创建预签名 URL
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param expiry     中止时间
+     * @param method     http 请求类型
+     * @return 预签名地址 {@link URL}
+     */
+    default URL generatePreSignedUrl(String bucketName, String objectName, Integer expiry, HttpMethod method) {
+        GeneratePreSignedUrlArguments arguments = new GeneratePreSignedUrlArguments();
+        arguments.setBucketName(bucketName);
+        arguments.setObjectName(objectName);
+        arguments.setExpiry(expiry);
+        arguments.setMethod(method);
+        return generatePreSignedUrl(arguments);
+    }
+
+    /**
+     * 创建预签名 URL
+     *
+     * @param arguments 创建预签名 URL 请求参数 {@link GeneratePreSignedUrlArguments}
+     * @return {@link URL}
+     */
+    URL generatePreSignedUrl(GeneratePreSignedUrlArguments arguments);
 
     void download();
 
     void upload();
+
+    void downloadByPreSigned();
+
+    void uploadByPreSigned();
 }

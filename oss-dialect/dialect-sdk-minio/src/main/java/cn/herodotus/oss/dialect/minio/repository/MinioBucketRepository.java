@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.adapter;
+package cn.herodotus.oss.dialect.minio.repository;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
@@ -47,7 +47,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * <p>Description: Minio 兼容模式存储桶操作处理器 </p>
+ * <p>Description: Minio Java OSS API 存储桶操作实现 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/24 19:13

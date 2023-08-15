@@ -26,6 +26,7 @@
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
+import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToBucketConverter;
 import io.minio.RemoveBucketArgs;
 
 /**

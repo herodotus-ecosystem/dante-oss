@@ -23,39 +23,45 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToBucketConverter;
-import io.minio.ListObjectsArgs;
-import org.apache.commons.lang3.StringUtils;
+import cn.herodotus.oss.definition.arguments.base.BaseArguments;
+import io.minio.BaseArgs;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 统一定义 OssDomain 转 Minio ListObjectsArgs 转换器 </p>
+ * <p>Description: 统一定义请求参数转换为 Minio 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/9 22:14
+ * @date : 2023/8/9 22:23
  */
-public class ArgumentsToListObjectsArgsConverter extends ArgumentsToBucketConverter<ListObjectsArguments, ListObjectsArgs, ListObjectsArgs.Builder> {
+public interface ArgumentsConverter<S extends BaseArguments, T extends BaseArgs, B extends BaseArgs.Builder<B, T>> extends Converter<S, T> {
 
+    /**
+     * 参数准备
+     *
+     * @param arguments 统一定义请求参数
+     * @param builder   Minio 请求参数构造器
+     */
+    void prepare(S arguments, B builder);
+
+    /**
+     * 获取Minio 请求参数构造器
+     *
+     * @return Minio 请求参数构造器
+     */
+    B getBuilder();
+
+    /**
+     * 对象转换
+     *
+     * @param arguments 统一定义请求参数
+     * @return Minio 请求参数
+     */
     @Override
-    public void prepare(ListObjectsArguments arguments, ListObjectsArgs.Builder builder) {
-        builder.delimiter(arguments.getDelimiter());
-        builder.useUrlEncodingType(StringUtils.isNotBlank(arguments.getEncodingType()));
-        builder.maxKeys(arguments.getMaxKeys());
-        builder.prefix(arguments.getPrefix());
-        builder.recursive(false);
-        builder.useApiVersion1(true);
-
-        if (StringUtils.isNotBlank(arguments.getMarker())) {
-            builder.keyMarker(arguments.getMarker());
-        }
-
-        super.prepare(arguments, builder);
-    }
-
-    @Override
-    public ListObjectsArgs.Builder getBuilder() {
-        return ListObjectsArgs.builder();
+    default T convert(S arguments) {
+        B builder = getBuilder();
+        prepare(arguments, builder);
+        return builder.build();
     }
 }
