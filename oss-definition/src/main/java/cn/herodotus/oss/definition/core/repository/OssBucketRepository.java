@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.core.adapter;
+package cn.herodotus.oss.definition.core.repository;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
@@ -37,7 +37,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/7/24 18:29
  */
-public interface OssBucketAdapter {
+public interface OssBucketRepository {
 
     /**
      * 检查指定的存储桶是否存在。使用此方法可以确定指定的存储桶名称是否已经存在，因此不能用于创建新的存储桶

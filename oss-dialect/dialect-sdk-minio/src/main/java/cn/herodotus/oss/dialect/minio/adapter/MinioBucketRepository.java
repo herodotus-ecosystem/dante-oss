@@ -27,7 +27,7 @@ package cn.herodotus.oss.dialect.minio.adapter;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.definition.core.adapter.OssBucketAdapter;
+import cn.herodotus.oss.definition.core.repository.OssBucketRepository;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToMakeBucketArgsConverter;
@@ -53,13 +53,13 @@ import java.util.List;
  * @date : 2023/7/24 19:13
  */
 @Service
-public class MinioBucketAdapter extends BaseMinioService implements OssBucketAdapter {
+public class MinioBucketRepository extends BaseMinioService implements OssBucketRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioBucketAdapter.class);
+    private static final Logger log = LoggerFactory.getLogger(MinioBucketRepository.class);
 
     private final MinioBucketService minioBucketService;
 
-    public MinioBucketAdapter(AbstractOssClientObjectPool<MinioClient> ossClientObjectPool, MinioBucketService minioBucketService) {
+    public MinioBucketRepository(AbstractOssClientObjectPool<MinioClient> ossClientObjectPool, MinioBucketService minioBucketService) {
         super(ossClientObjectPool);
         this.minioBucketService = minioBucketService;
     }

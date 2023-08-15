@@ -27,7 +27,7 @@ package cn.herodotus.oss.dialect.minio.adapter;
 
 import cn.herodotus.oss.definition.arguments.multipart.*;
 import cn.herodotus.oss.definition.attribute.PartAttribute;
-import cn.herodotus.oss.definition.core.adapter.OssMultipartUploadAdapter;
+import cn.herodotus.oss.definition.core.repository.OssMultipartUploadRepository;
 import cn.herodotus.oss.definition.domain.multipart.*;
 import cn.herodotus.oss.dialect.minio.converter.attribute.AttributeToPartConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.*;
@@ -49,11 +49,11 @@ import java.util.List;
  * @date : 2023/8/13 21:11
  */
 @Service
-public class MinioMultipartUploadAdapter implements OssMultipartUploadAdapter {
+public class MinioMultipartUploadRepository implements OssMultipartUploadRepository {
 
     private final MinioMultipartUploadService minioMultipartUploadService;
 
-    public MinioMultipartUploadAdapter(MinioMultipartUploadService minioMultipartUploadService) {
+    public MinioMultipartUploadRepository(MinioMultipartUploadService minioMultipartUploadService) {
         this.minioMultipartUploadService = minioMultipartUploadService;
     }
 

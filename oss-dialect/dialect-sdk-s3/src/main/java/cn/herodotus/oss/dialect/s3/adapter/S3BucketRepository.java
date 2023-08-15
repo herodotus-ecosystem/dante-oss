@@ -27,7 +27,7 @@ package cn.herodotus.oss.dialect.s3.adapter;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.definition.core.adapter.OssBucketAdapter;
+import cn.herodotus.oss.definition.core.repository.OssBucketRepository;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
@@ -54,11 +54,11 @@ import java.util.List;
  * @date : 2023/7/24 19:10
  */
 @Service
-public class S3BucketAdapter extends BaseS3Service implements OssBucketAdapter {
+public class S3BucketRepository extends BaseS3Service implements OssBucketRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(S3BucketAdapter.class);
+    private static final Logger log = LoggerFactory.getLogger(S3BucketRepository.class);
 
-    public S3BucketAdapter(AbstractOssClientObjectPool<AmazonS3> ossClientObjectPool) {
+    public S3BucketRepository(AbstractOssClientObjectPool<AmazonS3> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

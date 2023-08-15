@@ -27,7 +27,7 @@ package cn.herodotus.oss.dialect.aliyun.adapter;
 
 import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.definition.core.adapter.OssBucketAdapter;
+import cn.herodotus.oss.definition.core.repository.OssBucketRepository;
 import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToCreateBucketRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteBucketRequestConverter;
@@ -56,11 +56,11 @@ import java.util.List;
  * @date : 2023/7/24 19:15
  */
 @Service
-public class AliyunBucketAdapter extends BaseAliyunService implements OssBucketAdapter {
+public class AliyunBucketRepository extends BaseAliyunService implements OssBucketRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunBucketAdapter.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunBucketRepository.class);
 
-    public AliyunBucketAdapter(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunBucketRepository(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

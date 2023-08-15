@@ -29,7 +29,7 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.AccessLimited;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.definition.core.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.core.repository.OssObjectRepository;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
@@ -65,10 +65,10 @@ import java.util.List;
 })
 public class OssObjectController implements Controller {
 
-    private final OssObjectAdapter ossObjectAdapter;
+    private final OssObjectRepository ossObjectRepository;
 
-    public OssObjectController(OssObjectAdapter ossObjectAdapter) {
-        this.ossObjectAdapter = ossObjectAdapter;
+    public OssObjectController(OssObjectRepository ossObjectRepository) {
+        this.ossObjectRepository = ossObjectRepository;
     }
 
     @AccessLimited
@@ -86,7 +86,7 @@ public class OssObjectController implements Controller {
     })
     @GetMapping("/list")
     public Result<ListObjectsDomain> list(@Validated ListObjectsArguments arguments) {
-        ListObjectsDomain domain = ossObjectAdapter.listObjects(arguments);
+        ListObjectsDomain domain = ossObjectRepository.listObjects(arguments);
         return result(domain);
     }
 
@@ -105,7 +105,7 @@ public class OssObjectController implements Controller {
     })
     @GetMapping("/v2/list")
     public Result<ListObjectsV2Domain> list(@Validated ListObjectsV2Arguments arguments) {
-        ListObjectsV2Domain domain = ossObjectAdapter.listObjectsV2(arguments);
+        ListObjectsV2Domain domain = ossObjectRepository.listObjectsV2(arguments);
         return result(domain);
     }
 
@@ -123,7 +123,7 @@ public class OssObjectController implements Controller {
     })
     @DeleteMapping
     public Result<Boolean> deleteObject(@Validated @RequestBody DeleteObjectArguments arguments) {
-        ossObjectAdapter.deleteObject(arguments);
+        ossObjectRepository.deleteObject(arguments);
         return result(true);
     }
 
@@ -142,7 +142,7 @@ public class OssObjectController implements Controller {
     })
     @DeleteMapping("/multi")
     public Result<List<DeleteObjectDomain>> removeObjects(@Validated @RequestBody DeleteObjectsArguments arguments) {
-        List<DeleteObjectDomain> domains = ossObjectAdapter.deleteObjects(arguments);
+        List<DeleteObjectDomain> domains = ossObjectRepository.deleteObjects(arguments);
         return result(domains);
     }
 }

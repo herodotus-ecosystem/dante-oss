@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.core.adapter;
+package cn.herodotus.oss.definition.core.repository;
 
 import cn.herodotus.oss.definition.arguments.multipart.*;
 import cn.herodotus.oss.definition.domain.multipart.*;
@@ -34,7 +34,7 @@ import cn.herodotus.oss.definition.domain.multipart.*;
  * @author : gengwei.zheng
  * @date : 2023/8/12 21:56
  */
-public interface OssMultipartUploadAdapter {
+public interface OssMultipartUploadRepository {
 
     /**
      * 创建分片上传请求, 返回 UploadId

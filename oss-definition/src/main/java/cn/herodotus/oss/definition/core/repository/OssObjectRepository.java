@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.core.adapter;
+package cn.herodotus.oss.definition.core.repository;
 
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
@@ -42,7 +42,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/7/24 16:39
  */
-public interface OssObjectAdapter {
+public interface OssObjectRepository {
 
     /**
      * 根据存储桶名称获取对象列表

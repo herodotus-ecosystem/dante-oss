@@ -29,7 +29,7 @@ import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
 import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
-import cn.herodotus.oss.definition.core.adapter.OssObjectAdapter;
+import cn.herodotus.oss.definition.core.repository.OssObjectRepository;
 import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
 import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
 import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
@@ -62,13 +62,13 @@ import java.util.List;
  * @date : 2023/8/9 16:50
  */
 @Service
-public class MinioObjectAdapter implements OssObjectAdapter {
+public class MinioObjectRepository implements OssObjectRepository {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioObjectAdapter.class);
+    private static final Logger log = LoggerFactory.getLogger(MinioObjectRepository.class);
 
     private final MinioObjectService minioObjectService;
 
-    public MinioObjectAdapter(MinioObjectService minioObjectService) {
+    public MinioObjectRepository(MinioObjectService minioObjectService) {
         this.minioObjectService = minioObjectService;
     }
 
