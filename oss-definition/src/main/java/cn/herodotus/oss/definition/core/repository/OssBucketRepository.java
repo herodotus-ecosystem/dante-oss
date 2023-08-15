@@ -32,7 +32,7 @@ import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import java.util.List;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 存储桶操作抽象定义 </p>
+ * <p>Description: Dante Java OSS API 存储桶操作抽象定义 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/24 18:29

@@ -29,7 +29,7 @@ import cn.herodotus.oss.definition.arguments.multipart.*;
 import cn.herodotus.oss.definition.domain.multipart.*;
 
 /**
- * <p>Description: 兼容 S3 协议的各类 OSS 分片操作抽象定义 </p>
+ * <p>Description: Dante Java OSS API 分片操作抽象定义 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/12 21:56
