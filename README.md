@@ -83,8 +83,8 @@ dante-oss
 ├    └── rest-sdk-scenario -- Minio 扩展及应用方案整合模块
 ├── oss-starter -- Dante OSS 相关 Starter
 ├    ├── oss-aliyun-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
-├    ├── oss-minio-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
-├    ├── oss-s3-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
+├    ├── oss-minio-spring-boot-starter -- 用于独立使用的 Minio OSS Java SDK 封装 Starter。
+├    ├── oss-s3-spring-boot-starter -- 用于独立使用的 Amazon S3 OSS Java SDK 封装 Starter。
 └──  └── oss-spring-boot-starter -- Dante OSS 统一 Starter
 ```
 

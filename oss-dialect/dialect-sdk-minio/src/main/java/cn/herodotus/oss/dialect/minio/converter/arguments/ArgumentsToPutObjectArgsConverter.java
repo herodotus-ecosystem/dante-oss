@@ -23,22 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.arguments;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
+import cn.herodotus.oss.definition.arguments.load.PutObjectArguments;
+import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToPutObjectBaseConverter;
+import io.minio.PutObjectArgs;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: 统一定义 CreateBucketArguments 转 S3 CreateBucketRequest 转换器 </p>
+ * <p>Description: 统一定义 PutObjectArguments 转 Minio PutObjectArgs 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:35
+ * @date : 2023/8/16 11:29
  */
-public class ArgumentsToCreateBucketRequestConverter extends ArgumentsToBucketConverter<CreateBucketArguments, CreateBucketRequest> {
+public class ArgumentsToPutObjectArgsConverter extends ArgumentsToPutObjectBaseConverter<PutObjectArguments, PutObjectArgs, PutObjectArgs.Builder> {
 
     @Override
-    public CreateBucketRequest getInstance(CreateBucketArguments arguments) {
-        return new CreateBucketRequest(arguments.getBucketName());
+    public void prepare(PutObjectArguments arguments, PutObjectArgs.Builder builder) {
+        builder.stream(arguments.getInputStream(), arguments.getObjectSize(), arguments.getPartSize());
+
+        if (StringUtils.isNotBlank(arguments.getContentType())) {
+            builder.contentType(arguments.getContentType());
+        }
+
+        super.prepare(arguments, builder);
+    }
+
+    @Override
+    public PutObjectArgs.Builder getBuilder() {
+        return PutObjectArgs.builder();
     }
 }

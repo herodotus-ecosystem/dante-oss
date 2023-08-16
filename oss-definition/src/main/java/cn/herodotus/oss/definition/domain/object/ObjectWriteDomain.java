@@ -23,29 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.domain;
+package cn.herodotus.oss.definition.domain.object;
 
-import cn.herodotus.oss.definition.domain.multipart.CompleteMultipartUploadDomain;
-import io.minio.ObjectWriteResponse;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.attribute.BaseAttribute;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Minio ObjectWriteResponse 转 CompleteMultipartUploadDomain 转换器 </p>
+ * <p>Description: ObjectWriteDomain </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/14 17:11
+ * @date : 2023/6/1 21:50
  */
-public class ObjectWriteResponseToDomainConverter implements Converter<ObjectWriteResponse, CompleteMultipartUploadDomain> {
+public class ObjectWriteDomain extends BaseAttribute {
+
+    @Schema(name = "ETag 值")
+    private String etag;
+
+    @Schema(name = "版本ID")
+    private String versionId;
+
+    public String getEtag() {
+        return etag;
+    }
+
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
+
+    public String getVersionId() {
+        return versionId;
+    }
+
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
+
     @Override
-    public CompleteMultipartUploadDomain convert(ObjectWriteResponse source) {
-
-        CompleteMultipartUploadDomain domain = new CompleteMultipartUploadDomain();
-        domain.setEtag(source.etag());
-        domain.setVersionId(source.versionId());
-        domain.setBucketName(source.bucket());
-        domain.setRegion(source.region());
-        domain.setObjectName(source.object());
-
-        return domain;
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("etag", etag)
+                .add("versionId", versionId)
+                .toString();
     }
 }

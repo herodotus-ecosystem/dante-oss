@@ -25,8 +25,7 @@
 
 package cn.herodotus.oss.definition.domain.load;
 
-import cn.herodotus.oss.definition.attribute.BaseAttribute;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
 
 /**
  * <p>Description: 放置对象返回结果域对象 </p>
@@ -34,27 +33,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author : gengwei.zheng
  * @date : 2023/8/15 15:24
  */
-public class PutObjectDomain extends BaseAttribute {
+public class PutObjectDomain extends ObjectWriteDomain {
 
-    @Schema(name = "ETag 值")
-    private String etag;
-
-    @Schema(name = "版本ID")
-    private String versionId;
-
-    public String getEtag() {
-        return etag;
-    }
-
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
-
-    public String getVersionId() {
-        return versionId;
-    }
-
-    public void setVersionId(String versionId) {
-        this.versionId = versionId;
-    }
 }

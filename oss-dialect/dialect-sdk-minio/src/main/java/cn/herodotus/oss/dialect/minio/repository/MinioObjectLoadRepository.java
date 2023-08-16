@@ -33,11 +33,12 @@ import cn.herodotus.oss.definition.domain.load.GetObjectDomain;
 import cn.herodotus.oss.definition.domain.load.PutObjectDomain;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToGetObjectArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToGetPreSignedObjectUrlConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToPutObjectArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.GetObjectResponseToDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.ObjectWriteResponseToPutObjectDomainConverter;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import cn.herodotus.oss.dialect.minio.service.MinioPreSignedUrlService;
-import io.minio.GetObjectArgs;
-import io.minio.GetObjectResponse;
-import io.minio.GetPresignedObjectUrlArgs;
+import io.minio.*;
 import org.dromara.hutool.core.net.url.URLUtil;
 import org.springframework.core.convert.converter.Converter;
 
@@ -63,14 +64,20 @@ public class MinioObjectLoadRepository implements OssObjectLoadRepository {
     public GetObjectDomain getObject(GetObjectArguments arguments) {
 
         Converter<GetObjectArguments, GetObjectArgs> toRequest = new ArgumentsToGetObjectArgsConverter();
+        Converter<GetObjectResponse, GetObjectDomain> toDomain = new GetObjectResponseToDomainConverter();
 
         GetObjectResponse response = minioObjectService.getObject(toRequest.convert(arguments));
-        return null;
+        return toDomain.convert(response);
     }
 
     @Override
     public PutObjectDomain putObject(PutObjectArguments arguments) {
-        return null;
+
+        Converter<PutObjectArguments, PutObjectArgs> toRequest = new ArgumentsToPutObjectArgsConverter();
+        Converter<ObjectWriteResponse, PutObjectDomain> toDomain = new ObjectWriteResponseToPutObjectDomainConverter();
+
+        ObjectWriteResponse response = minioObjectService.putObject(toRequest.convert(arguments));
+        return toDomain.convert(response);
     }
 
     @Override

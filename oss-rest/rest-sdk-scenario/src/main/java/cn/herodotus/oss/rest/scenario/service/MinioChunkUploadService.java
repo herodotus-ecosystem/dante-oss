@@ -26,7 +26,7 @@
 package cn.herodotus.oss.rest.scenario.service;
 
 import cn.herodotus.oss.dialect.minio.converter.ResponseToObjectWriteDomainConverter;
-import cn.herodotus.oss.dialect.minio.domain.ObjectWriteDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioMultipartUploadService;
 import cn.herodotus.oss.dialect.minio.service.MinioPreSignedUrlService;
 import cn.herodotus.oss.rest.scenario.bo.ChunkUploadCreateBusiness;

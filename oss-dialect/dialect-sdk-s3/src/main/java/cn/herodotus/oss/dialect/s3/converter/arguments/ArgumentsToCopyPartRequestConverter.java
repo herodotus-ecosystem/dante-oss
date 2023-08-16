@@ -37,7 +37,7 @@ import com.amazonaws.services.s3.model.CopyPartRequest;
  */
 public class ArgumentsToCopyPartRequestConverter extends ArgumentsToBucketConverter<UploadPartCopyArguments, CopyPartRequest> {
     @Override
-    public CopyPartRequest getRequest(UploadPartCopyArguments arguments) {
+    public CopyPartRequest getInstance(UploadPartCopyArguments arguments) {
 
         CopyPartRequest request = new CopyPartRequest();
 

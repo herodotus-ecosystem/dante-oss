@@ -23,29 +23,23 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.domain.base;
+package cn.herodotus.oss.dialect.minio.definition.domain;
 
-import cn.herodotus.oss.definition.attribute.BaseAttribute;
-
-import java.util.Map;
+import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
+import io.minio.ObjectWriteResponse;
 
 /**
- * <p>Description: Minio GenericResponse 转换后实体 </p>
- * <p>
- * 没有命名为 GenericResponse 而改用 GenericDomain，主要是避免冲突
+ * <p>Description: Minio ObjectWriteResponse 转 统一定义 ObjectWriteDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/1 21:47
+ * @date : 2023/8/16 12:20
  */
-public class GenericDomain extends BaseAttribute {
+public abstract class ObjectWriteResponseToDomain<T extends ObjectWriteDomain> extends GenericResponseToDomainConverter<ObjectWriteResponse, T> {
 
-    private Map<String, String> headers;
-
-    public Map<String, String> getHeaders() {
-        return headers;
-    }
-
-    public void setHeaders(Map<String, String> headers) {
-        this.headers = headers;
+    @Override
+    public void prepare(ObjectWriteResponse response, T domain) {
+        domain.setEtag(response.etag());
+        domain.setVersionId(response.versionId());
+        super.prepare(response, domain);
     }
 }

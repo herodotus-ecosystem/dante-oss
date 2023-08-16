@@ -23,22 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.arguments;
+package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
+import cn.herodotus.oss.definition.domain.multipart.CompleteMultipartUploadDomain;
+import cn.herodotus.oss.dialect.minio.definition.domain.ObjectWriteResponseToDomain;
+import io.minio.ObjectWriteResponse;
 
 /**
- * <p>Description: 统一定义 CreateBucketArguments 转 S3 CreateBucketRequest 转换器 </p>
+ * <p>Description: Minio ObjectWriteResponse 转 CompleteMultipartUploadDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:35
+ * @date : 2023/8/14 17:11
  */
-public class ArgumentsToCreateBucketRequestConverter extends ArgumentsToBucketConverter<CreateBucketArguments, CreateBucketRequest> {
-
+public class ObjectWriteResponseToCompleteMultipartUploadDomainConverter extends ObjectWriteResponseToDomain<CompleteMultipartUploadDomain> {
     @Override
-    public CreateBucketRequest getInstance(CreateBucketArguments arguments) {
-        return new CreateBucketRequest(arguments.getBucketName());
+    public CompleteMultipartUploadDomain getInstance(ObjectWriteResponse source) {
+        return new CompleteMultipartUploadDomain();
     }
 }

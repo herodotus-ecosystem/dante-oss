@@ -30,7 +30,7 @@ import io.minio.GetObjectResponse;
 import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: Minio GetObjectResponse 转 GetObjectDomain 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/15 22:04
@@ -38,6 +38,13 @@ import org.springframework.core.convert.converter.Converter;
 public class GetObjectResponseToDomainConverter implements Converter<GetObjectResponse, GetObjectDomain> {
     @Override
     public GetObjectDomain convert(GetObjectResponse source) {
-        return null;
+
+        GetObjectDomain domain = new GetObjectDomain();
+        domain.setObjectContent(source);
+        domain.setBucketName(source.bucket());
+        domain.setRegion(source.region());
+        domain.setObjectName(source.object());
+
+        return domain;
     }
 }

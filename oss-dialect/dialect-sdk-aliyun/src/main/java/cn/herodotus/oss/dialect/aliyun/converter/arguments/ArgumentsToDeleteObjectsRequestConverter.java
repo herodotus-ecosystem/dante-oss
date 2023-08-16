@@ -54,7 +54,7 @@ public class ArgumentsToDeleteObjectsRequestConverter extends ArgumentsToBucketC
     }
 
     @Override
-    public DeleteObjectsRequest getRequest(DeleteObjectsArguments arguments) {
+    public DeleteObjectsRequest getInstance(DeleteObjectsArguments arguments) {
         return new DeleteObjectsRequest(arguments.getBucketName());
     }
 }

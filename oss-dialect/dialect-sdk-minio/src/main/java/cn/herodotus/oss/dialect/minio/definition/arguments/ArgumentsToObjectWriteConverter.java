@@ -23,22 +23,31 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.arguments;
+package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
+import cn.herodotus.oss.definition.arguments.base.ObjectWriteArguments;
+import io.minio.ObjectWriteArgs;
+import org.apache.commons.collections4.MapUtils;
 
 /**
- * <p>Description: 统一定义 CreateBucketArguments 转 S3 CreateBucketRequest 转换器 </p>
+ * <p>Description: 统一定义对象写入请求参数转换为 Minio 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/28 18:35
+ * @date : 2023/8/16 11:37
  */
-public class ArgumentsToCreateBucketRequestConverter extends ArgumentsToBucketConverter<CreateBucketArguments, CreateBucketRequest> {
+public abstract class ArgumentsToObjectWriteConverter<S extends ObjectWriteArguments, T extends ObjectWriteArgs, B extends ObjectWriteArgs.Builder<B, T>> extends ArgumentsToObjectConverter<S, T, B> {
 
     @Override
-    public CreateBucketRequest getInstance(CreateBucketArguments arguments) {
-        return new CreateBucketRequest(arguments.getBucketName());
+    public void prepare(S arguments, B builder) {
+
+        if (MapUtils.isNotEmpty(arguments.getRequestHeaders())) {
+            builder.headers(arguments.getRequestHeaders());
+        }
+
+        if (MapUtils.isNotEmpty(arguments.getMetadata())) {
+            builder.userMetadata(arguments.getMetadata());
+        }
+
+        super.prepare(arguments, builder);
     }
 }

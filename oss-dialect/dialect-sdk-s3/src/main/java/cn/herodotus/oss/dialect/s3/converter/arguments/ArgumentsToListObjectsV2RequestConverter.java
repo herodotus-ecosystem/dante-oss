@@ -38,7 +38,7 @@ import com.amazonaws.services.s3.model.ListObjectsV2Request;
 public class ArgumentsToListObjectsV2RequestConverter extends ArgumentsToBucketConverter<ListObjectsV2Arguments, ListObjectsV2Request> {
 
     @Override
-    public ListObjectsV2Request getRequest(ListObjectsV2Arguments arguments) {
+    public ListObjectsV2Request getInstance(ListObjectsV2Arguments arguments) {
         ListObjectsV2Request request = new ListObjectsV2Request();
         return request
                 .withBucketName(arguments.getBucketName())

@@ -35,7 +35,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author : gengwei.zheng
  * @date : 2023/8/15 12:30
  */
-public abstract class ArgumentsToObjectVersionConverter  <S extends ObjectVersionArguments, T extends GenericRequest> extends ArgumentsToObjectConverter<S, T>{
+public abstract class ArgumentsToObjectVersionConverter<S extends ObjectVersionArguments, T extends GenericRequest> extends ArgumentsToObjectConverter<S, T> {
 
     @Override
     public void prepare(S arguments, T request) {

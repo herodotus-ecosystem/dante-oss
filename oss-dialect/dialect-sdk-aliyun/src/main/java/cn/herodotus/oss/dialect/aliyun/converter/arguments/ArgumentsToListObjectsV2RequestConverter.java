@@ -38,7 +38,7 @@ import com.aliyun.oss.model.ListObjectsV2Request;
 public class ArgumentsToListObjectsV2RequestConverter extends ArgumentsToBucketConverter<ListObjectsV2Arguments, ListObjectsV2Request> {
 
     @Override
-    public ListObjectsV2Request getRequest(ListObjectsV2Arguments arguments) {
+    public ListObjectsV2Request getInstance(ListObjectsV2Arguments arguments) {
         return new ListObjectsV2Request(arguments.getBucketName(), arguments.getPrefix(), arguments.getContinuationToken(), arguments.getMarker(), arguments.getDelimiter(), arguments.getMaxKeys(), arguments.getEncodingType(), arguments.getFetchOwner());
     }
 }

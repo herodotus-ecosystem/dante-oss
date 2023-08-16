@@ -23,45 +23,24 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.definition.arguments;
+package cn.herodotus.oss.dialect.minio.definition.domain;
 
-import cn.herodotus.oss.definition.arguments.base.BaseArguments;
-import com.amazonaws.AmazonWebServiceRequest;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.attribute.BaseAttribute;
+import cn.herodotus.oss.definition.core.converter.OssConverter;
+import io.minio.GenericResponse;
 
 /**
- * <p>Description: 统一定义请求参数转换为 S3 参数转换器 </p>
+ * <p>Description:  Minio GenericResponse 转 统一定义 BaseAttribute 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/10 15:16
+ * @date : 2023/8/16 11:51
  */
-public interface ArgumentsConverter<S extends BaseArguments, T extends AmazonWebServiceRequest> extends Converter<S, T> {
+public abstract class GenericResponseToDomainConverter<S extends GenericResponse, T extends BaseAttribute> implements OssConverter<S, T> {
 
-    /**
-     * 参数准备
-     *
-     * @param arguments 统一定义请求参数
-     * @param request   S3 请求参数实体
-     */
-    void prepare(S arguments, T request);
-
-    /**
-     * 获取最终生成对象
-     *
-     * @return S3 请求参数实体
-     */
-    T getRequest(S arguments);
-
-    /**
-     * 参数实体转换
-     *
-     * @param arguments 统一定义请求参数
-     * @return S3 请求参数实体
-     */
     @Override
-    default T convert(S arguments) {
-        T target = getRequest(arguments);
-        prepare(arguments, target);
-        return target;
+    public void prepare(S source, T instance) {
+        instance.setBucketName(source.bucket());
+        instance.setRegion(source.region());
+        instance.setObjectName(source.object());
     }
 }

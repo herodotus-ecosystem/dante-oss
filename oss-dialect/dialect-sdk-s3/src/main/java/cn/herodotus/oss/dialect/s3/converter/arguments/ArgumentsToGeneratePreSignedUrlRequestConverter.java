@@ -39,7 +39,7 @@ import org.dromara.hutool.core.date.DateUtil;
  */
 public class ArgumentsToGeneratePreSignedUrlRequestConverter extends ArgumentsToBucketConverter<GeneratePreSignedUrlArguments, GeneratePresignedUrlRequest> {
     @Override
-    public GeneratePresignedUrlRequest getRequest(GeneratePreSignedUrlArguments arguments) {
+    public GeneratePresignedUrlRequest getInstance(GeneratePreSignedUrlArguments arguments) {
 
         GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(arguments.getBucketName(), arguments.getObjectName());
         request.setMethod(HttpMethod.valueOf(arguments.getMethod().name()));

@@ -43,7 +43,7 @@ import java.util.List;
  */
 public class ArgumentsToCompleteMultipartUploadRequestConverter extends ArgumentsToBucketConverter<CompleteMultipartUploadArguments, CompleteMultipartUploadRequest> {
     @Override
-    public CompleteMultipartUploadRequest getRequest(CompleteMultipartUploadArguments arguments) {
+    public CompleteMultipartUploadRequest getInstance(CompleteMultipartUploadArguments arguments) {
         return new CompleteMultipartUploadRequest(arguments.getBucketName(), arguments.getObjectName(), arguments.getUploadId(), convert(arguments.getParts()));
     }
 

@@ -38,7 +38,7 @@ import com.aliyun.oss.model.CreateBucketRequest;
 public class ArgumentsToCreateBucketRequestConverter extends ArgumentsToBucketConverter<CreateBucketArguments, CreateBucketRequest> {
 
     @Override
-    public CreateBucketRequest getRequest(CreateBucketArguments arguments) {
+    public CreateBucketRequest getInstance(CreateBucketArguments arguments) {
         return new CreateBucketRequest(arguments.getBucketName());
     }
 }

@@ -38,7 +38,7 @@ import com.amazonaws.services.s3.model.InitiateMultipartUploadRequest;
 public class ArgumentsToInitiateMultipartUploadRequestConverter extends ArgumentsToBucketConverter<InitiateMultipartUploadArguments, InitiateMultipartUploadRequest> {
 
     @Override
-    public InitiateMultipartUploadRequest getRequest(InitiateMultipartUploadArguments arguments) {
+    public InitiateMultipartUploadRequest getInstance(InitiateMultipartUploadArguments arguments) {
         return new InitiateMultipartUploadRequest(arguments.getBucketName(), arguments.getObjectName());
     }
 }

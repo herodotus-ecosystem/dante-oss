@@ -37,7 +37,7 @@ import com.aliyun.oss.model.UploadPartCopyRequest;
  */
 public class ArgumentsToUploadPartCopyRequestConverter extends ArgumentsToBucketConverter<UploadPartCopyArguments, UploadPartCopyRequest> {
     @Override
-    public UploadPartCopyRequest getRequest(UploadPartCopyArguments arguments) {
+    public UploadPartCopyRequest getInstance(UploadPartCopyArguments arguments) {
 
         UploadPartCopyRequest request = new UploadPartCopyRequest();
 

@@ -26,7 +26,6 @@
 package cn.herodotus.oss.dialect.s3.definition.arguments;
 
 import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBaseConverter;
 import com.amazonaws.AmazonWebServiceRequest;
 
 /**

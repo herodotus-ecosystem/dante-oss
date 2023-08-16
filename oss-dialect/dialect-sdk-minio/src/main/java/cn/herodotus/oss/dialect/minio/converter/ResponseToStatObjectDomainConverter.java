@@ -29,7 +29,6 @@ import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
 import cn.herodotus.oss.dialect.minio.converter.retention.RetentionModeToEnumConverter;
 import cn.herodotus.oss.dialect.minio.domain.StatObjectDomain;
 import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
-import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
 import io.minio.StatObjectResponse;
 import io.minio.messages.RetentionMode;
 import org.springframework.core.convert.converter.Converter;
@@ -60,7 +59,6 @@ public class ResponseToStatObjectDomainConverter implements Converter<StatObject
         domain.setLegalHold(response.legalHold().status());
         domain.setDeleteMarker(response.deleteMarker());
         domain.setUserMetadata(response.userMetadata());
-        domain.setHeaders(ConverterUtils.toMap(response.headers().toMultimap()));
         domain.setBucketName(response.bucket());
         domain.setRegion(response.region());
         domain.setObjectName(response.object());

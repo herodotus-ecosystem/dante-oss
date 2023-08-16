@@ -112,7 +112,7 @@ public class MinioMultipartUploadRepository implements OssMultipartUploadReposit
     public CompleteMultipartUploadDomain completeMultipartUpload(CompleteMultipartUploadArguments arguments) {
 
         Converter<List<PartAttribute>, Part[]> toPart = new AttributeToPartConverter();
-        Converter<ObjectWriteResponse, CompleteMultipartUploadDomain> toDomain = new ObjectWriteResponseToDomainConverter();
+        Converter<ObjectWriteResponse, CompleteMultipartUploadDomain> toDomain = new ObjectWriteResponseToCompleteMultipartUploadDomainConverter();
 
         ObjectWriteResponse response = minioMultipartUploadService.completeMultipartUpload(
                 arguments.getBucketName(),

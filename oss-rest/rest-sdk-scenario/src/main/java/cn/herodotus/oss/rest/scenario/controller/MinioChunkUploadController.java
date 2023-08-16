@@ -29,7 +29,7 @@ import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.dialect.minio.constants.MinioConstants;
-import cn.herodotus.oss.dialect.minio.domain.ObjectWriteDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
 import cn.herodotus.oss.rest.scenario.bo.ChunkUploadCreateBusiness;
 import cn.herodotus.oss.rest.scenario.proxy.MinioPresignedObjectUrlProxy;
 import cn.herodotus.oss.rest.scenario.request.ChunkUploadCompleteRequest;

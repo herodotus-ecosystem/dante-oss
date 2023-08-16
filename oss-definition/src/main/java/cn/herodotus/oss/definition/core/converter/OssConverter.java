@@ -23,43 +23,44 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.domain;
+package cn.herodotus.oss.definition.core.converter;
 
-import cn.herodotus.oss.dialect.minio.domain.base.GenericDomain;
-import com.google.common.base.MoreObjects;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: ObjectWriteDomain </p>
+ * <p>Description: 统一转换器定义 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/1 21:50
+ * @date : 2023/8/16 13:00
  */
-public class ObjectWriteDomain extends GenericDomain {
+public interface OssConverter<S, T> extends Converter<S, T> {
 
-    private String etag;
-    private String versionId;
+    /**
+     * 参数准备
+     *
+     * @param source   源对象
+     * @param instance 转换后的对象
+     */
+    void prepare(S source, T instance);
 
-    public String getEtag() {
-        return etag;
-    }
+    /**
+     * 获取最终生成对象实例
+     *
+     * @param source 源对象。传递源对象，方便参数设置
+     * @return 转换后的对象实例
+     */
+    T getInstance(S source);
 
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
-
-    public String getVersionId() {
-        return versionId;
-    }
-
-    public void setVersionId(String versionId) {
-        this.versionId = versionId;
-    }
-
+    /**
+     * 实体转换
+     *
+     * @param source 统一定义请求参数
+     * @return 转换后的对象实例
+     */
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("etag", etag)
-                .add("versionId", versionId)
-                .toString();
+    default T convert(S source) {
+        T instance = getInstance(source);
+        prepare(source, instance);
+        return instance;
     }
 }

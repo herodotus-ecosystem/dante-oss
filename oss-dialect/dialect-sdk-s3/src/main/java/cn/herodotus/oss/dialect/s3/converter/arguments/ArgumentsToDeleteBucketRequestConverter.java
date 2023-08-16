@@ -37,7 +37,7 @@ import com.amazonaws.services.s3.model.DeleteBucketRequest;
  */
 public class ArgumentsToDeleteBucketRequestConverter extends ArgumentsToBucketConverter<DeleteBucketArguments, DeleteBucketRequest> {
     @Override
-    public DeleteBucketRequest getRequest(DeleteBucketArguments arguments) {
+    public DeleteBucketRequest getInstance(DeleteBucketArguments arguments) {
         return new DeleteBucketRequest(arguments.getBucketName());
     }
 }
