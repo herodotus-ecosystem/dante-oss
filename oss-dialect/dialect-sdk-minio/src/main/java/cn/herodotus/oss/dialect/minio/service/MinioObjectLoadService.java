@@ -25,11 +25,12 @@
 
 package cn.herodotus.oss.dialect.minio.service;
 
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.*;
-import cn.herodotus.oss.dialect.minio.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
 import io.minio.*;
 import io.minio.errors.*;
+import io.minio.http.Method;
 import io.minio.messages.Retention;
 import io.minio.messages.Tags;
 import org.slf4j.Logger;
@@ -40,25 +41,200 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
- * <p>Description: Minio 服务端上传下载 </p>
- * <p>
- * Minio downloadObject 和 uploadObject 只能接收 filename 参数，一般为路径地址或URL。
- * 这就决定这两个方法只能在应用服务端进行使用，特别是filename为文件路径的情况下。
- * <p>
- * 这更倾向于在“后端”进行一定的业务逻辑操作。
+ * <p>Description: Minio 上传、下载操作 Service </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/12 11:36
+ * @date : 2023/8/16 15:30
  */
 @Service
-public class MinioObjectServerSideService extends BaseMinioService {
+public class MinioObjectLoadService extends BaseMinioService {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioObjectService.class);
+    private static final Logger log = LoggerFactory.getLogger(MinioObjectLoadService.class);
 
-    public MinioObjectServerSideService(MinioClientObjectPool minioClientObjectPool) {
-        super(minioClientObjectPool);
+    public MinioObjectLoadService(AbstractOssClientObjectPool<MinioClient> ossClientObjectPool) {
+        super(ossClientObjectPool);
+    }
+
+    /**
+     * 使用此方法，获取对象的上传策略（包含签名、文件信息、路径等），然后使用这些信息采用POST 方法的表单数据上传数据。也就是可以生成一个临时上传的信息对象，第三方可以使用这些信息，就可以上传文件。
+     * <p>
+     * 一般可用于，前端请求一个上传策略，后端返回给前端，前端使用Post请求+访问策略去上传文件，这可以用于JS+SDK的混合方式集成
+     *
+     * @param postPolicy {@link PostPolicy}
+     * @return {@link  Map}
+     */
+    public Map<String, String> getPreSignedPostFormData(PostPolicy postPolicy) {
+        String function = "getPreSignedPostFormData";
+        MinioClient minioClient = getClient();
+
+        try {
+            return minioClient.getPresignedPostFormData(postPolicy);
+        } catch (ErrorResponseException e) {
+            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
+            throw new OssErrorResponseException(e.getMessage());
+        } catch (InsufficientDataException e) {
+            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
+            throw new OssInsufficientDataException(e.getMessage());
+        } catch (InternalException e) {
+            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
+            throw new OssInternalException(e.getMessage());
+        } catch (InvalidKeyException e) {
+            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
+            throw new OssInvalidKeyException(e.getMessage());
+        } catch (InvalidResponseException e) {
+            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
+            throw new OssInvalidResponseException(e.getMessage());
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new OssConnectException(e.getMessage());
+            } else {
+                throw new OssIOException(e.getMessage());
+            }
+        } catch (NoSuchAlgorithmException e) {
+            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
+            throw new OssNoSuchAlgorithmException(e.getMessage());
+        } catch (ServerException e) {
+            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (XmlParserException e) {
+            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
+            throw new OssXmlParserException(e.getMessage());
+        } finally {
+            close(minioClient);
+        }
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     * <p>
+     * 默认有效期 7 天, GET 类型 URL
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @return url string
+     */
+    public String getPreSignedObjectUrl(String bucketName, String objectName) {
+        return getPreSignedObjectUrl(bucketName, null, objectName);
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     * <p>
+     * 默认有效期 7 天, GET 类型 URL
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @return url string
+     */
+    public String getPreSignedObjectUrl(String bucketName, String region, String objectName) {
+        return getPreSignedObjectUrl(bucketName, region, objectName, Method.GET);
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     * <p>
+     * 默认有效期 7 天
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param method     方法类型 {@link Method}
+     * @return url string
+     */
+    public String getPreSignedObjectUrl(String bucketName, String region, String objectName, Method method) {
+        return getPreSignedObjectUrl(bucketName, region, objectName, method, 7, TimeUnit.DAYS);
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param method     方法类型 {@link Method}
+     * @param duration   过期时间
+     * @param unit       过期时间单位
+     * @return url string
+     */
+    public String getPreSignedObjectUrl(String bucketName, String region, String objectName, Method method, int duration, TimeUnit unit) {
+        return getPreSignedObjectUrl(bucketName, region, objectName, method, duration, unit, null);
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     *
+     * @param bucketName 存储桶名称
+     * @param region     区域
+     * @param objectName 对象名称
+     * @param method     方法类型 {@link Method}
+     * @param duration   过期时间
+     * @param unit       过期时间单位
+     * @param versionId  版本ID
+     * @return url string
+     */
+    public String getPreSignedObjectUrl(String bucketName, String region, String objectName, Method method, int duration, TimeUnit unit, String versionId) {
+        return getPreSignedObjectUrl(GetPresignedObjectUrlArgs.builder()
+                .bucket(bucketName)
+                .region(region)
+                .object(objectName)
+                .method(method)
+                .expiry(duration, unit)
+                .versionId(versionId)
+                .build());
+    }
+
+    /**
+     * 获取一个指定了 HTTP 方法、到期时间和自定义请求参数的对象URL地址，也就是返回带签名的URL，这个地址可以提供给没有登录的第三方共享访问或者上传对象。
+     *
+     * @param args {@link GetPresignedObjectUrlArgs}
+     * @return url string
+     */
+    public String getPreSignedObjectUrl(GetPresignedObjectUrlArgs args) {
+        String function = "getPreSignedObjectUrl";
+        MinioClient minioClient = getClient();
+
+        try {
+            return minioClient.getPresignedObjectUrl(args);
+        } catch (ErrorResponseException e) {
+            log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", function, e);
+            throw new OssErrorResponseException(e.getMessage());
+        } catch (InsufficientDataException e) {
+            log.error("[Herodotus] |- Minio catch InsufficientDataException in [{}].", function, e);
+            throw new OssInsufficientDataException(e.getMessage());
+        } catch (InternalException e) {
+            log.error("[Herodotus] |- Minio catch InternalException in [{}].", function, e);
+            throw new OssInternalException(e.getMessage());
+        } catch (InvalidKeyException e) {
+            log.error("[Herodotus] |- Minio catch InvalidKeyException in [{}].", function, e);
+            throw new OssInvalidKeyException(e.getMessage());
+        } catch (InvalidResponseException e) {
+            log.error("[Herodotus] |- Minio catch InvalidResponseException in [{}].", function, e);
+            throw new OssInvalidResponseException(e.getMessage());
+        } catch (IOException e) {
+            log.error("[Herodotus] |- Minio catch IOException in [{}].", function, e);
+            if (e instanceof ConnectException) {
+                throw new OssConnectException(e.getMessage());
+            } else {
+                throw new OssIOException(e.getMessage());
+            }
+        } catch (NoSuchAlgorithmException e) {
+            log.error("[Herodotus] |- Minio catch NoSuchAlgorithmException in [{}].", function, e);
+            throw new OssNoSuchAlgorithmException(e.getMessage());
+        } catch (ServerException e) {
+            log.error("[Herodotus] |- Minio catch ServerException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } catch (XmlParserException e) {
+            log.error("[Herodotus] |- Minio catch XmlParserException in [{}].", function, e);
+            throw new OssXmlParserException(e.getMessage());
+        } finally {
+            close(minioClient);
+        }
     }
 
     /**

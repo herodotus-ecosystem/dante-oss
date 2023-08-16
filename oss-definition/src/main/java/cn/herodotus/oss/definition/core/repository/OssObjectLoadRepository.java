@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.definition.core.repository;
 
-import cn.herodotus.oss.definition.arguments.load.GeneratePreSignedUrlArguments;
-import cn.herodotus.oss.definition.arguments.load.GetObjectArguments;
-import cn.herodotus.oss.definition.arguments.load.PutObjectArguments;
+import cn.herodotus.oss.definition.arguments.load.*;
 import cn.herodotus.oss.definition.domain.load.GetObjectDomain;
+import cn.herodotus.oss.definition.domain.load.ObjectMetadataDomain;
 import cn.herodotus.oss.definition.domain.load.PutObjectDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
 import cn.herodotus.oss.definition.enums.HttpMethod;
 
 import java.net.URL;
@@ -98,11 +98,23 @@ public interface OssObjectLoadRepository {
      */
     URL generatePreSignedUrl(GeneratePreSignedUrlArguments arguments);
 
-    void download();
+    /**
+     * 下载对象
+     * <p>
+     * 该方法与<code>getObject</code>不同，该方法要指明具体的文件{@link java.io.File} 或者文件名。这就意味着可以把该方法理解为服务端下载操作。
+     *
+     * @param arguments 下载对象请求参数实体 {@link DownloadObjectArguments}
+     * @return 下载对象结果域对象 {@link ObjectMetadataDomain}
+     */
+    ObjectMetadataDomain download(DownloadObjectArguments arguments);
 
-    void upload();
-
-    void downloadByPreSigned();
-
-    void uploadByPreSigned();
+    /**
+     * 上传对象
+     * <p>
+     * 该方法与<code>putObject</code>不同，该方法要指明具体的文件{@link java.io.File} 或者文件名。这就意味着可以把该方法理解为服务端下载操作
+     *
+     * @param arguments 下载对象请求参数实体 {@link UploadObjectArguments}
+     * @return 下载对象结果域对象 {@link ObjectWriteDomain}
+     */
+    ObjectWriteDomain upload(UploadObjectArguments arguments);
 }

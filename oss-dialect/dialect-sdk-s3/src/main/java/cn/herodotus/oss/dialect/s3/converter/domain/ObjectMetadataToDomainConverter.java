@@ -23,15 +23,24 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.object;
+package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectWriteArguments;
+import cn.herodotus.oss.definition.domain.load.ObjectMetadataDomain;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: S3 ObjectMetadata 转 ObjectMetadataDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/15 15:14
+ * @date : 2023/8/16 23:17
  */
-public class PutObjectArguments extends ObjectWriteArguments {
+public class ObjectMetadataToDomainConverter implements Converter<ObjectMetadata, ObjectMetadataDomain> {
+    @Override
+    public ObjectMetadataDomain convert(ObjectMetadata source) {
+
+        ObjectMetadataDomain domain = new ObjectMetadataDomain();
+        domain.setUserMetadata(source.getUserMetadata());
+        return domain;
+    }
 }

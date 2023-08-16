@@ -69,6 +69,5 @@ public abstract class ArgumentsToObjectConditionalReadConverter<S extends Object
         }
 
         super.prepare(arguments, builder);
-        super.prepare(arguments, builder);
     }
 }

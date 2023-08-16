@@ -25,22 +25,23 @@
 
 package cn.herodotus.oss.dialect.minio.repository;
 
-import cn.herodotus.oss.definition.arguments.load.GeneratePreSignedUrlArguments;
-import cn.herodotus.oss.definition.arguments.load.GetObjectArguments;
-import cn.herodotus.oss.definition.arguments.load.PutObjectArguments;
+import cn.herodotus.oss.definition.arguments.load.*;
 import cn.herodotus.oss.definition.core.repository.OssObjectLoadRepository;
 import cn.herodotus.oss.definition.domain.load.GetObjectDomain;
+import cn.herodotus.oss.definition.domain.load.ObjectMetadataDomain;
 import cn.herodotus.oss.definition.domain.load.PutObjectDomain;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToGetObjectArgsConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToGetPreSignedObjectUrlConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToPutObjectArgsConverter;
+import cn.herodotus.oss.definition.domain.load.UploadObjectDomain;
+import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
+import cn.herodotus.oss.dialect.minio.converter.arguments.*;
 import cn.herodotus.oss.dialect.minio.converter.domain.GetObjectResponseToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.ObjectWriteResponseToPutObjectDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.ObjectWriteResponseToUploadObjectDomainConverter;
+import cn.herodotus.oss.dialect.minio.service.MinioObjectLoadService;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
-import cn.herodotus.oss.dialect.minio.service.MinioPreSignedUrlService;
 import io.minio.*;
 import org.dromara.hutool.core.net.url.URLUtil;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Service;
 
 import java.net.URL;
 
@@ -50,14 +51,15 @@ import java.net.URL;
  * @author : gengwei.zheng
  * @date : 2023/8/15 17:28
  */
+@Service
 public class MinioObjectLoadRepository implements OssObjectLoadRepository {
 
     private final MinioObjectService minioObjectService;
-    private final MinioPreSignedUrlService minioPreSignedUrlService;
+    private final MinioObjectLoadService minioObjectLoadService;
 
-    public MinioObjectLoadRepository(MinioObjectService minioObjectService, MinioPreSignedUrlService minioPreSignedUrlService) {
+    public MinioObjectLoadRepository(MinioObjectService minioObjectService, MinioObjectLoadService minioObjectLoadService) {
         this.minioObjectService = minioObjectService;
-        this.minioPreSignedUrlService = minioPreSignedUrlService;
+        this.minioObjectLoadService = minioObjectLoadService;
     }
 
     @Override
@@ -85,27 +87,24 @@ public class MinioObjectLoadRepository implements OssObjectLoadRepository {
 
         Converter<GeneratePreSignedUrlArguments, GetPresignedObjectUrlArgs> toRequest = new ArgumentsToGetPreSignedObjectUrlConverter();
 
-        String url = minioPreSignedUrlService.getPreSignedObjectUrl(toRequest.convert(arguments));
+        String url = minioObjectLoadService.getPreSignedObjectUrl(toRequest.convert(arguments));
         return URLUtil.url(url);
     }
 
     @Override
-    public void download() {
-
+    public ObjectMetadataDomain download(DownloadObjectArguments arguments) {
+        Converter<DownloadObjectArguments, DownloadObjectArgs> toRequest = new ArgumentsToDownloadObjectArgsConverter();
+        minioObjectLoadService.downloadObject(toRequest.convert(arguments));
+        return new ObjectMetadataDomain();
     }
 
     @Override
-    public void upload() {
+    public ObjectWriteDomain upload(UploadObjectArguments arguments) {
 
-    }
+        Converter<UploadObjectArguments, UploadObjectArgs> toRequest = new ArgumentsToUploadObjectArgsConverter();
+        Converter<ObjectWriteResponse, UploadObjectDomain> toDomain = new ObjectWriteResponseToUploadObjectDomainConverter();
 
-    @Override
-    public void downloadByPreSigned() {
-
-    }
-
-    @Override
-    public void uploadByPreSigned() {
-
+        ObjectWriteResponse response = minioObjectLoadService.uploadObject(toRequest.convert(arguments));
+        return toDomain.convert(response);
     }
 }

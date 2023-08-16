@@ -71,26 +71,6 @@ public class S3ObjectService extends BaseS3Service {
     }
 
     /**
-     * 获取对象
-     *
-     * @param request {@link GetObjectRequest}
-     * @return {@link S3Object}
-     */
-    public S3Object getObject(GetObjectRequest request) {
-        String function = "getObject";
-
-        AmazonS3 amazonS3 = getClient();
-        try {
-            return amazonS3.getObject(request);
-        } catch (AmazonServiceException e) {
-            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
-            throw new OssServerException(e.getMessage());
-        } finally {
-            close(amazonS3);
-        }
-    }
-
-    /**
      * 上传对象
      *
      * @param request {@link PutObjectRequest }

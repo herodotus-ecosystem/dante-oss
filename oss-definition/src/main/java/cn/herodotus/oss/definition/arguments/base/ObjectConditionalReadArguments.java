@@ -44,7 +44,7 @@ public abstract class ObjectConditionalReadArguments extends ObjectReadArguments
      * ETag值反向匹配约束列表，该列表将复制请求约束为仅在源对象的ETag与任何指定的ETag约束值不匹配时执行。
      */
     @Schema(name = "ETag值反向匹配约束列表")
-    private final List<String> nonmatchingEtagConstraints = new ArrayList<String>();
+    private final List<String> nonmatchingEtagConstraints = new ArrayList<>();
     @Schema(name = "offset")
     @DecimalMin(value = "0", message = "offset 参数不能小于 0")
     private Long offset;

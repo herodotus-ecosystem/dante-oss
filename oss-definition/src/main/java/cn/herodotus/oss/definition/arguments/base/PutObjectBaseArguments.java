@@ -31,7 +31,7 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 基础 PutObjectBase 请求参数实体 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/15 15:16
