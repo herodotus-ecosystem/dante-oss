@@ -39,6 +39,7 @@ import org.springframework.context.annotation.ComponentScan;
  */
 @AutoConfiguration
 @ComponentScan(basePackages = {
+        "cn.herodotus.oss.rest.integration.service",
         "cn.herodotus.oss.rest.integration.controller",
 })
 public class OssRestIntegrationConfiguration {

@@ -23,16 +23,34 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.load;
+package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectConditionalReadArguments;
+import cn.herodotus.engine.assistant.core.utils.DateTimeUtils;
+import cn.herodotus.oss.definition.domain.object.ObjectMetadataDomain;
+import io.minio.StatObjectResponse;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 下载对象请求参数实体 </p>
+ * <p>Description: Minio StatObjectResponse 转 ObjectMetadataDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/15 13:40
+ * @date : 2023/8/17 15:59
  */
-public class GetObjectArguments extends ObjectConditionalReadArguments {
+public class StatObjectResponseToDomainConverter implements Converter<StatObjectResponse, ObjectMetadataDomain> {
+    @Override
+    public ObjectMetadataDomain convert(StatObjectResponse source) {
 
+        ObjectMetadataDomain domain = new ObjectMetadataDomain();
+        domain.setUserMetadata(source.userMetadata());
+        domain.setContentLength(source.size());
+        domain.setContentType(source.contentType());
+        domain.setLastModified(DateTimeUtils.zonedDateTimeToDate(source.lastModified()));
+        domain.setEtag(source.etag());
+        domain.setVersionId(source.versionId());
+        domain.setBucketName(source.bucket());
+        domain.setRegion(source.region());
+        domain.setObjectName(source.object());
+
+        return domain;
+    }
 }

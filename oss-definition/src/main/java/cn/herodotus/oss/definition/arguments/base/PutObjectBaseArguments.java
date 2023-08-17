@@ -39,6 +39,13 @@ import jakarta.validation.constraints.NotNull;
  */
 public abstract class PutObjectBaseArguments extends ObjectWriteArguments {
 
+    /**
+     * Sets stream to upload. Two ways to provide object/part sizes.
+     * If object size is unknown, pass -1 to objectSize and pass valid partSize.
+     * If object size is known, pass -1 to partSize for auto detect; else pass valid partSize to control memory usage and no. of parts in upload.
+     * If partSize is greater than objectSize, objectSize is used as partSize.
+     * A valid part size is between 5MiB to 5GiB (both limits inclusive).
+     */
     @Schema(name = "对象的大小", description = "对象的大小最大不能超过 5T")
     @NotNull(message = "必须设置对象大小")
     @Max(value = OssConstants.MAX_OBJECT_SIZE, message = "对象允许的最大 Size 为 5TiB")

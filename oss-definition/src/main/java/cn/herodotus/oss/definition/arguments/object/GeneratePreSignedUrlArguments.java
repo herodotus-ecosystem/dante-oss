@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.load;
+package cn.herodotus.oss.definition.arguments.object;
 
 import cn.herodotus.oss.definition.arguments.base.ObjectVersionArguments;
 import cn.herodotus.oss.definition.enums.HttpMethod;

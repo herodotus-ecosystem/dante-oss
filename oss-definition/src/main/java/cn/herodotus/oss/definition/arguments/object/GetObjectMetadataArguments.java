@@ -23,29 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.load;
+package cn.herodotus.oss.definition.arguments.object;
 
-import cn.herodotus.oss.definition.arguments.base.PutObjectBaseArguments;
-import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotEmpty;
+import cn.herodotus.oss.definition.arguments.base.ObjectConditionalReadArguments;
 
 /**
- * <p>Description: 上传对象请求参数实体 </p>
+ * <p>Description: 获取对象元数据请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/16 23:43
+ * @date : 2023/8/17 15:39
  */
-public class UploadObjectArguments extends PutObjectBaseArguments {
-
-    @Schema(name = "文件名", description = "服务器端完整的文件名，包括绝对路径和名称")
-    @NotEmpty(message = "文件名不能为空")
-    private String filename;
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public void setFilename(String filename) {
-        this.filename = filename;
-    }
+public class GetObjectMetadataArguments extends ObjectConditionalReadArguments {
 }

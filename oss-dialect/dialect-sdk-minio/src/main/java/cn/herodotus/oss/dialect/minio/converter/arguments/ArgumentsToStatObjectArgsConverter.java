@@ -23,27 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.arguments.load;
+package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.PutObjectBaseArguments;
-
-import java.io.InputStream;
+import cn.herodotus.oss.definition.arguments.object.GetObjectMetadataArguments;
+import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectConditionalReadConverter;
+import io.minio.StatObjectArgs;
 
 /**
- * <p>Description: 上传对象请求参数实体 </p>
+ * <p>Description: 统一定义 GetObjectMetadataArguments 转 Minio StatObjectArgs 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/15 15:19
+ * @date : 2023/8/17 15:41
  */
-public class PutObjectArguments extends PutObjectBaseArguments {
-
-    private InputStream inputStream;
-
-    public InputStream getInputStream() {
-        return inputStream;
-    }
-
-    public void setInputStream(InputStream inputStream) {
-        this.inputStream = inputStream;
+public class ArgumentsToStatObjectArgsConverter extends ArgumentsToObjectConditionalReadConverter<GetObjectMetadataArguments, StatObjectArgs, StatObjectArgs.Builder> {
+    @Override
+    public StatObjectArgs.Builder getBuilder() {
+        return StatObjectArgs.builder();
     }
 }

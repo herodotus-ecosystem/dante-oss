@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.load.UploadObjectArguments;
+import cn.herodotus.oss.definition.arguments.object.UploadObjectArguments;
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToPutObjectBaseConverter;
 import io.minio.UploadObjectArgs;
 

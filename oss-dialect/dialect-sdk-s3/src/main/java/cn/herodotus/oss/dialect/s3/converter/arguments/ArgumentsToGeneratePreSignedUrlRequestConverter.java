@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.load.GeneratePreSignedUrlArguments;
+import cn.herodotus.oss.definition.arguments.object.GeneratePreSignedUrlArguments;
 import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;

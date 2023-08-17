@@ -23,22 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.arguments;
+package cn.herodotus.oss.definition.arguments.object;
 
-import cn.herodotus.oss.definition.arguments.object.GetObjectArguments;
-import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectConditionalReadConverter;
-import io.minio.GetObjectArgs;
+import cn.herodotus.oss.definition.arguments.base.ObjectConditionalReadArguments;
 
 /**
- * <p>Description: 统一定义 GetObjectArguments 转 Minio GetObjectArgs 转换器 </p>
+ * <p>Description: 下载对象请求参数实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/15 21:36
+ * @date : 2023/8/15 13:40
  */
-public class ArgumentsToGetObjectArgsConverter extends ArgumentsToObjectConditionalReadConverter<GetObjectArguments, GetObjectArgs, GetObjectArgs.Builder> {
+public class GetObjectArguments extends ObjectConditionalReadArguments {
 
-    @Override
-    public GetObjectArgs.Builder getBuilder() {
-        return GetObjectArgs.builder();
-    }
 }

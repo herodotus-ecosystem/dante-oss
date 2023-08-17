@@ -45,6 +45,11 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.herodotus.oss</groupId>
+            <artifactId>dialect-core</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>cn.herodotus.engine</groupId>
             <artifactId>rest-core</artifactId>
         </dependency>

@@ -25,15 +25,13 @@
 
 package cn.herodotus.oss.definition.core.repository;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
-import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
+import cn.herodotus.oss.definition.arguments.object.*;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.definition.domain.object.*;
+import cn.herodotus.oss.definition.enums.HttpMethod;
 import org.apache.commons.lang3.StringUtils;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -141,4 +139,113 @@ public interface OssObjectRepository {
      * @return 批量删除对象结果对象
      */
     List<DeleteObjectDomain> deleteObjects(DeleteObjectsArguments arguments);
+
+    /**
+     * 获取对象元信息
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @return 对象元信息结果对象 {@link ObjectMetadataDomain}
+     */
+    default ObjectMetadataDomain getObjectMetadata(String bucketName, String objectName) {
+        GetObjectMetadataArguments arguments  = new GetObjectMetadataArguments();
+        arguments.setBucketName(bucketName);
+        arguments.setObjectName(objectName);
+        return getObjectMetadata(arguments);
+    }
+
+    /**
+     * 获取对象元信息
+     * @param arguments 获取对象元信息 {@link DeleteObjectsArguments}
+     * @return 对象元信息结果对象 {@link ObjectMetadataDomain}
+     */
+    ObjectMetadataDomain getObjectMetadata(GetObjectMetadataArguments arguments);
+
+    /**
+     * 获取（下载）对象
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @return 获取（下载）对象结果域对象 {@link GetObjectDomain}
+     */
+    default GetObjectDomain getObject(String bucketName, String objectName) {
+        GetObjectArguments arguments  =new GetObjectArguments();
+        arguments.setBucketName(bucketName);
+        arguments.setObjectName(objectName);
+        return getObject(arguments);
+    }
+
+    /**
+     * 获取（下载）对象
+     *
+     * @param arguments 获取（下载）对象请求参数实体 {@link GetObjectArguments}
+     * @return 获取（下载）对象结果域对象 {@link GetObjectDomain}
+     */
+    GetObjectDomain getObject(GetObjectArguments arguments);
+
+    /**
+     * 放置（上传）对象
+     *
+     * @param arguments 放置（上传）对象请求参数实体 {@link PutObjectArguments}
+     * @return 放置（上传）对象结果域对象 {@link PutObjectDomain}
+     */
+    PutObjectDomain putObject(PutObjectArguments arguments);
+
+
+    /**
+     * 创建预签名 URL
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param expiry     中止时间
+     * @return 预签名地址 {@link URL}
+     */
+    default URL generatePreSignedUrl(String bucketName, String objectName, Integer expiry) {
+        return generatePreSignedUrl(bucketName, objectName, expiry, HttpMethod.GET);
+    }
+
+
+    /**
+     * 创建预签名 URL
+     *
+     * @param bucketName 存储桶名称
+     * @param objectName 对象名称
+     * @param expiry     中止时间
+     * @param method     http 请求类型
+     * @return 预签名地址 {@link URL}
+     */
+    default URL generatePreSignedUrl(String bucketName, String objectName, Integer expiry, HttpMethod method) {
+        GeneratePreSignedUrlArguments arguments = new GeneratePreSignedUrlArguments();
+        arguments.setBucketName(bucketName);
+        arguments.setObjectName(objectName);
+        arguments.setExpiry(expiry);
+        arguments.setMethod(method);
+        return generatePreSignedUrl(arguments);
+    }
+
+    /**
+     * 创建预签名 URL
+     *
+     * @param arguments 创建预签名 URL 请求参数 {@link GeneratePreSignedUrlArguments}
+     * @return {@link URL}
+     */
+    URL generatePreSignedUrl(GeneratePreSignedUrlArguments arguments);
+
+    /**
+     * 下载对象
+     * <p>
+     * 该方法与<code>getObject</code>不同，该方法要指明具体的文件{@link java.io.File} 或者文件名。这就意味着可以把该方法理解为服务端下载操作。
+     *
+     * @param arguments 下载对象请求参数实体 {@link DownloadObjectArguments}
+     * @return 下载对象结果域对象 {@link ObjectMetadataDomain}
+     */
+    ObjectMetadataDomain download(DownloadObjectArguments arguments);
+
+    /**
+     * 上传对象
+     * <p>
+     * 该方法与<code>putObject</code>不同，该方法要指明具体的文件{@link java.io.File} 或者文件名。这就意味着可以把该方法理解为服务端下载操作
+     *
+     * @param arguments 下载对象请求参数实体 {@link UploadObjectArguments}
+     * @return 下载对象结果域对象 {@link ObjectWriteDomain}
+     */
+    ObjectWriteDomain upload(UploadObjectArguments arguments);
 }

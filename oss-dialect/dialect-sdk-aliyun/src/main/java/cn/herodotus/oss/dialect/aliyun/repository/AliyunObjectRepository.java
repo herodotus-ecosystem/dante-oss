@@ -25,14 +25,10 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
+import cn.herodotus.oss.definition.arguments.object.*;
 import cn.herodotus.oss.definition.core.repository.OssObjectRepository;
-import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.definition.domain.object.*;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectsRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
@@ -53,6 +49,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -158,5 +155,35 @@ public class AliyunObjectRepository extends BaseAliyunService implements OssObje
         } finally {
             close(client);
         }
+    }
+
+    @Override
+    public ObjectMetadataDomain getObjectMetadata(GetObjectMetadataArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public GetObjectDomain getObject(GetObjectArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public PutObjectDomain putObject(PutObjectArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public URL generatePreSignedUrl(GeneratePreSignedUrlArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public ObjectMetadataDomain download(DownloadObjectArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public ObjectWriteDomain upload(UploadObjectArguments arguments) {
+        return null;
     }
 }

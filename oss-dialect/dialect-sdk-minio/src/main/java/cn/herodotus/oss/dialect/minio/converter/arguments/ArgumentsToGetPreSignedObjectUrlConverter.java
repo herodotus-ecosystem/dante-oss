@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.load.GeneratePreSignedUrlArguments;
+import cn.herodotus.oss.definition.arguments.object.GeneratePreSignedUrlArguments;
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectVersionConverter;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.http.Method;
