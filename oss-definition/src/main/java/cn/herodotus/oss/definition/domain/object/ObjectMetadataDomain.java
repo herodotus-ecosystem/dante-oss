@@ -23,10 +23,12 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.load;
+package cn.herodotus.oss.definition.domain.object;
 
-import cn.herodotus.oss.definition.core.domain.OssDomain;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
+import io.swagger.v3.oas.annotations.media.Schema;
 
+import java.util.Date;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -36,19 +38,19 @@ import java.util.TreeMap;
  * @author : gengwei.zheng
  * @date : 2023/8/16 23:10
  */
-public class ObjectMetadataDomain implements OssDomain {
+public class ObjectMetadataDomain extends ObjectWriteDomain {
 
-    /**
-     * Custom user metadata, represented in responses with the x-amz-meta-
-     * header prefix
-     */
+    @Schema(name = "用户自定义 Metadata")
     private Map<String, String> userMetadata = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-    /**
-     * All other (non user custom) headers such as Content-Length, Content-Type,
-     * etc.
-     */
-    private Map<String, Object> metadata = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+    @Schema(name = "内容大小")
+    private long contentLength;
+
+    @Schema(name = "contentType")
+    private String contentType;
+
+    @Schema(name = "最后修改时间")
+    private Date LastModified;
 
     public Map<String, String> getUserMetadata() {
         return userMetadata;
@@ -58,11 +60,27 @@ public class ObjectMetadataDomain implements OssDomain {
         this.userMetadata = userMetadata;
     }
 
-    public Map<String, Object> getMetadata() {
-        return metadata;
+    public long getContentLength() {
+        return contentLength;
     }
 
-    public void setMetadata(Map<String, Object> metadata) {
-        this.metadata = metadata;
+    public void setContentLength(long contentLength) {
+        this.contentLength = contentLength;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public Date getLastModified() {
+        return LastModified;
+    }
+
+    public void setLastModified(Date lastModified) {
+        LastModified = lastModified;
     }
 }

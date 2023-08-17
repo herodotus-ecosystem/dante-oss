@@ -23,27 +23,15 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.load;
+package cn.herodotus.oss.definition.domain.object;
 
-import cn.herodotus.oss.definition.domain.base.BaseDomain;
-
-import java.io.InputStream;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
 
 /**
- * <p>Description: 获取对象返回结果域对象 </p>
+ * <p>Description: 上传对象返回结果域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/15 14:14
+ * @date : 2023/8/17 0:01
  */
-public class GetObjectDomain extends BaseDomain {
-
-    private InputStream objectContent;
-
-    public InputStream getObjectContent() {
-        return objectContent;
-    }
-
-    public void setObjectContent(InputStream objectContent) {
-        this.objectContent = objectContent;
-    }
+public class UploadObjectDomain extends ObjectWriteDomain {
 }

@@ -23,15 +23,16 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.load;
+package cn.herodotus.oss.definition.domain.object;
 
 import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
 
 /**
- * <p>Description: 上传对象返回结果域对象 </p>
+ * <p>Description: 放置对象返回结果域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/17 0:01
+ * @date : 2023/8/15 15:24
  */
-public class UploadObjectDomain extends ObjectWriteDomain {
+public class PutObjectDomain extends ObjectWriteDomain {
+
 }

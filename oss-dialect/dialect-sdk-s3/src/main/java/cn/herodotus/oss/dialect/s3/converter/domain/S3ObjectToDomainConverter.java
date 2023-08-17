@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.domain.load.GetObjectDomain;
+import cn.herodotus.oss.definition.domain.object.GetObjectDomain;
 import com.amazonaws.services.s3.model.S3Object;
 import org.springframework.core.convert.converter.Converter;
 
