@@ -23,25 +23,47 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.converter.attribute;
+package cn.herodotus.oss.definition.domain.base;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import com.amazonaws.services.s3.model.Owner;
-import org.springframework.core.convert.converter.Converter;
+import cn.herodotus.oss.definition.core.domain.OssDomain;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: Owner 转 OwnerAttribute 转换器 </p>
+ * <p>Description: 分片域对象 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 23:09
+ * @date : 2023/8/13 16:41
  */
-public class OwnerToAttributeConverter implements Converter<Owner, OwnerAttribute> {
+public abstract class BasePartDomain implements OssDomain {
+
+    @Schema(name = "分片编号")
+    private int partNumber;
+
+    @Schema(name = "新对象的ETag值")
+    private String etag;
+
+    public int getPartNumber() {
+        return partNumber;
+    }
+
+    public void setPartNumber(int partNumber) {
+        this.partNumber = partNumber;
+    }
+
+    public String getEtag() {
+        return etag;
+    }
+
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
 
     @Override
-    public OwnerAttribute convert(Owner source) {
-        OwnerAttribute attribute = new OwnerAttribute();
-        attribute.setId(source.getId());
-        attribute.setDisplayName(source.getDisplayName());
-        return attribute;
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("partNumber", partNumber)
+                .add("etag", etag)
+                .toString();
     }
 }

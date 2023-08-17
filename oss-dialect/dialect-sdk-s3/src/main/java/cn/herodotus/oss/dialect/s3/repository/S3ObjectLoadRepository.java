@@ -27,10 +27,10 @@ package cn.herodotus.oss.dialect.s3.repository;
 
 import cn.herodotus.oss.definition.arguments.load.*;
 import cn.herodotus.oss.definition.core.repository.OssObjectLoadRepository;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
 import cn.herodotus.oss.definition.domain.load.GetObjectDomain;
 import cn.herodotus.oss.definition.domain.load.ObjectMetadataDomain;
 import cn.herodotus.oss.definition.domain.load.PutObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToGeneratePreSignedUrlRequestConverter;
@@ -77,7 +77,6 @@ public class S3ObjectLoadRepository extends BaseS3Service implements OssObjectLo
 
         try {
             S3Object object = client.getObject(toRequest.convert(arguments));
-            ;
             return toDomain.convert(object);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);

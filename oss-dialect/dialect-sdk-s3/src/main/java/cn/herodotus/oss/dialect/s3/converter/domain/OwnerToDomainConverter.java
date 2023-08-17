@@ -23,47 +23,25 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.domain.object;
+package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.attribute.BaseAttribute;
-import com.google.common.base.MoreObjects;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import com.amazonaws.services.s3.model.Owner;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: ObjectWriteDomain </p>
+ * <p>Description: Owner 转 OwnerDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/1 21:50
+ * @date : 2023/8/13 23:09
  */
-public class ObjectWriteDomain extends BaseAttribute {
-
-    @Schema(name = "ETag 值")
-    private String etag;
-
-    @Schema(name = "版本ID")
-    private String versionId;
-
-    public String getEtag() {
-        return etag;
-    }
-
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
-
-    public String getVersionId() {
-        return versionId;
-    }
-
-    public void setVersionId(String versionId) {
-        this.versionId = versionId;
-    }
+public class OwnerToDomainConverter implements Converter<Owner, OwnerDomain> {
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("etag", etag)
-                .add("versionId", versionId)
-                .toString();
+    public OwnerDomain convert(Owner source) {
+        OwnerDomain attribute = new OwnerDomain();
+        attribute.setId(source.getId());
+        attribute.setDisplayName(source.getDisplayName());
+        return attribute;
     }
 }

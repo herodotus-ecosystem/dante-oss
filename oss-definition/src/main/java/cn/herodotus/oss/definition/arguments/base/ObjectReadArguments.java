@@ -27,6 +27,8 @@ package cn.herodotus.oss.definition.arguments.base;
 
 /**
  * <p>Description: 基础 Object Read 参数实体 </p>
+ * <p>
+ * 创建继承关系，等后续操作需要补充参数时，再行补充。
  *
  * @author : gengwei.zheng
  * @date : 2023/8/15 13:52

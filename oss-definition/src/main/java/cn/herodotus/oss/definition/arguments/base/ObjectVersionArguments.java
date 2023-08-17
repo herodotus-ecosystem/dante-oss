@@ -25,10 +25,11 @@
 
 package cn.herodotus.oss.definition.arguments.base;
 
+import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 基础 Object Version 参数实体 </p>
+ * <p>Description: 基础的对象版本参数定义 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/12 10:44
@@ -44,5 +45,12 @@ public abstract class ObjectVersionArguments extends ObjectArguments {
 
     public void setVersionId(String versionId) {
         this.versionId = versionId;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("versionId", versionId)
+                .toString();
     }
 }

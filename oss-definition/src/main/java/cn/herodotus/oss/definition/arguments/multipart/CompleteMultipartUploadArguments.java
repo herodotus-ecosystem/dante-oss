@@ -26,7 +26,7 @@
 package cn.herodotus.oss.definition.arguments.multipart;
 
 import cn.herodotus.oss.definition.arguments.base.BasePartArguments;
-import cn.herodotus.oss.definition.attribute.PartAttribute;
+import cn.herodotus.oss.definition.domain.base.PartDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -43,13 +43,13 @@ public class CompleteMultipartUploadArguments extends BasePartArguments {
 
     @Schema(name = "分片列表不能为空")
     @NotEmpty(message = "分片列表不能为空")
-    private List<PartAttribute> parts;
+    private List<PartDomain> parts;
 
-    public List<PartAttribute> getParts() {
+    public List<PartDomain> getParts() {
         return parts;
     }
 
-    public void setParts(List<PartAttribute> parts) {
+    public void setParts(List<PartDomain> parts) {
         this.parts = parts;
     }
 }

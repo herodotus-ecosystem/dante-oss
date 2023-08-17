@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.definition.domain.load;
 
-import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
 
 /**
  * <p>Description: 上传对象返回结果域对象 </p>

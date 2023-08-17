@@ -37,15 +37,6 @@ import java.util.Map;
  */
 public abstract class ObjectWriteArguments extends ObjectArguments {
 
-    // allowed maximum object size is 5TiB.
-    public static final long MAX_OBJECT_SIZE = 5L * 1024 * 1024 * 1024 * 1024;
-    // allowed minimum part size is 5MiB in multipart upload.
-    public static final int MIN_MULTIPART_SIZE = 5 * 1024 * 1024;
-    // allowed minimum part size is 5GiB in multipart upload.
-    public static final long MAX_PART_SIZE = 5L * 1024 * 1024 * 1024;
-    public static final int MAX_MULTIPART_COUNT = 10000;
-
-
     @Schema(name = "请求头信息")
     private Map<String, String> requestHeaders;
 

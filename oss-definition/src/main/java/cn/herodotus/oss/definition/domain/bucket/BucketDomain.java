@@ -26,8 +26,8 @@
 package cn.herodotus.oss.definition.domain.bucket;
 
 import cn.herodotus.engine.assistant.core.definition.constants.DefaultConstants;
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
 import cn.herodotus.oss.definition.core.domain.OssDomain;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,8 +52,8 @@ public class BucketDomain implements OssDomain {
     /**
      * 存储桶所有者信息
      */
-    @Schema(name = "存储桶所有者信息", description = "Minio listBuckets API 返回的 Bucket 信息中不包含 OwnerAttribute 信息")
-    private OwnerAttribute ownerAttribute;
+    @Schema(name = "存储桶所有者信息", description = "Minio listBuckets API 返回的 Bucket 信息中不包含 OwnerDomain 信息")
+    private OwnerDomain ownerAttribute;
 
     /**
      * 存储桶创建时间
@@ -70,11 +70,11 @@ public class BucketDomain implements OssDomain {
         this.bucketName = bucketName;
     }
 
-    public OwnerAttribute getOwner() {
+    public OwnerDomain getOwner() {
         return ownerAttribute;
     }
 
-    public void setOwner(OwnerAttribute ownerAttribute) {
+    public void setOwner(OwnerDomain ownerAttribute) {
         this.ownerAttribute = ownerAttribute;
     }
 

@@ -23,50 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.attribute;
+package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import com.google.common.base.MoreObjects;
-import io.swagger.v3.oas.annotations.media.Schema;
-
-import java.util.Date;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import io.minio.messages.Owner;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 基础分片域对象 </p>
+ * <p>Description: Owner 转 OwnerDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 16:38
+ * @date : 2023/8/13 23:09
  */
-public class PartAttribute extends BasePartAttribute {
-
-    /**
-     * 此分片的大小，以字节为单位
-     */
-    @Schema(name = "分片数据大小", description = "单位为字节")
-    private long partSize;
-
-    @Schema(name = "新对象的上次修改日期")
-    private Date lastModifiedDate;
-
-    public long getPartSize() {
-        return partSize;
-    }
-
-    public void setPartSize(long partSize) {
-        this.partSize = partSize;
-    }
-
-    public Date getLastModifiedDate() {
-        return lastModifiedDate;
-    }
-
-    public void setLastModifiedDate(Date lastModifiedDate) {
-        this.lastModifiedDate = lastModifiedDate;
-    }
+public class OwnerToDomainConverter implements Converter<Owner, OwnerDomain> {
 
     @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("lastModifiedDate", lastModifiedDate)
-                .toString();
+    public OwnerDomain convert(Owner source) {
+
+        OwnerDomain attribute = new OwnerDomain();
+        attribute.setId(source.id());
+        attribute.setDisplayName(source.displayName());
+        return attribute;
     }
 }

@@ -23,15 +23,54 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.core.attribute;
+package cn.herodotus.oss.definition.domain.base;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import com.google.common.base.MoreObjects;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: OSS 属性定义 </p>
+ * <p>Description: 所有者基础属性实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 17:38
+ * @date : 2023/7/27 15:43
  */
-public interface OssAttribute extends Entity {
+@Schema(title = "所有者")
+public class OwnerDomain implements Entity {
+
+    /**
+     * 所有者 ID
+     */
+    @Schema(name = "所有者 ID")
+    private String id;
+
+    /**
+     * 所有者显示名称
+     */
+    @Schema(name = "所有者显示名称")
+    private String displayName;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("id", id)
+                .add("displayName", displayName)
+                .toString();
+    }
 }

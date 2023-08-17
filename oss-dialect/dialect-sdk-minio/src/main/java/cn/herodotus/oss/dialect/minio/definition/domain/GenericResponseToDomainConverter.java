@@ -25,17 +25,17 @@
 
 package cn.herodotus.oss.dialect.minio.definition.domain;
 
-import cn.herodotus.oss.definition.attribute.BaseAttribute;
 import cn.herodotus.oss.definition.core.converter.OssConverter;
+import cn.herodotus.oss.definition.domain.base.BaseDomain;
 import io.minio.GenericResponse;
 
 /**
- * <p>Description:  Minio GenericResponse 转 统一定义 BaseAttribute 转换器 </p>
+ * <p>Description:  Minio GenericResponse 转 统一定义 BaseDomain 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/16 11:51
  */
-public abstract class GenericResponseToDomainConverter<S extends GenericResponse, T extends BaseAttribute> implements OssConverter<S, T> {
+public abstract class GenericResponseToDomainConverter<S extends GenericResponse, T extends BaseDomain> implements OssConverter<S, T> {
 
     @Override
     public void prepare(S source, T instance) {

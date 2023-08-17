@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.oss.definition.attribute.PartAttribute;
+import cn.herodotus.oss.definition.domain.base.PartDomain;
 
 /**
  * <p>Description: 分片详情 </p>
@@ -33,5 +33,5 @@ import cn.herodotus.oss.definition.attribute.PartAttribute;
  * @author : gengwei.zheng
  * @date : 2023/8/12 23:13
  */
-public class PartSummaryDomain extends PartAttribute {
+public class PartSummaryDomain extends PartDomain {
 }

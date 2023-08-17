@@ -26,10 +26,10 @@
 package cn.herodotus.oss.definition.core.repository;
 
 import cn.herodotus.oss.definition.arguments.load.*;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
 import cn.herodotus.oss.definition.domain.load.GetObjectDomain;
 import cn.herodotus.oss.definition.domain.load.ObjectMetadataDomain;
 import cn.herodotus.oss.definition.domain.load.PutObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
 import cn.herodotus.oss.definition.enums.HttpMethod;
 
 import java.net.URL;

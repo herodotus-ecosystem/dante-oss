@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.scenario.request;
 
-import cn.herodotus.oss.definition.attribute.BaseAttribute;
+import cn.herodotus.oss.definition.domain.base.BaseDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 
@@ -36,7 +36,7 @@ import jakarta.validation.constraints.Min;
  * @date : 2022/7/4 15:14
  */
 @Schema(name = "创建分片上传请求参数实体", title = "创建分片上传请求参数实体")
-public class ChunkUploadCreateRequest extends BaseAttribute {
+public class ChunkUploadCreateRequest extends BaseDomain {
 
     @Min(value = 1, message = "分片数量不能小于等于1")
     @Schema(name = "分片数量")

@@ -27,11 +27,11 @@ package cn.herodotus.oss.dialect.minio.repository;
 
 import cn.herodotus.oss.definition.arguments.load.*;
 import cn.herodotus.oss.definition.core.repository.OssObjectLoadRepository;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
 import cn.herodotus.oss.definition.domain.load.GetObjectDomain;
 import cn.herodotus.oss.definition.domain.load.ObjectMetadataDomain;
 import cn.herodotus.oss.definition.domain.load.PutObjectDomain;
 import cn.herodotus.oss.definition.domain.load.UploadObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
 import cn.herodotus.oss.dialect.minio.converter.arguments.*;
 import cn.herodotus.oss.dialect.minio.converter.domain.GetObjectResponseToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.ObjectWriteResponseToPutObjectDomainConverter;

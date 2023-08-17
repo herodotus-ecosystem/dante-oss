@@ -23,20 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.object;
+package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.rest.minio.definition.ObjectVersionRequest;
-import io.minio.RestoreObjectArgs;
+import cn.herodotus.oss.definition.domain.base.PartDomain;
+import io.minio.messages.Part;
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.convert.converter.Converter;
+
+import java.util.List;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 基础的统一定义请求属性转换为 Minio Parts 参数转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/31 16:12
+ * @date : 2023/8/13 22:45
  */
-public class RestoreObjectRequest extends ObjectVersionRequest<RestoreObjectArgs.Builder, RestoreObjectArgs> {
+public class DomainToPartConverter implements Converter<List<PartDomain>, Part[]> {
     @Override
-    public RestoreObjectArgs.Builder getBuilder() {
-        return null;
+    public Part[] convert(List<PartDomain> source) {
+        if (CollectionUtils.isNotEmpty(source)) {
+            List<Part> parts = source.stream().map(item -> new Part(item.getPartNumber(), item.getEtag())).toList();
+            Part[] result = new Part[parts.size()];
+            return parts.toArray(result);
+        }
+        return new Part[]{};
     }
 }

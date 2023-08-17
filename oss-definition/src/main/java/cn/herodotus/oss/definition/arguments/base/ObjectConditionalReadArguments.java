@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.definition.arguments.base;
 
+import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -39,34 +39,25 @@ import java.util.List;
  * @date : 2023/8/15 13:52
  */
 public abstract class ObjectConditionalReadArguments extends ObjectReadArguments {
-
-    /**
-     * ETag值反向匹配约束列表，该列表将复制请求约束为仅在源对象的ETag与任何指定的ETag约束值不匹配时执行。
-     */
-    @Schema(name = "ETag值反向匹配约束列表")
-    private final List<String> nonmatchingEtagConstraints = new ArrayList<>();
     @Schema(name = "offset")
     @DecimalMin(value = "0", message = "offset 参数不能小于 0")
     private Long offset;
+
     @Schema(name = "length")
     @DecimalMin(value = "0", message = "length 参数不能小于 0")
     private Long length;
-    /**
-     * ETag值匹配约束列表，该列表约束复制请求仅在源对象的ETag与指定的ETag值之一匹配时执行。
-     */
-    @Schema(name = "ETag值匹配约束列表")
-    private List<String> matchingETagConstraints = new ArrayList<>();
-    /**
-     * 可选字段，用于将复制请求限制为仅在源对象自指定日期以来已被修改时才执行。
-     */
-    @Schema(name = "修改时间匹配约束")
-    private Date modifiedSinceConstraint;
 
-    /**
-     * 可选字段，用于将复制请求限制为仅在源对象自指定日期以来未修改时执行
-     */
+    @Schema(name = "ETag值反向匹配约束列表")
+    private List<String> notMatchEtag;
+
+    @Schema(name = "ETag值匹配约束列表")
+    private List<String> matchETag;
+
+    @Schema(name = "修改时间匹配约束")
+    private Date modifiedSince;
+
     @Schema(name = "修改时间反向匹配约束")
-    private Date unmodifiedSinceConstraint;
+    private Date unmodifiedSince;
 
     public Long getOffset() {
         return offset;
@@ -84,31 +75,45 @@ public abstract class ObjectConditionalReadArguments extends ObjectReadArguments
         this.length = length;
     }
 
-    public List<String> getMatchingETagConstraints() {
-        return matchingETagConstraints;
+    public List<String> getNotMatchEtag() {
+        return notMatchEtag;
     }
 
-    public void setMatchingETagConstraints(List<String> matchingETagConstraints) {
-        this.matchingETagConstraints = matchingETagConstraints;
+    public void setNotMatchEtag(List<String> notMatchEtag) {
+        this.notMatchEtag = notMatchEtag;
     }
 
-    public List<String> getNonmatchingEtagConstraints() {
-        return nonmatchingEtagConstraints;
+    public List<String> getMatchETag() {
+        return matchETag;
     }
 
-    public Date getModifiedSinceConstraint() {
-        return modifiedSinceConstraint;
+    public void setMatchETag(List<String> matchETag) {
+        this.matchETag = matchETag;
     }
 
-    public void setModifiedSinceConstraint(Date modifiedSinceConstraint) {
-        this.modifiedSinceConstraint = modifiedSinceConstraint;
+    public Date getModifiedSince() {
+        return modifiedSince;
     }
 
-    public Date getUnmodifiedSinceConstraint() {
-        return unmodifiedSinceConstraint;
+    public void setModifiedSince(Date modifiedSince) {
+        this.modifiedSince = modifiedSince;
     }
 
-    public void setUnmodifiedSinceConstraint(Date unmodifiedSinceConstraint) {
-        this.unmodifiedSinceConstraint = unmodifiedSinceConstraint;
+    public Date getUnmodifiedSince() {
+        return unmodifiedSince;
+    }
+
+    public void setUnmodifiedSince(Date unmodifiedSince) {
+        this.unmodifiedSince = unmodifiedSince;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("offset", offset)
+                .add("length", length)
+                .add("modifiedSince", modifiedSince)
+                .add("unmodifiedSince", unmodifiedSince)
+                .toString();
     }
 }

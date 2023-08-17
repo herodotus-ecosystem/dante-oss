@@ -26,10 +26,9 @@
 package cn.herodotus.oss.dialect.minio.repository;
 
 import cn.herodotus.oss.definition.arguments.multipart.*;
-import cn.herodotus.oss.definition.attribute.PartAttribute;
 import cn.herodotus.oss.definition.core.repository.OssMultipartUploadRepository;
+import cn.herodotus.oss.definition.domain.base.PartDomain;
 import cn.herodotus.oss.definition.domain.multipart.*;
-import cn.herodotus.oss.dialect.minio.converter.attribute.AttributeToPartConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.*;
 import cn.herodotus.oss.dialect.minio.service.MinioMultipartUploadService;
 import io.minio.*;
@@ -111,7 +110,7 @@ public class MinioMultipartUploadRepository implements OssMultipartUploadReposit
     @Override
     public CompleteMultipartUploadDomain completeMultipartUpload(CompleteMultipartUploadArguments arguments) {
 
-        Converter<List<PartAttribute>, Part[]> toPart = new AttributeToPartConverter();
+        Converter<List<PartDomain>, Part[]> toPart = new DomainToPartConverter();
         Converter<ObjectWriteResponse, CompleteMultipartUploadDomain> toDomain = new ObjectWriteResponseToCompleteMultipartUploadDomainConverter();
 
         ObjectWriteResponse response = minioMultipartUploadService.completeMultipartUpload(

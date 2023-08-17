@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.oss.definition.attribute.MultipartUploadAttribute;
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
+import cn.herodotus.oss.definition.domain.base.MultipartUploadDomain;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 
 import java.util.List;
 
@@ -36,11 +36,11 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/8/12 23:06
  */
-public class ListPartsDomain extends MultipartUploadAttribute {
+public class ListPartsDomain extends MultipartUploadDomain {
 
-    private OwnerAttribute owner;
+    private OwnerDomain owner;
 
-    private OwnerAttribute initiator;
+    private OwnerDomain initiator;
 
     private String storageClass;
 
@@ -54,19 +54,19 @@ public class ListPartsDomain extends MultipartUploadAttribute {
 
     private List<PartSummaryDomain> parts;
 
-    public OwnerAttribute getOwner() {
+    public OwnerDomain getOwner() {
         return owner;
     }
 
-    public void setOwner(OwnerAttribute owner) {
+    public void setOwner(OwnerDomain owner) {
         this.owner = owner;
     }
 
-    public OwnerAttribute getInitiator() {
+    public OwnerDomain getInitiator() {
         return initiator;
     }
 
-    public void setInitiator(OwnerAttribute initiator) {
+    public void setInitiator(OwnerDomain initiator) {
         this.initiator = initiator;
     }
 

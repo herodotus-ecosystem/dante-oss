@@ -23,26 +23,32 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.attribute;
-
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import io.minio.messages.Owner;
-import org.springframework.core.convert.converter.Converter;
+package cn.herodotus.oss.definition.constants;
 
 /**
- * <p>Description: Owner 转 OwnerAttribute 转换器 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 23:09
+ * @date : 2023/8/17 14:14
  */
-public class OwnerToAttributeConverter implements Converter<Owner, OwnerAttribute> {
+public interface OssConstants {
 
-    @Override
-    public OwnerAttribute convert(Owner source) {
-
-        OwnerAttribute attribute = new OwnerAttribute();
-        attribute.setId(source.id());
-        attribute.setDisplayName(source.displayName());
-        return attribute;
-    }
+    // allowed maximum object size is 5TiB.
+    /**
+     * 允许的对象大小，最大为 5T
+     */
+    long MAX_OBJECT_SIZE = 5L * 1024 * 1024 * 1024 * 1024;
+    // allowed minimum part size is 5MiB in multipart upload.
+    /**
+     * 分片上传中，允许的分片大小最小为 5M
+     */
+    int MIN_MULTIPART_SIZE = 5 * 1024 * 1024;
+    /**
+     * 分片上传中，允许的分片大小最大为 5G
+     */
+    long MAX_PART_SIZE = 5L * 1024 * 1024 * 1024;
+    /**
+     * 分片上传中，允许的最大分片数量为 1000
+     */
+    int MAX_MULTIPART_COUNT = 10000;
 }

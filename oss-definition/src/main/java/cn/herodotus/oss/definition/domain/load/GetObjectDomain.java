@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.definition.domain.load;
 
-import cn.herodotus.oss.definition.attribute.BaseAttribute;
+import cn.herodotus.oss.definition.domain.base.BaseDomain;
 
 import java.io.InputStream;
 
@@ -35,7 +35,7 @@ import java.io.InputStream;
  * @author : gengwei.zheng
  * @date : 2023/8/15 14:14
  */
-public class GetObjectDomain extends BaseAttribute {
+public class GetObjectDomain extends BaseDomain {
 
     private InputStream objectContent;
 

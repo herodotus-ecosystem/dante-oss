@@ -23,29 +23,25 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.attribute;
+package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import com.aliyun.oss.model.Owner;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: 分片上传基础属性实体 </p>
+ * <p>Description: Owner 转 OwnerDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 17:44
+ * @date : 2023/8/13 23:09
  */
-public class MultipartUploadAttribute extends BaseAttribute {
+public class OwnerToDomainConverter implements Converter<Owner, OwnerDomain> {
 
-    /**
-     * 上传ID
-     */
-    @Schema(name = "上传ID")
-    private String uploadId;
-
-    public String getUploadId() {
-        return uploadId;
-    }
-
-    public void setUploadId(String uploadId) {
-        this.uploadId = uploadId;
+    @Override
+    public OwnerDomain convert(Owner source) {
+        OwnerDomain attribute = new OwnerDomain();
+        attribute.setId(source.getId());
+        attribute.setDisplayName(source.getDisplayName());
+        return attribute;
     }
 }

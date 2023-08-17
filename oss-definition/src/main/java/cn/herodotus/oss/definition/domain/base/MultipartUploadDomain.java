@@ -23,47 +23,29 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.attribute;
+package cn.herodotus.oss.definition.domain.base;
 
-import cn.herodotus.oss.definition.core.attribute.OssAttribute;
-import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
- * <p>Description: 分片域对象 </p>
+ * <p>Description: 分片上传基础属性实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/13 16:41
+ * @date : 2023/8/13 17:44
  */
-public abstract class BasePartAttribute implements OssAttribute {
+public class MultipartUploadDomain extends BaseDomain {
 
-    @Schema(name = "分片编号")
-    private int partNumber;
+    /**
+     * 上传ID
+     */
+    @Schema(name = "上传ID")
+    private String uploadId;
 
-    @Schema(name = "新对象的ETag值")
-    private String etag;
-
-    public int getPartNumber() {
-        return partNumber;
+    public String getUploadId() {
+        return uploadId;
     }
 
-    public void setPartNumber(int partNumber) {
-        this.partNumber = partNumber;
-    }
-
-    public String getEtag() {
-        return etag;
-    }
-
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("partNumber", partNumber)
-                .add("etag", etag)
-                .toString();
+    public void setUploadId(String uploadId) {
+        this.uploadId = uploadId;
     }
 }

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.oss.definition.attribute.MultipartUploadAttribute;
+import cn.herodotus.oss.definition.domain.base.MultipartUploadDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
@@ -35,5 +35,5 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @date : 2023/8/13 18:28
  */
 @Schema(name = "中止分片上传返回结果", title = "中止分片上传返回结果")
-public class AbortMultipartUploadDomain extends MultipartUploadAttribute {
+public class AbortMultipartUploadDomain extends MultipartUploadDomain {
 }

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 import cn.herodotus.oss.definition.domain.object.ObjectDomain;
 import com.aliyun.oss.model.OSSObjectSummary;
 import org.apache.commons.lang3.ObjectUtils;
@@ -58,7 +58,7 @@ public class ObjectSummaryToDomainConverter implements Converter<OSSObjectSummar
         objectDomain.setStorageClass(source.getStorageClass());
 
         if (ObjectUtils.isNotEmpty(source.getOwner())) {
-            OwnerAttribute ownerAttributeDomain = new OwnerAttribute();
+            OwnerDomain ownerAttributeDomain = new OwnerDomain();
             ownerAttributeDomain.setId(ownerAttributeDomain.getId());
             ownerAttributeDomain.setDisplayName(ownerAttributeDomain.getDisplayName());
             objectDomain.setOwner(ownerAttributeDomain);

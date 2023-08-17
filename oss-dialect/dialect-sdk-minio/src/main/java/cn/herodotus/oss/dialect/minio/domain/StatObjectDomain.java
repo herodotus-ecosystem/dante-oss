@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.oss.definition.attribute.BaseAttribute;
+import cn.herodotus.oss.definition.domain.base.BaseDomain;
 import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,7 +38,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2023/6/11 15:54
  */
-public class StatObjectDomain extends BaseAttribute {
+public class StatObjectDomain extends BaseDomain {
     @Schema(name = "ETag")
     private String etag;
     @Schema(name = "最后修改时间")

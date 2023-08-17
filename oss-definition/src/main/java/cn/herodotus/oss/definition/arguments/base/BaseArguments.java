@@ -59,6 +59,4 @@ public abstract class BaseArguments implements OssArguments {
     public void setExtraQueryParams(Map<String, String> extraQueryParams) {
         this.extraQueryParams = extraQueryParams;
     }
-
-
 }

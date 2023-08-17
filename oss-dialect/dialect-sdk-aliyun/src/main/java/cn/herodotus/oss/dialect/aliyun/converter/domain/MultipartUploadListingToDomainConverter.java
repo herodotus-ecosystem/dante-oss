@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
 import cn.herodotus.oss.definition.domain.multipart.ListMultipartUploadsDomain;
-import cn.herodotus.oss.definition.domain.multipart.MultipartUploadDomain;
+import cn.herodotus.oss.definition.domain.multipart.UploadDomain;
 import com.aliyun.oss.model.MultipartUpload;
 import com.aliyun.oss.model.MultipartUploadListing;
 import org.springframework.core.convert.converter.Converter;
@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class MultipartUploadListingToDomainConverter implements Converter<MultipartUploadListing, ListMultipartUploadsDomain> {
 
-    private final Converter<List<MultipartUpload>, List<MultipartUploadDomain>> toDomain = new MultipartUploadToDomainConverter();
+    private final Converter<List<MultipartUpload>, List<UploadDomain>> toDomain = new MultipartUploadToDomainConverter();
 
     @Override
     public ListMultipartUploadsDomain convert(MultipartUploadListing source) {

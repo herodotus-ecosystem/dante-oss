@@ -25,10 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import cn.herodotus.oss.definition.domain.multipart.MultipartUploadDomain;
-import cn.herodotus.oss.dialect.minio.converter.attribute.InitiatorToAttributeConverter;
-import cn.herodotus.oss.dialect.minio.converter.attribute.OwnerToAttributeConverter;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.definition.domain.multipart.UploadDomain;
 import io.minio.messages.Initiator;
 import io.minio.messages.Owner;
 import io.minio.messages.Upload;
@@ -40,26 +38,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>Description: Upload 转 MultipartUploadDomain 转换器 </p>
+ * <p>Description: Upload 转 UploadDomain 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/13 23:05
  */
-public class UploadToDomainConverter implements Converter<List<Upload>, List<MultipartUploadDomain>> {
+public class UploadToDomainConverter implements Converter<List<Upload>, List<UploadDomain>> {
 
-    private final Converter<Owner, OwnerAttribute> owner = new OwnerToAttributeConverter();
-    private final Converter<Initiator, OwnerAttribute> initiator = new InitiatorToAttributeConverter();
+    private final Converter<Owner, OwnerDomain> owner = new OwnerToDomainConverter();
+    private final Converter<Initiator, OwnerDomain> initiator = new InitiatorToDomainConverter();
 
     @Override
-    public List<MultipartUploadDomain> convert(List<Upload> source) {
+    public List<UploadDomain> convert(List<Upload> source) {
         if (CollectionUtils.isNotEmpty(source)) {
             return source.stream().map(this::convert).toList();
         }
         return new ArrayList<>();
     }
 
-    private MultipartUploadDomain convert(Upload source) {
-        MultipartUploadDomain domain = new MultipartUploadDomain();
+    private UploadDomain convert(Upload source) {
+        UploadDomain domain = new UploadDomain();
         domain.setKey(source.objectName());
         domain.setUploadId(source.uploadId());
         domain.setOwner(owner.convert(source.owner()));

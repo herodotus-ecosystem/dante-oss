@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
 import cn.herodotus.oss.definition.core.domain.OssDomain;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Date;
@@ -38,7 +38,7 @@ import java.util.Date;
  * @date : 2023/8/13 20:53
  */
 @Schema(name = "分片上传列表返回条目域对象", title = "分片上传列表返回条目域对象")
-public class MultipartUploadDomain implements OssDomain {
+public class UploadDomain implements OssDomain {
 
     /**
      * 存储此upload的密钥
@@ -56,13 +56,13 @@ public class MultipartUploadDomain implements OssDomain {
      * 此分片上传的拥有者
      */
     @Schema(name = "分片上传的拥有者")
-    private OwnerAttribute owner;
+    private OwnerDomain owner;
 
     /**
      * 此分片上传的发起者
      */
     @Schema(name = "分片上传的发起者")
-    private OwnerAttribute initiator;
+    private OwnerDomain initiator;
 
     /**
      * 存储类，指示如何存储此分片上传中的数据.
@@ -92,19 +92,19 @@ public class MultipartUploadDomain implements OssDomain {
         this.uploadId = uploadId;
     }
 
-    public OwnerAttribute getOwner() {
+    public OwnerDomain getOwner() {
         return owner;
     }
 
-    public void setOwner(OwnerAttribute owner) {
+    public void setOwner(OwnerDomain owner) {
         this.owner = owner;
     }
 
-    public OwnerAttribute getInitiator() {
+    public OwnerDomain getInitiator() {
         return initiator;
     }
 
-    public void setInitiator(OwnerAttribute initiator) {
+    public void setInitiator(OwnerDomain initiator) {
         this.initiator = initiator;
     }
 

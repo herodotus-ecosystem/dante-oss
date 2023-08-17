@@ -46,7 +46,7 @@ public class ListMultipartUploadsDomain extends ListMultipartUploadsArguments {
 
     private String nextUploadIdMarker;
 
-    private List<MultipartUploadDomain> multipartUploads = new ArrayList<>();
+    private List<UploadDomain> multipartUploads = new ArrayList<>();
 
     private List<String> commonPrefixes = new ArrayList<>();
 
@@ -74,11 +74,11 @@ public class ListMultipartUploadsDomain extends ListMultipartUploadsArguments {
         this.nextUploadIdMarker = nextUploadIdMarker;
     }
 
-    public List<MultipartUploadDomain> getMultipartUploads() {
+    public List<UploadDomain> getMultipartUploads() {
         return multipartUploads;
     }
 
-    public void setMultipartUploads(List<MultipartUploadDomain> multipartUploads) {
+    public void setMultipartUploads(List<UploadDomain> multipartUploads) {
         this.multipartUploads = multipartUploads;
     }
 

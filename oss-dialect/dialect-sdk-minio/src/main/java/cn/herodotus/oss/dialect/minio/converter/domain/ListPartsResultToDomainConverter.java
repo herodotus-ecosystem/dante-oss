@@ -26,11 +26,9 @@
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
 import cn.herodotus.oss.definition.arguments.multipart.ListPartsArguments;
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
 import cn.herodotus.oss.definition.domain.multipart.ListPartsDomain;
 import cn.herodotus.oss.definition.domain.multipart.PartSummaryDomain;
-import cn.herodotus.oss.dialect.minio.converter.attribute.InitiatorToAttributeConverter;
-import cn.herodotus.oss.dialect.minio.converter.attribute.OwnerToAttributeConverter;
 import io.minio.messages.Initiator;
 import io.minio.messages.ListPartsResult;
 import io.minio.messages.Owner;
@@ -47,8 +45,8 @@ import java.util.List;
  */
 public class ListPartsResultToDomainConverter implements Converter<ListPartsResult, ListPartsDomain> {
 
-    private final Converter<Owner, OwnerAttribute> owner = new OwnerToAttributeConverter();
-    private final Converter<Initiator, OwnerAttribute> initiator = new InitiatorToAttributeConverter();
+    private final Converter<Owner, OwnerDomain> owner = new OwnerToDomainConverter();
+    private final Converter<Initiator, OwnerDomain> initiator = new InitiatorToDomainConverter();
     private final Converter<List<Part>, List<PartSummaryDomain>> parts = new PartToDomainConverter();
 
     private final ListPartsArguments arguments;

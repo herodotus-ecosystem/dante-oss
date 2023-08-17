@@ -27,7 +27,7 @@ package cn.herodotus.oss.dialect.minio.converter.domain;
 
 import cn.herodotus.oss.definition.arguments.multipart.ListMultipartUploadsArguments;
 import cn.herodotus.oss.definition.domain.multipart.ListMultipartUploadsDomain;
-import cn.herodotus.oss.definition.domain.multipart.MultipartUploadDomain;
+import cn.herodotus.oss.definition.domain.multipart.UploadDomain;
 import io.minio.messages.ListMultipartUploadsResult;
 import io.minio.messages.Upload;
 import org.springframework.core.convert.converter.Converter;
@@ -43,7 +43,7 @@ import java.util.List;
 public class ListMultipartUploadsResultToDomainConverter implements Converter<ListMultipartUploadsResult, ListMultipartUploadsDomain> {
 
     private final ListMultipartUploadsArguments listMultipartUploadsArguments;
-    private final Converter<List<Upload>, List<MultipartUploadDomain>> toMultipartUpload = new UploadToDomainConverter();
+    private final Converter<List<Upload>, List<UploadDomain>> toMultipartUpload = new UploadToDomainConverter();
 
     public ListMultipartUploadsResultToDomainConverter(ListMultipartUploadsArguments listMultipartUploadsArguments) {
         this.listMultipartUploadsArguments = listMultipartUploadsArguments;

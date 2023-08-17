@@ -49,23 +49,23 @@ public abstract class ArgumentsToObjectConditionalReadConverter<S extends Object
         }
 
         if (ObjectUtils.isNotEmpty(arguments.getOffset()) && arguments.getOffset() >= 0) {
-            builder.length(arguments.getOffset());
+            builder.offset(arguments.getOffset());
         }
 
-        if (CollectionUtils.isNotEmpty(arguments.getMatchingETagConstraints())) {
-            builder.matchETag(StringUtils.join(arguments.getMatchingETagConstraints(), SymbolConstants.COMMA));
+        if (CollectionUtils.isNotEmpty(arguments.getMatchETag())) {
+            builder.matchETag(StringUtils.join(arguments.getMatchETag(), SymbolConstants.COMMA));
         }
 
-        if (CollectionUtils.isNotEmpty(arguments.getNonmatchingEtagConstraints())) {
-            builder.notMatchETag(StringUtils.join(arguments.getNonmatchingEtagConstraints(), SymbolConstants.COMMA));
+        if (CollectionUtils.isNotEmpty(arguments.getNotMatchEtag())) {
+            builder.notMatchETag(StringUtils.join(arguments.getNotMatchEtag(), SymbolConstants.COMMA));
         }
 
-        if (ObjectUtils.isNotEmpty(arguments.getModifiedSinceConstraint())) {
-            builder.modifiedSince(DateTimeUtils.dateToZonedDateTime(arguments.getModifiedSinceConstraint()));
+        if (ObjectUtils.isNotEmpty(arguments.getModifiedSince())) {
+            builder.modifiedSince(DateTimeUtils.dateToZonedDateTime(arguments.getModifiedSince()));
         }
 
-        if (ObjectUtils.isNotEmpty(arguments.getUnmodifiedSinceConstraint())) {
-            builder.unmodifiedSince(DateTimeUtils.dateToZonedDateTime(arguments.getUnmodifiedSinceConstraint()));
+        if (ObjectUtils.isNotEmpty(arguments.getUnmodifiedSince())) {
+            builder.unmodifiedSince(DateTimeUtils.dateToZonedDateTime(arguments.getUnmodifiedSince()));
         }
 
         super.prepare(arguments, builder);

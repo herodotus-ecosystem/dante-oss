@@ -23,33 +23,26 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.request.object;
+package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.rest.minio.definition.ObjectConditionalReadRequest;
-import io.minio.GetObjectArgs;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import io.minio.messages.Initiator;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: GetObjectRequest </p>
+ * <p>Description: Owner 转 OwnerDomain 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/5/30 23:58
+ * @date : 2023/8/13 23:09
  */
-@Schema(name = "下载对象请求参数实体", title = "下载对象请求参数实体", description = "与前端交互使用")
-public class GetObjectRequest extends ObjectConditionalReadRequest<GetObjectArgs.Builder, GetObjectArgs> {
-
-    public GetObjectRequest(DownloadObjectRequest request) {
-        this.setExtraHeaders(request.getExtraHeaders());
-        this.setExtraQueryParams(request.getExtraQueryParams());
-        this.setBucketName(request.getBucketName());
-        this.setRegion(request.getRegion());
-        this.setObjectName(request.getObjectName());
-        this.setVersionId(request.getVersionId());
-        this.setServerSideEncryptionCustomerKey(request.getServerSideEncryptionCustomerKey());
-    }
+public class InitiatorToDomainConverter implements Converter<Initiator, OwnerDomain> {
 
     @Override
-    public GetObjectArgs.Builder getBuilder() {
-        return GetObjectArgs.builder();
+    public OwnerDomain convert(Initiator source) {
+
+        OwnerDomain attribute = new OwnerDomain();
+        attribute.setId(source.id());
+        attribute.setDisplayName(source.displayName());
+        return attribute;
     }
 }

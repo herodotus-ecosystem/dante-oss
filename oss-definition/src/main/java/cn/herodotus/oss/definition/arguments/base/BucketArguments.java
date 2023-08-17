@@ -26,13 +26,14 @@
 package cn.herodotus.oss.definition.arguments.base;
 
 import cn.herodotus.engine.assistant.core.definition.constants.RegexPool;
+import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 
 /**
- * <p>Description: 基础的存储桶参数 </p>
+ * <p>Description: 基础的存储桶请求参数定义 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/28 18:01
@@ -61,5 +62,13 @@ public abstract class BucketArguments extends BaseArguments {
 
     public void setRegion(String region) {
         this.region = region;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("bucketName", bucketName)
+                .add("region", region)
+                .toString();
     }
 }

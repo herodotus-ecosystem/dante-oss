@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.definition.domain.multipart;
 
-import cn.herodotus.oss.definition.domain.object.ObjectWriteDomain;
+import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**

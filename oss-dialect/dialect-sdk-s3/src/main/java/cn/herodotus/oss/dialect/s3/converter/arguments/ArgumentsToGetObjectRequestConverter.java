@@ -47,20 +47,20 @@ public class ArgumentsToGetObjectRequestConverter extends ArgumentsToBucketConve
             request.setRange(start, end);
         }
 
-        if (CollectionUtils.isNotEmpty(arguments.getMatchingETagConstraints())) {
-            request.setMatchingETagConstraints(arguments.getMatchingETagConstraints());
+        if (CollectionUtils.isNotEmpty(arguments.getMatchETag())) {
+            request.setMatchingETagConstraints(arguments.getMatchETag());
         }
 
-        if (CollectionUtils.isNotEmpty(arguments.getNonmatchingEtagConstraints())) {
-            request.setNonmatchingETagConstraints(arguments.getNonmatchingEtagConstraints());
+        if (CollectionUtils.isNotEmpty(arguments.getNotMatchEtag())) {
+            request.setNonmatchingETagConstraints(arguments.getNotMatchEtag());
         }
 
-        if (ObjectUtils.isNotEmpty(arguments.getModifiedSinceConstraint())) {
-            request.setModifiedSinceConstraint(arguments.getModifiedSinceConstraint());
+        if (ObjectUtils.isNotEmpty(arguments.getModifiedSince())) {
+            request.setModifiedSinceConstraint(arguments.getModifiedSince());
         }
 
-        if (ObjectUtils.isNotEmpty(arguments.getUnmodifiedSinceConstraint())) {
-            request.setUnmodifiedSinceConstraint(arguments.getUnmodifiedSinceConstraint());
+        if (ObjectUtils.isNotEmpty(arguments.getUnmodifiedSince())) {
+            request.setUnmodifiedSinceConstraint(arguments.getUnmodifiedSince());
         }
         super.prepare(arguments, request);
     }

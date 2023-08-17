@@ -23,11 +23,14 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.definition.attribute;
+package cn.herodotus.oss.definition.domain.base;
 
-import cn.herodotus.oss.definition.core.attribute.OssAttribute;
+import cn.herodotus.oss.definition.core.domain.OssDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * <p>Description: 共性属性 </p>
@@ -35,7 +38,7 @@ import jakarta.validation.constraints.NotBlank;
  * @author : gengwei.zheng
  * @date : 2023/6/11 15:45
  */
-public abstract class BaseAttribute implements OssAttribute {
+public abstract class BaseDomain implements OssDomain {
 
     @NotBlank(message = "存储桶名称不能为空")
     @Schema(name = "存储桶名称")
@@ -47,6 +50,9 @@ public abstract class BaseAttribute implements OssAttribute {
     @NotBlank(message = "对象名称不能为空")
     @Schema(name = "对象名称")
     private String objectName;
+
+    @Schema(name = "用户自定义头信息")
+    private Map<String, Object> header = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
     public String getBucketName() {
         return bucketName;
@@ -70,5 +76,13 @@ public abstract class BaseAttribute implements OssAttribute {
 
     public void setObjectName(String objectName) {
         this.objectName = objectName;
+    }
+
+    public Map<String, Object> getHeader() {
+        return header;
+    }
+
+    public void setHeader(Map<String, Object> header) {
+        this.header = header;
     }
 }
