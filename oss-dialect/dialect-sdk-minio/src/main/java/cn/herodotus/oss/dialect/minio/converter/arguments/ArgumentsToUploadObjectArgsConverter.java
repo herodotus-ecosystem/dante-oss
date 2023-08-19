@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.UploadObjectArguments;
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToPutObjectBaseConverter;
+import cn.herodotus.oss.specification.arguments.object.UploadObjectArguments;
 import io.minio.UploadObjectArgs;
 
 import java.io.IOException;

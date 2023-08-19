@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.GeneratePreSignedUrlArguments;
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectVersionConverter;
+import cn.herodotus.oss.specification.arguments.object.GeneratePreSignedUrlArguments;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.http.Method;
 
@@ -42,7 +42,7 @@ public class ArgumentsToGetPreSignedObjectUrlConverter extends ArgumentsToObject
     public void prepare(GeneratePreSignedUrlArguments arguments, GetPresignedObjectUrlArgs.Builder builder) {
 
         builder.method(Method.valueOf(arguments.getMethod().name()));
-        builder.expiry(arguments.getExpiry());
+        builder.expiry(Math.toIntExact(arguments.getExpiration().toSeconds()));
         builder.versionId(arguments.getVersionId());
 
         super.prepare(arguments, builder);

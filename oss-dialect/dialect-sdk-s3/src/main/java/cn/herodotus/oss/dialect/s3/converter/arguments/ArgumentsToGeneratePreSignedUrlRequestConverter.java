@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.GeneratePreSignedUrlArguments;
 import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.object.GeneratePreSignedUrlArguments;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.dromara.hutool.core.date.DateUtil;
@@ -46,8 +46,7 @@ public class ArgumentsToGeneratePreSignedUrlRequestConverter extends ArgumentsTo
         request.setVersionId(arguments.getVersionId());
         request.setContentMd5(arguments.getContentMD5());
         request.setContentType(arguments.getContentType());
-        request.setExpiration(DateUtil.offsetSecond(DateUtil.now(), arguments.getExpiry()));
-
+        request.setExpiration(DateUtil.offsetSecond(DateUtil.now(), Math.toIntExact(arguments.getExpiration().toSeconds())));
         return request;
     }
 }

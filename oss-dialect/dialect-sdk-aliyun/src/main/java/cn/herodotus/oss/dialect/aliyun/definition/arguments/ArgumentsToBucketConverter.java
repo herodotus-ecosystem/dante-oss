@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
+import cn.herodotus.oss.specification.arguments.base.BucketArguments;
 import com.aliyun.oss.model.WebServiceRequest;
 
 /**

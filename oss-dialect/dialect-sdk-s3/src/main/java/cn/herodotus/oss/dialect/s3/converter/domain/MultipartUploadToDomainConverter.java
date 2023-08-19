@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
-import cn.herodotus.oss.definition.domain.multipart.UploadDomain;
+import cn.herodotus.oss.specification.domain.base.OwnerDomain;
+import cn.herodotus.oss.specification.domain.multipart.UploadDomain;
 import com.amazonaws.services.s3.model.MultipartUpload;
 import com.amazonaws.services.s3.model.Owner;
 import org.apache.commons.collections4.CollectionUtils;

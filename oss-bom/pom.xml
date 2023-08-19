@@ -76,7 +76,7 @@
         <dependencies>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>oss-definition</artifactId>
+                <artifactId>oss-specification</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -101,17 +101,22 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
+                <artifactId>dialect-autoconfigure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>oss-solution</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
                 <artifactId>rest-sdk-minio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>rest-sdk-integration</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.herodotus.oss</groupId>
-                <artifactId>rest-sdk-scenario</artifactId>
+                <artifactId>rest-sdk-specification</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

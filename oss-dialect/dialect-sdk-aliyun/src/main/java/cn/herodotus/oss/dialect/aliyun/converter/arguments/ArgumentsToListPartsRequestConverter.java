@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.multipart.ListPartsArguments;
+import cn.herodotus.oss.specification.arguments.multipart.ListPartsArguments;
 import com.aliyun.oss.model.ListPartsRequest;
 import org.springframework.core.convert.converter.Converter;
 

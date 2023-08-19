@@ -41,7 +41,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>oss-definition</artifactId>
+            <artifactId>oss-specification</artifactId>
         </dependency>
     </dependencies>
 

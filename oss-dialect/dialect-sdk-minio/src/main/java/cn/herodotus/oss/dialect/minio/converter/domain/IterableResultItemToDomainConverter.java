@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
-import cn.herodotus.oss.definition.domain.object.ObjectDomain;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
+import cn.herodotus.oss.specification.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.specification.domain.object.ListObjectsDomain;
+import cn.herodotus.oss.specification.domain.object.ObjectDomain;
 import io.minio.Result;
 import io.minio.messages.Item;
 import org.apache.commons.lang3.ObjectUtils;

@@ -25,24 +25,22 @@
 
 package cn.herodotus.oss.dialect.minio.repository;
 
-import cn.herodotus.oss.definition.arguments.object.*;
-import cn.herodotus.oss.definition.core.repository.OssObjectRepository;
-import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
-import cn.herodotus.oss.definition.domain.object.*;
 import cn.herodotus.oss.dialect.minio.converter.arguments.*;
 import cn.herodotus.oss.dialect.minio.converter.domain.*;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
+import cn.herodotus.oss.specification.arguments.object.*;
+import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
+import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.specification.domain.object.*;
 import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.Item;
-import org.dromara.hutool.core.net.url.URLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -122,12 +120,10 @@ public class MinioObjectRepository implements OssObjectRepository {
     }
 
     @Override
-    public URL generatePreSignedUrl(GeneratePreSignedUrlArguments arguments) {
+    public String generatePreSignedUrl(GeneratePreSignedUrlArguments arguments) {
 
         Converter<GeneratePreSignedUrlArguments, GetPresignedObjectUrlArgs> toRequest = new ArgumentsToGetPreSignedObjectUrlConverter();
-
-        String url = minioObjectService.getPreSignedObjectUrl(toRequest.convert(arguments));
-        return URLUtil.url(url);
+        return minioObjectService.getPreSignedObjectUrl(toRequest.convert(arguments));
     }
 
     @Override

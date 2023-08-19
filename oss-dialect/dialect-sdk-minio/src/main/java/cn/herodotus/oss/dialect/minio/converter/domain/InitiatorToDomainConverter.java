@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.specification.domain.base.OwnerDomain;
 import io.minio.messages.Initiator;
 import org.springframework.core.convert.converter.Converter;
 

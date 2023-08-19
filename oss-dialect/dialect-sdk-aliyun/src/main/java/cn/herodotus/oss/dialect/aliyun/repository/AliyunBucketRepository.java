@@ -25,10 +25,6 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.definition.core.repository.OssBucketRepository;
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToCreateBucketRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteBucketRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.domain.BucketToDomainConverter;
@@ -37,6 +33,10 @@ import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
+import cn.herodotus.oss.specification.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.specification.arguments.bucket.DeleteBucketArguments;
+import cn.herodotus.oss.specification.core.repository.OssBucketRepository;
+import cn.herodotus.oss.specification.domain.bucket.BucketDomain;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;

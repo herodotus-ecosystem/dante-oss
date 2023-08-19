@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.DeletedObjectArguments;
 import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.object.DeleteObjectsArguments;
+import cn.herodotus.oss.specification.arguments.object.DeletedObjectArguments;
 import com.aliyun.oss.model.DeleteObjectsRequest;
 import org.apache.commons.collections4.CollectionUtils;
 

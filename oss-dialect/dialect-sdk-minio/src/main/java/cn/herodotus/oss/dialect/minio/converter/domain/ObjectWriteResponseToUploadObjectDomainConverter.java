@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.domain.object.UploadObjectDomain;
 import cn.herodotus.oss.dialect.minio.definition.domain.ObjectWriteResponseToDomain;
+import cn.herodotus.oss.specification.domain.object.UploadObjectDomain;
 import io.minio.ObjectWriteResponse;
 
 /**

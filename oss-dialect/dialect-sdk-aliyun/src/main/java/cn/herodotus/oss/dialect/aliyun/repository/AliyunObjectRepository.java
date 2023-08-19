@@ -25,10 +25,6 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
-import cn.herodotus.oss.definition.arguments.object.*;
-import cn.herodotus.oss.definition.core.repository.OssObjectRepository;
-import cn.herodotus.oss.definition.domain.base.ObjectWriteDomain;
-import cn.herodotus.oss.definition.domain.object.*;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectsRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
@@ -40,6 +36,10 @@ import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
+import cn.herodotus.oss.specification.arguments.object.*;
+import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
+import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.specification.domain.object.*;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
@@ -49,7 +49,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -173,7 +172,7 @@ public class AliyunObjectRepository extends BaseAliyunService implements OssObje
     }
 
     @Override
-    public URL generatePreSignedUrl(GeneratePreSignedUrlArguments arguments) {
+    public String generatePreSignedUrl(GeneratePreSignedUrlArguments arguments) {
         return null;
     }
 

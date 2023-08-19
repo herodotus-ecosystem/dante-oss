@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.domain.object.GetObjectDomain;
+import cn.herodotus.oss.specification.domain.object.GetObjectDomain;
 import io.minio.GetObjectResponse;
 import org.springframework.core.convert.converter.Converter;
 

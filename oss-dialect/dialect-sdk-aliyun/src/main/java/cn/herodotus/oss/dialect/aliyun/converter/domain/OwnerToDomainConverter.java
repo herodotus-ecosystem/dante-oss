@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.domain.base.OwnerDomain;
+import cn.herodotus.oss.specification.domain.base.OwnerDomain;
 import com.aliyun.oss.model.Owner;
 import org.springframework.core.convert.converter.Converter;
 

@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.PutObjectArguments;
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToPutObjectBaseConverter;
+import cn.herodotus.oss.specification.arguments.object.PutObjectArguments;
 import io.minio.PutObjectArgs;
 import org.apache.commons.lang3.StringUtils;
 

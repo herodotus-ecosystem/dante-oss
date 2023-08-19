@@ -71,16 +71,17 @@ Dante OSS 最初的设计目标，是深度封装 Minio Java SDK，可以更方�
 ```
 dante-oss
 ├── oss-bom -- Dante OSS 顶级 Maven 依赖，统一控制依赖及其版本
-├── oss-definition -- OSS 抽象定义
 ├── oss-dialect -- 不同厂商 OSS 实现。
-├    ├── dialect-core -- 不同厂商 OSS 实现通用代码模块
+├    ├── dialect-autoconfigure -- OSS Dialect 自动配置模块
+├    ├── dialect-core -- OSS Dialect 通用代码模块
 ├    ├── dialect-sdk-aliyun -- Aliyun OSS Java SDK 封装代码模块
 ├    ├── dialect-sdk-minio -- Minio OSS Java SDK 封装代码模块
 ├    └── dialect-sdk-s3 -- Amazon S3 OSS Java SDK 封装代码模块
-├── oss-rest -- OSS 操作 REST 模块
-├    ├── rest-sdk-integration -- 支持不同厂商OSS的统一通用 REST API，
-├    ├── rest-sdk-minio -- Minio 基础 REST API模块
-├    └── rest-sdk-scenario -- Minio 扩展及应用方案整合模块
+├── oss-rest -- Dante OSS REST API
+├    ├── rest-sdk-minio -- Minio 特有 REST API 模块
+├    └── rest-sdk-specification -- 基于 Dante Java OSS API 规范实现的统一 REST API
+├── oss-solution -- 基于 Dante Java OSS API 规范的常规 OSS 应用方案实现模块
+├── oss-specification -- Dante Java OSS API 规范定义
 ├── oss-starter -- Dante OSS 相关 Starter
 ├    ├── oss-aliyun-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
 ├    ├── oss-minio-spring-boot-starter -- 用于独立使用的 Minio OSS Java SDK 封装 Starter。
@@ -155,7 +156,7 @@ if (ex instanceof HerodotusException exception) {
 
 ### 二、选择使用
 
-除了 `dialect-core` 和 `oss-definition` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
+除了 `dialect-core` 和 `oss-specification` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
 
 #### 1. dialect-sdk-aliyun
 
@@ -177,9 +178,9 @@ if (ex instanceof HerodotusException exception) {
 
 使用 `oss-minio-spring-boot-starter` 可统一开启 Minio Service 和 REST API 自动配置。
 
-#### 4. rest-sdk-integration
+#### 4. rest-sdk-specification
 
-`rest-sdk-integration` 是通过对 Minio、Aliyun、Amazon S3 现有 API 共性内容抽象，形成的统一操作 REST API。目标是形成类似于 Spring Data Repository 形式的统一 REST API，一套 REST API 支持不同的 OSS 厂商。
+`rest-sdk-specification` 是通过对 Minio、Aliyun、Amazon S3 现有 API 共性内容抽象，形成的统一操作 REST API。目标是形成类似于 Spring Data Repository 形式的统一 REST API，一套 REST API 支持不同的 OSS 厂商。
 
 #### 5. rest-sdk-minio
 

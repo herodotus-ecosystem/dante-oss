@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BaseArguments;
-import cn.herodotus.oss.definition.core.converter.OssConverter;
+import cn.herodotus.oss.specification.arguments.base.BaseArguments;
+import cn.herodotus.oss.specification.core.converter.OssConverter;
 import com.amazonaws.AmazonWebServiceRequest;
 import org.apache.commons.collections4.MapUtils;
 

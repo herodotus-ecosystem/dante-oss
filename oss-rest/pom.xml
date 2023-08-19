@@ -40,8 +40,7 @@
 
     <modules>
         <module>rest-sdk-minio</module>
-        <module>rest-sdk-scenario</module>
-        <module>rest-sdk-integration</module>
+        <module>rest-sdk-specification</module>
     </modules>
 
 </project>

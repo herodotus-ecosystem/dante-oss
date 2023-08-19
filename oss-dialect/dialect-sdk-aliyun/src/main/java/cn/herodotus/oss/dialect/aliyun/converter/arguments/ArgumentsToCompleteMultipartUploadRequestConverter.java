@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.multipart.CompleteMultipartUploadArguments;
-import cn.herodotus.oss.definition.domain.base.PartDomain;
 import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.multipart.CompleteMultipartUploadArguments;
+import cn.herodotus.oss.specification.domain.multipart.PartSummaryDomain;
 import com.aliyun.oss.model.CompleteMultipartUploadRequest;
 import com.aliyun.oss.model.PartETag;
 import org.apache.commons.collections4.CollectionUtils;
@@ -47,7 +47,7 @@ public class ArgumentsToCompleteMultipartUploadRequestConverter extends Argument
         return new CompleteMultipartUploadRequest(arguments.getBucketName(), arguments.getObjectName(), arguments.getUploadId(), convert(arguments.getParts()));
     }
 
-    private List<PartETag> convert(List<PartDomain> attributes) {
+    private List<PartETag> convert(List<PartSummaryDomain> attributes) {
         if (CollectionUtils.isNotEmpty(attributes)) {
             return attributes.stream().map(item -> new PartETag(item.getPartNumber(), item.getEtag())).toList();
         }

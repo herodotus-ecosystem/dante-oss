@@ -145,7 +145,8 @@
         <module>oss-dialect</module>
         <module>oss-rest</module>
         <module>oss-starter</module>
-        <module>oss-definition</module>
+        <module>oss-specification</module>
+        <module>oss-solution</module>
     </modules>
 
 

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectWriteArguments;
+import cn.herodotus.oss.specification.arguments.base.ObjectWriteArguments;
 import io.minio.ObjectWriteArgs;
 import org.apache.commons.collections4.MapUtils;
 

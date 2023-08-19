@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.DownloadObjectArguments;
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectReadConverter;
+import cn.herodotus.oss.specification.arguments.object.DownloadObjectArguments;
 import io.minio.DownloadObjectArgs;
 
 /**

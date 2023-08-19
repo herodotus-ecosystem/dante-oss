@@ -41,27 +41,11 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>rest-sdk-scenario</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.oss</groupId>
             <artifactId>rest-sdk-minio</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>rest-sdk-integration</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.oss</groupId>
-            <artifactId>dialect-sdk-aliyun</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.oss</groupId>
-            <artifactId>dialect-sdk-minio</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.herodotus.oss</groupId>
-            <artifactId>dialect-sdk-s3</artifactId>
+            <artifactId>rest-sdk-specification</artifactId>
         </dependency>
     </dependencies>
 
