@@ -25,27 +25,15 @@
 
 package cn.herodotus.oss.dialect.minio.repository;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
-import cn.herodotus.oss.definition.core.repository.OssObjectRepository;
-import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToListObjectsArgsConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToListObjectsV2ArgsConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveObjectArgsConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveObjectsArgsConverter;
-import cn.herodotus.oss.dialect.minio.converter.domain.IterableResultItemToDomainConverter;
-import cn.herodotus.oss.dialect.minio.converter.domain.IterableResultItemV2ToDomainConverter;
-import cn.herodotus.oss.dialect.minio.converter.domain.ResultDeleteErrorToDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.*;
+import cn.herodotus.oss.dialect.minio.converter.domain.*;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
-import io.minio.ListObjectsArgs;
-import io.minio.RemoveObjectArgs;
-import io.minio.RemoveObjectsArgs;
-import io.minio.Result;
+import cn.herodotus.oss.specification.arguments.object.*;
+import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
+import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.specification.domain.object.*;
+import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.Item;
 import org.slf4j.Logger;
@@ -99,5 +87,59 @@ public class MinioObjectRepository implements OssObjectRepository {
         Converter<DeleteObjectsArguments, RemoveObjectsArgs> toArgs = new ArgumentsToRemoveObjectsArgsConverter();
         Iterable<Result<DeleteError>> deletesErrors = minioObjectService.removeObjects(toArgs.convert(arguments));
         return ConverterUtils.toDomains(deletesErrors, new ResultDeleteErrorToDomainConverter());
+    }
+
+    @Override
+    public ObjectMetadataDomain getObjectMetadata(GetObjectMetadataArguments arguments) {
+
+        Converter<GetObjectMetadataArguments, StatObjectArgs> toRequest = new ArgumentsToStatObjectArgsConverter();
+        Converter<StatObjectResponse, ObjectMetadataDomain> toDomain = new StatObjectResponseToDomainConverter();
+
+        StatObjectResponse response = minioObjectService.statObject(toRequest.convert(arguments));
+        return toDomain.convert(response);
+    }
+
+    @Override
+    public GetObjectDomain getObject(GetObjectArguments arguments) {
+
+        Converter<GetObjectArguments, GetObjectArgs> toRequest = new ArgumentsToGetObjectArgsConverter();
+        Converter<GetObjectResponse, GetObjectDomain> toDomain = new GetObjectResponseToDomainConverter();
+
+        GetObjectResponse response = minioObjectService.getObject(toRequest.convert(arguments));
+        return toDomain.convert(response);
+    }
+
+    @Override
+    public PutObjectDomain putObject(PutObjectArguments arguments) {
+
+        Converter<PutObjectArguments, PutObjectArgs> toRequest = new ArgumentsToPutObjectArgsConverter();
+        Converter<ObjectWriteResponse, PutObjectDomain> toDomain = new ObjectWriteResponseToPutObjectDomainConverter();
+
+        ObjectWriteResponse response = minioObjectService.putObject(toRequest.convert(arguments));
+        return toDomain.convert(response);
+    }
+
+    @Override
+    public String generatePresignedUrl(GeneratePresignedUrlArguments arguments) {
+
+        Converter<GeneratePresignedUrlArguments, GetPresignedObjectUrlArgs> toRequest = new ArgumentsToGetPreSignedObjectUrlConverter();
+        return minioObjectService.getPreSignedObjectUrl(toRequest.convert(arguments));
+    }
+
+    @Override
+    public ObjectMetadataDomain download(DownloadObjectArguments arguments) {
+        Converter<DownloadObjectArguments, DownloadObjectArgs> toRequest = new ArgumentsToDownloadObjectArgsConverter();
+        minioObjectService.downloadObject(toRequest.convert(arguments));
+        return new ObjectMetadataDomain();
+    }
+
+    @Override
+    public ObjectWriteDomain upload(UploadObjectArguments arguments) {
+
+        Converter<UploadObjectArguments, UploadObjectArgs> toRequest = new ArgumentsToUploadObjectArgsConverter();
+        Converter<ObjectWriteResponse, UploadObjectDomain> toDomain = new ObjectWriteResponseToUploadObjectDomainConverter();
+
+        ObjectWriteResponse response = minioObjectService.uploadObject(toRequest.convert(arguments));
+        return toDomain.convert(response);
     }
 }

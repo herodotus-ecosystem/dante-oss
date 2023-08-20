@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.multipart.UploadPartCopyArguments;
 import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.multipart.UploadPartCopyArguments;
 import com.aliyun.oss.model.UploadPartCopyRequest;
 
 /**
@@ -37,7 +37,7 @@ import com.aliyun.oss.model.UploadPartCopyRequest;
  */
 public class ArgumentsToUploadPartCopyRequestConverter extends ArgumentsToBucketConverter<UploadPartCopyArguments, UploadPartCopyRequest> {
     @Override
-    public UploadPartCopyRequest getRequest(UploadPartCopyArguments arguments) {
+    public UploadPartCopyRequest getInstance(UploadPartCopyArguments arguments) {
 
         UploadPartCopyRequest request = new UploadPartCopyRequest();
 

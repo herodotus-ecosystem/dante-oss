@@ -25,14 +25,6 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
-import cn.herodotus.oss.definition.core.repository.OssObjectRepository;
-import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectsRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
@@ -44,6 +36,10 @@ import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
+import cn.herodotus.oss.specification.arguments.object.*;
+import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
+import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.specification.domain.object.*;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;
@@ -158,5 +154,35 @@ public class AliyunObjectRepository extends BaseAliyunService implements OssObje
         } finally {
             close(client);
         }
+    }
+
+    @Override
+    public ObjectMetadataDomain getObjectMetadata(GetObjectMetadataArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public GetObjectDomain getObject(GetObjectArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public PutObjectDomain putObject(PutObjectArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public String generatePresignedUrl(GeneratePresignedUrlArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public ObjectMetadataDomain download(DownloadObjectArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public ObjectWriteDomain upload(UploadObjectArguments arguments) {
+        return null;
     }
 }

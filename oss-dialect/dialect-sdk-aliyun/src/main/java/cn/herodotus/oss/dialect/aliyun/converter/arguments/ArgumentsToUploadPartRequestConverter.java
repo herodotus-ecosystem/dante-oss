@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.multipart.UploadPartArguments;
 import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.multipart.UploadPartArguments;
 import com.aliyun.oss.model.UploadPartRequest;
 
 /**
@@ -37,7 +37,7 @@ import com.aliyun.oss.model.UploadPartRequest;
  */
 public class ArgumentsToUploadPartRequestConverter extends ArgumentsToBucketConverter<UploadPartArguments, UploadPartRequest> {
     @Override
-    public UploadPartRequest getRequest(UploadPartArguments arguments) {
+    public UploadPartRequest getInstance(UploadPartArguments arguments) {
 
         UploadPartRequest request = new UploadPartRequest();
 

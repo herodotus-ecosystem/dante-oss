@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
 import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.object.ListObjectsV2Arguments;
 import com.aliyun.oss.model.ListObjectsV2Request;
 
 /**
@@ -38,7 +38,7 @@ import com.aliyun.oss.model.ListObjectsV2Request;
 public class ArgumentsToListObjectsV2RequestConverter extends ArgumentsToBucketConverter<ListObjectsV2Arguments, ListObjectsV2Request> {
 
     @Override
-    public ListObjectsV2Request getRequest(ListObjectsV2Arguments arguments) {
+    public ListObjectsV2Request getInstance(ListObjectsV2Arguments arguments) {
         return new ListObjectsV2Request(arguments.getBucketName(), arguments.getPrefix(), arguments.getContinuationToken(), arguments.getMarker(), arguments.getDelimiter(), arguments.getMaxKeys(), arguments.getEncodingType(), arguments.getFetchOwner());
     }
 }

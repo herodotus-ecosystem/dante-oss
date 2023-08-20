@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
+import cn.herodotus.oss.specification.domain.base.OwnerDomain;
+import cn.herodotus.oss.specification.domain.bucket.BucketDomain;
 import com.amazonaws.services.s3.model.Bucket;
 import org.springframework.core.convert.converter.Converter;
 
@@ -48,7 +48,7 @@ public class BucketToDomainConverter implements Converter<Bucket, BucketDomain> 
             BucketDomain bucketDomain = new BucketDomain();
 
             Optional.ofNullable(bucket.getOwner()).ifPresent(o -> {
-                OwnerAttribute ownerAttributeDomain = new OwnerAttribute();
+                OwnerDomain ownerAttributeDomain = new OwnerDomain();
                 ownerAttributeDomain.setId(bucket.getOwner().getId());
                 ownerAttributeDomain.setDisplayName(bucket.getOwner().getDisplayName());
                 bucketDomain.setOwner(ownerAttributeDomain);

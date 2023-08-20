@@ -25,24 +25,15 @@
 
 package cn.herodotus.oss.dialect.s3.repository;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsArguments;
-import cn.herodotus.oss.definition.arguments.object.ListObjectsV2Arguments;
-import cn.herodotus.oss.definition.core.repository.OssObjectRepository;
-import cn.herodotus.oss.definition.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsDomain;
-import cn.herodotus.oss.definition.domain.object.ListObjectsV2Domain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
-import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
-import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToDeleteObjectsRequestConverter;
-import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToListObjectsRequestConverter;
-import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToListObjectsV2RequestConverter;
-import cn.herodotus.oss.dialect.s3.converter.domain.DeleteObjectsResultToDomainConverter;
-import cn.herodotus.oss.dialect.s3.converter.domain.ListObjectsV2ResultToDomainConverter;
-import cn.herodotus.oss.dialect.s3.converter.domain.ObjectListingToDomainConverter;
+import cn.herodotus.oss.dialect.s3.converter.arguments.*;
+import cn.herodotus.oss.dialect.s3.converter.domain.*;
 import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
+import cn.herodotus.oss.specification.arguments.object.*;
+import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
+import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.specification.domain.object.*;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;
@@ -51,6 +42,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.net.URL;
 import java.util.List;
 
 /**
@@ -132,6 +125,108 @@ public class S3ObjectRepository extends BaseS3Service implements OssObjectReposi
             Converter<DeleteObjectsResult, List<DeleteObjectDomain>> toDomain = new DeleteObjectsResultToDomainConverter();
 
             DeleteObjectsResult result = client.deleteObjects(toArgs.convert(arguments));
+            return toDomain.convert(result);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public ObjectMetadataDomain getObjectMetadata(GetObjectMetadataArguments arguments) {
+        return null;
+    }
+
+    @Override
+    public GetObjectDomain getObject(GetObjectArguments arguments) {
+        String function = "getObject";
+
+        Converter<GetObjectArguments, GetObjectRequest> toRequest = new ArgumentsToGetObjectRequestConverter();
+        Converter<S3Object, GetObjectDomain> toDomain = new S3ObjectToDomainConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            S3Object object = client.getObject(toRequest.convert(arguments));
+            return toDomain.convert(object);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public PutObjectDomain putObject(PutObjectArguments arguments) {
+        String function = "putObject";
+
+        Converter<PutObjectArguments, PutObjectRequest> toRequest = new ArgumentsToPutObjectRequestConverter();
+        Converter<PutObjectResult, PutObjectDomain> toDomain = new PutObjectResultToDomainConverter();
+
+        AmazonS3 client = getClient();
+        try {
+            PutObjectResult result = client.putObject(toRequest.convert(arguments));
+            return toDomain.convert(result);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public String generatePresignedUrl(GeneratePresignedUrlArguments arguments) {
+        String function = "generatePreSignedUrl";
+
+        Converter<GeneratePresignedUrlArguments, GeneratePresignedUrlRequest> toRequest = new ArgumentsToGeneratePreSignedUrlRequestConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            URL url = client.generatePresignedUrl(toRequest.convert(arguments));
+            return url.toString();
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public ObjectMetadataDomain download(DownloadObjectArguments arguments) {
+        String function = "download";
+
+        Converter<GetObjectArguments, GetObjectRequest> toRequest = new ArgumentsToGetObjectRequestConverter();
+        Converter<ObjectMetadata, ObjectMetadataDomain> toDomain = new ObjectMetadataToDomainConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            ObjectMetadata object = client.getObject(toRequest.convert(arguments), new File(arguments.getFilename()));
+            return toDomain.convert(object);
+        } catch (AmazonServiceException e) {
+            log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);
+            throw new OssServerException(e.getMessage());
+        } finally {
+            close(client);
+        }
+    }
+
+    @Override
+    public ObjectWriteDomain upload(UploadObjectArguments arguments) {
+        String function = "upload";
+
+        Converter<PutObjectResult, PutObjectDomain> toDomain = new PutObjectResultToDomainConverter();
+
+        AmazonS3 client = getClient();
+
+        try {
+            PutObjectResult result = client.putObject(arguments.getBucketName(), arguments.getObjectName(), new File(arguments.getFilename()));
             return toDomain.convert(result);
         } catch (AmazonServiceException e) {
             log.error("[Herodotus] |- Amazon S3 catch AmazonServiceException in [{}].", function, e);

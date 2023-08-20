@@ -25,14 +25,14 @@
 
 package cn.herodotus.oss.dialect.s3.repository;
 
-import cn.herodotus.oss.definition.arguments.multipart.*;
-import cn.herodotus.oss.definition.core.repository.OssMultipartUploadRepository;
-import cn.herodotus.oss.definition.domain.multipart.*;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.s3.converter.arguments.*;
 import cn.herodotus.oss.dialect.s3.converter.domain.*;
 import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
+import cn.herodotus.oss.specification.arguments.multipart.*;
+import cn.herodotus.oss.specification.core.repository.OssMultipartUploadRepository;
+import cn.herodotus.oss.specification.domain.multipart.*;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.*;

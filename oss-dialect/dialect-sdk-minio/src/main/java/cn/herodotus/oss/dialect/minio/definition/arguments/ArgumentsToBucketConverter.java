@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
+import cn.herodotus.oss.specification.arguments.base.BucketArguments;
 import io.minio.BucketArgs;
 import org.apache.commons.lang3.StringUtils;
 

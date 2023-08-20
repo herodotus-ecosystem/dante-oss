@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.domain.multipart.InitiateMultipartUploadDomain;
+import cn.herodotus.oss.specification.domain.multipart.InitiateMultipartUploadDomain;
 import com.aliyun.oss.model.InitiateMultipartUploadResult;
 import org.springframework.core.convert.converter.Converter;
 

@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.2-blue.svg?logo=spring" alt="Spring Boot 3.1.2"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.2.8-red.svg?logo=spring" alt="Version 1.2.8"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-1.3.0-red.svg?logo=spring" alt="Version 1.3.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -71,20 +71,21 @@ Dante OSS 最初的设计目标，是深度封装 Minio Java SDK，可以更方�
 ```
 dante-oss
 ├── oss-bom -- Dante OSS 顶级 Maven 依赖，统一控制依赖及其版本
-├── oss-definition -- OSS 抽象定义
 ├── oss-dialect -- 不同厂商 OSS 实现。
-├    ├── dialect-core -- 不同厂商 OSS 实现通用代码模块
+├    ├── dialect-autoconfigure -- OSS Dialect 自动配置模块
+├    ├── dialect-core -- OSS Dialect 通用代码模块
 ├    ├── dialect-sdk-aliyun -- Aliyun OSS Java SDK 封装代码模块
 ├    ├── dialect-sdk-minio -- Minio OSS Java SDK 封装代码模块
 ├    └── dialect-sdk-s3 -- Amazon S3 OSS Java SDK 封装代码模块
-├── oss-rest -- OSS 操作 REST 模块
-├    ├── rest-sdk-integration -- 支持不同厂商OSS的统一通用 REST API，
-├    ├── rest-sdk-minio -- Minio 基础 REST API模块
-├    └── rest-sdk-scenario -- Minio 扩展及应用方案整合模块
+├── oss-rest -- Dante OSS REST API
+├    ├── rest-sdk-minio -- Minio 特有 REST API 模块
+├    └── rest-sdk-specification -- 基于 Dante Java OSS API 规范实现的统一 REST API
+├── oss-solution -- 基于 Dante Java OSS API 规范的常规 OSS 应用方案实现模块
+├── oss-specification -- Dante Java OSS API 规范定义
 ├── oss-starter -- Dante OSS 相关 Starter
 ├    ├── oss-aliyun-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
-├    ├── oss-minio-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
-├    ├── oss-s3-spring-boot-starter -- 用于独立使用的 Aliyun OSS Java SDK 封装 Starter。
+├    ├── oss-minio-spring-boot-starter -- 用于独立使用的 Minio OSS Java SDK 封装 Starter。
+├    ├── oss-s3-spring-boot-starter -- 用于独立使用的 Amazon S3 OSS Java SDK 封装 Starter。
 └──  └── oss-spring-boot-starter -- Dante OSS 统一 Starter
 ```
 
@@ -155,39 +156,41 @@ if (ex instanceof HerodotusException exception) {
 
 ### 二、选择使用
 
-除了 `dialect-core` 和 `oss-definition` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
+除了 `dialect-core` 和 `oss-specification` 模块以外，其它所有模块均可以单独使用。可以根据自身需要，仅选择某个模块进行使用。
 
 #### 1. dialect-sdk-aliyun
 
-包含对 Aliyun 基础 API 封装的 Service 代码, 可以单独使用，也可作为 OSS 统一抽象的实现方式之一，通过修改配置生效使用。使用 `oss-aliyun-spring-boot-starter` 可开启自动配置。
+包含对 Aliyun 基础 API 封装的 Service 代码, 作为 OSS 统一抽象的实现方式之一，也包含对 Dante Java OSS API 规范的实现代码。可以单独使用，引入 `oss-aliyun-spring-boot-starter` 可开启自动配置。
 
-目前暂不提供 Aliyun REST API 封装，请根据自身的需要直接申请使用阿里云 REST API。
+> 目前暂不提供 Aliyun REST API 封装，请根据自身的需要直接申请使用阿里云 REST API 或者使用 Dante OSS 统一 REST API 接口。
 
 #### 2. dialect-sdk-s3
 
-包含对 Amazon S3 基础 API 封装的 Service 代码, 可以单独使用，也可作为 OSS 统一抽象的实现方式之一，通过修改配置生效使用。使用 `oss-s3-spring-boot-starter` 可开启自动配置。
+包含对 Amazon S3 基础 API 封装的 Service 代码, 作为 OSS 统一抽象的实现方式之一，也包含对 Dante Java OSS API 规范的实现代码。可以单独使用，引入 `oss-s3-spring-boot-starter` 可开启自动配置。
 
-目前暂不提供 Amazon REST API 封装，如需使用根据设置需要申请使用。
+> 目前暂不提供 Amazon S3 REST API 封装，请根据自身的需要直接申请使用Amazon S3 REST API 或者使用 Dante OSS 统一 REST API 接口。
 
 #### 3. dialect-sdk-minio
 
-包含对 Minio 基础 API 封装的 Service 代码, 可以单独使用，也可作为 OSS 统一抽象的实现方式之一，通过修改配置生效使用。
+包含对 Minio 基础 API 封装的 Service 代码, 作为 OSS 统一抽象的实现方式之一，也包含对 Dante Java OSS API 规范的实现代码。
 
-提供 Minio 标准操作 REST API 封装 `rest-sdk-minio`（不包含大文件分片上传等扩展性业务功能）。
+提供 Minio 标准操作 REST API 封装 `rest-sdk-minio`
+
+> 注意：`rest-sdk-minio` 中不包含大文件分片上传通用解决方案业务功能以及符合 Dante Java OSS API 规范的通用功能 REST API
 
 使用 `oss-minio-spring-boot-starter` 可统一开启 Minio Service 和 REST API 自动配置。
 
-#### 4. rest-sdk-integration
-
-`rest-sdk-integration` 是通过对 Minio、Aliyun、Amazon S3 现有 API 共性内容抽象，形成的统一操作 REST API。目标是形成类似于 Spring Data Repository 形式的统一 REST API，一套 REST API 支持不同的 OSS 厂商。
-
-#### 5. rest-sdk-minio
+#### 4. rest-sdk-minio
 
 提供 Minio 标准操作 REST API 封装。使用 `oss-minio-spring-boot-starter` 可统一开启 Minio Service 和 REST API 自动配置。
 
-#### 6. rest-sdk-scenario
+#### 5. rest-sdk-specification
 
-Minio 标准操作 API 之外的，大文件分片、端点续传等主流对象存储业务解决方案以及 Minio 管理 API 的封装。目前仅支持 Minio 相关操作
+`rest-sdk-specification` 是通过对 Minio、Aliyun、Amazon S3 现有 API 共性内容进行抽象，提取 Dante Java OSS API 规范定义后，形成的统一操作 REST API。目标是形成类似于 Spring Data Repository 统一形式的 Java OSS API 和 REST API，以期在不修改代码的情况下，以一套 API 就可以支持不同的 OSS 厂商的无缝切换。
+
+#### 6. oss-solution
+
+是对大文件分片等主流对象存储业务解决方案的高度抽象，以及相关管理操作 Dante Java OSS API 规范封装。使用该模块就可以方便的、快捷的集成或自定义自己大文件分片实现。
 
 #### 7. oss-spring-boot-starter
 

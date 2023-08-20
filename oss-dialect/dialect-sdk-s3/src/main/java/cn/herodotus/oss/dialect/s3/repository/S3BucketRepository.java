@@ -25,10 +25,6 @@
 
 package cn.herodotus.oss.dialect.s3.repository;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.definition.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.definition.core.repository.OssBucketRepository;
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
@@ -36,6 +32,10 @@ import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToCreateBucketRe
 import cn.herodotus.oss.dialect.s3.converter.arguments.ArgumentsToDeleteBucketRequestConverter;
 import cn.herodotus.oss.dialect.s3.converter.domain.BucketToDomainConverter;
 import cn.herodotus.oss.dialect.s3.definition.service.BaseS3Service;
+import cn.herodotus.oss.specification.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.specification.arguments.bucket.DeleteBucketArguments;
+import cn.herodotus.oss.specification.core.repository.OssBucketRepository;
+import cn.herodotus.oss.specification.domain.bucket.BucketDomain;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CreateBucketRequest;

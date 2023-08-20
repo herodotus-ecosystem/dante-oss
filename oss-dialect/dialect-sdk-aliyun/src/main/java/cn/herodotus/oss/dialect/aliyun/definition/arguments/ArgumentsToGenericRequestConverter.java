@@ -25,8 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BucketArguments;
-import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBaseConverter;
+import cn.herodotus.oss.specification.arguments.base.BucketArguments;
 import com.aliyun.oss.model.GenericRequest;
 
 /**
@@ -37,7 +36,7 @@ import com.aliyun.oss.model.GenericRequest;
  */
 public class ArgumentsToGenericRequestConverter<S extends BucketArguments> extends ArgumentsToBaseConverter<S, GenericRequest> {
     @Override
-    public GenericRequest getRequest(S arguments) {
+    public GenericRequest getInstance(S arguments) {
         return new GenericRequest(arguments.getBucketName());
     }
 }

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectVersionArguments;
+import cn.herodotus.oss.specification.arguments.base.ObjectVersionArguments;
 import com.aliyun.oss.model.GenericRequest;
 import org.apache.commons.lang3.StringUtils;
 
@@ -35,7 +35,7 @@ import org.apache.commons.lang3.StringUtils;
  * @author : gengwei.zheng
  * @date : 2023/8/15 12:30
  */
-public abstract class ArgumentsToObjectVersionConverter  <S extends ObjectVersionArguments, T extends GenericRequest> extends ArgumentsToObjectConverter<S, T>{
+public abstract class ArgumentsToObjectVersionConverter<S extends ObjectVersionArguments, T extends GenericRequest> extends ArgumentsToObjectConverter<S, T> {
 
     @Override
     public void prepare(S arguments, T request) {

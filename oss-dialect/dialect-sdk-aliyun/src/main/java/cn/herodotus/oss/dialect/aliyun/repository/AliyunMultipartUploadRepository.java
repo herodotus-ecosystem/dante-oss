@@ -25,15 +25,15 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
-import cn.herodotus.oss.definition.arguments.multipart.*;
-import cn.herodotus.oss.definition.core.repository.OssMultipartUploadRepository;
-import cn.herodotus.oss.definition.domain.multipart.*;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.*;
 import cn.herodotus.oss.dialect.aliyun.converter.domain.*;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
+import cn.herodotus.oss.specification.arguments.multipart.*;
+import cn.herodotus.oss.specification.core.repository.OssMultipartUploadRepository;
+import cn.herodotus.oss.specification.domain.multipart.*;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.domain;
 
-import cn.herodotus.oss.definition.domain.multipart.MultipartUploadDomain;
+import cn.herodotus.oss.specification.domain.multipart.UploadDomain;
 import com.aliyun.oss.model.MultipartUpload;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.convert.converter.Converter;
@@ -34,15 +34,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * <p>Description: List<MultipartUpload> 转 List<MultipartUploadDomain> 转换器 </p>
+ * <p>Description: List<MultipartUpload> 转 List<UploadDomain> 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/14 20:35
  */
-public class MultipartUploadToDomainConverter implements Converter<List<MultipartUpload>, List<MultipartUploadDomain>> {
+public class MultipartUploadToDomainConverter implements Converter<List<MultipartUpload>, List<UploadDomain>> {
 
     @Override
-    public List<MultipartUploadDomain> convert(List<MultipartUpload> source) {
+    public List<UploadDomain> convert(List<MultipartUpload> source) {
 
         if (CollectionUtils.isNotEmpty(source)) {
             return source.stream().map(this::convert).toList();
@@ -51,8 +51,8 @@ public class MultipartUploadToDomainConverter implements Converter<List<Multipar
         return new ArrayList<>();
     }
 
-    private MultipartUploadDomain convert(MultipartUpload source) {
-        MultipartUploadDomain domain = new MultipartUploadDomain();
+    private UploadDomain convert(MultipartUpload source) {
+        UploadDomain domain = new UploadDomain();
         domain.setKey(source.getKey());
         domain.setUploadId(source.getUploadId());
         domain.setStorageClass(source.getStorageClass());

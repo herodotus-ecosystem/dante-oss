@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.multipart.UploadPartCopyArguments;
 import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.multipart.UploadPartCopyArguments;
 import com.amazonaws.services.s3.model.CopyPartRequest;
 
 /**
@@ -37,7 +37,7 @@ import com.amazonaws.services.s3.model.CopyPartRequest;
  */
 public class ArgumentsToCopyPartRequestConverter extends ArgumentsToBucketConverter<UploadPartCopyArguments, CopyPartRequest> {
     @Override
-    public CopyPartRequest getRequest(UploadPartCopyArguments arguments) {
+    public CopyPartRequest getInstance(UploadPartCopyArguments arguments) {
 
         CopyPartRequest request = new CopyPartRequest();
 

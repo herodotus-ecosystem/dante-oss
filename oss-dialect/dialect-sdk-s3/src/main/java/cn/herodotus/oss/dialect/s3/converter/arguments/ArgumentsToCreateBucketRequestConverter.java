@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.bucket.CreateBucketArguments;
 import com.amazonaws.services.s3.model.CreateBucketRequest;
 
 /**
@@ -38,7 +38,7 @@ import com.amazonaws.services.s3.model.CreateBucketRequest;
 public class ArgumentsToCreateBucketRequestConverter extends ArgumentsToBucketConverter<CreateBucketArguments, CreateBucketRequest> {
 
     @Override
-    public CreateBucketRequest getRequest(CreateBucketArguments arguments) {
+    public CreateBucketRequest getInstance(CreateBucketArguments arguments) {
         return new CreateBucketRequest(arguments.getBucketName());
     }
 }

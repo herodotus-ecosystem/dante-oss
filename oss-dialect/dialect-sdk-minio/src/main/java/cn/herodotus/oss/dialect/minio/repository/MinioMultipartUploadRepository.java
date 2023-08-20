@@ -25,13 +25,11 @@
 
 package cn.herodotus.oss.dialect.minio.repository;
 
-import cn.herodotus.oss.definition.arguments.multipart.*;
-import cn.herodotus.oss.definition.attribute.PartAttribute;
-import cn.herodotus.oss.definition.core.repository.OssMultipartUploadRepository;
-import cn.herodotus.oss.definition.domain.multipart.*;
-import cn.herodotus.oss.dialect.minio.converter.attribute.AttributeToPartConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.*;
 import cn.herodotus.oss.dialect.minio.service.MinioMultipartUploadService;
+import cn.herodotus.oss.specification.arguments.multipart.*;
+import cn.herodotus.oss.specification.core.repository.OssMultipartUploadRepository;
+import cn.herodotus.oss.specification.domain.multipart.*;
 import io.minio.*;
 import io.minio.messages.InitiateMultipartUploadResult;
 import io.minio.messages.ListMultipartUploadsResult;
@@ -111,8 +109,8 @@ public class MinioMultipartUploadRepository implements OssMultipartUploadReposit
     @Override
     public CompleteMultipartUploadDomain completeMultipartUpload(CompleteMultipartUploadArguments arguments) {
 
-        Converter<List<PartAttribute>, Part[]> toPart = new AttributeToPartConverter();
-        Converter<ObjectWriteResponse, CompleteMultipartUploadDomain> toDomain = new ObjectWriteResponseToDomainConverter();
+        Converter<List<PartSummaryDomain>, Part[]> toPart = new DomainToPartConverter();
+        Converter<ObjectWriteResponse, CompleteMultipartUploadDomain> toDomain = new ObjectWriteResponseToCompleteMultipartUploadDomainConverter();
 
         ObjectWriteResponse response = minioMultipartUploadService.completeMultipartUpload(
                 arguments.getBucketName(),

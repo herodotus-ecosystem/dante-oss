@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.BaseArguments;
-import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsConverter;
+import cn.herodotus.oss.specification.arguments.base.BaseArguments;
+import cn.herodotus.oss.specification.core.converter.OssConverter;
 import com.aliyun.oss.model.WebServiceRequest;
 import org.apache.commons.collections4.MapUtils;
 
@@ -36,7 +36,7 @@ import org.apache.commons.collections4.MapUtils;
  * @author : gengwei.zheng
  * @date : 2023/8/10 15:33
  */
-public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extends WebServiceRequest> implements ArgumentsConverter<S, T> {
+public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extends WebServiceRequest> implements OssConverter<S, T> {
 
     @Override
     public void prepare(S arguments, T request) {

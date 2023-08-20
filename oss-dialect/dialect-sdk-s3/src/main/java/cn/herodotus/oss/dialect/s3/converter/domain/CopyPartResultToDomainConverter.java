@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.domain.multipart.UploadPartCopyDomain;
+import cn.herodotus.oss.specification.domain.multipart.UploadPartCopyDomain;
 import com.amazonaws.services.s3.model.CopyPartResult;
 import org.springframework.core.convert.converter.Converter;
 

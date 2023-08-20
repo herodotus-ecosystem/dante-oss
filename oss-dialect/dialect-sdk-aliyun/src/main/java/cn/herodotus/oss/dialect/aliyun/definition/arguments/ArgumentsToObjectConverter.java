@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
-import cn.herodotus.oss.definition.arguments.base.ObjectArguments;
+import cn.herodotus.oss.specification.arguments.base.ObjectArguments;
 import com.aliyun.oss.model.WebServiceRequest;
 
 /**
@@ -34,5 +34,5 @@ import com.aliyun.oss.model.WebServiceRequest;
  * @author : gengwei.zheng
  * @date : 2023/8/15 12:28
  */
-public abstract class ArgumentsToObjectConverter <S extends ObjectArguments, T extends WebServiceRequest> extends ArgumentsToBucketConverter<S, T>{
+public abstract class ArgumentsToObjectConverter<S extends ObjectArguments, T extends WebServiceRequest> extends ArgumentsToBucketConverter<S, T> {
 }

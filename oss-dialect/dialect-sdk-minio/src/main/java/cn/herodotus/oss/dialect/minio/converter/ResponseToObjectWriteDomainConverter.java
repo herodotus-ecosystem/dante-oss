@@ -25,8 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter;
 
-import cn.herodotus.oss.dialect.minio.domain.ObjectWriteDomain;
-import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
+import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
 import io.minio.ObjectWriteResponse;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;
@@ -44,7 +43,6 @@ public class ResponseToObjectWriteDomainConverter implements Converter<ObjectWri
             ObjectWriteDomain domain = new ObjectWriteDomain();
             domain.setEtag(response.etag());
             domain.setVersionId(response.versionId());
-            domain.setHeaders(ConverterUtils.toMap(response.headers().toMultimap()));
             domain.setBucketName(response.bucket());
             domain.setRegion(response.region());
             domain.setObjectName(response.object());

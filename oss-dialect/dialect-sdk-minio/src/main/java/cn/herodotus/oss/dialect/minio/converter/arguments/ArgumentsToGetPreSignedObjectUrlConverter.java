@@ -25,24 +25,24 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.load.GeneratePreSignedUrlArguments;
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectVersionConverter;
+import cn.herodotus.oss.specification.arguments.object.GeneratePresignedUrlArguments;
 import io.minio.GetPresignedObjectUrlArgs;
 import io.minio.http.Method;
 
 /**
- * <p>Description: 统一定义 GeneratePreSignedUrlArguments 转 Minio GetPreSignedObjectUrlArgs 转换器 </p>
+ * <p>Description: 统一定义 GeneratePresignedUrlArguments 转 Minio GetPreSignedObjectUrlArgs 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/15 17:33
  */
-public class ArgumentsToGetPreSignedObjectUrlConverter extends ArgumentsToObjectVersionConverter<GeneratePreSignedUrlArguments, GetPresignedObjectUrlArgs, GetPresignedObjectUrlArgs.Builder> {
+public class ArgumentsToGetPreSignedObjectUrlConverter extends ArgumentsToObjectVersionConverter<GeneratePresignedUrlArguments, GetPresignedObjectUrlArgs, GetPresignedObjectUrlArgs.Builder> {
 
     @Override
-    public void prepare(GeneratePreSignedUrlArguments arguments, GetPresignedObjectUrlArgs.Builder builder) {
+    public void prepare(GeneratePresignedUrlArguments arguments, GetPresignedObjectUrlArgs.Builder builder) {
 
         builder.method(Method.valueOf(arguments.getMethod().name()));
-        builder.expiry(arguments.getExpiry());
+        builder.expiry(Math.toIntExact(arguments.getExpiration().toSeconds()));
         builder.versionId(arguments.getVersionId());
 
         super.prepare(arguments, builder);

@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.multipart.InitiateMultipartUploadArguments;
 import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.multipart.InitiateMultipartUploadArguments;
 import com.aliyun.oss.model.InitiateMultipartUploadRequest;
 
 /**
@@ -38,7 +38,7 @@ import com.aliyun.oss.model.InitiateMultipartUploadRequest;
 public class ArgumentsToInitiateMultipartUploadRequestConverter extends ArgumentsToBucketConverter<InitiateMultipartUploadArguments, InitiateMultipartUploadRequest> {
 
     @Override
-    public InitiateMultipartUploadRequest getRequest(InitiateMultipartUploadArguments arguments) {
+    public InitiateMultipartUploadRequest getInstance(InitiateMultipartUploadArguments arguments) {
         return new InitiateMultipartUploadRequest(arguments.getBucketName(), arguments.getObjectName());
     }
 }

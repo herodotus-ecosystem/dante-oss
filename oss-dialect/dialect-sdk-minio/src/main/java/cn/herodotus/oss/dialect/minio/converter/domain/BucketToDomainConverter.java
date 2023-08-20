@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.domain.bucket.BucketDomain;
+import cn.herodotus.oss.specification.domain.bucket.BucketDomain;
 import io.minio.messages.Bucket;
 import org.springframework.core.convert.converter.Converter;
 

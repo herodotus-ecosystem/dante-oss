@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.definition.domain.multipart.UploadPartDomain;
+import cn.herodotus.oss.specification.domain.multipart.UploadPartDomain;
 import io.minio.UploadPartResponse;
 import org.springframework.core.convert.converter.Converter;
 

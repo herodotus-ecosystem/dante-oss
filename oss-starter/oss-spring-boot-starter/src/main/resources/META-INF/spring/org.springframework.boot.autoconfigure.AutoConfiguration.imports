@@ -1,5 +1,2 @@
-cn.herodotus.oss.autoconfigure.AutoConfiguration
-cn.herodotus.oss.configuration.UserAliyunDialectConfiguration
-cn.herodotus.oss.configuration.UserMinioDialectConfiguration
-cn.herodotus.oss.configuration.UserS3DialectConfiguration
-cn.herodotus.oss.rest.integration.configuration.OssRestIntegrationConfiguration
+cn.herodotus.oss.OssAutoConfiguration
+cn.herodotus.oss.rest.specification.configuration.OssRestIntegrationConfiguration

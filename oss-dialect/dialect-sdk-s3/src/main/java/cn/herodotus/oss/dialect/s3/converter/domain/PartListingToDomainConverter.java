@@ -25,10 +25,9 @@
 
 package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.definition.attribute.OwnerAttribute;
-import cn.herodotus.oss.definition.domain.multipart.ListPartsDomain;
-import cn.herodotus.oss.definition.domain.multipart.PartSummaryDomain;
-import cn.herodotus.oss.dialect.s3.converter.attribute.OwnerToAttributeConverter;
+import cn.herodotus.oss.specification.domain.base.OwnerDomain;
+import cn.herodotus.oss.specification.domain.multipart.ListPartsDomain;
+import cn.herodotus.oss.specification.domain.multipart.PartSummaryDomain;
 import com.amazonaws.services.s3.model.Owner;
 import com.amazonaws.services.s3.model.PartListing;
 import com.amazonaws.services.s3.model.PartSummary;
@@ -44,7 +43,7 @@ import java.util.List;
  */
 public class PartListingToDomainConverter implements Converter<PartListing, ListPartsDomain> {
 
-    private final Converter<Owner, OwnerAttribute> toAttribute = new OwnerToAttributeConverter();
+    private final Converter<Owner, OwnerDomain> toAttribute = new OwnerToDomainConverter();
     private final Converter<List<PartSummary>, List<PartSummaryDomain>> toDomain = new PartSummaryToDomainConverter();
 
     @Override

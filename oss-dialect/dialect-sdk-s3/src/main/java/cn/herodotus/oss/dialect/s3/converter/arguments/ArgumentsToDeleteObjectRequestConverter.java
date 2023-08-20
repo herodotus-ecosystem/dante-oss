@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.definition.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
+import cn.herodotus.oss.specification.arguments.object.DeleteObjectArguments;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 
 /**
@@ -38,7 +38,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 public class ArgumentsToDeleteObjectRequestConverter extends ArgumentsToBucketConverter<DeleteObjectArguments, DeleteObjectRequest> {
 
     @Override
-    public DeleteObjectRequest getRequest(DeleteObjectArguments arguments) {
+    public DeleteObjectRequest getInstance(DeleteObjectArguments arguments) {
         return new DeleteObjectRequest(arguments.getBucketName(), arguments.getObjectName());
     }
 }
