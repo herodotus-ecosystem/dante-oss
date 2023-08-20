@@ -47,8 +47,8 @@ public interface OssMultipartUploadRepository {
      */
     default String initiateMultipartUpload(String bucketName, String objectName) {
         InitiateMultipartUploadArguments arguments = new InitiateMultipartUploadArguments();
-        arguments.setBucketName(arguments.getBucketName());
-        arguments.setObjectName(arguments.getObjectName());
+        arguments.setBucketName(bucketName);
+        arguments.setObjectName(objectName);
         InitiateMultipartUploadDomain domain = initiateMultipartUpload(arguments);
         return domain.getUploadId();
     }

@@ -26,7 +26,6 @@
 package cn.herodotus.oss.solution.proxy;
 
 import cn.herodotus.engine.assistant.core.definition.constants.SymbolConstants;
-import cn.herodotus.oss.dialect.minio.constants.MinioConstants;
 import cn.herodotus.oss.solution.constants.OssSolutionConstants;
 import cn.herodotus.oss.solution.properties.OssProxyProperties;
 import jakarta.servlet.http.HttpServletRequest;
@@ -34,6 +33,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
@@ -43,6 +43,7 @@ import java.util.function.Function;
  * @author : gengwei.zheng
  * @date : 2023/8/19 18:21
  */
+@Component
 public class OssProxyAddressConverter implements Function<HttpServletRequest, String>, Converter<String, String> {
 
     private static final Logger log = LoggerFactory.getLogger(OssProxyAddressConverter.class);
@@ -69,7 +70,7 @@ public class OssProxyAddressConverter implements Function<HttpServletRequest, St
     @Override
     public String convert(String source) {
         if (ossProxyProperties.getEnabled()) {
-            String endpoint = ossProxyProperties.getSource() + MinioConstants.PRESIGNED_OBJECT_URL_PROXY;
+            String endpoint = ossProxyProperties.getSource() + OssSolutionConstants.PRESIGNED_OBJECT_URL_PROXY;
             String target = StringUtils.replace(source, ossProxyProperties.getDestination(), endpoint);
             log.debug("[Herodotus] |- Convert presignedObjectUrl [{}] to [{}].", endpoint, target);
             return target;

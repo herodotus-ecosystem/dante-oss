@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.specification.core.request;
+package cn.herodotus.oss.specification.core.arguments;
 
 import cn.herodotus.engine.assistant.core.definition.domain.Entity;
 

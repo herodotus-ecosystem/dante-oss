@@ -26,20 +26,20 @@
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
 import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
-import cn.herodotus.oss.specification.arguments.object.GeneratePreSignedUrlArguments;
+import cn.herodotus.oss.specification.arguments.object.GeneratePresignedUrlArguments;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.dromara.hutool.core.date.DateUtil;
 
 /**
- * <p>Description: 统一定义 GeneratePreSignedUrlArguments 转 S3 GeneratePreSignedUrlRequest 转换器 </p>
+ * <p>Description: 统一定义 GeneratePresignedUrlArguments 转 S3 GeneratePreSignedUrlRequest 转换器 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/15 21:04
  */
-public class ArgumentsToGeneratePreSignedUrlRequestConverter extends ArgumentsToBucketConverter<GeneratePreSignedUrlArguments, GeneratePresignedUrlRequest> {
+public class ArgumentsToGeneratePreSignedUrlRequestConverter extends ArgumentsToBucketConverter<GeneratePresignedUrlArguments, GeneratePresignedUrlRequest> {
     @Override
-    public GeneratePresignedUrlRequest getInstance(GeneratePreSignedUrlArguments arguments) {
+    public GeneratePresignedUrlRequest getInstance(GeneratePresignedUrlArguments arguments) {
 
         GeneratePresignedUrlRequest request = new GeneratePresignedUrlRequest(arguments.getBucketName(), arguments.getObjectName());
         request.setMethod(HttpMethod.valueOf(arguments.getMethod().name()));

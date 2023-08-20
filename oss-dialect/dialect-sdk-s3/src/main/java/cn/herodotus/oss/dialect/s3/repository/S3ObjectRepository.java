@@ -179,10 +179,10 @@ public class S3ObjectRepository extends BaseS3Service implements OssObjectReposi
     }
 
     @Override
-    public String generatePreSignedUrl(GeneratePreSignedUrlArguments arguments) {
+    public String generatePresignedUrl(GeneratePresignedUrlArguments arguments) {
         String function = "generatePreSignedUrl";
 
-        Converter<GeneratePreSignedUrlArguments, GeneratePresignedUrlRequest> toRequest = new ArgumentsToGeneratePreSignedUrlRequestConverter();
+        Converter<GeneratePresignedUrlArguments, GeneratePresignedUrlRequest> toRequest = new ArgumentsToGeneratePreSignedUrlRequestConverter();
 
         AmazonS3 client = getClient();
 

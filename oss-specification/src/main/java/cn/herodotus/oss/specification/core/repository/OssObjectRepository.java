@@ -201,8 +201,8 @@ public interface OssObjectRepository {
      * @param expiration 中止时间
      * @return 预签名地址
      */
-    default String generatePreSignedUrl(String bucketName, String objectName, Duration expiration) {
-        return generatePreSignedUrl(bucketName, objectName, expiration, HttpMethod.GET);
+    default String generatePresignedUrl(String bucketName, String objectName, Duration expiration) {
+        return generatePresignedUrl(bucketName, objectName, expiration, HttpMethod.GET);
     }
 
 
@@ -215,22 +215,22 @@ public interface OssObjectRepository {
      * @param method     http 请求类型
      * @return 预签名地址
      */
-    default String generatePreSignedUrl(String bucketName, String objectName, Duration expiration, HttpMethod method) {
-        GeneratePreSignedUrlArguments arguments = new GeneratePreSignedUrlArguments();
+    default String generatePresignedUrl(String bucketName, String objectName, Duration expiration, HttpMethod method) {
+        GeneratePresignedUrlArguments arguments = new GeneratePresignedUrlArguments();
         arguments.setBucketName(bucketName);
         arguments.setObjectName(objectName);
         arguments.setExpiration(expiration);
         arguments.setMethod(method);
-        return generatePreSignedUrl(arguments);
+        return generatePresignedUrl(arguments);
     }
 
     /**
      * 创建预签名 URL
      *
-     * @param arguments 创建预签名 URL 请求参数 {@link GeneratePreSignedUrlArguments}
+     * @param arguments 创建预签名 URL 请求参数 {@link GeneratePresignedUrlArguments}
      * @return 预签名地址
      */
-    String generatePreSignedUrl(GeneratePreSignedUrlArguments arguments);
+    String generatePresignedUrl(GeneratePresignedUrlArguments arguments);
 
     /**
      * 下载对象

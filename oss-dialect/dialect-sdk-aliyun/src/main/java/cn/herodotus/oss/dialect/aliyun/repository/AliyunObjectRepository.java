@@ -172,7 +172,7 @@ public class AliyunObjectRepository extends BaseAliyunService implements OssObje
     }
 
     @Override
-    public String generatePreSignedUrl(GeneratePreSignedUrlArguments arguments) {
+    public String generatePresignedUrl(GeneratePresignedUrlArguments arguments) {
         return null;
     }
 

@@ -27,7 +27,7 @@ package cn.herodotus.oss.solution.service;
 
 import cn.herodotus.oss.solution.business.CreateMultipartUploadBusiness;
 import cn.herodotus.oss.solution.proxy.OssProxyAddressConverter;
-import cn.herodotus.oss.specification.arguments.object.GeneratePreSignedUrlArguments;
+import cn.herodotus.oss.specification.arguments.object.GeneratePresignedUrlArguments;
 import cn.herodotus.oss.specification.core.repository.OssMultipartUploadRepository;
 import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
 import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
@@ -82,18 +82,18 @@ public class OssMultipartUploadService {
      * @param partNumber 分片号
      * @return 预上传地址
      */
-    private String createPreSignedObjectUrl(String bucketName, String objectName, String uploadId, int partNumber) {
+    private String createPresignedObjectUrl(String bucketName, String objectName, String uploadId, int partNumber) {
         Map<String, String> extraQueryParams = new HashMap<>();
         extraQueryParams.put("partNumber", String.valueOf(partNumber));
         extraQueryParams.put("uploadId", uploadId);
 
-        GeneratePreSignedUrlArguments arguments = new GeneratePreSignedUrlArguments();
+        GeneratePresignedUrlArguments arguments = new GeneratePresignedUrlArguments();
         arguments.setBucketName(bucketName);
         arguments.setObjectName(objectName);
         arguments.setMethod(HttpMethod.PUT);
         arguments.setExtraQueryParams(extraQueryParams);
         arguments.setExpiration(Duration.ofHours(1));
-        return ossObjectRepository.generatePreSignedUrl(arguments);
+        return ossObjectRepository.generatePresignedUrl(arguments);
     }
 
     /**
@@ -123,7 +123,7 @@ public class OssMultipartUploadService {
 
         // 从 1 开始才能保证 Minio 正确上传。
         for (int i = 1; i <= totalParts; i++) {
-            String uploadUrl = createPreSignedObjectUrl(bucketName, objectName, uploadId, i);
+            String uploadUrl = createPresignedObjectUrl(bucketName, objectName, uploadId, i);
             entity.append(ossProxyAddressConverter.convert(uploadUrl));
         }
         return entity;

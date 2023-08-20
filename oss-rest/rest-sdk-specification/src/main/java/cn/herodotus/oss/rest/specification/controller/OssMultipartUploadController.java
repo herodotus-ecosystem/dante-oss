@@ -28,8 +28,8 @@ package cn.herodotus.oss.rest.specification.controller;
 import cn.herodotus.engine.assistant.core.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
-import cn.herodotus.oss.rest.specification.request.CompleteMultipartUploadRequest;
-import cn.herodotus.oss.rest.specification.request.CreateMultipartUploadRequest;
+import cn.herodotus.oss.rest.specification.arguments.CompleteMultipartUploadArguments;
+import cn.herodotus.oss.rest.specification.arguments.CreateMultipartUploadArguments;
 import cn.herodotus.oss.solution.business.CreateMultipartUploadBusiness;
 import cn.herodotus.oss.solution.constants.OssSolutionConstants;
 import cn.herodotus.oss.solution.proxy.OssPresignedUrlProxy;
@@ -83,11 +83,11 @@ public class OssMultipartUploadController implements Controller {
                     @ApiResponse(responseCode = "500", description = "操作失败")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, description = "MultipartUploadCreateRequest参数实体", schema = @Schema(implementation = CreateMultipartUploadRequest.class))
+            @Parameter(name = "arguments", required = true, description = "CreateMultipartUploadArguments参数实体", schema = @Schema(implementation = CreateMultipartUploadArguments.class))
     })
     @PostMapping("/create")
-    public Result<CreateMultipartUploadBusiness> createMultipartUpload(@Validated @RequestBody CreateMultipartUploadRequest request) {
-        CreateMultipartUploadBusiness result = ossMultipartUploadService.createMultipartUpload(request.getBucketName(), request.getObjectName(), request.getSize());
+    public Result<CreateMultipartUploadBusiness> createMultipartUpload(@Validated @RequestBody CreateMultipartUploadArguments arguments) {
+        CreateMultipartUploadBusiness result = ossMultipartUploadService.createMultipartUpload(arguments.getBucketName(), arguments.getObjectName(), arguments.getPartNumber());
         return result(result);
     }
 
@@ -101,11 +101,11 @@ public class OssMultipartUploadController implements Controller {
                     @ApiResponse(responseCode = "500", description = "操作失败")
             })
     @Parameters({
-            @Parameter(name = "request", required = true, description = "MultipartUploadCompleteRequest参数实体", schema = @Schema(implementation = CompleteMultipartUploadRequest.class))
+            @Parameter(name = "arguments", required = true, description = "CompleteMultipartUploadArguments参数实体", schema = @Schema(implementation = CompleteMultipartUploadArguments.class))
     })
     @PostMapping("/complete")
-    public Result<CompleteMultipartUploadDomain> completeMultipartUpload(@Validated @RequestBody CompleteMultipartUploadRequest request) {
-        CompleteMultipartUploadDomain entity = ossMultipartUploadService.completeMultipartUpload(request.getBucketName(), request.getObjectName(), request.getUploadId());
+    public Result<CompleteMultipartUploadDomain> completeMultipartUpload(@Validated @RequestBody CompleteMultipartUploadArguments arguments) {
+        CompleteMultipartUploadDomain entity = ossMultipartUploadService.completeMultipartUpload(arguments.getBucketName(), arguments.getObjectName(), arguments.getUploadId());
         return result(entity);
     }
 

@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.solution.configuration;
 
+import cn.herodotus.engine.rest.client.configuration.RestTemplateConfiguration;
 import cn.herodotus.oss.solution.properties.OssProxyProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -32,6 +33,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * <p>Description: Oss Solution 模块配置 </p>
@@ -41,6 +43,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(OssProxyProperties.class)
+@Import({
+        RestTemplateConfiguration.class
+})
 @ComponentScan(basePackages = {
         "cn.herodotus.oss.solution.proxy",
         "cn.herodotus.oss.solution.service",

@@ -23,9 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.specification.request;
+package cn.herodotus.oss.rest.specification.arguments;
 
-import cn.herodotus.oss.specification.domain.base.BaseDomain;
+import cn.herodotus.oss.specification.arguments.base.ObjectArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 
@@ -36,17 +36,17 @@ import jakarta.validation.constraints.Min;
  * @date : 2022/7/4 15:14
  */
 @Schema(name = "创建分片上传请求参数实体", title = "创建分片上传请求参数实体")
-public class CreateMultipartUploadRequest extends BaseDomain {
+public class CreateMultipartUploadArguments extends ObjectArguments {
 
     @Min(value = 1, message = "分片数量不能小于等于1")
     @Schema(name = "分片数量")
-    private Integer size;
+    private Integer partNumber;
 
-    public Integer getSize() {
-        return size;
+    public Integer getPartNumber() {
+        return partNumber;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setPartNumber(Integer partNumber) {
+        this.partNumber = partNumber;
     }
 }

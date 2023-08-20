@@ -44,7 +44,7 @@ public abstract class ArgumentsToBaseConverter<S extends BaseArguments, T extend
         }
 
         if (MapUtils.isNotEmpty(arguments.getExtraQueryParams())) {
-            builder.extraHeaders(arguments.getExtraQueryParams());
+            builder.extraQueryParams(arguments.getExtraQueryParams());
         }
     }
 }

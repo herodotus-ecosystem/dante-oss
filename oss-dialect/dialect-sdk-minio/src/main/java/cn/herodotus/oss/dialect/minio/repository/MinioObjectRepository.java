@@ -120,9 +120,9 @@ public class MinioObjectRepository implements OssObjectRepository {
     }
 
     @Override
-    public String generatePreSignedUrl(GeneratePreSignedUrlArguments arguments) {
+    public String generatePresignedUrl(GeneratePresignedUrlArguments arguments) {
 
-        Converter<GeneratePreSignedUrlArguments, GetPresignedObjectUrlArgs> toRequest = new ArgumentsToGetPreSignedObjectUrlConverter();
+        Converter<GeneratePresignedUrlArguments, GetPresignedObjectUrlArgs> toRequest = new ArgumentsToGetPreSignedObjectUrlConverter();
         return minioObjectService.getPreSignedObjectUrl(toRequest.convert(arguments));
     }
 

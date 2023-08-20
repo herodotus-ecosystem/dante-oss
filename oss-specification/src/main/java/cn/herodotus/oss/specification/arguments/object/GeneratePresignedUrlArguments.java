@@ -38,7 +38,7 @@ import java.time.Duration;
  * @date : 2023/8/15 16:03
  */
 @Schema(name = "生成预签名URL请求参数实体", title = "生成预签名URL请求参数实体")
-public class GeneratePreSignedUrlArguments extends ObjectVersionArguments {
+public class GeneratePresignedUrlArguments extends ObjectVersionArguments {
 
     @Schema(name = "对象保留模式", title = "存储模式的值只能是大写 GOVERNANCE 或者 COMPLIANCE")
     private HttpMethod method = HttpMethod.PUT;
