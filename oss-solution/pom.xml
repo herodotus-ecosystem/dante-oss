@@ -43,11 +43,6 @@
             <groupId>cn.herodotus.oss</groupId>
             <artifactId>dialect-autoconfigure</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>rest-sdk-client</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
