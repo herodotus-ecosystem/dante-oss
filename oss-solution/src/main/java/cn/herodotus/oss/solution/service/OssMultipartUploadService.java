@@ -26,6 +26,7 @@
 package cn.herodotus.oss.solution.service;
 
 import cn.herodotus.oss.solution.business.CreateMultipartUploadBusiness;
+import cn.herodotus.oss.solution.properties.OssProxyProperties;
 import cn.herodotus.oss.solution.proxy.OssProxyAddressConverter;
 import cn.herodotus.oss.specification.arguments.object.GeneratePresignedUrlArguments;
 import cn.herodotus.oss.specification.core.repository.OssMultipartUploadRepository;
@@ -36,6 +37,7 @@ import cn.herodotus.oss.specification.domain.multipart.ListPartsDomain;
 import cn.herodotus.oss.specification.domain.multipart.PartSummaryDomain;
 import cn.herodotus.oss.specification.enums.HttpMethod;
 import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
@@ -54,12 +56,12 @@ public class OssMultipartUploadService {
 
     private final OssObjectRepository ossObjectRepository;
     private final OssMultipartUploadRepository ossMultipartUploadRepository;
-    private final OssProxyAddressConverter ossProxyAddressConverter;
+    private final Converter<String, String> converter;
 
-    public OssMultipartUploadService(OssObjectRepository ossObjectRepository, OssMultipartUploadRepository ossMultipartUploadRepository, OssProxyAddressConverter ossProxyAddressConverter) {
+    public OssMultipartUploadService(OssObjectRepository ossObjectRepository, OssMultipartUploadRepository ossMultipartUploadRepository, OssProxyProperties ossProxyProperties) {
         this.ossObjectRepository = ossObjectRepository;
         this.ossMultipartUploadRepository = ossMultipartUploadRepository;
-        this.ossProxyAddressConverter = ossProxyAddressConverter;
+        this.converter = new OssProxyAddressConverter(ossProxyProperties);
     }
 
     /**
@@ -124,7 +126,7 @@ public class OssMultipartUploadService {
         // 从 1 开始才能保证 Minio 正确上传。
         for (int i = 1; i <= totalParts; i++) {
             String uploadUrl = createPresignedObjectUrl(bucketName, objectName, uploadId, i);
-            entity.append(ossProxyAddressConverter.convert(uploadUrl));
+            entity.append(converter.convert(uploadUrl));
         }
         return entity;
     }

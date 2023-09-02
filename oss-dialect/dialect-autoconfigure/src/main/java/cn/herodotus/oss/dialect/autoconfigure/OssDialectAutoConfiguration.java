@@ -23,33 +23,64 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.autoconfigure.configuration;
+package cn.herodotus.oss.dialect.autoconfigure;
 
+import cn.herodotus.oss.dialect.aliyun.configuration.OssDialectAliyunConfiguration;
+import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseAliyunDialect;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDialect;
+import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseS3Dialect;
+import cn.herodotus.oss.dialect.autoconfigure.properties.OssProperties;
 import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
+import cn.herodotus.oss.dialect.s3.configuration.OssDialectS3Configuration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
- * <p>Description: 使用 Minio 实现配置 </p>
+ * <p>Description: OSS Dialect 自动配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/25 21:46
+ * @date : 2023/8/19 15:30
  */
 @AutoConfiguration
-@ConditionalOnUseMinioDialect
-@Import({
-        OssDialectMinioConfiguration.class,
-})
-public class UserMinioDialectConfiguration {
+@EnableConfigurationProperties(OssProperties.class)
+public class OssDialectAutoConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(UserMinioDialectConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssDialectAutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- SDK [User Minio Dialect] Auto Configure.");
+        log.info("[Herodotus] |- Module [OSS Dialect] Auto Configure.");
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnUseAliyunDialect
+    @Import({
+            OssDialectAliyunConfiguration.class
+    })
+    static class UserAliyunDialectConfiguration {
+
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnUseMinioDialect
+    @Import({
+            OssDialectMinioConfiguration.class,
+    })
+    static class UserMinioDialectConfiguration {
+
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnUseS3Dialect
+    @Import({
+            OssDialectS3Configuration.class,
+    })
+    static class UserS3DialectConfiguration {
+
     }
 }

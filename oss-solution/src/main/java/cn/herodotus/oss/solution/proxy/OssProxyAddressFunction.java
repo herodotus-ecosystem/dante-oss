@@ -25,12 +25,17 @@
 
 package cn.herodotus.oss.solution.proxy;
 
+import cn.herodotus.engine.assistant.core.definition.constants.SymbolConstants;
 import cn.herodotus.oss.solution.constants.OssSolutionConstants;
 import cn.herodotus.oss.solution.properties.OssProxyProperties;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+import java.util.function.Function;
 
 /**
  * <p>Description: 默认代理地址转换器 </p>
@@ -38,25 +43,26 @@ import org.springframework.core.convert.converter.Converter;
  * @author : gengwei.zheng
  * @date : 2023/8/19 18:21
  */
-public class OssProxyAddressConverter implements Converter<String, String> {
+public class OssProxyAddressFunction implements Function<HttpServletRequest, String> {
 
-    private static final Logger log = LoggerFactory.getLogger(OssProxyAddressConverter.class);
+    private static final Logger log = LoggerFactory.getLogger(OssProxyAddressFunction.class);
 
     private final OssProxyProperties ossProxyProperties;
 
-    public OssProxyAddressConverter(OssProxyProperties ossProxyProperties) {
+    public OssProxyAddressFunction(OssProxyProperties ossProxyProperties) {
         this.ossProxyProperties = ossProxyProperties;
     }
 
     @Override
-    public String convert(String source) {
-        if (ossProxyProperties.getEnabled()) {
-            String endpoint = ossProxyProperties.getSource() + OssSolutionConstants.PRESIGNED_OBJECT_URL_PROXY;
-            String target = StringUtils.replace(source, ossProxyProperties.getDestination(), endpoint);
-            log.debug("[Herodotus] |- Convert presignedObjectUrl [{}] to [{}].", endpoint, target);
-            return target;
-        }
+    public String apply(HttpServletRequest request) {
+        String uri = request.getRequestURI();
+        String path = uri.replace(OssSolutionConstants.PRESIGNED_OBJECT_URL_PROXY, SymbolConstants.BLANK);
 
-        return source;
+        String queryString = request.getQueryString();
+        String params = queryString != null ? SymbolConstants.QUESTION + queryString : SymbolConstants.BLANK;
+
+        String target = ossProxyProperties.getDestination() + path + params;
+        log.debug("[Herodotus] |- Convert request [{}] to [{}].", uri, target);
+        return target;
     }
 }

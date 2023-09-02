@@ -26,10 +26,12 @@
 package cn.herodotus.oss.solution.configuration;
 
 import cn.herodotus.oss.solution.properties.OssProxyProperties;
+import cn.herodotus.oss.solution.proxy.OssPresignedUrlProxy;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -42,7 +44,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(OssProxyProperties.class)
 @ComponentScan(basePackages = {
-        "cn.herodotus.oss.solution.proxy",
         "cn.herodotus.oss.solution.service",
 })
 public class OssSolutionConfiguration {
@@ -52,5 +53,12 @@ public class OssSolutionConfiguration {
     @PostConstruct
     public void postConstruct() {
         log.debug("[Herodotus] |- SDK [Oss Solution] Auto Configure.");
+    }
+
+    @Bean
+    public OssPresignedUrlProxy ossPresignedUrlProxy(OssProxyProperties ossProxyProperties) {
+        OssPresignedUrlProxy ossPresignedUrlProxy = new OssPresignedUrlProxy(ossProxyProperties);
+        log.trace("[Herodotus] |- Bean [Oss Presigned Url Proxy] Auto Configure.");
+        return ossPresignedUrlProxy;
     }
 }
