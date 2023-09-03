@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.solution.proxy;
 
+import cn.herodotus.oss.solution.properties.OssProxyProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.*;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -50,17 +51,17 @@ import java.util.function.Function;
 @Component
 public class OssPresignedUrlProxy {
 
-    private final Function<HttpServletRequest, String> converter;
+    private final Function<HttpServletRequest, String> function;
     private final RestTemplate restTemplate;
 
-    public OssPresignedUrlProxy(OssProxyAddressConverter converter) {
-        this.converter = converter;
+    public OssPresignedUrlProxy(OssProxyProperties ossProxyProperties) {
+        this.function = new OssProxyAddressFunction(ossProxyProperties);
         this.restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
     }
 
     public ResponseEntity<String> delegate(HttpServletRequest request) {
         try {
-            String target = converter.apply(request);
+            String target = function.apply(request);
             RequestEntity<byte[]> requestEntity = createRequestEntity(request, target);
             return restTemplate.exchange(requestEntity, String.class);
         } catch (Exception e) {
