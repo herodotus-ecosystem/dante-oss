@@ -35,7 +35,6 @@
     </parent>
 
     <artifactId>oss-dialect</artifactId>
-    <version>3.1.3.5</version>
     <packaging>pom</packaging>
 
     <modules>

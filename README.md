@@ -17,9 +17,6 @@
     <a href="https://gitee.com/herodotus/dante-oss"><img src="https://gitee.com/herodotus/dante-oss/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
 <p align="center">
-    <a href="https://www.murphysec.com/console/report/1669933209810452480/1669933209848201216" alt="Security Status"><img src="https://www.murphysec.com/platform3/v31/badge/1669933209848201216.svg" /></a>
-</p>
-<p align="center">
     <a href="https://gitee.com/dromara/dante-cloud">示例微服务应用</a> &nbsp; | &nbsp;
     <a href="https://gitee.com/herodotus/dante-cloud-athena">示例单体应用</a> &nbsp; | &nbsp;
     <a href="https://gitee.com/herodotus/dante-cloud-ui">示例前端应用</a>
