@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.1.3-blue.svg?logo=spring" alt="Spring Boot 3.1.3"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.1.3.5-red.svg?logo=spring" alt="Version 3.1.3.5"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.1.3.6-red.svg?logo=spring" alt="Version 3.1.3.6"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -15,9 +15,6 @@
     <a href="https://gitee.com/dromara/dante-cloud"><img src="https://img.shields.io/github/forks/herodotus-cloud/dante-oss?style=flat&logo=github" alt="Github fork"></a>
     <a href="https://gitee.com/herodotus/dante-oss"><img src="https://gitee.com/herodotus/dante-oss/badge/star.svg?theme=dark" alt="Gitee star"></a>
     <a href="https://gitee.com/herodotus/dante-oss"><img src="https://gitee.com/herodotus/dante-oss/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
-</p>
-<p align="center">
-    <a href="https://www.murphysec.com/console/report/1669933209810452480/1669933209848201216" alt="Security Status"><img src="https://www.murphysec.com/platform3/v31/badge/1669933209848201216.svg" /></a>
 </p>
 <p align="center">
     <a href="https://gitee.com/dromara/dante-cloud">示例微服务应用</a> &nbsp; | &nbsp;
