@@ -26,7 +26,6 @@
 package cn.herodotus.oss.dialect.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
-import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
 import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
 
@@ -60,6 +59,6 @@ public class OssInsufficientDataException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_INSUFFICIENT_DATA, "对象存储服务器返回数据不足");
+        return OssErrorCodes.OSS_INSUFFICIENT_DATA;
     }
 }

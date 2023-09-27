@@ -40,12 +40,4 @@ public interface OssConstants extends BaseConstants {
     String PROPERTY_OSS_ALIYUN = PROPERTY_PREFIX_OSS + ".aliyun";
 
     String ITEM_OSS_DIALECT = PROPERTY_PREFIX_OSS + ".dialect";
-
-    String MINIO_BUCKET_HANDLER = "MINIO_BUCKET";
-    String MINIO_OBJECT_HANDLER = "MINIO_OBJECT";
-    String S3_BUCKET_HANDLER = "S3_BUCKET";
-    String S3_OBJECT_HANDLER = "S3_OBJECT";
-    String ALIYUN_BUCKET_HANDLER = "ALIYUN_BUCKET";
-    String ALIYUN_OBJECT_HANDLER = "ALIYUN_OBJECT";
-
 }
