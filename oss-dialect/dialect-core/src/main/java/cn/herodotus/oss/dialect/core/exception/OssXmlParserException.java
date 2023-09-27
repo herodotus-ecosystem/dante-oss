@@ -26,7 +26,6 @@
 package cn.herodotus.oss.dialect.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
-import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
 import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
 
@@ -60,6 +59,6 @@ public class OssXmlParserException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.internalServerError(OssErrorCodes.MINIO_XML_PARSER, "对象存储 XML 解析出现错误");
+        return OssErrorCodes.OSS_XML_PARSER;
     }
 }

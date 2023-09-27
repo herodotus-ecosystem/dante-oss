@@ -26,7 +26,6 @@
 package cn.herodotus.oss.dialect.core.exception;
 
 import cn.herodotus.engine.assistant.core.domain.Feedback;
-import cn.herodotus.engine.assistant.core.exception.FeedbackFactory;
 import cn.herodotus.engine.assistant.core.exception.PlatformException;
 import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
 
@@ -60,6 +59,6 @@ public class OssConnectException extends PlatformException {
 
     @Override
     public Feedback getFeedback() {
-        return FeedbackFactory.serviceUnavailable(OssErrorCodes.MINIO_CONNECTION, "Minio 服务器无法访问或未启动");
+        return OssErrorCodes.OSS_CONNECTION;
     }
 }
