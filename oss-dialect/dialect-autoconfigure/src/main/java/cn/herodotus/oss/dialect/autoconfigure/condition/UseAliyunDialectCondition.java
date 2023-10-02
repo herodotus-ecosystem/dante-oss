@@ -25,8 +25,9 @@
 
 package cn.herodotus.oss.dialect.autoconfigure.condition;
 
+import cn.herodotus.engine.assistant.core.context.PropertyResolver;
+import cn.herodotus.oss.dialect.core.constants.OssConstants;
 import cn.herodotus.oss.dialect.core.enums.Dialect;
-import cn.herodotus.oss.dialect.core.support.OssPropertyFinder;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +47,7 @@ public class UseAliyunDialectCondition implements Condition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        String property = OssPropertyFinder.getDialect(context.getEnvironment());
+        String property = PropertyResolver.getProperty(context, OssConstants.ITEM_OSS_DIALECT);
         boolean result = StringUtils.equalsIgnoreCase(property, Dialect.ALIYUN.name());
         log.debug("[Herodotus] |- Condition [Use Aliyun Dialect] value is [{}]", result);
         return result;
