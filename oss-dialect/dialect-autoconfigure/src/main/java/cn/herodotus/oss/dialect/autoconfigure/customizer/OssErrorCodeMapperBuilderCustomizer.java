@@ -26,8 +26,8 @@
 package cn.herodotus.oss.dialect.autoconfigure.customizer;
 
 import cn.herodotus.engine.assistant.core.definition.constants.ErrorCodeMapperBuilderOrdered;
-import cn.herodotus.engine.assistant.core.definition.exception.ErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.engine.assistant.core.exception.ErrorCodeMapperBuilder;
+import cn.herodotus.engine.assistant.core.function.ErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
 import org.springframework.core.Ordered;
 
