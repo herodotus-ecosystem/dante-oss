@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToCreateBucketRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteBucketRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.domain.BucketToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
@@ -60,7 +60,7 @@ public class AliyunBucketRepository extends BaseAliyunService implements OssBuck
 
     private static final Logger log = LoggerFactory.getLogger(AliyunBucketRepository.class);
 
-    public AliyunBucketRepository(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunBucketRepository(AbstractObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

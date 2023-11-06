@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.*;
 import cn.herodotus.oss.dialect.aliyun.converter.domain.*;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.specification.arguments.multipart.*;
@@ -52,7 +52,7 @@ public class AliyunMultipartUploadRepository extends BaseAliyunService implement
 
     private static final Logger log = LoggerFactory.getLogger(AliyunMultipartUploadRepository.class);
 
-    public AliyunMultipartUploadRepository(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunMultipartUploadRepository(AbstractObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

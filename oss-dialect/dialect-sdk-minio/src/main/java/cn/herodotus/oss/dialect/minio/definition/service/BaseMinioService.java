@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.service;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.service.BaseOssService;
 import io.minio.MinioClient;
 
@@ -37,7 +37,7 @@ import io.minio.MinioClient;
  */
 public abstract class BaseMinioService extends BaseOssService<MinioClient> {
 
-    public BaseMinioService(AbstractOssClientObjectPool<MinioClient> ossClientObjectPool) {
+    public BaseMinioService(AbstractObjectPool<MinioClient> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 }

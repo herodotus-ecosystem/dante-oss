@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.service;
 
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssIOException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.model.DownloadFileRequest;
@@ -48,7 +48,7 @@ public class AliyunFileService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunFileService.class);
 
-    public AliyunFileService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunFileService(AbstractObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.repository;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.s3.converter.arguments.*;
 import cn.herodotus.oss.dialect.s3.converter.domain.*;
@@ -50,7 +50,7 @@ public class S3MultipartUploadRepository extends BaseS3Service implements OssMul
 
     private static final Logger log = LoggerFactory.getLogger(S3MultipartUploadRepository.class);
 
-    public S3MultipartUploadRepository(AbstractOssClientObjectPool<AmazonS3> ossClientObjectPool) {
+    public S3MultipartUploadRepository(AbstractObjectPool<AmazonS3> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

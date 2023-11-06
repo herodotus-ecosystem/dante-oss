@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.definition.pool;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 import com.amazonaws.services.s3.AmazonS3;
 
@@ -35,9 +35,9 @@ import com.amazonaws.services.s3.AmazonS3;
  * @author : gengwei.zheng
  * @date : 2023/7/14 16:33
  */
-public class S3ClientObjectPool extends AbstractOssClientObjectPool<AmazonS3> {
+public class S3ClientObjectPool extends AbstractObjectPool<AmazonS3> {
 
     public S3ClientObjectPool(AbstractOssClientPooledObjectFactory<AmazonS3> factory) {
-        super(factory);
+        super(factory, factory.getOssProperties().getPool());
     }
 }

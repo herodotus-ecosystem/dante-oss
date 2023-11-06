@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.autoconfigure.customizer;
 
-import cn.herodotus.engine.assistant.core.definition.constants.ErrorCodeMapperBuilderOrdered;
+import cn.herodotus.engine.assistant.core.constants.ErrorCodeMapperBuilderOrdered;
 import cn.herodotus.engine.assistant.core.exception.ErrorCodeMapperBuilder;
 import cn.herodotus.engine.assistant.core.function.ErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;

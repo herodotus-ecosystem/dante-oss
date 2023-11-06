@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.solution.constants;
 
-import cn.herodotus.engine.assistant.core.definition.constants.BaseConstants;
+import cn.herodotus.engine.assistant.core.constants.BaseConstants;
 
 /**
  * <p>Description: TODO </p>

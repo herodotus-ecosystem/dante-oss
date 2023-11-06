@@ -25,15 +25,12 @@
 
 package cn.herodotus.oss.solution.proxy;
 
-import cn.herodotus.engine.assistant.core.definition.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
 import cn.herodotus.oss.solution.constants.OssSolutionConstants;
 import cn.herodotus.oss.solution.properties.OssProxyProperties;
 import jakarta.servlet.http.HttpServletRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
 import java.util.function.Function;
 
