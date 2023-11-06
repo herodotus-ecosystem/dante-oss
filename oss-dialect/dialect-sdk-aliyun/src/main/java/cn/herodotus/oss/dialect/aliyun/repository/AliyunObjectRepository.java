@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectsRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
@@ -33,7 +34,6 @@ import cn.herodotus.oss.dialect.aliyun.converter.domain.DeleteObjectsResultToDom
 import cn.herodotus.oss.dialect.aliyun.converter.domain.ListObjectsV2ResultToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.domain.ObjectListingToDomainConverter;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.specification.arguments.object.*;
@@ -62,7 +62,7 @@ public class AliyunObjectRepository extends BaseAliyunService implements OssObje
 
     private static final Logger log = LoggerFactory.getLogger(AliyunObjectRepository.class);
 
-    public AliyunObjectRepository(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunObjectRepository(AbstractObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.service;
 
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import com.aliyun.oss.ClientException;
@@ -50,7 +50,7 @@ public class AliyunPresignedUrlService extends BaseAliyunService {
 
     private static final Logger log = LoggerFactory.getLogger(AliyunPresignedUrlService.class);
 
-    public AliyunPresignedUrlService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public AliyunPresignedUrlService(AbstractObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 

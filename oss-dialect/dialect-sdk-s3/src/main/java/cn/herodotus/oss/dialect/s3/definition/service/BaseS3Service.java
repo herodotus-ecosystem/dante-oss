@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.definition.service;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.service.BaseOssService;
 import com.amazonaws.services.s3.AmazonS3;
 
@@ -37,7 +37,7 @@ import com.amazonaws.services.s3.AmazonS3;
  */
 public abstract class BaseS3Service extends BaseOssService<AmazonS3> {
 
-    public BaseS3Service(AbstractOssClientObjectPool<AmazonS3> ossClientObjectPool) {
+    public BaseS3Service(AbstractObjectPool<AmazonS3> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 }

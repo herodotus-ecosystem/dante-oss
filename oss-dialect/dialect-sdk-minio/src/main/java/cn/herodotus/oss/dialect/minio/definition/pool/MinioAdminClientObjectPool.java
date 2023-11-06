@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.pool;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 import io.minio.admin.MinioAdminClient;
 
@@ -35,9 +35,9 @@ import io.minio.admin.MinioAdminClient;
  * @author : gengwei.zheng
  * @date : 2023/6/24 17:46
  */
-public class MinioAdminClientObjectPool extends AbstractOssClientObjectPool<MinioAdminClient> {
+public class MinioAdminClientObjectPool extends AbstractObjectPool<MinioAdminClient> {
 
     public MinioAdminClientObjectPool(AbstractOssClientPooledObjectFactory<MinioAdminClient> factory) {
-        super(factory);
+        super(factory, factory.getOssProperties().getPool());
     }
 }

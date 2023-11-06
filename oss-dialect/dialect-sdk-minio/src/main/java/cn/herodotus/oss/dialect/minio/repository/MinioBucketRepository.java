@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.repository;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToMakeBucketArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveBucketArgsConverter;
 import cn.herodotus.oss.dialect.minio.converter.domain.BucketToDomainConverter;
@@ -59,7 +59,7 @@ public class MinioBucketRepository extends BaseMinioService implements OssBucket
 
     private final MinioBucketService minioBucketService;
 
-    public MinioBucketRepository(AbstractOssClientObjectPool<MinioClient> ossClientObjectPool, MinioBucketService minioBucketService) {
+    public MinioBucketRepository(AbstractObjectPool<MinioClient> ossClientObjectPool, MinioBucketService minioBucketService) {
         super(ossClientObjectPool);
         this.minioBucketService = minioBucketService;
     }

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.core.service;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 
 /**
  * <p>Description: 对象存储 Service 抽象定义 </p>
@@ -35,17 +35,17 @@ import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
  */
 public abstract class BaseOssService<T> {
 
-    private final AbstractOssClientObjectPool<T> ossClientObjectPool;
+    private final AbstractObjectPool<T> objectPool;
 
-    public BaseOssService(AbstractOssClientObjectPool<T> ossClientObjectPool) {
-        this.ossClientObjectPool = ossClientObjectPool;
+    public BaseOssService(AbstractObjectPool<T> objectPool) {
+        this.objectPool = objectPool;
     }
 
     protected T getClient() {
-        return ossClientObjectPool.get();
+        return objectPool.get();
     }
 
     protected void close(T client) {
-        ossClientObjectPool.close(client);
+        objectPool.close(client);
     }
 }

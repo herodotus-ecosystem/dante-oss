@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.definition.pool;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 import com.aliyun.oss.OSS;
 
@@ -35,9 +35,9 @@ import com.aliyun.oss.OSS;
  * @author : gengwei.zheng
  * @date : 2023/7/14 16:33
  */
-public class AliyunClientObjectPool extends AbstractOssClientObjectPool<OSS> {
+public class AliyunClientObjectPool extends AbstractObjectPool<OSS> {
 
     public AliyunClientObjectPool(AbstractOssClientPooledObjectFactory<OSS> factory) {
-        super(factory);
+        super(factory, factory.getOssProperties().getPool());
     }
 }

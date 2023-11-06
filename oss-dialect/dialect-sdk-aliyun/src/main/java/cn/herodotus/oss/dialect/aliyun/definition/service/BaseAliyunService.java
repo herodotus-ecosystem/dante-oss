@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.definition.service;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientObjectPool;
+import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.service.BaseOssService;
 import com.aliyun.oss.OSS;
 
@@ -37,7 +37,7 @@ import com.aliyun.oss.OSS;
  */
 public abstract class BaseAliyunService extends BaseOssService<OSS> {
 
-    public BaseAliyunService(AbstractOssClientObjectPool<OSS> ossClientObjectPool) {
+    public BaseAliyunService(AbstractObjectPool<OSS> ossClientObjectPool) {
         super(ossClientObjectPool);
     }
 }

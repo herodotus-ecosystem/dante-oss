@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.dialect.core.properties;
 
+import cn.herodotus.engine.assistant.core.domain.Pool;
 import com.google.common.base.MoreObjects;
 
 /**
