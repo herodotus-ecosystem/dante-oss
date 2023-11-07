@@ -37,12 +37,12 @@ import org.springframework.context.annotation.Configuration;
  * @date : 2023/6/5 15:12
  */
 @Configuration(proxyBeanMethods = false)
-public class AutoConfiguration {
+public class OssMinioAutoConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssMinioAutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Oss Minio Starter] Auto Configure.");
+        log.info("[Herodotus] |- Module [Oss Minio Starter] Auto Configure.");
     }
 }

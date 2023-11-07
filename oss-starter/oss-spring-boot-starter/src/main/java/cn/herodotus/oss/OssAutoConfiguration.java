@@ -27,6 +27,9 @@ package cn.herodotus.oss;
 
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDialect;
 import cn.herodotus.oss.rest.minio.configuration.OssRestMinioConfiguration;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -39,6 +42,13 @@ import org.springframework.context.annotation.Import;
  */
 @AutoConfiguration
 public class OssAutoConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(OssAutoConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.info("[Herodotus] |- Module [OSS Starter] Auto Configure.");
+    }
 
     @Configuration(proxyBeanMethods = false)
     @ConditionalOnUseMinioDialect
