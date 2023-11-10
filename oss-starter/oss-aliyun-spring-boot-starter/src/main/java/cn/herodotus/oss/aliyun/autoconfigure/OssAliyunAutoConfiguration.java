@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.s3.autoconfigure;
+package cn.herodotus.oss.aliyun.autoconfigure;
 
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -31,18 +31,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * <p>Description: 封装的 Amazon SDK 自动配置 </p>
+ * <p>Description: 封装的 Aliyun SDK 自动配置 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/6/5 15:12
  */
 @Configuration(proxyBeanMethods = false)
-public class AutoConfiguration {
+public class OssAliyunAutoConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(AutoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssAliyunAutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [Oss S3 Starter] Auto Configure.");
+        log.info("[Herodotus] |- Module [Oss Aliyun Starter] Auto Configure.");
     }
 }
