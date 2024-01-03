@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.definition.pool;
 
-import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
+import cn.herodotus.engine.assistant.core.support.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 import com.amazonaws.services.s3.AmazonS3;
 

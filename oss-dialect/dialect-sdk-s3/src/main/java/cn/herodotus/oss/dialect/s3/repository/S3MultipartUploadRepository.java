@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.repository;
 
-import cn.herodotus.engine.assistant.core.definition.AbstractObjectPool;
+import cn.herodotus.engine.assistant.core.support.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.s3.converter.arguments.*;
 import cn.herodotus.oss.dialect.s3.converter.domain.*;

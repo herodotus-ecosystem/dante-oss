@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.service;
 
-import cn.herodotus.engine.assistant.core.constants.SymbolConstants;
+import cn.herodotus.engine.assistant.definition.constants.SymbolConstants;
 import cn.herodotus.oss.dialect.core.exception.*;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioAsyncClient;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioAsyncClientObjectPool;

@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.core.exception;
 
-import cn.herodotus.engine.assistant.core.domain.Feedback;
-import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.assistant.definition.domain.Feedback;
+import cn.herodotus.engine.assistant.definition.exception.PlatformRuntimeException;
 import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
 
 /**
@@ -35,7 +35,7 @@ import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
  * @author : gengwei.zheng
  * @date : 2023/6/25 11:02
  */
-public class OssInvalidCipherTextException extends PlatformException {
+public class OssInvalidCipherTextException extends PlatformRuntimeException {
 
     public OssInvalidCipherTextException() {
         super();

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.engine.assistant.core.definition.domain.Entity;
+import cn.herodotus.engine.assistant.definition.domain.Entity;
 import cn.herodotus.oss.dialect.minio.enums.ServerSideEncryptionEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 
