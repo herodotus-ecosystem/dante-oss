@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.specification.arguments.multipart;
 
-import cn.herodotus.engine.assistant.core.constants.RegexPool;
+import cn.herodotus.engine.assistant.definition.constants.RegexPool;
 import cn.herodotus.oss.specification.arguments.base.BasePartArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;

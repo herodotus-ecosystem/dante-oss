@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.core.exception;
 
-import cn.herodotus.engine.assistant.core.domain.Feedback;
-import cn.herodotus.engine.assistant.core.exception.PlatformException;
+import cn.herodotus.engine.assistant.definition.domain.Feedback;
+import cn.herodotus.engine.assistant.definition.exception.PlatformRuntimeException;
 import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
 
 /**
@@ -35,7 +35,7 @@ import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
  * @author : gengwei.zheng
  * @date : 2021/11/8 14:32
  */
-public class OssInternalException extends PlatformException {
+public class OssInternalException extends PlatformRuntimeException {
 
     public OssInternalException() {
         super();

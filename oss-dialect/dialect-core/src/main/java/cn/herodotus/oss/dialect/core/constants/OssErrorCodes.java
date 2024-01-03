@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.core.constants;
 
-import cn.herodotus.engine.assistant.core.exception.feedback.InternalServerErrorFeedback;
-import cn.herodotus.engine.assistant.core.exception.feedback.ServiceUnavailableFeedback;
+import cn.herodotus.engine.assistant.definition.feedback.InternalServerErrorFeedback;
+import cn.herodotus.engine.assistant.definition.feedback.ServiceUnavailableFeedback;
 
 /**
  * <p>Description: 对象存储错误代码 </p>

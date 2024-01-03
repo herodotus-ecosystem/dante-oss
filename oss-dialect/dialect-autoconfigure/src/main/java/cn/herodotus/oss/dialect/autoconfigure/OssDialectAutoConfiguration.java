@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.autoconfigure;
 
-import cn.herodotus.engine.assistant.core.function.ErrorCodeMapperBuilderCustomizer;
+import cn.herodotus.engine.assistant.definition.function.ErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.oss.dialect.aliyun.configuration.OssDialectAliyunConfiguration;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseAliyunDialect;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDialect;

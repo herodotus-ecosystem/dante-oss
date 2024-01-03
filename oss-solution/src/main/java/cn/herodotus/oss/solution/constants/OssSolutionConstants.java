@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.solution.constants;
 
-import cn.herodotus.engine.assistant.core.constants.BaseConstants;
+import cn.herodotus.engine.assistant.definition.constants.BaseConstants;
 
 /**
- * <p>Description: TODO </p>
+ * <p>Description: 解决方案模块常量 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/8/19 18:15

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.specification.domain.bucket;
 
-import cn.herodotus.engine.assistant.core.constants.DefaultConstants;
+import cn.herodotus.engine.assistant.definition.constants.DefaultConstants;
 import cn.herodotus.oss.specification.core.domain.OssDomain;
 import cn.herodotus.oss.specification.domain.base.OwnerDomain;
 import com.fasterxml.jackson.annotation.JsonFormat;
