@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.engine.assistant.definition.domain.Entity;
+import cn.herodotus.stirrup.kernel.definition.domain.base.Entity;
 import io.minio.admin.Status;
 
 import java.util.List;

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.specification.domain.base;
 
-import cn.herodotus.engine.assistant.definition.domain.Entity;
+import cn.herodotus.stirrup.kernel.definition.domain.base.Entity;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 

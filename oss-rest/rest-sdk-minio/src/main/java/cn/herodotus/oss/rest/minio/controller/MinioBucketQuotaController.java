@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.rest.minio.controller;
 
-import cn.herodotus.engine.assistant.definition.domain.Result;
 import cn.herodotus.engine.rest.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketQuotaService;
 import cn.herodotus.oss.rest.minio.request.object.SetBucketQuotaRequest;
+import cn.herodotus.stirrup.kernel.definition.domain.Result;
 import io.minio.admin.QuotaUnit;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
