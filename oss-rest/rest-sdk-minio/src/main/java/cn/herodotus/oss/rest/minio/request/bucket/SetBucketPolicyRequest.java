@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.rest.minio.request.bucket;
 
-import cn.herodotus.engine.assistant.core.json.jackson2.utils.Jackson2Utils;
 import cn.herodotus.oss.dialect.minio.domain.policy.PolicyDomain;
 import cn.herodotus.oss.dialect.minio.domain.policy.StatementDomain;
 import cn.herodotus.oss.dialect.minio.enums.PolicyEnums;
 import cn.herodotus.oss.rest.minio.definition.BucketRequest;
+import cn.herodotus.stirrup.kernel.engine.json.jackson2.utils.Jackson2Utils;
 import com.google.common.collect.Lists;
 import io.minio.SetBucketPolicyArgs;
 import io.swagger.v3.oas.annotations.media.Schema;

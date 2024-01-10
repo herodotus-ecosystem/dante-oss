@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.dialect.core.exception;
 
-import cn.herodotus.engine.assistant.definition.domain.Feedback;
-import cn.herodotus.engine.assistant.definition.exception.PlatformRuntimeException;
 import cn.herodotus.oss.dialect.core.constants.OssErrorCodes;
+import cn.herodotus.stirrup.kernel.definition.domain.Feedback;
+import cn.herodotus.stirrup.kernel.definition.exception.PlatformRuntimeException;
 
 /**
  * <p>Description: OssExecutionException </p>

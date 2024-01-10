@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.definition.service;
 
-import cn.herodotus.engine.assistant.core.support.AbstractObjectPool;
+import cn.herodotus.stirrup.kernel.definition.support.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.service.BaseOssService;
 import com.aliyun.oss.OSS;
 

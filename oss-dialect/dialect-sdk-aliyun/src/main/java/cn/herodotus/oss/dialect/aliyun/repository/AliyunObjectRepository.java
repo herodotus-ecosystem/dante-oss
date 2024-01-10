@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
-import cn.herodotus.engine.assistant.core.support.AbstractObjectPool;
+import cn.herodotus.stirrup.kernel.definition.support.AbstractObjectPool;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectsRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
