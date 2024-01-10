@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.dialect.autoconfigure.condition;
 
-import cn.herodotus.engine.assistant.core.context.PropertyResolver;
 import cn.herodotus.oss.dialect.core.constants.OssConstants;
 import cn.herodotus.oss.dialect.core.enums.Dialect;
+import cn.herodotus.stirrup.kernel.engine.context.PropertyResolver;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

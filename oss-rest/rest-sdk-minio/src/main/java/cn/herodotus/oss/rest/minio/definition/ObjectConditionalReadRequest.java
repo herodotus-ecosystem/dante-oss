@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.definition;
 
-import cn.herodotus.engine.assistant.core.utils.type.DateTimeUtils;
+import cn.herodotus.stirrup.kernel.engine.utils.type.DateTimeUtils;
 import io.minio.ObjectConditionalReadArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.DecimalMin;
