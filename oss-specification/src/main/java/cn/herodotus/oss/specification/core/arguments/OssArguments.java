@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.specification.core.arguments;
 
-import cn.herodotus.engine.assistant.definition.domain.Entity;
+import cn.herodotus.engine.assistant.definition.domain.base.Entity;
 
 /**
  * <p>Description: 对象存储统一定义请求参数 </p>

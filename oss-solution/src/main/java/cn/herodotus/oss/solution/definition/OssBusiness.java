@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.solution.definition;
 
-import cn.herodotus.engine.assistant.definition.domain.Entity;
+import cn.herodotus.engine.assistant.definition.domain.base.Entity;
 
 /**
  * <p>Description: 对象存储统一定义业务对象参数 </p>

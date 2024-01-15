@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.specification.core.domain;
 
-import cn.herodotus.engine.assistant.definition.domain.Entity;
+import cn.herodotus.engine.assistant.definition.domain.base.Entity;
 
 /**
  * <p>Description: Oss 域对象基础定义 </p>
