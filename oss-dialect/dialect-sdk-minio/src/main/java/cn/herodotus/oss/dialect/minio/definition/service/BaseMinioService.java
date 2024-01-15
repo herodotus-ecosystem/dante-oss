@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.service;
 
-import cn.herodotus.engine.assistant.core.support.AbstractObjectPool;
+import cn.herodotus.engine.assistant.definition.support.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.service.BaseOssService;
 import io.minio.MinioClient;
 
