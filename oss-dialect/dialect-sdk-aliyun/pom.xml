@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>dante-oss</artifactId>
-        <version>3.1.7.4</version>
+        <version>3.1.7.5</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
@@ -46,6 +46,12 @@
         <dependency>
             <groupId>com.aliyun.oss</groupId>
             <artifactId>aliyun-sdk-oss</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
