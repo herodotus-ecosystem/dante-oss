@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.engine.assistant.core.utils.type.DateTimeUtils;
+import cn.herodotus.stirrup.core.foundation.utils.type.DateTimeUtils;
 import cn.herodotus.oss.specification.domain.object.ObjectMetadataDomain;
 import io.minio.StatObjectResponse;
 import org.springframework.core.convert.converter.Converter;

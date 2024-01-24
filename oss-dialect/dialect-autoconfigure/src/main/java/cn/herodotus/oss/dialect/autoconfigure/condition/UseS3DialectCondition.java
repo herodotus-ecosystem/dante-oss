@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.autoconfigure.condition;
 
-import cn.herodotus.engine.assistant.core.context.PropertyResolver;
+import cn.herodotus.stirrup.core.foundation.context.PropertyResolver;
 import cn.herodotus.oss.dialect.core.constants.OssConstants;
 import cn.herodotus.oss.dialect.core.enums.Dialect;
 import org.apache.commons.lang3.StringUtils;
