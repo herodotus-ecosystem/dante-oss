@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.solution.proxy;
 
-import cn.herodotus.engine.assistant.definition.constants.SymbolConstants;
+import cn.herodotus.stirrup.core.definition.constants.SymbolConstants;
 import cn.herodotus.oss.solution.constants.OssSolutionConstants;
 import cn.herodotus.oss.solution.properties.OssProxyProperties;
 import jakarta.servlet.http.HttpServletRequest;

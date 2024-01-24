@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.enums;
 
-import cn.herodotus.engine.assistant.definition.enums.BaseUiEnum;
+import cn.herodotus.stirrup.core.definition.enums.BaseUiEnum;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.google.common.collect.ImmutableMap;
 import io.swagger.v3.oas.annotations.media.Schema;

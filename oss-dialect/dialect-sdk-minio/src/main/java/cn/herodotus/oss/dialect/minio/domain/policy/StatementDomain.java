@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain.policy;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.stirrup.core.definition.domain.base.Entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
