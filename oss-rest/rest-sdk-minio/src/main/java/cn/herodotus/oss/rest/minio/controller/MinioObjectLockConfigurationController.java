@@ -26,8 +26,8 @@
 package cn.herodotus.oss.rest.minio.controller;
 
 import cn.herodotus.stirrup.core.definition.domain.Result;
-import cn.herodotus.engine.rest.core.annotation.Idempotent;
-import cn.herodotus.engine.rest.core.controller.Controller;
+import cn.herodotus.stirrup.web.core.annotation.Idempotent;
+import cn.herodotus.stirrup.web.core.definition.Controller;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectLockConfigurationService;
 import cn.herodotus.oss.rest.minio.request.bucket.DeleteObjectLockConfigurationRequest;
 import cn.herodotus.oss.rest.minio.request.bucket.SetObjectLockConfigurationRequest;
