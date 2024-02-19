@@ -23,22 +23,21 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.constants;
+package cn.herodotus.oss.dialect.aws.definition.service;
 
-import cn.herodotus.stirrup.core.definition.constants.BaseConstants;
+import cn.herodotus.oss.dialect.core.service.BaseOssService;
+import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
+import software.amazon.awssdk.services.s3.S3AsyncClient;
 
 /**
- * <p>Description: 对象存储统一常量 </p>
+ * <p>Description: Amazon S3 基础服务 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 12:37
+ * @date : 2023/7/14 16:57
  */
-public interface OssConstants extends BaseConstants {
+public abstract class BaseAwsService extends BaseOssService<S3AsyncClient> {
 
-    String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
-    String PROPERTY_OSS_S3 = PROPERTY_PREFIX_OSS + ".s3";
-    String PROPERTY_OSS_AWS = PROPERTY_PREFIX_OSS + ".aws";
-    String PROPERTY_OSS_ALIYUN = PROPERTY_PREFIX_OSS + ".aliyun";
-
-    String ITEM_OSS_DIALECT = PROPERTY_PREFIX_OSS + ".dialect";
+    public BaseAwsService(AbstractObjectPool<S3AsyncClient> ossClientObjectPool) {
+        super(ossClientObjectPool);
+    }
 }

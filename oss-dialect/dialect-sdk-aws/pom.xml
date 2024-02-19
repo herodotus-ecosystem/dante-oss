@@ -30,20 +30,50 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.herodotus.oss</groupId>
-        <artifactId>dante-oss</artifactId>
+        <artifactId>oss-dialect</artifactId>
         <version>3.3.0.0-M1</version>
     </parent>
 
-    <artifactId>oss-dialect</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>dialect-sdk-aws</artifactId>
 
-    <modules>
-        <module>dialect-core</module>
-        <module>dialect-sdk-s3</module>
-        <module>dialect-sdk-aliyun</module>
-        <module>dialect-sdk-minio</module>
-        <module>dialect-autoconfigure</module>
-        <module>dialect-sdk-aws</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.oss</groupId>
+            <artifactId>dialect-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>netty-nio-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>aws-crt-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>apache-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>software.amazon.awssdk</groupId>
+                    <artifactId>url-connection-client</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk.crt</groupId>
+            <artifactId>aws-crt</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>s3-transfer-manager</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

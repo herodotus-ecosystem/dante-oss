@@ -23,22 +23,18 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.core.constants;
+package cn.herodotus.oss.dialect.aws.properties;
 
-import cn.herodotus.stirrup.core.definition.constants.BaseConstants;
+import cn.herodotus.oss.dialect.core.constants.OssConstants;
+import cn.herodotus.oss.dialect.core.properties.AbstractOssProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
- * <p>Description: 对象存储统一常量 </p>
+ * <p>Description: TODO </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 12:37
+ * @date : 2024/2/17 22:56
  */
-public interface OssConstants extends BaseConstants {
-
-    String PROPERTY_OSS_MINIO = PROPERTY_PREFIX_OSS + ".minio";
-    String PROPERTY_OSS_S3 = PROPERTY_PREFIX_OSS + ".s3";
-    String PROPERTY_OSS_AWS = PROPERTY_PREFIX_OSS + ".aws";
-    String PROPERTY_OSS_ALIYUN = PROPERTY_PREFIX_OSS + ".aliyun";
-
-    String ITEM_OSS_DIALECT = PROPERTY_PREFIX_OSS + ".dialect";
+@ConfigurationProperties(prefix = OssConstants.PROPERTY_OSS_AWS)
+public class AwsProperties extends AbstractOssProperties {
 }
