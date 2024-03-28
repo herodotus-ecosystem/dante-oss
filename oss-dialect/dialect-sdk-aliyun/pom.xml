@@ -51,6 +51,10 @@
                     <artifactId>bcprov-jdk15on</artifactId>
                     <groupId>org.bouncycastle</groupId>
                 </exclusion>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
             </exclusions>
         </dependency>
     </dependencies>
