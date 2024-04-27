@@ -43,6 +43,10 @@
         <module>dialect-sdk-aliyun</module>
         <module>dialect-sdk-minio</module>
         <module>dialect-autoconfigure</module>
+        <module>dialect-sdk-reactive-minio</module>
+        <module>dialect-sdk-reactive-s3</module>
+        <module>dialect-core-minio</module>
+        <module>dialect-core-s3</module>
     </modules>
 
 </project>

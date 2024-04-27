@@ -25,6 +25,8 @@
 
 package cn.herodotus.oss.rest.minio.service;
 
+import cn.herodotus.oss.core.minio.enums.PolicyEnums;
+import cn.herodotus.oss.core.minio.enums.RetentionModeEnums;
 import cn.herodotus.oss.dialect.minio.enums.*;
 import org.springframework.stereotype.Service;
 

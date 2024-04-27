@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
+import cn.herodotus.oss.core.minio.enums.RetentionModeEnums;
 import cn.herodotus.oss.specification.domain.base.BaseDomain;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;

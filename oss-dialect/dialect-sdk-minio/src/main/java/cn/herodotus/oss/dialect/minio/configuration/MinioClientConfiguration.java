@@ -25,8 +25,12 @@
 
 package cn.herodotus.oss.dialect.minio.configuration;
 
+import cn.herodotus.oss.core.minio.definition.pool.MinioAdminClientObjectPool;
+import cn.herodotus.oss.core.minio.definition.pool.MinioAdminClientPooledObjectFactory;
+import cn.herodotus.oss.core.minio.definition.pool.MinioAsyncClientObjectPool;
+import cn.herodotus.oss.core.minio.definition.pool.MinioAsyncClientPooledObjectFactory;
 import cn.herodotus.oss.dialect.minio.definition.pool.*;
-import cn.herodotus.oss.dialect.minio.properties.MinioProperties;
+import cn.herodotus.oss.core.minio.properties.MinioProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

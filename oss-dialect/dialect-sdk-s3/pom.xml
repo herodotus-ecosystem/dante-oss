@@ -40,7 +40,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>dialect-core</artifactId>
+            <artifactId>dialect-core-s3</artifactId>
         </dependency>
         <dependency>
             <groupId>com.amazonaws</groupId>

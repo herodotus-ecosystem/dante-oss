@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.s3.definition.pool;
 
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
-import cn.herodotus.oss.dialect.s3.properties.S3Properties;
+import cn.herodotus.oss.core.s3.properties.S3Properties;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

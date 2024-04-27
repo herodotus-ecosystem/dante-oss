@@ -28,7 +28,7 @@ package cn.herodotus.oss.dialect.minio.service;
 import cn.herodotus.oss.dialect.core.exception.*;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
-import cn.herodotus.oss.dialect.minio.enums.PolicyEnums;
+import cn.herodotus.oss.core.minio.enums.PolicyEnums;
 import com.google.common.base.Enums;
 import io.minio.DeleteBucketPolicyArgs;
 import io.minio.GetBucketPolicyArgs;

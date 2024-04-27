@@ -27,7 +27,7 @@ package cn.herodotus.oss.rest.minio.request.bucket;
 
 import cn.herodotus.oss.dialect.minio.domain.policy.PolicyDomain;
 import cn.herodotus.oss.dialect.minio.domain.policy.StatementDomain;
-import cn.herodotus.oss.dialect.minio.enums.PolicyEnums;
+import cn.herodotus.oss.core.minio.enums.PolicyEnums;
 import cn.herodotus.oss.rest.minio.definition.BucketRequest;
 import cn.herodotus.stirrup.core.foundation.json.jackson2.utils.Jackson2Utils;
 import com.google.common.collect.Lists;

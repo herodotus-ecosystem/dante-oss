@@ -29,7 +29,7 @@ import cn.herodotus.oss.dialect.core.exception.OssConnectException;
 import cn.herodotus.oss.dialect.core.exception.OssIOException;
 import cn.herodotus.oss.dialect.core.exception.OssInvalidKeyException;
 import cn.herodotus.oss.dialect.core.exception.OssNoSuchAlgorithmException;
-import cn.herodotus.oss.dialect.minio.definition.pool.MinioAdminClientObjectPool;
+import cn.herodotus.oss.core.minio.definition.pool.MinioAdminClientObjectPool;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioAdminService;
 import io.minio.admin.GroupInfo;
 import io.minio.admin.MinioAdminClient;

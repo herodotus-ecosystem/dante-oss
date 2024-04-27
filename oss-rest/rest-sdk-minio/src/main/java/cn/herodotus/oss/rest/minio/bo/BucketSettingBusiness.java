@@ -29,7 +29,7 @@ package cn.herodotus.oss.rest.minio.bo;
 import cn.herodotus.stirrup.core.definition.domain.base.Entity;
 import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.dialect.minio.domain.VersioningConfigurationDomain;
-import cn.herodotus.oss.dialect.minio.enums.PolicyEnums;
+import cn.herodotus.oss.core.minio.enums.PolicyEnums;
 import cn.herodotus.oss.dialect.minio.enums.SseConfigurationEnums;
 import com.google.common.base.MoreObjects;
 

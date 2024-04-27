@@ -26,7 +26,7 @@
 package cn.herodotus.oss.rest.minio.request.object;
 
 import cn.herodotus.oss.dialect.minio.converter.retention.DomainToRetentionConverter;
-import cn.herodotus.oss.dialect.minio.domain.RetentionDomain;
+import cn.herodotus.oss.core.minio.domain.RetentionDomain;
 import cn.herodotus.oss.rest.minio.definition.ObjectVersionRequest;
 import io.minio.SetObjectRetentionArgs;
 import io.minio.messages.Retention;

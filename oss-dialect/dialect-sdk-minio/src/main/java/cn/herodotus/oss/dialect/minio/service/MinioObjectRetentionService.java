@@ -26,10 +26,10 @@
 package cn.herodotus.oss.dialect.minio.service;
 
 import cn.herodotus.oss.dialect.core.exception.*;
-import cn.herodotus.oss.dialect.minio.converter.retention.RetentionToDomainConverter;
+import cn.herodotus.oss.core.minio.converter.retention.RetentionToDomainConverter;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
-import cn.herodotus.oss.dialect.minio.domain.RetentionDomain;
+import cn.herodotus.oss.core.minio.domain.RetentionDomain;
 import io.minio.GetObjectRetentionArgs;
 import io.minio.MinioClient;
 import io.minio.SetObjectRetentionArgs;

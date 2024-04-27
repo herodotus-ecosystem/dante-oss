@@ -26,9 +26,9 @@
 package cn.herodotus.oss.dialect.minio.converter;
 
 import cn.herodotus.stirrup.core.foundation.utils.type.DateTimeUtils;
-import cn.herodotus.oss.dialect.minio.converter.retention.RetentionModeToEnumConverter;
+import cn.herodotus.oss.core.minio.converter.retention.RetentionModeToEnumConverter;
 import cn.herodotus.oss.dialect.minio.domain.StatObjectDomain;
-import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
+import cn.herodotus.oss.core.minio.enums.RetentionModeEnums;
 import io.minio.StatObjectResponse;
 import io.minio.messages.RetentionMode;
 import org.springframework.core.convert.converter.Converter;

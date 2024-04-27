@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.configuration;
 
-import cn.herodotus.oss.dialect.s3.properties.S3Properties;
+import cn.herodotus.oss.core.s3.properties.S3Properties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

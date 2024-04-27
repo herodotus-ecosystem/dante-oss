@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.retention;
 
-import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
+import cn.herodotus.oss.core.minio.enums.RetentionModeEnums;
 import com.google.common.base.Enums;
 import io.minio.messages.RetentionMode;
 import org.apache.commons.lang3.ObjectUtils;

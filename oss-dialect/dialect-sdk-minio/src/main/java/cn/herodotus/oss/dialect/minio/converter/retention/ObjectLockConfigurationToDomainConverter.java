@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.minio.converter.retention;
 
 import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
-import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
+import cn.herodotus.oss.core.minio.enums.RetentionModeEnums;
 import cn.herodotus.oss.dialect.minio.enums.RetentionUnitEnums;
 import io.minio.messages.ObjectLockConfiguration;
 import io.minio.messages.RetentionDuration;

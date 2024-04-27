@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.configuration;
 
-import cn.herodotus.oss.dialect.minio.properties.MinioProperties;
+import cn.herodotus.oss.core.minio.properties.MinioProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

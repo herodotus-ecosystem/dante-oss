@@ -30,7 +30,7 @@ import cn.herodotus.oss.dialect.minio.converter.retention.VersioningConfiguratio
 import cn.herodotus.oss.dialect.minio.converter.sse.SseConfigurationToEnumConverter;
 import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.dialect.minio.domain.VersioningConfigurationDomain;
-import cn.herodotus.oss.dialect.minio.enums.PolicyEnums;
+import cn.herodotus.oss.core.minio.enums.PolicyEnums;
 import cn.herodotus.oss.dialect.minio.enums.SseConfigurationEnums;
 import cn.herodotus.oss.dialect.minio.service.*;
 import cn.herodotus.oss.rest.minio.bo.BucketSettingBusiness;
