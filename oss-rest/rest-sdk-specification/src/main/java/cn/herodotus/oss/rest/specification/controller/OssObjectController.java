@@ -25,10 +25,10 @@
 
 package cn.herodotus.oss.rest.specification.controller;
 
-import cn.herodotus.engine.assistant.definition.domain.Result;
-import cn.herodotus.engine.rest.core.annotation.AccessLimited;
-import cn.herodotus.engine.rest.core.annotation.Idempotent;
-import cn.herodotus.engine.rest.core.controller.Controller;
+import cn.herodotus.stirrup.core.definition.domain.Result;
+import cn.herodotus.stirrup.web.core.annotation.AccessLimited;
+import cn.herodotus.stirrup.web.core.annotation.Idempotent;
+import cn.herodotus.stirrup.web.core.definition.Controller;
 import cn.herodotus.oss.specification.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.specification.arguments.object.DeleteObjectsArguments;
 import cn.herodotus.oss.specification.arguments.object.ListObjectsArguments;

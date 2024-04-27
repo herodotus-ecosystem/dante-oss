@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-rest</artifactId>
-        <version>3.2.5.1</version>
+        <version>3.3.0.0-RC1</version>
     </parent>
 
     <artifactId>rest-sdk-specification</artifactId>
@@ -44,8 +44,8 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.herodotus.engine</groupId>
-            <artifactId>rest-core</artifactId>
+            <groupId>cn.herodotus.stirrup</groupId>
+            <artifactId>web-module-api</artifactId>
         </dependency>
     </dependencies>
 

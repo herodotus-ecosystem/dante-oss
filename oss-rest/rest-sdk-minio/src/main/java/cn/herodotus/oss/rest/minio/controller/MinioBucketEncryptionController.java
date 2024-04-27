@@ -25,12 +25,12 @@
 
 package cn.herodotus.oss.rest.minio.controller;
 
-import cn.herodotus.engine.assistant.definition.domain.Result;
-import cn.herodotus.engine.rest.core.annotation.Idempotent;
-import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketEncryptionService;
 import cn.herodotus.oss.rest.minio.request.bucket.DeleteBucketEncryptionRequest;
 import cn.herodotus.oss.rest.minio.request.bucket.SetBucketEncryptionRequest;
+import cn.herodotus.stirrup.core.definition.domain.Result;
+import cn.herodotus.stirrup.web.core.annotation.Idempotent;
+import cn.herodotus.stirrup.web.core.definition.Controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

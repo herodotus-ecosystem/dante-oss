@@ -25,7 +25,6 @@
 
 package cn.herodotus.oss.dialect.autoconfigure;
 
-import cn.herodotus.engine.assistant.definition.function.ErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.oss.dialect.aliyun.configuration.OssDialectAliyunConfiguration;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseAliyunDialect;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDialect;
@@ -34,6 +33,7 @@ import cn.herodotus.oss.dialect.autoconfigure.customizer.OssErrorCodeMapperBuild
 import cn.herodotus.oss.dialect.autoconfigure.properties.OssProperties;
 import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
 import cn.herodotus.oss.dialect.s3.configuration.OssDialectS3Configuration;
+import cn.herodotus.stirrup.core.definition.function.ErrorCodeMapperBuilderCustomizer;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

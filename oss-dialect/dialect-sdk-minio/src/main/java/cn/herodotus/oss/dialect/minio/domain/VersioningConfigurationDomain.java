@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.stirrup.core.definition.domain.base.Entity;
 
 /**
  * <p>Description: Minio VersioningConfiguration 对应 Domain Object </p>

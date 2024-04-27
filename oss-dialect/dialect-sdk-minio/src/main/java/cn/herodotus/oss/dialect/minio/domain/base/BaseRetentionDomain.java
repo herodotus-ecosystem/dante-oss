@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.domain.base;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
 import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
+import cn.herodotus.stirrup.core.definition.domain.base.Entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**
