@@ -25,7 +25,6 @@
 
 package cn.herodotus.oss.core.minio.domain;
 
-import cn.herodotus.oss.core.minio.domain.base.BaseRetentionDomain;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 /**

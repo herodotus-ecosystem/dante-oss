@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.rest.minio.controller;
 
+import cn.herodotus.oss.core.minio.bo.BucketSettingBusiness;
+import cn.herodotus.oss.rest.minio.service.MinioBucketSettingService;
 import cn.herodotus.stirrup.core.definition.domain.Result;
 import cn.herodotus.stirrup.web.core.annotation.AccessLimited;
 import cn.herodotus.stirrup.web.core.definition.Controller;
-import cn.herodotus.oss.rest.minio.bo.BucketSettingBusiness;
-import cn.herodotus.oss.rest.minio.service.MinioBucketSettingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

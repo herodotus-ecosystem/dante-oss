@@ -23,10 +23,11 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.service;
+package cn.herodotus.oss.rest.reactive.minio.service;
 
 import cn.herodotus.oss.core.minio.enums.*;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,7 @@ public class MinioConstantsService {
     private static final List<Map<String, Object>> QUOTA_UNIT_ENUMS = QuotaUnitEnums.getPreprocessedJsonStructure();
     private static final List<Map<String, Object>> VERSIONING_STATUS_ENUMS = VersioningStatusEnums.getPreprocessedJsonStructure();
 
-    public Map<String, Object> getAllEnums() {
+    public Mono<Map<String, Object>> getAllEnums() {
         Map<String, Object> map = new HashMap<>(8);
         map.put("policy", POLICY_ENUM);
         map.put("retentionUnit", RETENTION_UNIT_ENUM);
@@ -56,6 +57,6 @@ public class MinioConstantsService {
         map.put("sseConfiguration", SSE_CONFIGURATION_ENUM);
         map.put("quotaUnit", QUOTA_UNIT_ENUMS);
         map.put("versioningStatus", VERSIONING_STATUS_ENUMS);
-        return map;
+        return Mono.just(map);
     }
 }

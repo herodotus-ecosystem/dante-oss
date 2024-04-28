@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.service;
+package cn.herodotus.oss.rest.reactive.minio.service;
 
 import cn.herodotus.oss.core.minio.bo.BucketSettingBusiness;
 import cn.herodotus.oss.core.minio.converter.retention.ObjectLockConfigurationToDomainConverter;
@@ -33,13 +33,14 @@ import cn.herodotus.oss.core.minio.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.core.minio.domain.VersioningConfigurationDomain;
 import cn.herodotus.oss.core.minio.enums.PolicyEnums;
 import cn.herodotus.oss.core.minio.enums.SseConfigurationEnums;
-import cn.herodotus.oss.dialect.minio.service.*;
+import cn.herodotus.oss.dialect.reactive.minio.service.*;
 import io.minio.messages.ObjectLockConfiguration;
 import io.minio.messages.SseConfiguration;
 import io.minio.messages.Tags;
 import io.minio.messages.VersioningConfiguration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 /**
  * <p>Description: Bucket 管理页面数据获取 </p>
@@ -73,27 +74,29 @@ public class MinioBucketSettingService {
         this.toVersioningDomain = new VersioningConfigurationToDomainConverter();
     }
 
-    public BucketSettingBusiness get(String bucketName) {
+    public Mono<BucketSettingBusiness> get(String bucketName) {
         return get(bucketName, null);
     }
 
-    public BucketSettingBusiness get(String bucketName, String region) {
+    public Mono<BucketSettingBusiness> get(String bucketName, String region) {
 
-        SseConfiguration sseConfiguration = minioBucketEncryptionService.getBucketEncryption(bucketName, region);
-        Tags tags = minioBucketTagsService.getBucketTags(bucketName, region);
-        PolicyEnums policy = minioBucketPolicyService.getBucketPolicy(bucketName, region);
-        ObjectLockConfiguration objectLockConfiguration = minioObjectLockConfigurationService.getObjectLockConfiguration(bucketName, region);
-        VersioningConfiguration versioningConfiguration = minioBucketVersioningService.getBucketVersioning(bucketName, region);
-        long quota = minioBucketQuotaService.getBucketQuota(bucketName);
+        Mono<SseConfiguration> sseConfiguration = minioBucketEncryptionService.getBucketEncryption(bucketName, region);
+        Mono<Tags> tags = minioBucketTagsService.getBucketTags(bucketName, region);
+        Mono<PolicyEnums> policy = minioBucketPolicyService.getBucketPolicy(bucketName, region);
+        Mono<ObjectLockConfiguration> objectLockConfiguration = minioObjectLockConfigurationService.getObjectLockConfiguration(bucketName, region);
+        Mono<VersioningConfiguration> versioningConfiguration = minioBucketVersioningService.getBucketVersioning(bucketName, region);
+        Mono<Long> quota = minioBucketQuotaService.getBucketQuota(bucketName);
 
-        BucketSettingBusiness entity = new BucketSettingBusiness();
-        entity.setSseConfiguration(toSseConfigurationEnums.convert(sseConfiguration));
-        entity.setTags(tags.get());
-        entity.setPolicy(policy);
-        entity.setQuota(quota);
-        entity.setObjectLock(toObjectLockDomain.convert(objectLockConfiguration));
-        entity.setVersioning(toVersioningDomain.convert(versioningConfiguration));
-
-        return entity;
+        return Mono.zip(sseConfiguration, tags, policy, objectLockConfiguration, versioningConfiguration, quota)
+                .map(tuple -> {
+                    BucketSettingBusiness entity = new BucketSettingBusiness();
+                    entity.setSseConfiguration(toSseConfigurationEnums.convert(tuple.getT1()));
+                    entity.setTags(tuple.getT2().get());
+                    entity.setPolicy(tuple.getT3());
+                    entity.setObjectLock(toObjectLockDomain.convert(tuple.getT4()));
+                    entity.setVersioning(toVersioningDomain.convert(tuple.getT5()));
+                    entity.setQuota(tuple.getT6());
+                    return entity;
+                });
     }
 }

@@ -25,12 +25,12 @@
 
 package cn.herodotus.oss.rest.minio.controller;
 
+import cn.herodotus.oss.core.minio.request.bucket.DeleteBucketPolicyRequest;
+import cn.herodotus.oss.core.minio.request.bucket.SetBucketPolicyRequest;
+import cn.herodotus.oss.dialect.minio.service.MinioBucketPolicyService;
 import cn.herodotus.stirrup.core.definition.domain.Result;
 import cn.herodotus.stirrup.web.core.annotation.Idempotent;
 import cn.herodotus.stirrup.web.core.definition.Controller;
-import cn.herodotus.oss.dialect.minio.service.MinioBucketPolicyService;
-import cn.herodotus.oss.core.minio.request.bucket.DeleteBucketPolicyRequest;
-import cn.herodotus.oss.core.minio.request.bucket.SetBucketPolicyRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

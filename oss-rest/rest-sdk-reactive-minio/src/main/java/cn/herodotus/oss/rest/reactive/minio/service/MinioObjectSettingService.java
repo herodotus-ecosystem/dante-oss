@@ -23,17 +23,18 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.service;
+package cn.herodotus.oss.rest.reactive.minio.service;
 
 import cn.herodotus.oss.core.minio.bo.ObjectSettingBusiness;
 import cn.herodotus.oss.core.minio.converter.ResponseToStatObjectDomainConverter;
 import cn.herodotus.oss.core.minio.domain.StatObjectDomain;
-import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
-import cn.herodotus.oss.dialect.minio.service.MinioObjectTagsService;
+import cn.herodotus.oss.dialect.reactive.minio.service.MinioObjectService;
+import cn.herodotus.oss.dialect.reactive.minio.service.MinioObjectTagsService;
 import io.minio.StatObjectResponse;
 import io.minio.messages.Tags;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 /**
  * <p>Description: Object 管理页面数据获取 </p>
@@ -55,23 +56,23 @@ public class MinioObjectSettingService {
         this.toStatObjectDomain = new ResponseToStatObjectDomainConverter();
     }
 
-    public ObjectSettingBusiness get(String bucketName, String region, String objectName) {
-        StatObjectResponse statObjectResponse = minioObjectService.statObject(bucketName, region, objectName);
-        StatObjectDomain statObjectDomain = toStatObjectDomain.convert(statObjectResponse);
+    public Mono<ObjectSettingBusiness> get(String bucketName, String region, String objectName) {
+        Mono<StatObjectResponse> statObjectResponse = minioObjectService.statObject(bucketName, region, objectName);
+        Mono<Tags> tags = minioObjectTagsService.getObjectTags(bucketName, region, objectName);
 
-        Tags tags = minioObjectTagsService.getObjectTags(bucketName, region, objectName);
-
-        ObjectSettingBusiness business = new ObjectSettingBusiness();
-        business.setTags(tags.get());
-        business.setRetentionMode(statObjectDomain.getRetentionMode());
-        business.setRetentionRetainUntilDate(statObjectDomain.getRetentionRetainUntilDate());
-        business.setLegalHold(statObjectDomain.getLegalHold());
-        business.setDeleteMarker(statObjectDomain.getDeleteMarker());
-        business.setEtag(statObjectDomain.getEtag());
-        business.setLastModified(statObjectDomain.getLastModified());
-        business.setSize(statObjectDomain.getSize());
-        business.setUserMetadata(statObjectDomain.getUserMetadata());
-
-        return business;
+        return statObjectResponse.mapNotNull(toStatObjectDomain::convert).zipWith(tags)
+                .map(item -> {
+                    ObjectSettingBusiness business = new ObjectSettingBusiness();
+                    business.setTags(item.getT2().get());
+                    business.setRetentionMode(item.getT1().getRetentionMode());
+                    business.setRetentionRetainUntilDate(item.getT1().getRetentionRetainUntilDate());
+                    business.setLegalHold(item.getT1().getLegalHold());
+                    business.setDeleteMarker(item.getT1().getDeleteMarker());
+                    business.setEtag(item.getT1().getEtag());
+                    business.setLastModified(item.getT1().getLastModified());
+                    business.setSize(item.getT1().getSize());
+                    business.setUserMetadata(item.getT1().getUserMetadata());
+                    return business;
+                });
     }
 }

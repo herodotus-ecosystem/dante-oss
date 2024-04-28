@@ -23,28 +23,27 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.core.minio.domain.base;
+package cn.herodotus.oss.core.minio.converter.sse;
 
-import cn.herodotus.oss.core.minio.enums.RetentionModeEnums;
-import cn.herodotus.stirrup.core.definition.domain.base.Entity;
-import io.swagger.v3.oas.annotations.media.Schema;
+import cn.herodotus.oss.core.minio.enums.SseConfigurationEnums;
+import com.google.common.base.Enums;
+import io.minio.messages.SseConfiguration;
+import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.core.convert.converter.Converter;
 
 /**
- * <p>Description: Retention 相关共用属性抽象类 </p>
+ * <p>Description: Minio SseConfiguration 转 SseConfigurationEnums 转换器 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/4 21:58
+ * @date : 2023/6/12 6:33
  */
-public abstract class BaseRetentionDomain implements Entity {
+public class SseConfigurationToEnumConverter implements Converter<SseConfiguration, SseConfigurationEnums> {
+    @Override
+    public SseConfigurationEnums convert(SseConfiguration configuration) {
+        if (ObjectUtils.isNotEmpty(configuration) && ObjectUtils.isNotEmpty(configuration.rule())) {
+            return Enums.getIfPresent(SseConfigurationEnums.class, configuration.rule().sseAlgorithm().name()).or(SseConfigurationEnums.AES256);
+        }
 
-    @Schema(name = "保留模式")
-    private RetentionModeEnums mode;
-
-    public RetentionModeEnums getMode() {
-        return mode;
-    }
-
-    public void setMode(RetentionModeEnums mode) {
-        this.mode = mode;
+        return SseConfigurationEnums.DISABLED;
     }
 }

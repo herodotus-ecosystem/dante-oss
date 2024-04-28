@@ -23,23 +23,24 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.controller;
+package cn.herodotus.oss.rest.reactive.minio.controller;
 
-import cn.herodotus.oss.rest.minio.service.MinioConstantsService;
+import cn.herodotus.oss.rest.reactive.minio.definition.OssController;
+import cn.herodotus.oss.rest.reactive.minio.service.MinioConstantsService;
 import cn.herodotus.stirrup.core.definition.domain.Result;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.commons.collections4.MapUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
 @RestController
 @RequestMapping("/oss/minio/constant")
 @Tag(name = "系统常量接口")
-public class MinioConstantsController {
+public class MinioConstantsController implements OssController {
 
     private final MinioConstantsService minioConstantsService;
 
@@ -49,13 +50,8 @@ public class MinioConstantsController {
 
     @Operation(summary = "获取服务使用常量", description = "获取服务涉及的常量以及信息")
     @GetMapping(value = "/enums")
-    public Result<Map<String, Object>> findAllEnums() {
-        Result<Map<String, Object>> result = new Result<>();
-        Map<String, Object> allEnums = minioConstantsService.getAllEnums();
-        if (MapUtils.isNotEmpty(allEnums)) {
-            return Result.success("获取服务常量成功", allEnums);
-        } else {
-            return Result.failure("获取服务常量失败");
-        }
+    public Mono<Result<Map<String, Object>>> findAllEnums() {
+        Mono<Map<String, Object>> allEnums = minioConstantsService.getAllEnums();
+        return result(allEnums);
     }
 }

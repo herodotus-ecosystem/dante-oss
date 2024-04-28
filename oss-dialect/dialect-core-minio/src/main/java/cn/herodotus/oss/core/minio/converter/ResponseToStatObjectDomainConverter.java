@@ -23,11 +23,11 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter;
+package cn.herodotus.oss.core.minio.converter;
 
 import cn.herodotus.oss.core.minio.converter.retention.RetentionModeToEnumConverter;
 import cn.herodotus.oss.core.minio.enums.RetentionModeEnums;
-import cn.herodotus.oss.dialect.minio.domain.StatObjectDomain;
+import cn.herodotus.oss.core.minio.domain.StatObjectDomain;
 import cn.herodotus.stirrup.core.foundation.utils.type.DateTimeUtils;
 import io.minio.StatObjectResponse;
 import io.minio.messages.RetentionMode;

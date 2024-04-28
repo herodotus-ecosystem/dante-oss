@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.enums;
+package cn.herodotus.oss.core.minio.enums;
 
 import cn.herodotus.stirrup.core.definition.enums.BaseUiEnum;
 import com.fasterxml.jackson.annotation.JsonValue;

@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.converter.retention;
+package cn.herodotus.oss.core.minio.converter.retention;
 
 import cn.herodotus.oss.core.minio.domain.VersioningConfigurationDomain;
 import io.minio.messages.VersioningConfiguration;

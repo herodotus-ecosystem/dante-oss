@@ -23,9 +23,9 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.domain;
+package cn.herodotus.oss.core.minio.bo;
 
-import cn.herodotus.oss.core.domain.base.BaseDomain;
+import cn.herodotus.stirrup.core.definition.domain.base.Entity;
 import cn.herodotus.oss.core.minio.enums.RetentionModeEnums;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,20 +33,15 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.Map;
 
 /**
- * <p>Description: 对象信息 </p>
+ * <p>Description: 存储桶基础信息返回实体 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/11 15:54
+ * @date : 2023/6/11 10:02
  */
-public class StatObjectDomain extends BaseDomain {
-    @Schema(name = "ETag")
-    private String etag;
-    @Schema(name = "最后修改时间")
-    private String lastModified;
-    @Schema(name = "对象大小")
-    private Long size;
-    @Schema(name = "用户自定义元数据")
-    private Map<String, String> userMetadata;
+public class ObjectSettingBusiness implements Entity {
+
+    @Schema(name = "标签")
+    private Map<String, String> tags;
     @Schema(name = "保留模式")
     private RetentionModeEnums retentionMode;
     @Schema(name = "保留截止日期")
@@ -55,29 +50,21 @@ public class StatObjectDomain extends BaseDomain {
     private Boolean legalHold;
     @Schema(name = "是否标记删除")
     private Boolean deleteMarker;
+    @Schema(name = "ETag")
+    private String etag;
+    @Schema(name = "最后修改时间")
+    private String lastModified;
+    @Schema(name = "对象大小")
+    private Long size;
+    @Schema(name = "用户自定义元数据")
+    private Map<String, String> userMetadata;
 
-    public String getEtag() {
-        return etag;
+    public Map<String, String> getTags() {
+        return tags;
     }
 
-    public void setEtag(String etag) {
-        this.etag = etag;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public void setSize(Long size) {
-        this.size = size;
-    }
-
-    public String getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(String lastModified) {
-        this.lastModified = lastModified;
+    public void setTags(Map<String, String> tags) {
+        this.tags = tags;
     }
 
     public RetentionModeEnums getRetentionMode() {
@@ -112,6 +99,30 @@ public class StatObjectDomain extends BaseDomain {
         this.deleteMarker = deleteMarker;
     }
 
+    public String getEtag() {
+        return etag;
+    }
+
+    public void setEtag(String etag) {
+        this.etag = etag;
+    }
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public Long getSize() {
+        return size;
+    }
+
+    public void setSize(Long size) {
+        this.size = size;
+    }
+
     public Map<String, String> getUserMetadata() {
         return userMetadata;
     }
@@ -123,13 +134,13 @@ public class StatObjectDomain extends BaseDomain {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("etag", etag)
-                .add("size", size)
-                .add("lastModified", lastModified)
                 .add("retentionMode", retentionMode)
                 .add("retentionRetainUntilDate", retentionRetainUntilDate)
                 .add("legalHold", legalHold)
                 .add("deleteMarker", deleteMarker)
+                .add("etag", etag)
+                .add("lastModified", lastModified)
+                .add("size", size)
                 .toString();
     }
 }
