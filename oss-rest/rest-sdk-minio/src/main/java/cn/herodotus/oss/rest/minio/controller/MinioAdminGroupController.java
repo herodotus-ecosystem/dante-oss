@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.rest.minio.controller;
 
-import cn.herodotus.oss.dialect.minio.converter.GroupInfoToDomainConverter;
-import cn.herodotus.oss.dialect.minio.domain.GroupDomain;
-import cn.herodotus.oss.dialect.minio.domain.UserDomain;
+import cn.herodotus.oss.core.minio.converter.GroupInfoToDomainConverter;
+import cn.herodotus.oss.core.minio.domain.GroupDomain;
+import cn.herodotus.oss.core.minio.domain.UserDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioAdminGroupService;
 import cn.herodotus.stirrup.core.definition.domain.Result;
 import cn.herodotus.stirrup.web.core.annotation.AccessLimited;

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.sse;
 
-import cn.herodotus.oss.dialect.minio.enums.SseConfigurationEnums;
+import cn.herodotus.oss.core.minio.enums.SseConfigurationEnums;
 import com.google.common.base.Enums;
 import io.minio.messages.SseConfiguration;
 import org.apache.commons.lang3.ObjectUtils;

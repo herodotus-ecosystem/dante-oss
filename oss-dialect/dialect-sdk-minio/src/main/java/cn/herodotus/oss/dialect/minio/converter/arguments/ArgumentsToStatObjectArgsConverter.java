@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
-import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectConditionalReadConverter;
 import cn.herodotus.oss.core.arguments.object.GetObjectMetadataArguments;
+import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectConditionalReadConverter;
 import io.minio.StatObjectArgs;
 
 /**

@@ -26,8 +26,8 @@
 package cn.herodotus.oss.rest.minio.controller;
 
 import cn.herodotus.oss.dialect.minio.service.MinioBucketEncryptionService;
-import cn.herodotus.oss.rest.minio.request.bucket.DeleteBucketEncryptionRequest;
-import cn.herodotus.oss.rest.minio.request.bucket.SetBucketEncryptionRequest;
+import cn.herodotus.oss.core.minio.request.bucket.DeleteBucketEncryptionRequest;
+import cn.herodotus.oss.core.minio.request.bucket.SetBucketEncryptionRequest;
 import cn.herodotus.stirrup.core.definition.domain.Result;
 import cn.herodotus.stirrup.web.core.annotation.Idempotent;
 import cn.herodotus.stirrup.web.core.definition.Controller;

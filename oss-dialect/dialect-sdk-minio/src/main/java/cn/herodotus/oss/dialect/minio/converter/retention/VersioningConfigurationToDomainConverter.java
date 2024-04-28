@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.retention;
 
-import cn.herodotus.oss.dialect.minio.domain.VersioningConfigurationDomain;
+import cn.herodotus.oss.core.minio.domain.VersioningConfigurationDomain;
 import io.minio.messages.VersioningConfiguration;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;

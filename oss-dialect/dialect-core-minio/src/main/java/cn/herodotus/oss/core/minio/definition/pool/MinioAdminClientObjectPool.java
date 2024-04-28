@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.core.minio.definition.pool;
 
-import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
+import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
 import io.minio.admin.MinioAdminClient;
 
 /**

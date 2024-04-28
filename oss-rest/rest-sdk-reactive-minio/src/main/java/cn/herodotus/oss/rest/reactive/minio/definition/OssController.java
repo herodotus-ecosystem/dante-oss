@@ -39,6 +39,6 @@ import reactor.core.publisher.Mono;
 public interface OssController extends ReactiveController {
 
     default Mono<Result<VoidResponse>> fromVoid(Mono<Void> data) {
-        return Mono.just(Result.success("操作成功", new VoidResponse()));
+        return data.then(Mono.just(Result.success("操作成功", new VoidResponse())));
     }
 }

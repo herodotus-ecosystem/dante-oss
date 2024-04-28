@@ -29,7 +29,7 @@ import cn.herodotus.stirrup.core.definition.domain.Result;
 import cn.herodotus.stirrup.web.core.annotation.AccessLimited;
 import cn.herodotus.stirrup.web.core.annotation.Idempotent;
 import cn.herodotus.stirrup.web.core.definition.Controller;
-import cn.herodotus.oss.dialect.minio.domain.UserDomain;
+import cn.herodotus.oss.core.minio.domain.UserDomain;
 import cn.herodotus.oss.dialect.minio.service.MinioAdminPolicyService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

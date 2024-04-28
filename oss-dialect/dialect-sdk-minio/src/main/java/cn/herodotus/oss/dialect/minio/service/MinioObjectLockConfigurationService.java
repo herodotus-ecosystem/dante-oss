@@ -25,11 +25,11 @@
 
 package cn.herodotus.oss.dialect.minio.service;
 
+import cn.herodotus.oss.core.minio.converter.retention.ObjectLockConfigurationToDomainConverter;
+import cn.herodotus.oss.core.minio.domain.ObjectLockConfigurationDomain;
 import cn.herodotus.oss.dialect.core.exception.*;
-import cn.herodotus.oss.dialect.minio.converter.retention.ObjectLockConfigurationToDomainConverter;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
-import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
 import io.minio.DeleteObjectLockConfigurationArgs;
 import io.minio.GetObjectLockConfigurationArgs;
 import io.minio.MinioClient;

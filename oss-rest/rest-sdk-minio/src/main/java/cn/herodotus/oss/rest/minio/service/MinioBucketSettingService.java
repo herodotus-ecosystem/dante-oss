@@ -25,13 +25,13 @@
 
 package cn.herodotus.oss.rest.minio.service;
 
-import cn.herodotus.oss.dialect.minio.converter.retention.ObjectLockConfigurationToDomainConverter;
+import cn.herodotus.oss.core.minio.converter.retention.ObjectLockConfigurationToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.retention.VersioningConfigurationToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.sse.SseConfigurationToEnumConverter;
-import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
-import cn.herodotus.oss.dialect.minio.domain.VersioningConfigurationDomain;
+import cn.herodotus.oss.core.minio.domain.ObjectLockConfigurationDomain;
+import cn.herodotus.oss.core.minio.domain.VersioningConfigurationDomain;
 import cn.herodotus.oss.core.minio.enums.PolicyEnums;
-import cn.herodotus.oss.dialect.minio.enums.SseConfigurationEnums;
+import cn.herodotus.oss.core.minio.enums.SseConfigurationEnums;
 import cn.herodotus.oss.dialect.minio.service.*;
 import cn.herodotus.oss.rest.minio.bo.BucketSettingBusiness;
 import io.minio.messages.ObjectLockConfiguration;

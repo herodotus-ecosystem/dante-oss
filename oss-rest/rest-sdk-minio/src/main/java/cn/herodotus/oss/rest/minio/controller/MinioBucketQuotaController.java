@@ -29,7 +29,7 @@ import cn.herodotus.stirrup.core.definition.domain.Result;
 import cn.herodotus.stirrup.web.core.annotation.Idempotent;
 import cn.herodotus.stirrup.web.core.definition.Controller;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketQuotaService;
-import cn.herodotus.oss.rest.minio.request.object.SetBucketQuotaRequest;
+import cn.herodotus.oss.core.minio.request.bucket.SetBucketQuotaRequest;
 import io.minio.admin.QuotaUnit;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

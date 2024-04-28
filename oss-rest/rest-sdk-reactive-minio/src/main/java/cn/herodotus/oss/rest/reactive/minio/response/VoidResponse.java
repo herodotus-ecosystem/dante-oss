@@ -31,5 +31,5 @@ package cn.herodotus.oss.rest.reactive.minio.response;
  * @author : gengwei.zheng
  * @date : 2024/4/27 23:30
  */
-public class VoidResponse implements OssResponse{
+public class VoidResponse implements OssResponse {
 }

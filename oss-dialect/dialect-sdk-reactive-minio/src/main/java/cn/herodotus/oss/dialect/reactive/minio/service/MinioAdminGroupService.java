@@ -52,9 +52,8 @@ public class MinioAdminGroupService extends BaseMinioAdminService {
      *
      * @return 组列表
      */
-    public Flux<String> listGroups() {
-        return just("listGroups", MinioAdminClient::listGroups)
-                .flatMapMany(Flux::fromIterable);
+    public Mono<List<String>> listGroups() {
+        return just("listGroups", MinioAdminClient::listGroups);
     }
 
     /**

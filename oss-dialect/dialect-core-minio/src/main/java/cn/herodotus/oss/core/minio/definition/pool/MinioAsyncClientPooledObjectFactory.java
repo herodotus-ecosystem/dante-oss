@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.core.minio.definition.pool;
 
-import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 import cn.herodotus.oss.core.minio.properties.MinioProperties;
+import cn.herodotus.oss.dialect.core.client.AbstractOssClientPooledObjectFactory;
 
 /**
  * <p>Description: 扩展的 Minio 异步 Client 池化工厂 </p>

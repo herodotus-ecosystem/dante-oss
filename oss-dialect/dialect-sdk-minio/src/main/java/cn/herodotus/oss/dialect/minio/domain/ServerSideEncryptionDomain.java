@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.stirrup.core.definition.domain.base.Entity;
 import cn.herodotus.oss.dialect.minio.enums.ServerSideEncryptionEnums;
+import cn.herodotus.stirrup.core.definition.domain.base.Entity;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.Map;

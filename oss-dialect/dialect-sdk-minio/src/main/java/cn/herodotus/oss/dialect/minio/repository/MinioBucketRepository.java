@@ -25,17 +25,17 @@
 
 package cn.herodotus.oss.dialect.minio.repository;
 
-import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToMakeBucketArgsConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveBucketArgsConverter;
-import cn.herodotus.oss.core.minio.converter.domain.BucketToDomainConverter;
-import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
-import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
-import cn.herodotus.oss.core.minio.utils.MinioConverterUtils;
 import cn.herodotus.oss.core.arguments.bucket.CreateBucketArguments;
 import cn.herodotus.oss.core.arguments.bucket.DeleteBucketArguments;
 import cn.herodotus.oss.core.definition.repository.OssBucketRepository;
 import cn.herodotus.oss.core.domain.bucket.BucketDomain;
+import cn.herodotus.oss.core.minio.converter.domain.BucketToDomainConverter;
+import cn.herodotus.oss.core.minio.utils.MinioConverterUtils;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToMakeBucketArgsConverter;
+import cn.herodotus.oss.dialect.minio.converter.arguments.ArgumentsToRemoveBucketArgsConverter;
+import cn.herodotus.oss.dialect.minio.definition.service.BaseMinioService;
+import cn.herodotus.oss.dialect.minio.service.MinioBucketService;
+import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
 import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import io.minio.RemoveBucketArgs;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
+ * Copyright (c) 2020-2030 码匠君<herodotus@aliyun.com>
  *
  * Dante Cloud licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.rest.reactive.minio.controller;
 
+import cn.herodotus.oss.core.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.reactive.minio.service.MinioBucketService;
 import cn.herodotus.oss.rest.reactive.minio.definition.OssController;
 import cn.herodotus.oss.rest.reactive.minio.request.bucket.BucketExistsRequest;
@@ -32,7 +33,6 @@ import cn.herodotus.oss.rest.reactive.minio.request.bucket.ListBucketsRequest;
 import cn.herodotus.oss.rest.reactive.minio.request.bucket.MakeBucketRequest;
 import cn.herodotus.oss.rest.reactive.minio.request.bucket.RemoveBucketRequest;
 import cn.herodotus.oss.rest.reactive.minio.response.VoidResponse;
-import cn.herodotus.oss.core.domain.bucket.BucketDomain;
 import cn.herodotus.stirrup.core.definition.domain.Result;
 import cn.herodotus.stirrup.web.core.annotation.AccessLimited;
 import cn.herodotus.stirrup.web.core.annotation.Idempotent;

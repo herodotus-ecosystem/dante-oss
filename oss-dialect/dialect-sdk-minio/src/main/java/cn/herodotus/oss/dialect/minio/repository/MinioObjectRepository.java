@@ -25,17 +25,20 @@
 
 package cn.herodotus.oss.dialect.minio.repository;
 
-import cn.herodotus.oss.core.minio.converter.domain.IterableResultItemToDomainConverter;
-import cn.herodotus.oss.core.minio.converter.domain.IterableResultItemV2ToDomainConverter;
-import cn.herodotus.oss.core.minio.converter.domain.ResultDeleteErrorToDomainConverter;
-import cn.herodotus.oss.dialect.minio.converter.arguments.*;
-import cn.herodotus.oss.dialect.minio.converter.domain.*;
-import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
-import cn.herodotus.oss.core.minio.utils.MinioConverterUtils;
 import cn.herodotus.oss.core.arguments.object.*;
 import cn.herodotus.oss.core.definition.repository.OssObjectRepository;
 import cn.herodotus.oss.core.domain.base.ObjectWriteDomain;
 import cn.herodotus.oss.core.domain.object.*;
+import cn.herodotus.oss.core.minio.converter.domain.IterableResultItemToDomainConverter;
+import cn.herodotus.oss.core.minio.converter.domain.IterableResultItemV2ToDomainConverter;
+import cn.herodotus.oss.core.minio.converter.domain.ResultDeleteErrorToDomainConverter;
+import cn.herodotus.oss.core.minio.utils.MinioConverterUtils;
+import cn.herodotus.oss.dialect.minio.converter.arguments.*;
+import cn.herodotus.oss.dialect.minio.converter.domain.GetObjectResponseToDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.ObjectWriteResponseToPutObjectDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.ObjectWriteResponseToUploadObjectDomainConverter;
+import cn.herodotus.oss.dialect.minio.converter.domain.StatObjectResponseToDomainConverter;
+import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
 import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.Item;

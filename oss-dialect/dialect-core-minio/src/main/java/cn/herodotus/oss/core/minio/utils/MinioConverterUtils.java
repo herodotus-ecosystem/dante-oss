@@ -27,7 +27,6 @@ package cn.herodotus.oss.core.minio.utils;
 
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
 import io.minio.Result;
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.IterableUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.springframework.core.convert.converter.Converter;

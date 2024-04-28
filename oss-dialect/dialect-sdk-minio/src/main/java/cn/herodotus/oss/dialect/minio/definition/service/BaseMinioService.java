@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.minio.definition.service;
 
-import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
 import cn.herodotus.oss.dialect.core.service.BaseOssService;
+import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
 import io.minio.MinioClient;
 
 /**

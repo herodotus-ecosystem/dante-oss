@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.core.minio.converter.domain;
 
-import cn.herodotus.oss.dialect.core.exception.*;
-import cn.herodotus.oss.core.minio.domain.DeleteErrorDomain;
 import cn.herodotus.oss.core.domain.object.DeleteObjectDomain;
+import cn.herodotus.oss.core.minio.domain.DeleteErrorDomain;
+import cn.herodotus.oss.dialect.core.exception.*;
 import io.minio.Result;
 import io.minio.errors.*;
 import io.minio.messages.DeleteError;
