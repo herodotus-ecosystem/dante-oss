@@ -25,14 +25,17 @@
 
 package cn.herodotus.oss.dialect.minio.repository;
 
+import cn.herodotus.oss.core.minio.converter.domain.IterableResultItemToDomainConverter;
+import cn.herodotus.oss.core.minio.converter.domain.IterableResultItemV2ToDomainConverter;
+import cn.herodotus.oss.core.minio.converter.domain.ResultDeleteErrorToDomainConverter;
 import cn.herodotus.oss.dialect.minio.converter.arguments.*;
 import cn.herodotus.oss.dialect.minio.converter.domain.*;
 import cn.herodotus.oss.dialect.minio.service.MinioObjectService;
-import cn.herodotus.oss.dialect.minio.utils.ConverterUtils;
-import cn.herodotus.oss.specification.arguments.object.*;
-import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
-import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
-import cn.herodotus.oss.specification.domain.object.*;
+import cn.herodotus.oss.core.minio.utils.MinioConverterUtils;
+import cn.herodotus.oss.core.arguments.object.*;
+import cn.herodotus.oss.core.definition.repository.OssObjectRepository;
+import cn.herodotus.oss.core.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.core.domain.object.*;
 import io.minio.*;
 import io.minio.messages.DeleteError;
 import io.minio.messages.Item;
@@ -86,7 +89,7 @@ public class MinioObjectRepository implements OssObjectRepository {
     public List<DeleteObjectDomain> deleteObjects(DeleteObjectsArguments arguments) {
         Converter<DeleteObjectsArguments, RemoveObjectsArgs> toArgs = new ArgumentsToRemoveObjectsArgsConverter();
         Iterable<Result<DeleteError>> deletesErrors = minioObjectService.removeObjects(toArgs.convert(arguments));
-        return ConverterUtils.toDomains(deletesErrors, new ResultDeleteErrorToDomainConverter());
+        return MinioConverterUtils.toDomains(deletesErrors, new ResultDeleteErrorToDomainConverter());
     }
 
     @Override

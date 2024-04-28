@@ -25,8 +25,9 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.specification.domain.base.OwnerDomain;
-import cn.herodotus.oss.specification.domain.multipart.UploadDomain;
+import cn.herodotus.oss.core.domain.base.OwnerDomain;
+import cn.herodotus.oss.core.domain.multipart.UploadDomain;
+import cn.herodotus.oss.core.minio.converter.domain.OwnerToDomainConverter;
 import io.minio.messages.Initiator;
 import io.minio.messages.Owner;
 import io.minio.messages.Upload;

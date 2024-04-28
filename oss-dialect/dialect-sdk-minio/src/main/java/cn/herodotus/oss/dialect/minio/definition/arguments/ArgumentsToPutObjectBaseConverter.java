@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.specification.arguments.base.PutObjectBaseArguments;
+import cn.herodotus.oss.core.arguments.base.PutObjectBaseArguments;
 import io.minio.PutObjectBaseArgs;
 
 /**

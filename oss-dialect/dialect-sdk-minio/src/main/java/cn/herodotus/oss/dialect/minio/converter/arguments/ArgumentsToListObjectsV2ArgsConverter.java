@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToBucketConverter;
-import cn.herodotus.oss.specification.arguments.object.ListObjectsV2Arguments;
+import cn.herodotus.oss.core.arguments.object.ListObjectsV2Arguments;
 import io.minio.ListObjectsArgs;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;

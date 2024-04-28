@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.specification.arguments;
 
-import cn.herodotus.oss.specification.arguments.base.ObjectArguments;
+import cn.herodotus.oss.core.arguments.base.ObjectArguments;
 
 /**
  * <p>Description: 对象流式下载请求参数实体 </p>

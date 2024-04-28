@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
 import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
-import cn.herodotus.oss.specification.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.core.arguments.object.ListObjectsArguments;
 import com.aliyun.oss.model.ListObjectsRequest;
 
 /**

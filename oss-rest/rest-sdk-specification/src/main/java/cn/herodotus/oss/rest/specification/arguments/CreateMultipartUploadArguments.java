@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.specification.arguments;
 
-import cn.herodotus.oss.specification.arguments.base.ObjectArguments;
+import cn.herodotus.oss.core.arguments.base.ObjectArguments;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 

@@ -75,7 +75,7 @@
         <dependencies>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>oss-specification</artifactId>
+                <artifactId>oss-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -91,6 +91,16 @@
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
                 <artifactId>dialect-core-s3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>dialect-sdk-reactive-s3</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.herodotus.oss</groupId>
+                <artifactId>dialect-sdk-reactive-minio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

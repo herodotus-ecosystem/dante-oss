@@ -25,10 +25,11 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.oss.specification.arguments.multipart.ListPartsArguments;
-import cn.herodotus.oss.specification.domain.base.OwnerDomain;
-import cn.herodotus.oss.specification.domain.multipart.ListPartsDomain;
-import cn.herodotus.oss.specification.domain.multipart.PartSummaryDomain;
+import cn.herodotus.oss.core.arguments.multipart.ListPartsArguments;
+import cn.herodotus.oss.core.domain.base.OwnerDomain;
+import cn.herodotus.oss.core.domain.multipart.ListPartsDomain;
+import cn.herodotus.oss.core.domain.multipart.PartSummaryDomain;
+import cn.herodotus.oss.core.minio.converter.domain.OwnerToDomainConverter;
 import io.minio.messages.Initiator;
 import io.minio.messages.ListPartsResult;
 import io.minio.messages.Owner;

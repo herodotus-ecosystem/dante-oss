@@ -29,7 +29,7 @@ import cn.herodotus.stirrup.web.core.annotation.Idempotent;
 import cn.herodotus.stirrup.web.core.definition.Controller;
 import cn.herodotus.oss.rest.specification.arguments.ObjectStreamDownloadArguments;
 import cn.herodotus.oss.solution.service.OssObjectStreamService;
-import cn.herodotus.oss.specification.domain.object.PutObjectDomain;
+import cn.herodotus.oss.core.domain.object.PutObjectDomain;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

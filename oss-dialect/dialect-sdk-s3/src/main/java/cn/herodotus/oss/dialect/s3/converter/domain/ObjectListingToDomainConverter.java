@@ -26,8 +26,8 @@
 package cn.herodotus.oss.dialect.s3.converter.domain;
 
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
-import cn.herodotus.oss.specification.domain.object.ListObjectsDomain;
-import cn.herodotus.oss.specification.domain.object.ObjectDomain;
+import cn.herodotus.oss.core.domain.object.ListObjectsDomain;
+import cn.herodotus.oss.core.domain.object.ObjectDomain;
 import com.amazonaws.services.s3.model.ObjectListing;
 import org.springframework.core.convert.converter.Converter;
 

@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.minio.converter.arguments;
 
 import cn.herodotus.oss.dialect.minio.definition.arguments.ArgumentsToObjectVersionConverter;
-import cn.herodotus.oss.specification.arguments.object.DeleteObjectArguments;
+import cn.herodotus.oss.core.arguments.object.DeleteObjectArguments;
 import io.minio.RemoveObjectArgs;
 import org.apache.commons.lang3.ObjectUtils;
 

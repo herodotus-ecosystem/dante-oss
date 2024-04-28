@@ -40,7 +40,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>oss-specification</artifactId>
+            <artifactId>oss-core</artifactId>
         </dependency>
     </dependencies>
 

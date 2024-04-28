@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter;
 
-import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.core.domain.base.ObjectWriteDomain;
 import io.minio.ObjectWriteResponse;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.core.convert.converter.Converter;

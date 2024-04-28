@@ -27,9 +27,9 @@ package cn.herodotus.oss.dialect.minio.repository;
 
 import cn.herodotus.oss.dialect.minio.converter.domain.*;
 import cn.herodotus.oss.dialect.minio.service.MinioMultipartUploadService;
-import cn.herodotus.oss.specification.arguments.multipart.*;
-import cn.herodotus.oss.specification.core.repository.OssMultipartUploadRepository;
-import cn.herodotus.oss.specification.domain.multipart.*;
+import cn.herodotus.oss.core.arguments.multipart.*;
+import cn.herodotus.oss.core.definition.repository.OssMultipartUploadRepository;
+import cn.herodotus.oss.core.domain.multipart.*;
 import io.minio.*;
 import io.minio.messages.InitiateMultipartUploadResult;
 import io.minio.messages.ListMultipartUploadsResult;

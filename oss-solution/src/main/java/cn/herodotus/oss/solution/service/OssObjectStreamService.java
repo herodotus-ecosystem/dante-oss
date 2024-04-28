@@ -26,11 +26,11 @@
 package cn.herodotus.oss.solution.service;
 
 import cn.herodotus.oss.dialect.core.exception.OssIOException;
-import cn.herodotus.oss.specification.arguments.object.PutObjectArguments;
-import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
-import cn.herodotus.oss.specification.domain.object.GetObjectDomain;
-import cn.herodotus.oss.specification.domain.object.ObjectMetadataDomain;
-import cn.herodotus.oss.specification.domain.object.PutObjectDomain;
+import cn.herodotus.oss.core.arguments.object.PutObjectArguments;
+import cn.herodotus.oss.core.definition.repository.OssObjectRepository;
+import cn.herodotus.oss.core.domain.object.GetObjectDomain;
+import cn.herodotus.oss.core.domain.object.ObjectMetadataDomain;
+import cn.herodotus.oss.core.domain.object.PutObjectDomain;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;

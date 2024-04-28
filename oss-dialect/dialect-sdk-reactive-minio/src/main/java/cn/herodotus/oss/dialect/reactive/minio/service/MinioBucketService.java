@@ -21,17 +21,20 @@
 
 package cn.herodotus.oss.dialect.reactive.minio.service;
 
+import cn.herodotus.oss.core.domain.bucket.BucketDomain;
+import cn.herodotus.oss.core.minio.converter.domain.BucketToDomainConverter;
 import cn.herodotus.oss.core.minio.definition.pool.MinioAsyncClientObjectPool;
+import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
 import cn.herodotus.oss.dialect.reactive.minio.definition.service.BaseMinioAsyncService;
 import io.minio.BucketExistsArgs;
 import io.minio.ListBucketsArgs;
 import io.minio.MakeBucketArgs;
 import io.minio.RemoveBucketArgs;
-import io.minio.messages.Bucket;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * <p>Description: Minio Bucket 存储通基础操作服务 Service </p>
@@ -49,26 +52,12 @@ public class MinioBucketService extends BaseMinioAsyncService {
     /**
      * 查询所有存储桶
      *
-     * @return Bucket 列表
-     */
-    public Flux<Bucket> listBuckets() {
-        return listBuckets(null);
-    }
-
-    /**
-     * 查询所有存储桶
-     *
      * @param listBucketsArgs {@link ListBucketsArgs}
      * @return Bucket 列表
      */
-    public Flux<Bucket> listBuckets(ListBucketsArgs listBucketsArgs) {
-        return fromFuture("listBuckets", (client) -> {
-            if (ObjectUtils.isNotEmpty(listBucketsArgs)) {
-                return client.listBuckets(listBucketsArgs);
-            } else {
-                return client.listBuckets();
-            }
-        }).flatMapMany(Flux::fromIterable);
+    public Mono<List<BucketDomain>> listBuckets(ListBucketsArgs listBucketsArgs) {
+        return fromFuture("listBuckets", (client) -> ObjectUtils.isNotEmpty(listBucketsArgs) ? client.listBuckets(listBucketsArgs) : client.listBuckets())
+                .map(items -> ConverterUtils.toDomains(items, new BucketToDomainConverter()));
     }
 
     /**

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.converter.domain;
 
-import cn.herodotus.oss.specification.domain.object.DeleteObjectDomain;
+import cn.herodotus.oss.core.domain.object.DeleteObjectDomain;
 import com.amazonaws.services.s3.model.DeleteObjectsResult;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.core.convert.converter.Converter;

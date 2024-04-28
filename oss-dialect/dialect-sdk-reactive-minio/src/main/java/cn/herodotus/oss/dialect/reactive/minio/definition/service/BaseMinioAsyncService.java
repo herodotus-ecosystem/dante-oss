@@ -100,8 +100,7 @@ public abstract class BaseMinioAsyncService extends BaseOssService<MinioAsyncCli
 
         try {
             return operate.apply(client);
-        } catch (
-                ErrorResponseException e) {
+        } catch (ErrorResponseException e) {
             log.error("[Herodotus] |- Minio catch ErrorResponseException in [{}].", name, e);
             throw new OssErrorResponseException(e.getMessage());
         } catch (InsufficientDataException e) {

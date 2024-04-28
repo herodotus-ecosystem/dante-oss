@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.specification.arguments.base.ObjectConditionalReadArguments;
+import cn.herodotus.oss.core.arguments.base.ObjectConditionalReadArguments;
 import cn.herodotus.stirrup.core.definition.constants.SymbolConstants;
 import cn.herodotus.stirrup.core.foundation.utils.type.DateTimeUtils;
 import io.minio.ObjectConditionalReadArgs;

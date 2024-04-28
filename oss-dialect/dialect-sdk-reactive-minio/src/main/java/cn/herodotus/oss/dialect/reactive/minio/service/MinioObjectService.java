@@ -21,11 +21,19 @@
 
 package cn.herodotus.oss.dialect.reactive.minio.service;
 
+import cn.herodotus.oss.core.domain.object.DeleteObjectDomain;
+import cn.herodotus.oss.core.domain.object.ListObjectsDomain;
+import cn.herodotus.oss.core.minio.converter.domain.BucketToDomainConverter;
+import cn.herodotus.oss.core.minio.converter.domain.IterableResultItemToDomainConverter;
+import cn.herodotus.oss.core.minio.converter.domain.ResultDeleteErrorToDomainConverter;
 import cn.herodotus.oss.core.minio.definition.pool.MinioAsyncClientObjectPool;
+import cn.herodotus.oss.core.minio.utils.MinioConverterUtils;
+import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
 import cn.herodotus.oss.dialect.reactive.minio.definition.service.BaseMinioAsyncService;
 import io.minio.*;
 import io.minio.http.Method;
 import io.minio.messages.*;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -33,6 +41,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -55,7 +64,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param bucketName 存储桶名称
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName) {
         return listObjects(bucketName, null);
     }
 
@@ -66,7 +75,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String prefix) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String prefix) {
         return listObjects(bucketName, null, prefix);
     }
 
@@ -78,7 +87,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String region, String prefix) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String region, String prefix) {
         return listObjects(bucketName, region, prefix, null);
     }
 
@@ -91,7 +100,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String region, String prefix, String delimiter) {
         return listObjects(bucketName, region, prefix, delimiter, false);
     }
 
@@ -105,7 +114,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive) {
         return listObjects(bucketName, region, prefix, delimiter, recursive, null);
     }
 
@@ -120,7 +129,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param prefix     前缀
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, String keyMarker) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, String keyMarker) {
         return listObjects(bucketName, region, prefix, delimiter, recursive, true, keyMarker);
     }
 
@@ -136,7 +145,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param prefix             前缀
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker) {
         return listObjects(bucketName, region, prefix, delimiter, recursive, useUrlEncodingType, keyMarker, 1000);
     }
 
@@ -153,7 +162,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param prefix             前缀
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys) {
         return listObjects(bucketName, region, prefix, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, false);
     }
 
@@ -171,7 +180,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param includeVersions    是否包含版本
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, boolean includeVersions) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, boolean includeVersions) {
         return listObjects(bucketName, region, prefix, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, includeVersions, null);
     }
 
@@ -190,7 +199,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param versionIdMarker    版本关键字
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, boolean includeVersions, String versionIdMarker) {
+    public Mono<ListObjectsDomain> listObjects(String bucketName, String region, String prefix, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, boolean includeVersions, String versionIdMarker) {
         return listObjects(ListObjectsArgs.builder()
                 .bucket(bucketName)
                 .region(region)
@@ -212,7 +221,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param bucketName 存储桶名称
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName) {
         return listObjectsV2(bucketName, null);
     }
 
@@ -223,7 +232,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param region     区域
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region) {
         return listObjectsV2(bucketName, region, null);
     }
 
@@ -235,7 +244,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param delimiter  分隔符
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter) {
         return listObjectsV2(bucketName, region, delimiter, false);
     }
 
@@ -248,7 +257,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param recursive  是否递归
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive) {
         return listObjectsV2(bucketName, region, delimiter, recursive, null);
     }
 
@@ -262,7 +271,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param keyMarker  关键字
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, String keyMarker) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, String keyMarker) {
         return listObjectsV2(bucketName, region, delimiter, recursive, true, keyMarker);
     }
 
@@ -277,7 +286,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param keyMarker          关键字
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, 1000);
     }
 
@@ -293,7 +302,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param maxKeys            最大关键字
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, null);
     }
 
@@ -310,7 +319,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param prefix             前缀
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, false);
     }
 
@@ -328,7 +337,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param includeVersions    是否包含版本
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, null);
     }
 
@@ -347,7 +356,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param versionIdMarker    版本关键字
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, versionIdMarker, null);
     }
 
@@ -367,7 +376,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param continuationToken  持续集成 Token
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, versionIdMarker, continuationToken, false);
     }
 
@@ -388,7 +397,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param fetchOwner         获取 OwnerDomain
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner) {
         return listObjectsV2(bucketName, region, delimiter, recursive, useUrlEncodingType, keyMarker, maxKeys, prefix, includeVersions, versionIdMarker, continuationToken, fetchOwner, false);
     }
 
@@ -410,7 +419,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param includeUserMetadata 包含用户自定义信息
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner, boolean includeUserMetadata) {
+    public Mono<ListObjectsDomain> listObjectsV2(String bucketName, String region, String delimiter, boolean recursive, boolean useUrlEncodingType, String keyMarker, int maxKeys, String prefix, boolean includeVersions, String versionIdMarker, String continuationToken, boolean fetchOwner, boolean includeUserMetadata) {
         return listObjects(ListObjectsArgs.builder()
                 .bucket(bucketName)
                 .region(region)
@@ -435,9 +444,10 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param listObjectsArgs {@link ListObjectsArgs}
      * @return Iterable<Result < Item>>
      */
-    public Flux<Result<Item>> listObjects(ListObjectsArgs listObjectsArgs) {
+    public Mono<ListObjectsDomain> listObjects(ListObjectsArgs listObjectsArgs) {
+        Converter<Iterable<Result<Item>>, ListObjectsDomain> toDomain = new IterableResultItemToDomainConverter(listObjectsArgs.bucket(), listObjectsArgs.prefix());
         return just("listObjects", (client) -> client.listObjects(listObjectsArgs))
-                .flatMapMany(Flux::fromIterable);
+                .mapNotNull(toDomain::convert);
     }
 
     /**
@@ -447,7 +457,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param objects    待删除对象
      * @return 自定义删除错误列表。列表 Size 为 0，表明全部正常删除；不为 0，则返回具体错误对象以及相关信息
      */
-    public Flux<Result<DeleteError>> removeObjects(String bucketName, Iterable<DeleteObject> objects) {
+    public Mono<List<DeleteObjectDomain>> removeObjects(String bucketName, Iterable<DeleteObject> objects) {
         return removeObjects(bucketName, null, objects);
     }
 
@@ -459,7 +469,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param objects    待删除对象
      * @return 自定义删除错误列表。列表 Size 为 0，表明全部正常删除；不为 0，则返回具体错误对象以及相关信息
      */
-    public Flux<Result<DeleteError>> removeObjects(String bucketName, String region, Iterable<DeleteObject> objects) {
+    public Mono<List<DeleteObjectDomain>> removeObjects(String bucketName, String region, Iterable<DeleteObject> objects) {
         return removeObjects(bucketName, region, objects, false);
     }
 
@@ -472,7 +482,7 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param bypassGovernanceMode 使用 Governance 模式
      * @return 自定义删除错误列表。列表 Size 为 0，表明全部正常删除；不为 0，则返回具体错误对象以及相关信息
      */
-    public Flux<Result<DeleteError>> removeObjects(String bucketName, String region, Iterable<DeleteObject> objects, boolean bypassGovernanceMode) {
+    public Mono<List<DeleteObjectDomain>> removeObjects(String bucketName, String region, Iterable<DeleteObject> objects, boolean bypassGovernanceMode) {
         return removeObjects(RemoveObjectsArgs.builder().bucket(bucketName).region(region).objects(objects).bypassGovernanceMode(bypassGovernanceMode).build());
     }
 
@@ -482,9 +492,9 @@ public class MinioObjectService extends BaseMinioAsyncService {
      * @param removeObjectsArgs {@link RemoveObjectsArgs}
      * @return 自定义删除错误列表。列表 Size 为 0，表明全部正常删除；不为 0，则返回具体错误对象以及相关信息
      */
-    public Flux<Result<DeleteError>> removeObjects(RemoveObjectsArgs removeObjectsArgs) {
+    public Mono<List<DeleteObjectDomain>> removeObjects(RemoveObjectsArgs removeObjectsArgs) {
         return just("removeObject", (client) -> client.removeObjects(removeObjectsArgs))
-                .flatMapMany(Flux::fromIterable);
+                .map(items -> MinioConverterUtils.toDomains(items, new ResultDeleteErrorToDomainConverter()));
     }
 
     /**

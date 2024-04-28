@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
 import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
-import cn.herodotus.oss.specification.arguments.object.ListObjectsArguments;
+import cn.herodotus.oss.core.arguments.object.ListObjectsArguments;
 import com.amazonaws.services.s3.model.ListObjectsRequest;
 
 /**

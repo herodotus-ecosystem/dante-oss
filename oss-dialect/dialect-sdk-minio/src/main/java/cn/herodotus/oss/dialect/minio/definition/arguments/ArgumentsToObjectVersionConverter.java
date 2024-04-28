@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.specification.arguments.base.ObjectVersionArguments;
+import cn.herodotus.oss.core.arguments.base.ObjectVersionArguments;
 import io.minio.ObjectVersionArgs;
 import org.apache.commons.lang3.StringUtils;
 

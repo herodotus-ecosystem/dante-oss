@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.specification.arguments.multipart.AbortMultipartUploadArguments;
+import cn.herodotus.oss.core.arguments.multipart.AbortMultipartUploadArguments;
 import com.amazonaws.services.s3.model.AbortMultipartUploadRequest;
 import org.springframework.core.convert.converter.Converter;
 

@@ -108,7 +108,7 @@
         <module>oss-dialect</module>
         <module>oss-rest</module>
         <module>oss-starter</module>
-        <module>oss-specification</module>
+        <module>oss-core</module>
         <module>oss-solution</module>
     </modules>
 

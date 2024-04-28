@@ -36,10 +36,10 @@ import cn.herodotus.oss.dialect.aliyun.converter.domain.ObjectListingToDomainCon
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
-import cn.herodotus.oss.specification.arguments.object.*;
-import cn.herodotus.oss.specification.core.repository.OssObjectRepository;
-import cn.herodotus.oss.specification.domain.base.ObjectWriteDomain;
-import cn.herodotus.oss.specification.domain.object.*;
+import cn.herodotus.oss.core.arguments.object.*;
+import cn.herodotus.oss.core.definition.repository.OssObjectRepository;
+import cn.herodotus.oss.core.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.core.domain.object.*;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;

@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.oss.specification.arguments.base.BaseArguments;
+import cn.herodotus.oss.core.arguments.base.BaseArguments;
 import io.minio.BaseArgs;
 import org.springframework.core.convert.converter.Converter;
 
