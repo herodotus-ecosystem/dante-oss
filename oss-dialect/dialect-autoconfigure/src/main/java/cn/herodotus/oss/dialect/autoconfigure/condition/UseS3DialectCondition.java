@@ -45,6 +45,7 @@ public class UseS3DialectCondition implements Condition {
 
     private static final Logger log = LoggerFactory.getLogger(UseS3DialectCondition.class);
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         String property = PropertyResolver.getProperty(context, OssConstants.ITEM_OSS_DIALECT);

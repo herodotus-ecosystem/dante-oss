@@ -40,7 +40,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>dialect-sdk-s3</artifactId>
+            <artifactId>dialect-module-s3</artifactId>
         </dependency>
     </dependencies>
 

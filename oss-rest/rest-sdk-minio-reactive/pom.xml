@@ -39,7 +39,7 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>dialect-sdk-reactive-minio</artifactId>
+            <artifactId>dialect-module-minio-reactive</artifactId>
         </dependency>
 
         <dependency>

@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.dialect.autoconfigure.condition;
 
-import cn.herodotus.stirrup.core.foundation.context.PropertyResolver;
 import cn.herodotus.oss.dialect.core.constants.OssConstants;
 import cn.herodotus.oss.dialect.core.enums.Dialect;
+import cn.herodotus.stirrup.core.foundation.context.PropertyResolver;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +45,7 @@ public class UseAliyunDialectCondition implements Condition {
 
     private static final Logger log = LoggerFactory.getLogger(UseAliyunDialectCondition.class);
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         String property = PropertyResolver.getProperty(context, OssConstants.ITEM_OSS_DIALECT);

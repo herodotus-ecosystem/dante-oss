@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
+  ~ Copyright (c) 2020-2030 码匠君<herodotus@aliyun.com>
   ~
   ~ Dante Cloud licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -28,23 +28,30 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-dialect</artifactId>
         <version>3.3.0.0-RC1</version>
     </parent>
 
-    <artifactId>dialect-sdk-s3</artifactId>
+    <artifactId>dialect-module-aliyun</artifactId>
 
 
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>dialect-core-s3</artifactId>
+            <artifactId>dialect-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.amazonaws</groupId>
-            <artifactId>aws-java-sdk-s3</artifactId>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>bcprov-jdk15on</artifactId>
+                    <groupId>org.bouncycastle</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 

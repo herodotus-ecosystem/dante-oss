@@ -57,7 +57,7 @@ public class OssDialectAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [OSS Dialect Starter] Auto Configure.");
+        log.info("[Herodotus] |- Strater [OSS Dialect] Auto Configure.");
     }
 
     @Bean

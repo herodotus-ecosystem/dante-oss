@@ -45,6 +45,7 @@ public class UseMinioDialectCondition implements Condition {
 
     private static final Logger log = LoggerFactory.getLogger(UseMinioDialectCondition.class);
 
+    @SuppressWarnings("NullableProblems")
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         String property = PropertyResolver.getProperty(context, OssConstants.ITEM_OSS_DIALECT, Dialect.MINIO.name());

@@ -39,14 +39,14 @@
 
     <modules>
         <module>dialect-core</module>
-        <module>dialect-sdk-s3</module>
-        <module>dialect-sdk-aliyun</module>
-        <module>dialect-sdk-minio</module>
-        <module>dialect-autoconfigure</module>
-        <module>dialect-sdk-reactive-minio</module>
-        <module>dialect-sdk-reactive-s3</module>
-        <module>dialect-core-minio</module>
         <module>dialect-core-s3</module>
+        <module>dialect-core-minio</module>
+        <module>dialect-module-aliyun</module>
+        <module>dialect-module-s3</module>
+        <module>dialect-module-s3-reactive</module>
+        <module>dialect-module-minio</module>
+        <module>dialect-module-minio-reactive</module>
+        <module>dialect-autoconfigure</module>
     </modules>
 
 </project>

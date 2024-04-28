@@ -95,27 +95,27 @@
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>dialect-sdk-reactive-s3</artifactId>
+                <artifactId>dialect-module-s3-reactive</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>dialect-sdk-reactive-minio</artifactId>
+                <artifactId>dialect-module-minio-reactive</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>dialect-sdk-aliyun</artifactId>
+                <artifactId>dialect-module-aliyun</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>dialect-sdk-minio</artifactId>
+                <artifactId>dialect-module-minio</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>cn.herodotus.oss</groupId>
-                <artifactId>dialect-sdk-s3</artifactId>
+                <artifactId>dialect-module-s3</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

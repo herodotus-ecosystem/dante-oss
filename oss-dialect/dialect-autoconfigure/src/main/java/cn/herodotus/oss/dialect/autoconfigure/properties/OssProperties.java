@@ -27,6 +27,7 @@ package cn.herodotus.oss.dialect.autoconfigure.properties;
 
 import cn.herodotus.oss.dialect.core.constants.OssConstants;
 import cn.herodotus.oss.dialect.core.enums.Dialect;
+import com.google.common.base.MoreObjects;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -53,11 +54,36 @@ public class OssProperties {
      */
     private Dialect dialect = Dialect.MINIO;
 
+    public Boolean getUseProxy() {
+        return useProxy;
+    }
+
+    public void setUseProxy(Boolean useProxy) {
+        this.useProxy = useProxy;
+    }
+
+    public String getProxySourceEndpoint() {
+        return proxySourceEndpoint;
+    }
+
+    public void setProxySourceEndpoint(String proxySourceEndpoint) {
+        this.proxySourceEndpoint = proxySourceEndpoint;
+    }
+
     public Dialect getDialect() {
         return dialect;
     }
 
     public void setDialect(Dialect dialect) {
         this.dialect = dialect;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("useProxy", useProxy)
+                .add("proxySourceEndpoint", proxySourceEndpoint)
+                .add("dialect", dialect)
+                .toString();
     }
 }

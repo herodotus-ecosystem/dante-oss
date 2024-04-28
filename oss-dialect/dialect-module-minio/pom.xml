@@ -34,17 +34,13 @@
         <version>3.3.0.0-RC1</version>
     </parent>
 
-    <artifactId>dialect-sdk-reactive-minio</artifactId>
+    <artifactId>dialect-module-minio</artifactId>
+
 
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
             <artifactId>dialect-core-minio</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.projectreactor</groupId>
-            <artifactId>reactor-core</artifactId>
         </dependency>
     </dependencies>
 
