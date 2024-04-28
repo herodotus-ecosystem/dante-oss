@@ -23,31 +23,41 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.configuration;
+package cn.herodotus.oss.autoconfigure;
 
+import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDialect;
+import cn.herodotus.oss.rest.minio.config.OssRestMinioConfiguration;
+import cn.herodotus.oss.rest.minio.reactive.config.OssRestMinioReactiveConfiguration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
- * <p>Description: Minio Rest 模块配置 </p>
+ * <p>Description: OSS 自动配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:13
+ * @date : 2023/8/19 15:27
  */
 @AutoConfiguration
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.rest.minio.service",
-        "cn.herodotus.oss.rest.minio.controller",
-})
-public class OssRestMinioConfiguration {
+public class OssAutoConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(OssRestMinioConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssAutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Rest Minio] Configure.");
+        log.info("[Herodotus] |- Starter [OSS] Configure.");
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ConditionalOnUseMinioDialect
+    @Import({
+            OssRestMinioConfiguration.class,
+            OssRestMinioReactiveConfiguration.class
+    })
+    static class MinioRestConfiguration {
+
     }
 }

@@ -40,7 +40,11 @@
     <dependencies>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
-            <artifactId>rest-sdk-minio</artifactId>
+            <artifactId>rest-module-minio</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.herodotus.oss</groupId>
+            <artifactId>rest-module-minio-reactive</artifactId>
         </dependency>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>

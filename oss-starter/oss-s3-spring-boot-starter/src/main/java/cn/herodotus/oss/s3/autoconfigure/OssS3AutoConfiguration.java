@@ -25,10 +25,13 @@
 
 package cn.herodotus.oss.s3.autoconfigure;
 
+import cn.herodotus.oss.dialect.s3.config.OssDialectS3Configuration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * <p>Description: 封装的 Amazon SDK 自动配置 </p>
@@ -36,13 +39,16 @@ import org.springframework.context.annotation.Configuration;
  * @author : gengwei.zheng
  * @date : 2023/6/5 15:12
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
+@Import({
+        OssDialectS3Configuration.class,
+})
 public class OssS3AutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(OssS3AutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [Oss S3 Starter] Configure.");
+        log.info("[Herodotus] |- Starter [Oss S3] Configure.");
     }
 }

@@ -31,6 +31,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -39,19 +40,19 @@ import org.springframework.context.annotation.Import;
  * @author : gengwei.zheng
  * @date : 2023/7/25 16:07
  */
-@AutoConfiguration
+@Configuration(proxyBeanMethods = false)
 @Import({
         OssSolutionConfiguration.class
 })
 @ComponentScan(basePackages = {
         "cn.herodotus.oss.rest.specification.controller",
 })
-public class OssRestIntegrationConfiguration {
+public class OssRestSpecificationConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(OssRestIntegrationConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssRestSpecificationConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Rest Integration] Configure.");
+        log.debug("[Herodotus] |- SDK [Oss Rest Specification] Configure.");
     }
 }

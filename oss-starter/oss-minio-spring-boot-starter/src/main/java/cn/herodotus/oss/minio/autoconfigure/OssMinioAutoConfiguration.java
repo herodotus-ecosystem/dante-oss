@@ -25,10 +25,15 @@
 
 package cn.herodotus.oss.minio.autoconfigure;
 
+import cn.herodotus.oss.dialect.minio.config.OssDialectMinioConfiguration;
+import cn.herodotus.oss.dialect.reactive.minio.config.OssDialectMinioReactiveConfiguration;
+import cn.herodotus.oss.rest.minio.config.OssRestMinioConfiguration;
+import cn.herodotus.oss.rest.minio.reactive.config.OssRestMinioReactiveConfiguration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Import;
 
 /**
  * <p>Description: 封装的 Aliyun SDK 自动配置 </p>
@@ -36,13 +41,19 @@ import org.springframework.context.annotation.Configuration;
  * @author : gengwei.zheng
  * @date : 2023/6/5 15:12
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
+@Import({
+        OssDialectMinioConfiguration.class,
+        OssDialectMinioReactiveConfiguration.class,
+        OssRestMinioConfiguration.class,
+        OssRestMinioReactiveConfiguration.class
+})
 public class OssMinioAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(OssMinioAutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [Oss Minio Starter] Configure.");
+        log.info("[Herodotus] |- Starter [Oss Minio] Configure.");
     }
 }

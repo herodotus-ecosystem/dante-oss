@@ -29,6 +29,7 @@ import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
 /**
  * <p>Description: 封装的 Aliyun SDK 自动配置 </p>
@@ -37,12 +38,15 @@ import org.springframework.context.annotation.Configuration;
  * @date : 2023/6/5 15:12
  */
 @Configuration(proxyBeanMethods = false)
+@Import({
+        OssAliyunAutoConfiguration.class
+})
 public class OssAliyunAutoConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(OssAliyunAutoConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [Oss Aliyun Starter] Configure.");
+        log.info("[Herodotus] |- Starter [Oss Aliyun] Configure.");
     }
 }

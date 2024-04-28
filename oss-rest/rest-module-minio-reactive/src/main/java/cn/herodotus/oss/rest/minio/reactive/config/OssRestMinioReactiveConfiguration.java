@@ -23,22 +23,33 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.annotation;
+package cn.herodotus.oss.rest.minio.reactive.config;
 
-import cn.herodotus.oss.rest.minio.configuration.OssRestMinioConfiguration;
-import org.springframework.context.annotation.Import;
-
-import java.lang.annotation.*;
+import cn.herodotus.stirrup.core.foundation.annotation.ConditionalOnReactiveApplication;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * <p>Description: 手动开启 Minio Rest 模块注入 </p>
+ * <p>Description: Minio Reactive Rest 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/1/14 22:51
+ * @date : 2024/4/28 21:21
  */
-@Target({ElementType.TYPE, ElementType.METHOD})
-@Retention(RetentionPolicy.RUNTIME)
-@Documented
-@Import(OssRestMinioConfiguration.class)
-public @interface EnableHerodotusMinioRest {
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnReactiveApplication
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.rest.minio.reactive.service",
+        "cn.herodotus.oss.rest.minio.reactive.controller",
+})
+public class OssRestMinioReactiveConfiguration {
+
+    private static final Logger log = LoggerFactory.getLogger(OssRestMinioReactiveConfiguration.class);
+
+    @PostConstruct
+    public void postConstruct() {
+        log.debug("[Herodotus] |- Module [Oss Rest Minio Reactive] Configure.");
+    }
 }

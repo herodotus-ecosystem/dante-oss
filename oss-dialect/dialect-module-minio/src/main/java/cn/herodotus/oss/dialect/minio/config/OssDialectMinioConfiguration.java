@@ -32,6 +32,7 @@ import cn.herodotus.oss.core.minio.definition.pool.MinioAsyncClientPooledObjectF
 import cn.herodotus.oss.core.minio.properties.MinioProperties;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioClientObjectPool;
 import cn.herodotus.oss.dialect.minio.definition.pool.MinioClientPooledObjectFactory;
+import cn.herodotus.stirrup.core.foundation.annotation.ConditionalOnServletApplication;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,7 @@ import org.springframework.context.annotation.Configuration;
  * @date : 2023/6/5 15:04
  */
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnServletApplication
 @EnableConfigurationProperties(MinioProperties.class)
 public class OssDialectMinioConfiguration {
 

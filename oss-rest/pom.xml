@@ -38,9 +38,9 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>rest-sdk-minio</module>
+        <module>rest-module-minio</module>
         <module>rest-sdk-specification</module>
-        <module>rest-sdk-minio-reactive</module>
+        <module>rest-module-minio-reactive</module>
     </modules>
 
 </project>

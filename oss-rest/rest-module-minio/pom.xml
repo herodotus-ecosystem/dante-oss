@@ -34,7 +34,7 @@
         <version>3.3.0.0-RC1</version>
     </parent>
 
-    <artifactId>rest-sdk-minio</artifactId>
+    <artifactId>rest-module-minio</artifactId>
 
 
     <dependencies>

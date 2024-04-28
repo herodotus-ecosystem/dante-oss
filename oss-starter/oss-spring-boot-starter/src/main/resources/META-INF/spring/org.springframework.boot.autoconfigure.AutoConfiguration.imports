@@ -1,2 +1,2 @@
-cn.herodotus.oss.OssAutoConfiguration
-cn.herodotus.oss.rest.specification.configuration.OssRestIntegrationConfiguration
+cn.herodotus.oss.autoconfigure.OssAutoConfiguration
+cn.herodotus.oss.rest.specification.configuration.OssRestSpecificationConfiguration
