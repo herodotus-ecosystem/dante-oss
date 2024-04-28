@@ -30,17 +30,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>cn.herodotus.oss</groupId>
-        <artifactId>dante-oss</artifactId>
+        <artifactId>oss-rest</artifactId>
         <version>3.3.0.0-RC1</version>
     </parent>
 
-    <artifactId>oss-rest</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>rest-sdk-minio-reactive</artifactId>
 
-    <modules>
-        <module>rest-sdk-minio</module>
-        <module>rest-sdk-specification</module>
-        <module>rest-sdk-minio-reactive</module>
-    </modules>
+    <dependencies>
+        <dependency>
+            <groupId>cn.herodotus.oss</groupId>
+            <artifactId>dialect-sdk-reactive-minio</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.herodotus.stirrup</groupId>
+            <artifactId>web-module-api</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
