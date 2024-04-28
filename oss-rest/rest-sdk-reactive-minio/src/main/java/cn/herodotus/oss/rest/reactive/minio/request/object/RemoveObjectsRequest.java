@@ -26,7 +26,7 @@
 package cn.herodotus.oss.rest.reactive.minio.request.object;
 
 import cn.herodotus.oss.core.domain.object.DeleteObjectDomain;
-import cn.herodotus.oss.rest.reactive.minio.definition.BucketRequest;
+import cn.herodotus.oss.core.minio.definition.request.BucketRequest;
 import io.minio.RemoveObjectsArgs;
 import io.minio.messages.DeleteObject;
 import io.swagger.v3.oas.annotations.media.Schema;

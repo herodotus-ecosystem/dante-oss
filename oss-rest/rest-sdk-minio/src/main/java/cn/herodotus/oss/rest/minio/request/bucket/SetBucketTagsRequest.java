@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.request.bucket;
 
-import cn.herodotus.oss.rest.minio.definition.BucketRequest;
+import cn.herodotus.oss.core.minio.definition.request.BucketRequest;
 import io.minio.SetBucketTagsArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;

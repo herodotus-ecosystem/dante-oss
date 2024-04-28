@@ -23,40 +23,36 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.definition;
+package cn.herodotus.oss.core.minio.definition.request;
 
-import io.minio.BaseArgs;
+import io.minio.ObjectVersionArgs;
+import io.swagger.v3.oas.annotations.media.Schema;
+import org.apache.commons.lang3.StringUtils;
 
 /**
- * <p>Description: Minio 参数构建器 </p>
+ * <p>Description: Minio 基础 Object Version Request  </p>
  *
  * @author : gengwei.zheng
- * @date : 2022/7/1 23:49
+ * @date : 2023/4/18 14:16
  */
-public interface MinioRequestBuilder<B extends BaseArgs.Builder<B, A>, A extends BaseArgs> extends MinioRequest {
+public abstract class ObjectVersionRequest<B extends ObjectVersionArgs.Builder<B, A>, A extends ObjectVersionArgs> extends ObjectRequest<B, A> {
 
-    /**
-     * 参数准备
-     *
-     * @param builder Minio 参数构造器
-     */
-    void prepare(B builder);
+    @Schema(name = "版本ID")
+    private String versionId;
 
-    /**
-     * 获取Builder
-     *
-     * @return builder
-     */
-    B getBuilder();
+    public String getVersionId() {
+        return versionId;
+    }
 
-    /**
-     * 构建 Minio 参数对象
-     *
-     * @return Minio 参数对象
-     */
-    default A build() {
-        B builder = getBuilder();
-        prepare(builder);
-        return builder.build();
+    public void setVersionId(String versionId) {
+        this.versionId = versionId;
+    }
+
+    @Override
+    public void prepare(B builder) {
+        if (StringUtils.isNotBlank(getVersionId())) {
+            builder.versionId(getVersionId());
+        }
+        super.prepare(builder);
     }
 }

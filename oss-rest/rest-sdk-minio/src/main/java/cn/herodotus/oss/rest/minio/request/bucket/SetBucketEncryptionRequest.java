@@ -26,7 +26,7 @@
 package cn.herodotus.oss.rest.minio.request.bucket;
 
 import cn.herodotus.oss.dialect.minio.enums.SseConfigurationEnums;
-import cn.herodotus.oss.rest.minio.definition.BucketRequest;
+import cn.herodotus.oss.core.minio.definition.request.BucketRequest;
 import io.minio.SetBucketEncryptionArgs;
 import io.minio.messages.SseConfiguration;
 import io.swagger.v3.oas.annotations.media.Schema;

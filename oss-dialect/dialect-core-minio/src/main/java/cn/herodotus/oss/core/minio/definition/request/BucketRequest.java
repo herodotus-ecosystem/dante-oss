@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.definition;
+package cn.herodotus.oss.core.minio.definition.request;
 
 import cn.herodotus.stirrup.core.definition.constants.RegexPool;
 import io.minio.BucketArgs;

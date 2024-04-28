@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020-2030 ZHENGGENGWEI(码匠君)<herodotus@aliyun.com>
+ * Copyright (c) 2020-2030 码匠君<herodotus@aliyun.com>
  *
  * Dante Cloud licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.reactive.minio.definition;
+package cn.herodotus.oss.core.minio.definition.request;
 
 import java.io.Serializable;
 

@@ -27,7 +27,7 @@ package cn.herodotus.oss.rest.minio.request.bucket;
 
 import cn.herodotus.oss.dialect.minio.converter.retention.DomainToObjectLockConfigurationConverter;
 import cn.herodotus.oss.dialect.minio.domain.ObjectLockConfigurationDomain;
-import cn.herodotus.oss.rest.minio.definition.BucketRequest;
+import cn.herodotus.oss.core.minio.definition.request.BucketRequest;
 import io.minio.SetObjectLockConfigurationArgs;
 import io.minio.messages.ObjectLockConfiguration;
 import io.swagger.v3.oas.annotations.media.Schema;

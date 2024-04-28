@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.reactive.minio.request.bucket;
 
-import cn.herodotus.oss.rest.reactive.minio.definition.BaseRequest;
+import cn.herodotus.oss.core.minio.definition.request.BaseRequest;
 import io.minio.ListBucketsArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
 

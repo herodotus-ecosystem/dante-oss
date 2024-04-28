@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.definition;
 
+import cn.herodotus.oss.core.minio.definition.request.ObjectVersionRequest;
 import cn.herodotus.oss.dialect.minio.converter.sse.RequestToServerSideEncryptionCustomerKeyConverter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.minio.ObjectReadArgs;
