@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
 import cn.herodotus.oss.core.arguments.multipart.UploadPartCopyArguments;
+import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
 import com.amazonaws.services.s3.model.CopyPartRequest;
 
 /**

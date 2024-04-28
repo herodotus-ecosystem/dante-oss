@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToGenericRequestConverter;
 import cn.herodotus.oss.core.arguments.bucket.DeleteBucketArguments;
+import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToGenericRequestConverter;
 
 /**
  * <p>Description: 统一定义 DeleteBucketArguments 转 Aliyun GenericRequest 转换器 </p>

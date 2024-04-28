@@ -25,9 +25,9 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
 import cn.herodotus.oss.core.arguments.multipart.CompleteMultipartUploadArguments;
 import cn.herodotus.oss.core.domain.multipart.PartSummaryDomain;
+import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
 import com.amazonaws.services.s3.model.CompleteMultipartUploadRequest;
 import com.amazonaws.services.s3.model.PartETag;
 import org.apache.commons.collections4.CollectionUtils;

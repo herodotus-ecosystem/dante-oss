@@ -25,7 +25,10 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
-import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
+import cn.herodotus.oss.core.arguments.object.*;
+import cn.herodotus.oss.core.definition.repository.OssObjectRepository;
+import cn.herodotus.oss.core.domain.base.ObjectWriteDomain;
+import cn.herodotus.oss.core.domain.object.*;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteObjectsRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToListObjectsRequestConverter;
@@ -36,10 +39,7 @@ import cn.herodotus.oss.dialect.aliyun.converter.domain.ObjectListingToDomainCon
 import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
-import cn.herodotus.oss.core.arguments.object.*;
-import cn.herodotus.oss.core.definition.repository.OssObjectRepository;
-import cn.herodotus.oss.core.domain.base.ObjectWriteDomain;
-import cn.herodotus.oss.core.domain.object.*;
+import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;

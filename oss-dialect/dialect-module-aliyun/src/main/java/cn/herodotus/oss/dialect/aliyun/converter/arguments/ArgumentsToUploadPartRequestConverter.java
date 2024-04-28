@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.aliyun.converter.arguments;
 
-import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
 import cn.herodotus.oss.core.arguments.multipart.UploadPartArguments;
+import cn.herodotus.oss.dialect.aliyun.definition.arguments.ArgumentsToBucketConverter;
 import com.aliyun.oss.model.UploadPartRequest;
 
 /**

@@ -48,7 +48,15 @@
         </dependency>
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
+            <artifactId>dialect-module-minio-reactive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.herodotus.oss</groupId>
             <artifactId>dialect-module-s3</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.herodotus.oss</groupId>
+            <artifactId>dialect-module-s3-reactive</artifactId>
         </dependency>
     </dependencies>
 

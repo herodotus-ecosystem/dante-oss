@@ -25,14 +25,17 @@
 
 package cn.herodotus.oss.dialect.aliyun.configuration;
 
+import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientObjectPool;
+import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientPooledObjectFactory;
 import cn.herodotus.oss.dialect.aliyun.properties.AliyunProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * <p>Description: Aliyun OSS logic 模块配置 </p>
@@ -40,21 +43,32 @@ import org.springframework.context.annotation.Import;
  * @author : gengwei.zheng
  * @date : 2023/7/23 11:44
  */
-@AutoConfiguration
+@Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(AliyunProperties.class)
-@Import({
-        AliyunClientConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.dialect.aliyun.service",
-        "cn.herodotus.oss.dialect.aliyun.repository",
-})
 public class OssDialectAliyunConfiguration {
 
     private static final Logger log = LoggerFactory.getLogger(OssDialectAliyunConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Aliyun Logic] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Dialect Aliyun] Auto Configure.");
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AliyunClientObjectPool aliyunClientObjectPool(AliyunProperties aliyunProperties) {
+        AliyunClientPooledObjectFactory factory = new AliyunClientPooledObjectFactory(aliyunProperties);
+        AliyunClientObjectPool pool = new AliyunClientObjectPool(factory);
+        log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Auto Configure.");
+        return pool;
+    }
+
+    @Configuration(proxyBeanMethods = false)
+    @ComponentScan(basePackages = {
+            "cn.herodotus.oss.dialect.aliyun.service",
+            "cn.herodotus.oss.dialect.aliyun.repository",
+    })
+    static class OssDialectAliyunServiceConfiguration {
+
     }
 }

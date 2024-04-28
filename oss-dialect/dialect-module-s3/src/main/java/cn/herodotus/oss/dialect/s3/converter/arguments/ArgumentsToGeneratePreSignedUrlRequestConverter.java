@@ -25,8 +25,8 @@
 
 package cn.herodotus.oss.dialect.s3.converter.arguments;
 
-import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
 import cn.herodotus.oss.core.arguments.object.GeneratePresignedUrlArguments;
+import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConverter;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import org.dromara.hutool.core.date.DateUtil;

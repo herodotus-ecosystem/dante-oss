@@ -25,7 +25,10 @@
 
 package cn.herodotus.oss.dialect.aliyun.repository;
 
-import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
+import cn.herodotus.oss.core.arguments.bucket.CreateBucketArguments;
+import cn.herodotus.oss.core.arguments.bucket.DeleteBucketArguments;
+import cn.herodotus.oss.core.definition.repository.OssBucketRepository;
+import cn.herodotus.oss.core.domain.bucket.BucketDomain;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToCreateBucketRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.arguments.ArgumentsToDeleteBucketRequestConverter;
 import cn.herodotus.oss.dialect.aliyun.converter.domain.BucketToDomainConverter;
@@ -33,10 +36,7 @@ import cn.herodotus.oss.dialect.aliyun.definition.service.BaseAliyunService;
 import cn.herodotus.oss.dialect.core.exception.OssExecutionException;
 import cn.herodotus.oss.dialect.core.exception.OssServerException;
 import cn.herodotus.oss.dialect.core.utils.ConverterUtils;
-import cn.herodotus.oss.core.arguments.bucket.CreateBucketArguments;
-import cn.herodotus.oss.core.arguments.bucket.DeleteBucketArguments;
-import cn.herodotus.oss.core.definition.repository.OssBucketRepository;
-import cn.herodotus.oss.core.domain.bucket.BucketDomain;
+import cn.herodotus.stirrup.core.definition.support.AbstractObjectPool;
 import com.aliyun.oss.ClientException;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSException;

@@ -31,8 +31,9 @@ import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDi
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseS3Dialect;
 import cn.herodotus.oss.dialect.autoconfigure.customizer.OssErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.oss.dialect.autoconfigure.properties.OssProperties;
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import cn.herodotus.oss.dialect.s3.configuration.OssDialectS3Configuration;
+import cn.herodotus.oss.dialect.minio.config.OssDialectMinioConfiguration;
+import cn.herodotus.oss.dialect.s3.config.OssDialectS3Configuration;
+import cn.herodotus.oss.dialect.s3.reactive.config.OssDialectS3ReactiveConfiguration;
 import cn.herodotus.stirrup.core.definition.function.ErrorCodeMapperBuilderCustomizer;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -57,7 +58,7 @@ public class OssDialectAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Strater [OSS Dialect] Auto Configure.");
+        log.info("[Herodotus] |- Starter [OSS Dialect] Auto Configure.");
     }
 
     @Bean
@@ -80,6 +81,7 @@ public class OssDialectAutoConfiguration {
     @ConditionalOnUseMinioDialect
     @Import({
             OssDialectMinioConfiguration.class,
+
     })
     static class UserMinioDialectConfiguration {
 
@@ -89,6 +91,7 @@ public class OssDialectAutoConfiguration {
     @ConditionalOnUseS3Dialect
     @Import({
             OssDialectS3Configuration.class,
+            OssDialectS3ReactiveConfiguration.class
     })
     static class UserS3DialectConfiguration {
 
