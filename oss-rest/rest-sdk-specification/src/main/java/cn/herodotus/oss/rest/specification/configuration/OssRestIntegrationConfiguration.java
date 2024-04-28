@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.specification.configuration;
 
-import cn.herodotus.oss.solution.configuration.OssSolutionConfiguration;
+import cn.herodotus.oss.solution.config.OssSolutionConfiguration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

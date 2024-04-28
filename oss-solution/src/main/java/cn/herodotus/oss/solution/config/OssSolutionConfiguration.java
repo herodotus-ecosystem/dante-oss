@@ -23,7 +23,7 @@
  * 6.若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.solution.configuration;
+package cn.herodotus.oss.solution.config;
 
 import cn.herodotus.oss.solution.properties.OssProxyProperties;
 import cn.herodotus.oss.solution.proxy.OssPresignedUrlProxy;
