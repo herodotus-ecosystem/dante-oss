@@ -26,7 +26,7 @@
 package cn.herodotus.oss.dialect.aliyun.definition.arguments;
 
 import cn.herodotus.oss.core.arguments.base.BaseArguments;
-import cn.herodotus.oss.core.definition.converter.OssConverter;
+import cn.herodotus.oss.core.definition.OssConverter;
 import com.aliyun.oss.model.WebServiceRequest;
 import org.apache.commons.collections4.MapUtils;
 

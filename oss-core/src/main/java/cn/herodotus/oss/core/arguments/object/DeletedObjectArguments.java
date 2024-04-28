@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.core.arguments.object;
 
-import cn.herodotus.oss.core.definition.arguments.OssArguments;
+import cn.herodotus.oss.core.definition.OssArguments;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 

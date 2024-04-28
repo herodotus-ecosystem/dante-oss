@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.domain;
 
-import cn.herodotus.oss.core.definition.converter.OssConverter;
+import cn.herodotus.oss.core.definition.OssConverter;
 import cn.herodotus.oss.core.domain.base.BaseDomain;
 import io.minio.GenericResponse;
 

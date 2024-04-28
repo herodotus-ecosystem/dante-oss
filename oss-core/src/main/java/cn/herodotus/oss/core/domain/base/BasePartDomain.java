@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.core.domain.base;
 
-import cn.herodotus.oss.core.definition.domain.OssDomain;
+import cn.herodotus.oss.core.definition.OssDomain;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 

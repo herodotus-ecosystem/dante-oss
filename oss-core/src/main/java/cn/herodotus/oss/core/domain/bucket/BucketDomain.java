@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.core.domain.bucket;
 
-import cn.herodotus.oss.core.definition.domain.OssDomain;
+import cn.herodotus.oss.core.definition.OssDomain;
 import cn.herodotus.oss.core.domain.base.OwnerDomain;
 import cn.herodotus.stirrup.core.definition.constants.DefaultConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
