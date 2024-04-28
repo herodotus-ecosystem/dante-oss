@@ -43,6 +43,6 @@ public class OssMinioAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [Oss Minio Starter] Auto Configure.");
+        log.info("[Herodotus] |- Module [Oss Minio Starter] Configure.");
     }
 }

@@ -51,7 +51,7 @@ public class OssDialectS3Configuration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- Module [Oss Dialect S3] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Dialect S3] Configure.");
     }
 
     @Bean
@@ -59,7 +59,7 @@ public class OssDialectS3Configuration {
     public S3ClientObjectPool s3ClientObjectPool(S3Properties s3Properties) {
         S3ClientPooledObjectFactory factory = new S3ClientPooledObjectFactory(s3Properties);
         S3ClientObjectPool pool = new S3ClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [S3 Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [S3 Client Pool] Configure.");
         return pool;
     }
 

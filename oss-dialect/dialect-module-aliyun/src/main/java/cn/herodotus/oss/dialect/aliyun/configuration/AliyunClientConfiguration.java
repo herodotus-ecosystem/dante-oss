@@ -48,7 +48,7 @@ public class AliyunClientConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Aliyun Client] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Aliyun Client] Configure.");
     }
 
     @Bean
@@ -56,7 +56,7 @@ public class AliyunClientConfiguration {
     public AliyunClientObjectPool aliyunClientObjectPool(AliyunProperties aliyunProperties) {
         AliyunClientPooledObjectFactory factory = new AliyunClientPooledObjectFactory(aliyunProperties);
         AliyunClientObjectPool pool = new AliyunClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Configure.");
         return pool;
     }
 }

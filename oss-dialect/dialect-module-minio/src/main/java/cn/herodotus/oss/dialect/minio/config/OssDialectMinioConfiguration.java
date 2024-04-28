@@ -55,7 +55,7 @@ public class OssDialectMinioConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- Module [Oss Dialect Minio] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Dialect Minio] Configure.");
     }
 
     @Bean
@@ -63,7 +63,7 @@ public class OssDialectMinioConfiguration {
     public MinioClientObjectPool minioClientPool(MinioProperties minioProperties) {
         MinioClientPooledObjectFactory factory = new MinioClientPooledObjectFactory(minioProperties);
         MinioClientObjectPool pool = new MinioClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Minio Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [Minio Client Pool] Configure.");
         return pool;
     }
 
@@ -72,7 +72,7 @@ public class OssDialectMinioConfiguration {
     public MinioAsyncClientObjectPool minioAsyncClientPool(MinioProperties minioProperties) {
         MinioAsyncClientPooledObjectFactory factory = new MinioAsyncClientPooledObjectFactory(minioProperties);
         MinioAsyncClientObjectPool pool = new MinioAsyncClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Minio Async Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [Minio Async Client Pool] Configure.");
         return pool;
     }
 
@@ -81,7 +81,7 @@ public class OssDialectMinioConfiguration {
     public MinioAdminClientObjectPool minioAdminClientPool(MinioProperties minioProperties) {
         MinioAdminClientPooledObjectFactory factory = new MinioAdminClientPooledObjectFactory(minioProperties);
         MinioAdminClientObjectPool pool = new MinioAdminClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Minio Admin Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [Minio Admin Client Pool] Configure.");
         return pool;
     }
 

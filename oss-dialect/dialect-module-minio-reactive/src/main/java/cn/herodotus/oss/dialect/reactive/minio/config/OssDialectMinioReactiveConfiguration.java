@@ -53,7 +53,7 @@ public class OssDialectMinioReactiveConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- Module [Oss Dialect Minio Reactive] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Dialect Minio Reactive] Configure.");
     }
 
     @Bean
@@ -61,7 +61,7 @@ public class OssDialectMinioReactiveConfiguration {
     public MinioAsyncClientObjectPool minioAsyncClientObjectPool(MinioProperties minioProperties) {
         MinioAsyncClientPooledObjectFactory factory = new MinioAsyncClientPooledObjectFactory(minioProperties);
         MinioAsyncClientObjectPool pool = new MinioAsyncClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Minio Async Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [Minio Async Client Pool] Configure.");
         return pool;
     }
 
@@ -70,7 +70,7 @@ public class OssDialectMinioReactiveConfiguration {
     public MinioAdminClientObjectPool minioAdminClientObjectPool(MinioProperties minioProperties) {
         MinioAdminClientPooledObjectFactory factory = new MinioAdminClientPooledObjectFactory(minioProperties);
         MinioAdminClientObjectPool pool = new MinioAdminClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Minio Admin Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [Minio Admin Client Pool] Configure.");
         return pool;
     }
 

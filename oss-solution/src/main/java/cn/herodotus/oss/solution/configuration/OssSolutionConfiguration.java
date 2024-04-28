@@ -52,13 +52,13 @@ public class OssSolutionConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Solution] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Oss Solution] Configure.");
     }
 
     @Bean
     public OssPresignedUrlProxy ossPresignedUrlProxy(OssProxyProperties ossProxyProperties) {
         OssPresignedUrlProxy ossPresignedUrlProxy = new OssPresignedUrlProxy(ossProxyProperties);
-        log.trace("[Herodotus] |- Bean [Oss Presigned Url Proxy] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [Oss Presigned Url Proxy] Configure.");
         return ossPresignedUrlProxy;
     }
 }

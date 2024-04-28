@@ -48,6 +48,6 @@ public class OssRestMinioReactiveConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Rest Minio] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Oss Rest Minio] Configure.");
     }
 }

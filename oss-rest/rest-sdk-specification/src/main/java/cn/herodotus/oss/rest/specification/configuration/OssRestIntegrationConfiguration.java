@@ -52,6 +52,6 @@ public class OssRestIntegrationConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Rest Integration] Auto Configure.");
+        log.debug("[Herodotus] |- SDK [Oss Rest Integration] Configure.");
     }
 }

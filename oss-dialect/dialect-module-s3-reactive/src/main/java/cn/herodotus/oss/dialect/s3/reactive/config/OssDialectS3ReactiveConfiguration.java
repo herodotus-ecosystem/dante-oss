@@ -53,7 +53,7 @@ public class OssDialectS3ReactiveConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- Module [Oss Dialect S3 Reactive] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Dialect S3 Reactive] Configure.");
     }
 
     @Bean
@@ -61,7 +61,7 @@ public class OssDialectS3ReactiveConfiguration {
     public S3AsyncClientObjectPool s3AsyncClientObjectPool(S3Properties s3Properties) {
         S3AsyncClientPooledObjectFactory factory = new S3AsyncClientPooledObjectFactory(s3Properties);
         S3AsyncClientObjectPool pool = new S3AsyncClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [S3 Async Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [S3 Async Client Pool] Configure.");
         return pool;
     }
 

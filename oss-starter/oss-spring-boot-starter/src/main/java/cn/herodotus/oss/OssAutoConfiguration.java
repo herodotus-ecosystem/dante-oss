@@ -47,7 +47,7 @@ public class OssAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [OSS Starter] Auto Configure.");
+        log.info("[Herodotus] |- Module [OSS Starter] Configure.");
     }
 
     @Configuration(proxyBeanMethods = false)

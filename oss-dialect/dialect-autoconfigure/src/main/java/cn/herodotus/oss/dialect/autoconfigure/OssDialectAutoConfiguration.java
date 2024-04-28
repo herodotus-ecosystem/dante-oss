@@ -58,13 +58,13 @@ public class OssDialectAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Starter [OSS Dialect] Auto Configure.");
+        log.info("[Herodotus] |- Starter [OSS Dialect] Configure.");
     }
 
     @Bean
     public ErrorCodeMapperBuilderCustomizer ossErrorCodeMapperBuilderCustomizer() {
         OssErrorCodeMapperBuilderCustomizer customizer = new OssErrorCodeMapperBuilderCustomizer();
-        log.trace("[Herodotus] |- Strategy [Oss ErrorCodeMapper Builder Customizer] Auto Configure.");
+        log.trace("[Herodotus] |- Strategy [Oss ErrorCodeMapper Builder Customizer] Configure.");
         return customizer;
     }
 

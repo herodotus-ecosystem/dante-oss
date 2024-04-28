@@ -51,7 +51,7 @@ public class OssDialectAliyunConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- Module [Oss Dialect Aliyun] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Dialect Aliyun] Configure.");
     }
 
     @Bean
@@ -59,7 +59,7 @@ public class OssDialectAliyunConfiguration {
     public AliyunClientObjectPool aliyunClientObjectPool(AliyunProperties aliyunProperties) {
         AliyunClientPooledObjectFactory factory = new AliyunClientPooledObjectFactory(aliyunProperties);
         AliyunClientObjectPool pool = new AliyunClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Auto Configure.");
+        log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Configure.");
         return pool;
     }
 
