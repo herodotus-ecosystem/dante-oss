@@ -26,10 +26,10 @@
 package cn.herodotus.oss.rest.specification.configuration;
 
 import cn.herodotus.oss.solution.config.OssSolutionConfiguration;
+import cn.herodotus.stirrup.core.foundation.annotation.ConditionalOnServletApplication;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -41,6 +41,7 @@ import org.springframework.context.annotation.Import;
  * @date : 2023/7/25 16:07
  */
 @Configuration(proxyBeanMethods = false)
+@ConditionalOnServletApplication
 @Import({
         OssSolutionConfiguration.class
 })

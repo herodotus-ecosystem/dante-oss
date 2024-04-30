@@ -32,6 +32,7 @@ import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseS3Diale
 import cn.herodotus.oss.dialect.autoconfigure.customizer.OssErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.oss.dialect.autoconfigure.properties.OssProperties;
 import cn.herodotus.oss.dialect.minio.config.OssDialectMinioConfiguration;
+import cn.herodotus.oss.dialect.reactive.minio.config.OssDialectMinioReactiveConfiguration;
 import cn.herodotus.oss.dialect.s3.config.OssDialectS3Configuration;
 import cn.herodotus.oss.dialect.s3.reactive.config.OssDialectS3ReactiveConfiguration;
 import cn.herodotus.stirrup.core.definition.function.ErrorCodeMapperBuilderCustomizer;
@@ -81,7 +82,7 @@ public class OssDialectAutoConfiguration {
     @ConditionalOnUseMinioDialect
     @Import({
             OssDialectMinioConfiguration.class,
-
+            OssDialectMinioReactiveConfiguration.class
     })
     static class UserMinioDialectConfiguration {
 
