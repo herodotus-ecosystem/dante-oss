@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-dialect</artifactId>
-        <version>3.3.0.0-RC3</version>
+        <version>3.3.0.0-RC4</version>
     </parent>
 
     <artifactId>dialect-core-minio</artifactId>
