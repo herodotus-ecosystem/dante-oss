@@ -32,7 +32,7 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-bom</artifactId>
-        <version>3.1.11.3</version>
+        <version>3.1.12.0-Final</version>
         <relativePath>oss-bom/pom.xml</relativePath>
     </parent>
 
