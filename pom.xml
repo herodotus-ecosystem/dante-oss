@@ -30,9 +30,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>cn.herodotus.oss</groupId>
+        <groupId>cn.herodotus.artemis</groupId>
         <artifactId>oss-bom</artifactId>
-        <version>3.3.0.0-RC5</version>
+        <version>3.3.0.0</version>
         <relativePath>oss-bom/pom.xml</relativePath>
     </parent>
 

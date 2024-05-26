@@ -25,6 +25,7 @@
 
 package cn.herodotus.oss.aliyun.autoconfigure;
 
+import cn.herodotus.oss.dialect.aliyun.config.OssDialectAliyunConfiguration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +40,7 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration(proxyBeanMethods = false)
 @Import({
-        OssAliyunAutoConfiguration.class
+        OssDialectAliyunConfiguration.class
 })
 public class OssAliyunAutoConfiguration {
 

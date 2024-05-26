@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.autoconfigure;
 
-import cn.herodotus.oss.dialect.aliyun.configuration.OssDialectAliyunConfiguration;
+import cn.herodotus.oss.dialect.aliyun.config.OssDialectAliyunConfiguration;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseAliyunDialect;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDialect;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseS3Dialect;
