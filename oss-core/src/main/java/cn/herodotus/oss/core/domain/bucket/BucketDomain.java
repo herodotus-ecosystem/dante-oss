@@ -27,7 +27,7 @@ package cn.herodotus.oss.core.domain.bucket;
 
 import cn.herodotus.oss.core.definition.OssDomain;
 import cn.herodotus.oss.core.domain.base.OwnerDomain;
-import cn.herodotus.stirrup.core.definition.constants.DefaultConstants;
+import cn.herodotus.stirrup.core.definition.constants.SystemConstants;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -59,7 +59,7 @@ public class BucketDomain implements OssDomain {
      * 存储桶创建时间
      */
     @Schema(name = "存储桶创建时间")
-    @JsonFormat(pattern = DefaultConstants.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = SystemConstants.DATE_TIME_FORMAT)
     private Date creationDate;
 
     public String getBucketName() {
