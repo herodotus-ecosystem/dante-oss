@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.artemis</groupId>
         <artifactId>oss-dialect</artifactId>
-        <version>3.3.0.0</version>
+        <version>3.3.0.1</version>
     </parent>
 
     <artifactId>dialect-core</artifactId>
