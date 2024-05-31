@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.artemis</groupId>
         <artifactId>oss-rest</artifactId>
-        <version>3.3.0.1</version>
+        <version>3.3.0.2</version>
     </parent>
 
     <artifactId>rest-module-minio</artifactId>
