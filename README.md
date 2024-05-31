@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.3.0-blue.svg?logo=spring" alt="Spring Boot 3.3.0"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.3.0.1-red.svg?logo=spring" alt="Version 3.3.0.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.3.0.2-red.svg?logo=spring" alt="Version 3.3.0.2"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -244,4 +244,5 @@ Dante OSS 作为 Dante Cloud 生态产品，不在单独提供演示环境和示
 | 7  |  jacsty  | 2023-01-31 | 8  | hubert_rust | 2023-03-16 | 9  |  Zkey Z   | 2023-03-18 |
 | 10 |   志国欧巴   | 2023-03-27 | 11 |   michael   | 2023-04-07 | 12 |   大叔丨小巷   | 2023-04-11 |
 | 13 | sun_left | 2023-04-19 | 14 | time 丶 sand | 2023-07-06 | 15 |  印第安老斑鸠   | 2023-09-09 |
-| 16 |   一阵风    | 2023-12-10 | 17 |    Jack     | 2024-03-01 | 18 |           |            |
+| 16 |   一阵风    | 2023-12-10 | 17 |    Jack     | 2024-03-01 | 18 | onehelper | 2024-05-24 |
+| 19 |    宁哥    | 2024-05-29 | 20 |             |            | 21 |           |            |
