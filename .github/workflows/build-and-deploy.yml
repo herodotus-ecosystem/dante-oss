@@ -32,7 +32,7 @@ jobs:
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
 
       - name: Publish to Apache Maven Central
-        run: mvn clean deploy -P githubAction
+        run: mvn -P githubAction --batch-mode deploy -DskipTests
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_TOKEN_USERNAME }}
           MAVEN_CENTRAL_TOKEN: ${{ secrets.OSSRH_TOKEN_PASSWORD }}
