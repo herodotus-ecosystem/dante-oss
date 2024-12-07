@@ -1,6 +1,6 @@
 <h1 align="center">Dante OSS</h1>
 <h2 align="center">丰富 · 全面 | 简单 · 便捷</h2>
-<p align="center">让 Minio 的集成和使用更简单</p>
+<p align="center">让对象存储集成和使用更简单</p>
 
 ---
 
@@ -17,8 +17,7 @@
     <a href="https://gitee.com/dromara/dante-cloud"><img src="https://gitee.com/dromara/dante-cloud/badge/fork.svg?theme=dark" alt="Gitee fork"></a>
 </p>
 <p align="center">
-    <a href="https://gitee.com/dromara/dante-cloud">示例微服务应用</a> &nbsp; | &nbsp;
-    <a href="https://gitee.com/herodotus/dante-cloud-athena">示例单体应用</a> &nbsp; | &nbsp;
+    <a href="https://gitee.com/dromara/dante-cloud">示例微服务和单体应用</a> &nbsp; | &nbsp;
     <a href="https://gitee.com/herodotus/dante-cloud-ui">示例前端应用</a>
 </p>
 
