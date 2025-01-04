@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-rest</artifactId>
-        <version>3.4.1.0</version>
+        <version>3.4.1.1</version>
     </parent>
 
     <artifactId>rest-sdk-minio</artifactId>
