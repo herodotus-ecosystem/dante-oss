@@ -6,7 +6,7 @@
 
 <p align="center">
     <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.4.1-blue.svg?logo=spring" alt="Spring Boot 3.4.1"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.4.1.1-red.svg?logo=spring" alt="Version 3.4.1.1"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.4.1.2-red.svg?logo=spring" alt="Version 3.4.1.2"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
@@ -227,16 +227,16 @@ Dante OSS 作为 Dante Cloud 生态产品，不在单独提供演示环境和示
 
 ### 3. 重要说明
 
-**因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante OSS 和 Dante Engine 子项目需登记申请，等审批后开放源码，[【查看详情或登记】](https://gitee.com/dromara/dante-cloud/issues/IB5KL0)
+**因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante Engine 子项目需登记申请，等审批后开放源码，[【查看详情或登记】](https://gitee.com/dromara/dante-cloud/issues/IB5KL0)
 
 ## 赞助 | Donate
 
-| 序号 |                    赞助人                     |    赞助时间    | 序号 |                       赞助人                       |    赞助时间    | 序号 |                   赞助人                    |    赞助时间    |
-|:--:|:------------------------------------------:|:----------:|:--:|:-----------------------------------------------:|:----------:|:--:|:----------------------------------------:|:----------:|
-| 1  |                   ご沉默菋噵                    | 2021-10-25 | 2  |     [偷土豆的人](https://gitee.com/dongzongyang)     | 2021-11-24 | 3  |    [lorron](https://gitee.com/lorron)    | 2022-04-04 |
-| 4  |                    在云端                     | 2022-12-26 | 5  |         [西晽](https://gitee.com/syllvin)         | 2022-12-27 | 6  | [p911gt3rs](https://gitee.com/p911gt3rs) | 2023-01-03 |
-| 7  |     [jacsty](https://gitee.com/jacsty)     | 2023-01-31 | 8  |  [hubert_rust](https://gitee.com/hubert_rust)   | 2023-03-16 | 9  |   [Zkey Z](https://gitee.com/zkeyzvip)   | 2023-03-18 |
-| 10 |      [志国欧巴](https://gitee.com/zzgf16)      | 2023-03-27 | 11 |   [michael](https://gitee.com/yiminyangguang)   | 2023-04-07 | 12 |  [大叔丨小巷](https://gitee.com/yushui_wang)  | 2023-04-11 |
-| 13 |   [sun_left](https://gitee.com/sun_left)   | 2023-04-19 | 14 | [time 丶 sand](https://gitee.com/tzy15680905763) | 2023-07-06 | 15 |   [印第安老斑鸠](https://gitee.com/deadncut)   | 2023-09-09 |
-| 16 |                    一阵风                     | 2023-12-10 | 17 |                      Jack                       | 2024-03-01 | 18 | [onehelper](https://gitee.com/onehelper) | 2024-05-24 |
-| 19 | [宁哥](https://gitee.com/seabuckthorn-syrup) | 2024-05-29 | 20 | [cryptoneedle](https://gitee.com/cryptoneedle)  | 2024-11-01 | 21 |                                          |            |
+| 序号 |                    赞助人                     |    赞助时间    | 序号 |                      赞助人                       |    赞助时间    | 序号 |                   赞助人                    |    赞助时间    |
+|:--:|:------------------------------------------:|:----------:|:--:|:----------------------------------------------:|:----------:|:--:|:----------------------------------------:|:----------:|
+| 1  |                   ご沉默菋噵                    | 2021-10-25 | 2  |    [偷土豆的人](https://gitee.com/dongzongyang)     | 2021-11-24 | 3  |    [lorron](https://gitee.com/lorron)    | 2022-04-04 |
+| 4  |                    在云端                     | 2022-12-26 | 5  |        [西晽](https://gitee.com/syllvin)         | 2022-12-27 | 6  | [p911gt3rs](https://gitee.com/p911gt3rs) | 2023-01-03 |
+| 7  |     [jacsty](https://gitee.com/jacsty)     | 2023-01-31 | 8  |  [hubert_rust](https://gitee.com/hubert_rust)  | 2023-03-16 | 9  |   [Zkey Z](https://gitee.com/zkeyzvip)   | 2023-03-18 |
+| 10 |      [志国欧巴](https://gitee.com/zzgf16)      | 2023-03-27 | 11 |  [michael](https://gitee.com/yiminyangguang)   | 2023-04-07 | 12 |  [大叔丨小巷](https://gitee.com/yushui_wang)  | 2023-04-11 |
+| 13 |   [sun_left](https://gitee.com/sun_left)   | 2023-04-19 | 14 | [time、sand](https://gitee.com/tzy15680905763)  | 2023-07-06 | 15 |   [印第安老斑鸠](https://gitee.com/deadncut)   | 2023-09-09 |
+| 16 |                    一阵风                     | 2023-12-10 | 17 |                      Jack                      | 2024-03-01 | 18 | [onehelper](https://gitee.com/onehelper) | 2024-05-24 |
+| 19 | [宁哥](https://gitee.com/seabuckthorn-syrup) | 2024-05-29 | 20 | [cryptoneedle](https://gitee.com/cryptoneedle) | 2024-11-01 | 21 |                  别吓跑我的鱼                  | 2025-01-10 |
