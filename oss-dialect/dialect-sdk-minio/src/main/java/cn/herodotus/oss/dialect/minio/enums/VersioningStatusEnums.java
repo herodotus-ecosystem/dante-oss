@@ -66,7 +66,7 @@ public enum VersioningStatusEnums implements BaseUiEnum<Integer> {
         }
     }
 
-    @Schema(title = "枚举值")
+    @Schema(name = "枚举值")
     private final Integer value;
     @Schema(name = "文字")
     private final String description;

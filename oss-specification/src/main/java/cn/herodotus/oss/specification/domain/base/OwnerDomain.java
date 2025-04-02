@@ -35,7 +35,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @author : gengwei.zheng
  * @date : 2023/7/27 15:43
  */
-@Schema(title = "所有者")
+@Schema(name = "所有者")
 public class OwnerDomain implements Entity {
 
     /**
