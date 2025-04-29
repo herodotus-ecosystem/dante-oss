@@ -5,12 +5,10 @@
 ---
 
 <p align="center">
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.4.4-blue.svg?logo=spring" alt="Spring Boot 3.4.4"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.4.5-blue.svg?logo=spring" alt="Spring Boot 3.4.5"></a>
     <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.4.5.0-red.svg?logo=spring" alt="Version 3.4.5.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
-    <a href="https://www.herodotus.cn"><img src="https://visitor-badge.laobi.icu/badge?page_id=dante-cloud&title=Total%20Visits" alt="Total Visits"></a>
-    <a href="https://blog.csdn.net/Pointer_v" target="_blank"><img src="https://shields.io/badge/Author-%E7%A0%81%E5%8C%A0%E5%90%9B-orange" alt="码匠君"></a>
     <a href="https://github.com/dromara/dante-cloud"><img src="https://img.shields.io/github/stars/dromara/dante-cloud?style=flat&logo=github" alt="Github star"></a>
     <a href="https://github.com/dromara/dante-cloud"><img src="https://img.shields.io/github/forks/dromara/dante-cloud?style=flat&logo=github" alt="Github fork"></a>
     <a href="https://gitee.com/dromara/dante-cloud"><img src="https://gitee.com/dromara/dante-cloud/badge/star.svg?theme=dark" alt="Gitee star"></a>
@@ -61,7 +59,7 @@ Dante OSS 最初的设计目标，是深度封装 Minio Java SDK，可以更方�
 
 ## 对比 | Compare
 
-具体对比，参见在线文档[【功能说明章节】](http://www.herodotus.cn/ecosphere/oss/how-to-use.html)
+具体对比，参见在线文档[【功能说明章节】](http://dante-cloud.dromara.org/ecosphere/oss/how-to-use.html)
 
 ## 结构 | Structure
 
@@ -206,7 +204,7 @@ Dante OSS 作为 Dante Cloud 生态产品，不在单独提供演示环境和示
 - 微服务演示环境：[https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)
 - 前端工程演示：[https://gitee.com/herodotus/dante-cloud-ui](https://gitee.com/herodotus/dante-cloud-ui)
 
-> 注意：如果您仅是想了解基本的使用方式和使用效果，建议使用单体架构演示环境。具体搭建方式参见[【在线文档】](http://www.herodotus.cn)中，单体版章节。
+> 注意：如果您仅是想了解基本的使用方式和使用效果，建议使用单体架构演示环境。具体搭建方式参见[【在线文档】](http://dante-cloud.dromara.org)中，单体版章节。
 
 ## 许可 | License 
 
@@ -220,7 +218,7 @@ Dante OSS 作为 Dante Cloud 生态产品，不在单独提供演示环境和示
 
 - 不得将本软件应用于危害国家安全、荣誉和利益的行为，不能以任何形式用于非法为目的的行为。
 - 在延伸的代码中（修改现有源代码衍生的代码中）需要带有原来代码中的协议、版权声明和其他原作者 规定需要包含的说明（请尊重原作者的著作权，不要删除或修改文件中的Copyright和@author信息） 更不要，全局替换源代码中的 Dante OSS、Herodotus 或 码匠君 等字样，否则你将违反本协议条款承担责任。
-- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构 或 Dante OSS，并附带链接：https://www.herodotus.cn
+- 您若套用本软件的一些代码或功能参考，请保留源文件中的版权和作者，需要在您的软件介绍明显位置 说明出处，举例：本软件基于 Dante Cloud 微服务架构 或 Dante OSS，并附带链接：https://dante-cloud.dromara.org
 - 任何基于本软件而产生的一切法律纠纷和责任，均与作者无关。
 - 如果你对本软件有改进，希望可以贡献给我们，双向奔赴互相成就才是王道。
 - 本项目已申请软件著作权，请尊重开源。
