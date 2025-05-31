@@ -31,10 +31,11 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-starter</artifactId>
-        <version>3.4.6.0</version>
+        <version>3.5.0.0</version>
     </parent>
 
     <artifactId>oss-s3-spring-boot-starter</artifactId>
+    <name>oss-s3-spring-boot-starter</name>
 
 
     <dependencies>

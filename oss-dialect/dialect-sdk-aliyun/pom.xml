@@ -32,10 +32,11 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>oss-dialect</artifactId>
-        <version>3.4.6.0</version>
+        <version>3.5.0.0</version>
     </parent>
 
     <artifactId>dialect-sdk-aliyun</artifactId>
+    <name>dialect-sdk-aliyun</name>
 
 
     <dependencies>
