@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>oss-minio-spring-boot-starter</artifactId>
+    <name>oss-minio-spring-boot-starter</name>
 
     <dependencies>
         <dependency>

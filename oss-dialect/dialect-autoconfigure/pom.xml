@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>dialect-autoconfigure</artifactId>
+    <name>dialect-autoconfigure</name>
 
 
     <dependencies>

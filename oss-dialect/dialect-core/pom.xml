@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>dialect-core</artifactId>
+    <name>dialect-core</name>
 
 
     <dependencies>

@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>rest-sdk-specification</artifactId>
+    <name>rest-sdk-specification</name>
 
 
     <dependencies>

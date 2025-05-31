@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>oss-rest</artifactId>
+    <name>oss-rest</name>
     <packaging>pom</packaging>
 
     <modules>

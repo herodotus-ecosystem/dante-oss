@@ -36,6 +36,7 @@
     </parent>
 
     <artifactId>dialect-sdk-aliyun</artifactId>
+    <name>dialect-sdk-aliyun</name>
 
 
     <dependencies>

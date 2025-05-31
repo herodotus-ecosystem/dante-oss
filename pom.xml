@@ -37,6 +37,7 @@
     </parent>
 
     <artifactId>dante-oss</artifactId>
+    <name>dante-oss</name>
     <packaging>pom</packaging>
 
     <url>https://github.com/herodotus/dante-oss</url>

@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>rest-sdk-minio</artifactId>
+    <name>rest-sdk-minio</name>
 
 
     <dependencies>

@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>oss-solution</artifactId>
+    <name>oss-solution</name>
 
 
     <dependencies>

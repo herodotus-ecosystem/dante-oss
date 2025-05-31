@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>oss-aliyun-spring-boot-starter</artifactId>
+    <name>oss-aliyun-spring-boot-starter</name>
 
 
     <dependencies>

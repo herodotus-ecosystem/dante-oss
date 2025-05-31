@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>oss-spring-boot-starter</artifactId>
+    <name>oss-spring-boot-starter</name>
 
 
     <dependencies>

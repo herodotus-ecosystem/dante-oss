@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>dialect-sdk-minio</artifactId>
+    <name>dialect-sdk-minio</name>
 
 
     <dependencies>

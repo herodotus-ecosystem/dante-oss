@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>oss-specification</artifactId>
+    <name>oss-specification</name>
 
 
     <dependencies>

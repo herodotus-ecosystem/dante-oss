@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>oss-dialect</artifactId>
+    <name>oss-dialect</name>
     <packaging>pom</packaging>
 
     <modules>

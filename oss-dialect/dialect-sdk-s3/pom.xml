@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>dialect-sdk-s3</artifactId>
+    <name>dialect-sdk-s3</name>
 
 
     <dependencies>

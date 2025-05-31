@@ -35,6 +35,7 @@
     </parent>
 
     <artifactId>oss-starter</artifactId>
+    <name>oss-starter</name>
     <packaging>pom</packaging>
 
     <modules>
