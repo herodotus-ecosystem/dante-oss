@@ -29,7 +29,7 @@ import cn.herodotus.oss.dialect.s3.definition.arguments.ArgumentsToBucketConvert
 import cn.herodotus.oss.specification.arguments.object.GeneratePresignedUrlArguments;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import org.dromara.hutool.core.date.DateUtil;
+import cn.hutool.v7.core.date.DateUtil;
 
 /**
  * <p>Description: 统一定义 GeneratePresignedUrlArguments 转 S3 GeneratePreSignedUrlRequest 转换器 </p>
