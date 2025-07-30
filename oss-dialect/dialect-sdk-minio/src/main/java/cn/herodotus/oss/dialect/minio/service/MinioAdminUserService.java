@@ -35,8 +35,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
@@ -123,7 +121,7 @@ public class MinioAdminUserService extends BaseMinioAdminService {
         }
     }
 
-    public void addUser(@Nonnull String accessKey, @Nonnull UserInfo.Status status, @Nullable String secretKey, @Nullable String policyName, @Nullable List<String> memberOf) {
+    public void addUser(String accessKey, UserInfo.Status status, String secretKey, String policyName, List<String> memberOf) {
         String function = "addUser";
 
         MinioAdminClient minioAdminClient = getClient();
@@ -156,7 +154,7 @@ public class MinioAdminUserService extends BaseMinioAdminService {
      *
      * @param accessKey 访问密钥
      */
-    public void deleteUser(@Nonnull String accessKey) {
+    public void deleteUser(String accessKey) {
         String function = "deleteUser";
 
         MinioAdminClient minioAdminClient = getClient();

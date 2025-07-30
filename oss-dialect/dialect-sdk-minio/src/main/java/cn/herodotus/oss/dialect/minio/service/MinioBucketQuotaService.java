@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
@@ -65,7 +64,7 @@ public class MinioBucketQuotaService extends BaseMinioAdminService {
      * @param size       配额大小
      * @param unit       配额单位
      */
-    public void setBucketQuota(@Nonnull String bucketName, long size, @Nonnull QuotaUnit unit) {
+    public void setBucketQuota(String bucketName, long size, QuotaUnit unit) {
         String function = "setBucketQuota";
 
         MinioAdminClient minioAdminClient = getClient();
@@ -95,7 +94,7 @@ public class MinioBucketQuotaService extends BaseMinioAdminService {
      *
      * @param bucketName 存储桶名称
      */
-    public void clearBucketQuota(@Nonnull String bucketName) {
+    public void clearBucketQuota(String bucketName) {
         setBucketQuota(bucketName, 0, QuotaUnit.KB);
     }
 

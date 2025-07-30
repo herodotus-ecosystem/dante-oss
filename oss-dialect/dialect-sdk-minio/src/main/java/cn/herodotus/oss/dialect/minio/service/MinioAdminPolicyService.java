@@ -37,7 +37,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nonnull;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
@@ -95,7 +94,7 @@ public class MinioAdminPolicyService extends BaseMinioAdminService {
      * @param name   策略名称
      * @param policy 策略 {@link PolicyDomain}
      */
-    public void addCannedPolicy(@Nonnull String name, @Nonnull String policy) {
+    public void addCannedPolicy(String name, String policy) {
         String function = "addCannedPolicy";
 
         MinioAdminClient minioAdminClient = getClient();
@@ -125,7 +124,7 @@ public class MinioAdminPolicyService extends BaseMinioAdminService {
      *
      * @param name 策略名称
      */
-    public void removeCannedPolicy(@Nonnull String name) {
+    public void removeCannedPolicy(String name) {
         String function = "removeCannedPolicy";
 
         MinioAdminClient minioAdminClient = getClient();
@@ -157,7 +156,7 @@ public class MinioAdminPolicyService extends BaseMinioAdminService {
      * @param isGroup         是否是组
      * @param policyName      策略名称
      */
-    public void setPolicy(@Nonnull String userOrGroupName, boolean isGroup, @Nonnull String policyName) {
+    public void setPolicy(String userOrGroupName, boolean isGroup, String policyName) {
         String function = "setPolicy";
 
         MinioAdminClient minioAdminClient = getClient();
