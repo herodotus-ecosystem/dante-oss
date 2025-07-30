@@ -38,8 +38,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
@@ -129,7 +127,7 @@ public class MinioAdminGroupService extends BaseMinioAdminService {
      * @param groupStatus 用户组状态
      * @param members     组内成员
      */
-    public void addUpdateGroup(@Nonnull String group, @Nullable Status groupStatus, @Nullable List<String> members) {
+    public void addUpdateGroup(String group, Status groupStatus, List<String> members) {
         String function = "addUpdateGroup";
 
         MinioAdminClient minioAdminClient = getClient();
@@ -159,7 +157,7 @@ public class MinioAdminGroupService extends BaseMinioAdminService {
      *
      * @param group 组名称
      */
-    public void removeGroup(@Nonnull String group) {
+    public void removeGroup(String group) {
         String function = "removeGroup";
 
         MinioAdminClient minioAdminClient = getClient();
