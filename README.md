@@ -5,8 +5,8 @@
 ---
 
 <p align="center">
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.5.4-blue.svg?logo=spring" alt="Spring Boot 3.5.4"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.5.4.2-red.svg?logo=spring" alt="Version 3.5.4.2"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.5.5-blue.svg?logo=spring" alt="Spring Boot 3.5.5"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.5.5.0-red.svg?logo=spring" alt="Version 3.5.5.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://github.com/dromara/dante-cloud"><img src="https://img.shields.io/github/stars/dromara/dante-cloud?style=flat&logo=github" alt="Github star"></a>
@@ -225,7 +225,7 @@ Dante OSS 作为 Dante Cloud 生态产品，不在单独提供演示环境和示
 
 ### 3. 重要说明
 
-**因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante Engine 子项目需登记申请，等审批后开放源码，[【查看详情或登记】](https://gitee.com/dromara/dante-cloud/issues/IB5KL0)
+**因频繁出现修改包名、删除作者版权信息、二次开源的行为，为保护作者权益，Dante Engine 子项目需登记申请，等审批后开放源码，[【查看详情或登记】](https://gitee.com/dromara/dante-cloud/issues/ICTBWZ)
 
 ## 赞助 | Donate
 
