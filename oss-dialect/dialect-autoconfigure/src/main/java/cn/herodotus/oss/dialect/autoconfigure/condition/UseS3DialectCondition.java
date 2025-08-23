@@ -28,7 +28,7 @@ package cn.herodotus.oss.dialect.autoconfigure.condition;
 import cn.herodotus.engine.assistant.core.context.PropertyResolver;
 import cn.herodotus.oss.dialect.core.constants.OssConstants;
 import cn.herodotus.oss.dialect.core.enums.Dialect;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Condition;
@@ -48,7 +48,7 @@ public class UseS3DialectCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         String property = PropertyResolver.getProperty(context, OssConstants.ITEM_OSS_DIALECT);
-        boolean result = StringUtils.equalsIgnoreCase(property, Dialect.S3.name());
+        boolean result = Strings.CI.equals(property, Dialect.S3.name());
         log.debug("[Herodotus] |- Condition [Use Amazon S3 Dialect] value is [{}]", result);
         return result;
     }

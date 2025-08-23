@@ -28,7 +28,7 @@ package cn.herodotus.oss.dialect.autoconfigure.condition;
 import cn.herodotus.engine.assistant.core.context.PropertyResolver;
 import cn.herodotus.oss.dialect.core.constants.OssConstants;
 import cn.herodotus.oss.dialect.core.enums.Dialect;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Condition;
@@ -48,7 +48,7 @@ public class UseMinioDialectCondition implements Condition {
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
         String property = PropertyResolver.getProperty(context, OssConstants.ITEM_OSS_DIALECT, Dialect.MINIO.name());
-        boolean result = StringUtils.equalsIgnoreCase(property, Dialect.MINIO.name());
+        boolean result = Strings.CI.equals(property, Dialect.MINIO.name());
         log.debug("[Herodotus] |- Condition [Use Minio Dialect] value is [{}]", result);
         return result;
     }
