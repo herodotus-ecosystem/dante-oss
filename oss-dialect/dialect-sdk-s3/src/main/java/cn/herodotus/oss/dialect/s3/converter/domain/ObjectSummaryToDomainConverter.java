@@ -30,6 +30,7 @@ import cn.herodotus.oss.specification.domain.object.ObjectDomain;
 import com.amazonaws.services.s3.model.S3ObjectSummary;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.Strings;
 import org.springframework.core.convert.converter.Converter;
 
 /**
@@ -64,7 +65,7 @@ public class ObjectSummaryToDomainConverter implements Converter<S3ObjectSummary
             objectDomain.setOwner(ownerAttributeDomain);
         }
 
-        objectDomain.setDir(StringUtils.isNotBlank(this.delimiter) && StringUtils.contains(source.getKey(), this.delimiter));
+        objectDomain.setDir(StringUtils.isNotBlank(this.delimiter) && Strings.CS.contains(source.getKey(), this.delimiter));
 
         return objectDomain;
     }
