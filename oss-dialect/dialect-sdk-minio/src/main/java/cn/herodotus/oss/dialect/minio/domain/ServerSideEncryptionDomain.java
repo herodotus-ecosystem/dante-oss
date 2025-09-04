@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 import cn.herodotus.oss.dialect.minio.enums.ServerSideEncryptionEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -37,7 +37,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2023/6/9 12:39
  */
-public class ServerSideEncryptionDomain implements Entity {
+public class ServerSideEncryptionDomain implements BaseEntity {
 
     @Schema(name = "服务端加密方式类型", description = "1:SSE_KMS, 2:SSE_S3, 3: 自定义")
     private ServerSideEncryptionEnums type;

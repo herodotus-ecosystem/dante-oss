@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain.policy;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.collect.Lists;
 
@@ -37,7 +37,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/6/7 17:33
  */
-public class PrincipalDomain implements Entity {
+public class PrincipalDomain implements BaseEntity {
 
     @JsonProperty("AWS")
     private List<String> aws = Lists.newArrayList("*");

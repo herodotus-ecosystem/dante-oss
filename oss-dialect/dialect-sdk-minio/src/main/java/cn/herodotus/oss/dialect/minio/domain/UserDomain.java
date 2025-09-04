@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 import io.minio.admin.Status;
 
 import java.util.List;
@@ -36,7 +36,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/6/25 14:18
  */
-public class UserDomain implements Entity {
+public class UserDomain implements BaseEntity {
 
     private String accessKey;
 

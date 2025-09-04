@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.solution.definition;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 
 /**
  * <p>Description: 对象存储统一定义业务对象参数 </p>
@@ -33,5 +33,5 @@ import cn.herodotus.engine.assistant.definition.domain.base.Entity;
  * @author : gengwei.zheng
  * @date : 2023/8/9 22:53
  */
-public interface OssBusiness extends Entity {
+public interface OssBusiness extends BaseEntity {
 }
