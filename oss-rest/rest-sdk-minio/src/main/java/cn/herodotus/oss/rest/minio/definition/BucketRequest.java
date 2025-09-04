@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.definition;
 
-import cn.herodotus.engine.assistant.definition.constants.RegexPool;
+import cn.herodotus.engine.core.definition.constant.RegexPool;
 import io.minio.BucketArgs;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

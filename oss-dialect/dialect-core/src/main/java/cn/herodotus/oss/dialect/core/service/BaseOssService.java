@@ -25,7 +25,8 @@
 
 package cn.herodotus.oss.dialect.core.service;
 
-import cn.herodotus.engine.assistant.definition.support.AbstractObjectPool;
+
+import cn.herodotus.engine.core.definition.support.AbstractObjectPool;
 
 /**
  * <p>Description: 对象存储 Service 抽象定义 </p>

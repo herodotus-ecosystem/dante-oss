@@ -25,7 +25,8 @@
 
 package cn.herodotus.oss.solution.constants;
 
-import cn.herodotus.engine.assistant.definition.constants.BaseConstants;
+
+import cn.herodotus.engine.core.definition.constant.BaseConstants;
 
 /**
  * <p>Description: 解决方案模块常量 </p>
