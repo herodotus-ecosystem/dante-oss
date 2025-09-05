@@ -26,8 +26,8 @@
 package cn.herodotus.oss.rest.specification.controller;
 
 import cn.herodotus.engine.core.definition.domain.Result;
-import cn.herodotus.engine.rest.core.annotation.AccessLimited;
-import cn.herodotus.engine.rest.core.annotation.Idempotent;
+import cn.herodotus.engine.web.core.annotation.AccessLimited;
+import cn.herodotus.engine.web.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.specification.arguments.object.DeleteObjectArguments;
 import cn.herodotus.oss.specification.arguments.object.DeleteObjectsArguments;

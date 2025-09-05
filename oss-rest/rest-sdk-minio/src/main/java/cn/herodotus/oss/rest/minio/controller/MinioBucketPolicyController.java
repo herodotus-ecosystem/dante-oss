@@ -26,7 +26,7 @@
 package cn.herodotus.oss.rest.minio.controller;
 
 import cn.herodotus.engine.core.definition.domain.Result;
-import cn.herodotus.engine.rest.core.annotation.Idempotent;
+import cn.herodotus.engine.web.core.annotation.Idempotent;
 import cn.herodotus.engine.rest.core.controller.Controller;
 import cn.herodotus.oss.dialect.minio.service.MinioBucketPolicyService;
 import cn.herodotus.oss.rest.minio.request.bucket.DeleteBucketPolicyRequest;
