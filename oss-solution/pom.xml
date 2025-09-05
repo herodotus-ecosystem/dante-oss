@@ -43,6 +43,11 @@
             <groupId>cn.herodotus.oss</groupId>
             <artifactId>dialect-autoconfigure</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>web-core</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

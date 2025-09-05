@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.definition.arguments;
 
-import cn.herodotus.engine.assistant.core.utils.type.DateTimeUtils;
+import cn.herodotus.engine.core.definition.utils.DateTimeUtils;
 import cn.herodotus.engine.core.definition.constant.SymbolConstants;
 import cn.herodotus.oss.specification.arguments.base.ObjectConditionalReadArguments;
 import io.minio.ObjectConditionalReadArgs;

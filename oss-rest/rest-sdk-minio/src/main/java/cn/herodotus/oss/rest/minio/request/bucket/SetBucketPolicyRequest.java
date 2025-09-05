@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.request.bucket;
 
-import cn.herodotus.engine.assistant.core.json.jackson2.utils.Jackson2Utils;
+import cn.herodotus.engine.core.definition.utils.Jackson2Utils;
 import cn.herodotus.oss.dialect.minio.domain.policy.PolicyDomain;
 import cn.herodotus.oss.dialect.minio.domain.policy.StatementDomain;
 import cn.herodotus.oss.dialect.minio.enums.PolicyEnums;
