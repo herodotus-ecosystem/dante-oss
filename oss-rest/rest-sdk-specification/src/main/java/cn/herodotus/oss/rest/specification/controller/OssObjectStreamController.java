@@ -26,7 +26,7 @@
 package cn.herodotus.oss.rest.specification.controller;
 
 import cn.herodotus.engine.web.core.annotation.Idempotent;
-import cn.herodotus.engine.rest.core.controller.Controller;
+import cn.herodotus.engine.web.core.definition.Controller;
 import cn.herodotus.oss.rest.specification.arguments.ObjectStreamDownloadArguments;
 import cn.herodotus.oss.solution.service.OssObjectStreamService;
 import cn.herodotus.oss.specification.domain.object.PutObjectDomain;
