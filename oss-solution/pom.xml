@@ -31,7 +31,7 @@
     <parent>
         <groupId>cn.herodotus.oss</groupId>
         <artifactId>dante-oss</artifactId>
-        <version>3.5.5.2</version>
+        <version>3.5.5.3</version>
     </parent>
 
     <artifactId>oss-solution</artifactId>
@@ -42,6 +42,11 @@
         <dependency>
             <groupId>cn.herodotus.oss</groupId>
             <artifactId>dialect-autoconfigure</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.herodotus.engine</groupId>
+            <artifactId>web-core</artifactId>
         </dependency>
     </dependencies>
 

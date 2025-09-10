@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -23,40 +23,31 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.configuration;
+package cn.herodotus.oss.rest.minio.config;
 
-import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientObjectPool;
-import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientPooledObjectFactory;
-import cn.herodotus.oss.dialect.aliyun.properties.AliyunProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.ComponentScan;
 
 /**
- * <p>Description: Aliyun OSS Client 配置 </p>
+ * <p>Description: Minio Rest 模块配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 11:45
+ * @date : 2023/6/5 15:13
  */
-@Configuration(proxyBeanMethods = false)
-public class AliyunClientConfiguration {
+@AutoConfiguration
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.rest.minio.service",
+        "cn.herodotus.oss.rest.minio.controller",
+})
+public class OssRestMinioConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunClientConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssRestMinioConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Aliyun Client] Auto Configure.");
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public AliyunClientObjectPool aliyunClientObjectPool(AliyunProperties aliyunProperties) {
-        AliyunClientPooledObjectFactory factory = new AliyunClientPooledObjectFactory(aliyunProperties);
-        AliyunClientObjectPool pool = new AliyunClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Auto Configure.");
-        return pool;
+        log.debug("[Herodotus] |- Module [Oss Rest Minio] Configure.");
     }
 }

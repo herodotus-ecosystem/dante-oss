@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -23,40 +23,38 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.configuration;
+package cn.herodotus.oss.dialect.aliyun.config;
 
-import cn.herodotus.oss.dialect.s3.definition.pool.S3ClientObjectPool;
-import cn.herodotus.oss.dialect.s3.definition.pool.S3ClientPooledObjectFactory;
-import cn.herodotus.oss.dialect.s3.properties.S3Properties;
+import cn.herodotus.oss.dialect.aliyun.properties.AliyunProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 /**
- * <p>Description: S3 客户端配置 </p>
+ * <p>Description: Aliyun OSS logic 模块配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/14 16:14
+ * @date : 2023/7/23 11:44
  */
-@Configuration(proxyBeanMethods = false)
-public class S3ClientConfiguration {
+@AutoConfiguration
+@EnableConfigurationProperties(AliyunProperties.class)
+@Import({
+        AliyunClientConfiguration.class
+})
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.dialect.aliyun.service",
+        "cn.herodotus.oss.dialect.aliyun.repository",
+})
+public class OssDialectAliyunConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(S3ClientConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssDialectAliyunConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [S3 Client] Auto Configure.");
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public S3ClientObjectPool s3ClientObjectPool(S3Properties s3Properties) {
-        S3ClientPooledObjectFactory factory = new S3ClientPooledObjectFactory(s3Properties);
-        S3ClientObjectPool pool = new S3ClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [S3 Client Pool] Auto Configure.");
-        return pool;
+        log.debug("[Herodotus] |- Module [Oss Aliyun Logic] Configure.");
     }
 }

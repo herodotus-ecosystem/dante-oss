@@ -23,39 +23,42 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss;
+package cn.herodotus.oss.solution.config;
 
-import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDialect;
-import cn.herodotus.oss.rest.minio.configuration.OssRestMinioConfiguration;
+import cn.herodotus.oss.solution.properties.OssProxyProperties;
+import cn.herodotus.oss.solution.proxy.OssPresignedUrlProxy;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
 
 /**
- * <p>Description: OSS 自动配置 </p>
+ * <p>Description: Oss Solution 模块配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/8/19 15:27
+ * @date : 2023/8/19 16:52
  */
-@AutoConfiguration
-public class OssAutoConfiguration {
+@Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties(OssProxyProperties.class)
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.solution.service",
+})
+public class OssSolutionConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(OssAutoConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssSolutionConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [OSS Starter] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Solution] Configure.");
     }
 
-    @Configuration(proxyBeanMethods = false)
-    @ConditionalOnUseMinioDialect
-    @Import({
-            OssRestMinioConfiguration.class,
-    })
-    static class MinioRestConfiguration {
-
+    @Bean
+    public OssPresignedUrlProxy ossPresignedUrlProxy(OssProxyProperties ossProxyProperties) {
+        OssPresignedUrlProxy ossPresignedUrlProxy = new OssPresignedUrlProxy(ossProxyProperties);
+        log.trace("[Herodotus] |- Bean [Oss Presigned Url Proxy] Configure.");
+        return ossPresignedUrlProxy;
     }
 }

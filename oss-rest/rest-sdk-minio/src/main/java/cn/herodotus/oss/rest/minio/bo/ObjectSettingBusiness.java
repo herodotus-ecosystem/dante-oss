@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.bo;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 import cn.herodotus.oss.dialect.minio.enums.RetentionModeEnums;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -38,7 +38,7 @@ import java.util.Map;
  * @author : gengwei.zheng
  * @date : 2023/6/11 10:02
  */
-public class ObjectSettingBusiness implements Entity {
+public class ObjectSettingBusiness implements BaseEntity {
 
     @Schema(name = "标签")
     private Map<String, String> tags;

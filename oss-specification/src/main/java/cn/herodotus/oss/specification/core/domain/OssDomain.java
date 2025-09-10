@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.specification.core.domain;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 
 /**
  * <p>Description: Oss 域对象基础定义 </p>
@@ -33,5 +33,5 @@ import cn.herodotus.engine.assistant.definition.domain.base.Entity;
  * @author : gengwei.zheng
  * @date : 2023/7/27 15:44
  */
-public interface OssDomain extends Entity {
+public interface OssDomain extends BaseEntity {
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -27,10 +27,10 @@ package cn.herodotus.oss.dialect.minio.converter.sse;
 
 import cn.herodotus.oss.dialect.core.exception.OssInvalidKeyException;
 import cn.herodotus.oss.dialect.core.exception.OssNoSuchAlgorithmException;
-import io.minio.ServerSideEncryptionCustomerKey;
-import org.apache.commons.lang3.StringUtils;
 import cn.hutool.v7.crypto.KeyUtil;
 import cn.hutool.v7.crypto.symmetric.SymmetricAlgorithm;
+import io.minio.ServerSideEncryptionCustomerKey;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;

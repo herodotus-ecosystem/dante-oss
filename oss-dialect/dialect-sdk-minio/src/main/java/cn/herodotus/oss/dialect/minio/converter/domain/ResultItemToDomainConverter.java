@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.converter.domain;
 
-import cn.herodotus.engine.assistant.core.utils.type.DateTimeUtils;
+import cn.herodotus.engine.core.definition.utils.DateTimeUtils;
 import cn.herodotus.oss.dialect.core.exception.*;
 import cn.herodotus.oss.specification.domain.base.OwnerDomain;
 import cn.herodotus.oss.specification.domain.object.ObjectDomain;

@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -23,7 +23,7 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.configuration;
+package cn.herodotus.oss.dialect.minio.config;
 
 import cn.herodotus.oss.dialect.minio.properties.MinioProperties;
 import jakarta.annotation.PostConstruct;
@@ -55,6 +55,6 @@ public class OssDialectMinioConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Dialect Minio] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Dialect Minio] Configure.");
     }
 }

@@ -23,5 +23,5 @@
 # 6. 若您的项目无法满足以上几点，可申请商业授权
 #
 
-cn.herodotus.oss.OssAutoConfiguration
-cn.herodotus.oss.rest.specification.configuration.OssRestIntegrationConfiguration
+cn.herodotus.oss.autoconfigure.OssAutoConfiguration
+cn.herodotus.oss.rest.specification.config.OssRestIntegrationConfiguration

@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain.policy;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.ArrayList;
@@ -37,7 +37,7 @@ import java.util.List;
  * @author : gengwei.zheng
  * @date : 2023/6/7 17:42
  */
-public class PolicyDomain implements Entity {
+public class PolicyDomain implements BaseEntity {
 
     @JsonProperty("Version")
     private String version = "2012-10-17";

@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.request.object;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 import cn.herodotus.oss.dialect.minio.enums.QuotaUnitEnums;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
@@ -38,7 +38,7 @@ import jakarta.validation.constraints.NotBlank;
  * @date : 2023/6/28 16:08
  */
 @Schema(name = "设置存储桶配额请求参数实体", title = "设置存储桶配额请求参数实体")
-public class SetBucketQuotaRequest implements Entity {
+public class SetBucketQuotaRequest implements BaseEntity {
 
     @Schema(name = "存储桶名称")
     @NotBlank(message = "存储桶名称不能为空")

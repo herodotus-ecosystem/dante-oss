@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.specification.domain.base;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 import com.google.common.base.MoreObjects;
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -36,7 +36,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
  * @date : 2023/7/27 15:43
  */
 @Schema(name = "所有者")
-public class OwnerDomain implements Entity {
+public class OwnerDomain implements BaseEntity {
 
     /**
      * 所有者 ID

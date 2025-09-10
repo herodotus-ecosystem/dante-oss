@@ -1,7 +1,7 @@
 /*
  * Copyright 2020-2030 码匠君<herodotus@aliyun.com>
  *
- * Dante OSS licensed under the Apache License, Version 2.0 (the "License");
+ * Dante OSS Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.dialect.minio.domain;
 
-import cn.herodotus.engine.assistant.definition.domain.base.Entity;
+import cn.herodotus.engine.core.definition.domain.BaseEntity;
 
 /**
  * <p>Description: Minio VersioningConfiguration 对应 Domain Object </p>
@@ -33,7 +33,7 @@ import cn.herodotus.engine.assistant.definition.domain.base.Entity;
  * @author : gengwei.zheng
  * @date : 2023/6/28 16:59
  */
-public class VersioningConfigurationDomain implements Entity {
+public class VersioningConfigurationDomain implements BaseEntity {
 
     private String status;
 
