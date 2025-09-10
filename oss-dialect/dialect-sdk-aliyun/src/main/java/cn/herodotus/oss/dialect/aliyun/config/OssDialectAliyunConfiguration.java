@@ -23,31 +23,38 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.minio.configuration;
+package cn.herodotus.oss.dialect.aliyun.config;
 
+import cn.herodotus.oss.dialect.aliyun.properties.AliyunProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 /**
- * <p>Description: Minio Rest 模块配置 </p>
+ * <p>Description: Aliyun OSS logic 模块配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/5 15:13
+ * @date : 2023/7/23 11:44
  */
 @AutoConfiguration
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.rest.minio.service",
-        "cn.herodotus.oss.rest.minio.controller",
+@EnableConfigurationProperties(AliyunProperties.class)
+@Import({
+        AliyunClientConfiguration.class
 })
-public class OssRestMinioConfiguration {
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.dialect.aliyun.service",
+        "cn.herodotus.oss.dialect.aliyun.repository",
+})
+public class OssDialectAliyunConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(OssRestMinioConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssDialectAliyunConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Rest Minio] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Aliyun Logic] Configure.");
     }
 }

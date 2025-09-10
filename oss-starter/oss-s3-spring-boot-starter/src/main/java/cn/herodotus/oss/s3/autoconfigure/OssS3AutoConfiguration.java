@@ -43,6 +43,6 @@ public class OssS3AutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [Oss S3 Starter] Auto Configure.");
+        log.info("[Herodotus] |- Starter [Oss S3 Starter] Configure.");
     }
 }

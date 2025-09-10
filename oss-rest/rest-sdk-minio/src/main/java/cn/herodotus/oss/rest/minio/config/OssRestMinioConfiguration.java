@@ -23,38 +23,31 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.configuration;
+package cn.herodotus.oss.rest.minio.config;
 
-import cn.herodotus.oss.dialect.s3.properties.S3Properties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 
 /**
- * <p>Description: S3 Logic 模块配置 </p>
+ * <p>Description: Minio Rest 模块配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/14 16:14
+ * @date : 2023/6/5 15:13
  */
 @AutoConfiguration
-@EnableConfigurationProperties(S3Properties.class)
-@Import({
-        S3ClientConfiguration.class
-})
 @ComponentScan(basePackages = {
-        "cn.herodotus.oss.dialect.s3.service",
-        "cn.herodotus.oss.dialect.s3.repository",
+        "cn.herodotus.oss.rest.minio.service",
+        "cn.herodotus.oss.rest.minio.controller",
 })
-public class OssDialectS3Configuration {
+public class OssRestMinioConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(OssDialectS3Configuration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssRestMinioConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss S3 Dialect] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Rest Minio] Configure.");
     }
 }

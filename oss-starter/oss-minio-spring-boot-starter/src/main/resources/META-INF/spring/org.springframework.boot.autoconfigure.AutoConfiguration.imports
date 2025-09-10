@@ -24,5 +24,5 @@
 #
 
 cn.herodotus.oss.minio.autoconfigure.OssMinioAutoConfiguration
-cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration
-cn.herodotus.oss.rest.minio.configuration.OssRestMinioConfiguration
+cn.herodotus.oss.dialect.minio.config.OssDialectMinioConfiguration
+cn.herodotus.oss.rest.minio.config.OssRestMinioConfiguration

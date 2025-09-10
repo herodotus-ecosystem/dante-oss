@@ -24,4 +24,4 @@
 #
 
 cn.herodotus.oss.s3.autoconfigure.OssS3AutoConfiguration
-cn.herodotus.oss.dialect.s3.configuration.OssDialectS3Configuration
+cn.herodotus.oss.dialect.s3.config.OssDialectS3Configuration

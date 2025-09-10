@@ -25,7 +25,7 @@
 
 package cn.herodotus.oss.rest.minio.annotation;
 
-import cn.herodotus.oss.rest.minio.configuration.OssRestMinioConfiguration;
+import cn.herodotus.oss.rest.minio.config.OssRestMinioConfiguration;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

@@ -23,38 +23,40 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.configuration;
+package cn.herodotus.oss.dialect.aliyun.config;
 
+import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientObjectPool;
+import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientPooledObjectFactory;
 import cn.herodotus.oss.dialect.aliyun.properties.AliyunProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * <p>Description: Aliyun OSS logic 模块配置 </p>
+ * <p>Description: Aliyun OSS Client 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 11:44
+ * @date : 2023/7/23 11:45
  */
-@AutoConfiguration
-@EnableConfigurationProperties(AliyunProperties.class)
-@Import({
-        AliyunClientConfiguration.class
-})
-@ComponentScan(basePackages = {
-        "cn.herodotus.oss.dialect.aliyun.service",
-        "cn.herodotus.oss.dialect.aliyun.repository",
-})
-public class OssDialectAliyunConfiguration {
+@Configuration(proxyBeanMethods = false)
+public class AliyunClientConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(OssDialectAliyunConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(AliyunClientConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Aliyun Logic] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Aliyun Client] Configure.");
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public AliyunClientObjectPool aliyunClientObjectPool(AliyunProperties aliyunProperties) {
+        AliyunClientPooledObjectFactory factory = new AliyunClientPooledObjectFactory(aliyunProperties);
+        AliyunClientObjectPool pool = new AliyunClientObjectPool(factory);
+        log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Configure.");
+        return pool;
     }
 }

@@ -23,40 +23,38 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.s3.configuration;
+package cn.herodotus.oss.dialect.s3.config;
 
-import cn.herodotus.oss.dialect.s3.definition.pool.S3ClientObjectPool;
-import cn.herodotus.oss.dialect.s3.definition.pool.S3ClientPooledObjectFactory;
 import cn.herodotus.oss.dialect.s3.properties.S3Properties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 /**
- * <p>Description: S3 客户端配置 </p>
+ * <p>Description: S3 Logic 模块配置 </p>
  *
  * @author : gengwei.zheng
  * @date : 2023/7/14 16:14
  */
-@Configuration(proxyBeanMethods = false)
-public class S3ClientConfiguration {
+@AutoConfiguration
+@EnableConfigurationProperties(S3Properties.class)
+@Import({
+        S3ClientConfiguration.class
+})
+@ComponentScan(basePackages = {
+        "cn.herodotus.oss.dialect.s3.service",
+        "cn.herodotus.oss.dialect.s3.repository",
+})
+public class OssDialectS3Configuration {
 
-    private static final Logger log = LoggerFactory.getLogger(S3ClientConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(OssDialectS3Configuration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [S3 Client] Auto Configure.");
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public S3ClientObjectPool s3ClientObjectPool(S3Properties s3Properties) {
-        S3ClientPooledObjectFactory factory = new S3ClientPooledObjectFactory(s3Properties);
-        S3ClientObjectPool pool = new S3ClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [S3 Client Pool] Auto Configure.");
-        return pool;
+        log.debug("[Herodotus] |- Module [Oss S3 Dialect] Configure.");
     }
 }

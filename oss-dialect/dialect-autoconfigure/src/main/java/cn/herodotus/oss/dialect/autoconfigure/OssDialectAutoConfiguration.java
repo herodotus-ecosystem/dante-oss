@@ -26,14 +26,14 @@
 package cn.herodotus.oss.dialect.autoconfigure;
 
 import cn.herodotus.engine.core.definition.function.ErrorCodeMapperBuilderCustomizer;
-import cn.herodotus.oss.dialect.aliyun.configuration.OssDialectAliyunConfiguration;
+import cn.herodotus.oss.dialect.aliyun.config.OssDialectAliyunConfiguration;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseAliyunDialect;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseMinioDialect;
 import cn.herodotus.oss.dialect.autoconfigure.annotation.ConditionalOnUseS3Dialect;
 import cn.herodotus.oss.dialect.autoconfigure.customizer.OssErrorCodeMapperBuilderCustomizer;
 import cn.herodotus.oss.dialect.autoconfigure.properties.OssProperties;
-import cn.herodotus.oss.dialect.minio.configuration.OssDialectMinioConfiguration;
-import cn.herodotus.oss.dialect.s3.configuration.OssDialectS3Configuration;
+import cn.herodotus.oss.dialect.minio.config.OssDialectMinioConfiguration;
+import cn.herodotus.oss.dialect.s3.config.OssDialectS3Configuration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,13 +57,13 @@ public class OssDialectAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [OSS Dialect Starter] Auto Configure.");
+        log.info("[Herodotus] |- Auto [OSS Dialect] Configure.");
     }
 
     @Bean
     public ErrorCodeMapperBuilderCustomizer ossErrorCodeMapperBuilderCustomizer() {
         OssErrorCodeMapperBuilderCustomizer customizer = new OssErrorCodeMapperBuilderCustomizer();
-        log.trace("[Herodotus] |- Strategy [Oss ErrorCodeMapper Builder Customizer] Auto Configure.");
+        log.trace("[Herodotus] |- Strategy [Oss ErrorCodeMapper Builder Customizer] Configure.");
         return customizer;
     }
 

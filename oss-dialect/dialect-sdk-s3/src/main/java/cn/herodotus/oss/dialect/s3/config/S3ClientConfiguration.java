@@ -23,10 +23,11 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.minio.configuration;
+package cn.herodotus.oss.dialect.s3.config;
 
-import cn.herodotus.oss.dialect.minio.definition.pool.*;
-import cn.herodotus.oss.dialect.minio.properties.MinioProperties;
+import cn.herodotus.oss.dialect.s3.definition.pool.S3ClientObjectPool;
+import cn.herodotus.oss.dialect.s3.definition.pool.S3ClientPooledObjectFactory;
+import cn.herodotus.oss.dialect.s3.properties.S3Properties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,45 +36,27 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * <p>Description: Minio Client 配置 </p>
+ * <p>Description: S3 客户端配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/6/24 17:53
+ * @date : 2023/7/14 16:14
  */
 @Configuration(proxyBeanMethods = false)
-public class MinioClientConfiguration {
+public class S3ClientConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(MinioClientConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(S3ClientConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Minio Client] Auto Configure.");
+        log.debug("[Herodotus] |- Module [S3 Client] Configure.");
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public MinioClientObjectPool minioClientPool(MinioProperties minioProperties) {
-        MinioClientPooledObjectFactory factory = new MinioClientPooledObjectFactory(minioProperties);
-        MinioClientObjectPool pool = new MinioClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Minio Client Pool] Auto Configure.");
-        return pool;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public MinioAsyncClientObjectPool minioAsyncClientPool(MinioProperties minioProperties) {
-        MinioAsyncClientPooledObjectFactory factory = new MinioAsyncClientPooledObjectFactory(minioProperties);
-        MinioAsyncClientObjectPool pool = new MinioAsyncClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Minio Async Client Pool] Auto Configure.");
-        return pool;
-    }
-
-    @Bean
-    @ConditionalOnMissingBean
-    public MinioAdminClientObjectPool minioAdminClientPool(MinioProperties minioProperties) {
-        MinioAdminClientPooledObjectFactory factory = new MinioAdminClientPooledObjectFactory(minioProperties);
-        MinioAdminClientObjectPool pool = new MinioAdminClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Minio Admin Client Pool] Auto Configure.");
+    public S3ClientObjectPool s3ClientObjectPool(S3Properties s3Properties) {
+        S3ClientPooledObjectFactory factory = new S3ClientPooledObjectFactory(s3Properties);
+        S3ClientObjectPool pool = new S3ClientObjectPool(factory);
+        log.trace("[Herodotus] |- Bean [S3 Client Pool] Configure.");
         return pool;
     }
 }

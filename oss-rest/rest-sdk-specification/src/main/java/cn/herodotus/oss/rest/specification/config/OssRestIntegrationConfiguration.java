@@ -23,9 +23,9 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.rest.specification.configuration;
+package cn.herodotus.oss.rest.specification.config;
 
-import cn.herodotus.oss.solution.configuration.OssSolutionConfiguration;
+import cn.herodotus.oss.solution.config.OssSolutionConfiguration;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,6 +52,6 @@ public class OssRestIntegrationConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Oss Rest Integration] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Oss Rest Integration] Configure.");
     }
 }

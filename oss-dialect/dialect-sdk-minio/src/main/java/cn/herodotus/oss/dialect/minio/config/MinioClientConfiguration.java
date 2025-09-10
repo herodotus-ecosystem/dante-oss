@@ -23,11 +23,10 @@
  * 6. 若您的项目无法满足以上几点，可申请商业授权
  */
 
-package cn.herodotus.oss.dialect.aliyun.configuration;
+package cn.herodotus.oss.dialect.minio.config;
 
-import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientObjectPool;
-import cn.herodotus.oss.dialect.aliyun.definition.pool.AliyunClientPooledObjectFactory;
-import cn.herodotus.oss.dialect.aliyun.properties.AliyunProperties;
+import cn.herodotus.oss.dialect.minio.definition.pool.*;
+import cn.herodotus.oss.dialect.minio.properties.MinioProperties;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,27 +35,45 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * <p>Description: Aliyun OSS Client 配置 </p>
+ * <p>Description: Minio Client 配置 </p>
  *
  * @author : gengwei.zheng
- * @date : 2023/7/23 11:45
+ * @date : 2023/6/24 17:53
  */
 @Configuration(proxyBeanMethods = false)
-public class AliyunClientConfiguration {
+public class MinioClientConfiguration {
 
-    private static final Logger log = LoggerFactory.getLogger(AliyunClientConfiguration.class);
+    private static final Logger log = LoggerFactory.getLogger(MinioClientConfiguration.class);
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[Herodotus] |- SDK [Aliyun Client] Auto Configure.");
+        log.debug("[Herodotus] |- Module [Minio Client] Configure.");
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public AliyunClientObjectPool aliyunClientObjectPool(AliyunProperties aliyunProperties) {
-        AliyunClientPooledObjectFactory factory = new AliyunClientPooledObjectFactory(aliyunProperties);
-        AliyunClientObjectPool pool = new AliyunClientObjectPool(factory);
-        log.trace("[Herodotus] |- Bean [Aliyun Client Pool] Auto Configure.");
+    public MinioClientObjectPool minioClientPool(MinioProperties minioProperties) {
+        MinioClientPooledObjectFactory factory = new MinioClientPooledObjectFactory(minioProperties);
+        MinioClientObjectPool pool = new MinioClientObjectPool(factory);
+        log.trace("[Herodotus] |- Bean [Minio Client Pool] Configure.");
+        return pool;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MinioAsyncClientObjectPool minioAsyncClientPool(MinioProperties minioProperties) {
+        MinioAsyncClientPooledObjectFactory factory = new MinioAsyncClientPooledObjectFactory(minioProperties);
+        MinioAsyncClientObjectPool pool = new MinioAsyncClientObjectPool(factory);
+        log.trace("[Herodotus] |- Bean [Minio Async Client Pool] Configure.");
+        return pool;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public MinioAdminClientObjectPool minioAdminClientPool(MinioProperties minioProperties) {
+        MinioAdminClientPooledObjectFactory factory = new MinioAdminClientPooledObjectFactory(minioProperties);
+        MinioAdminClientObjectPool pool = new MinioAdminClientObjectPool(factory);
+        log.trace("[Herodotus] |- Bean [Minio Admin Client Pool] Configure.");
         return pool;
     }
 }

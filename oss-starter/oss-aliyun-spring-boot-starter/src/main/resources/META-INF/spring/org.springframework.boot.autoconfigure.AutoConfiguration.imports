@@ -24,4 +24,4 @@
 #
 
 cn.herodotus.oss.aliyun.autoconfigure.OssAliyunAutoConfiguration
-cn.herodotus.oss.dialect.aliyun.configuration.OssDialectAliyunConfiguration
+cn.herodotus.oss.dialect.aliyun.config.OssDialectAliyunConfiguration

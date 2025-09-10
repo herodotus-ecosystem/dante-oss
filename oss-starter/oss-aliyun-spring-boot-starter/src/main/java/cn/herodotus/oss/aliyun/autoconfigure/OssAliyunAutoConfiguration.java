@@ -43,6 +43,6 @@ public class OssAliyunAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.info("[Herodotus] |- Module [Oss Aliyun Starter] Auto Configure.");
+        log.info("[Herodotus] |- Starter [Oss Aliyun] Configure.");
     }
 }
