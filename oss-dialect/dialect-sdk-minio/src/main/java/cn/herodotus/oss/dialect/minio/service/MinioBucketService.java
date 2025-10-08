@@ -40,6 +40,8 @@ import java.io.IOException;
 import java.net.ConnectException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -77,9 +79,12 @@ public class MinioBucketService extends BaseMinioService {
         MinioClient minioClient = getClient();
 
         try {
-            List<Bucket> buckets;
+            List<Bucket> buckets = new ArrayList<>();
             if (ObjectUtils.isNotEmpty(args)) {
-                buckets = minioClient.listBuckets(args);
+                Iterable<Result<Bucket>> iterable = minioClient.listBuckets(args);
+                for (Result<Bucket> result : iterable) {
+                    buckets.add(result.get());
+                }
             } else {
                 buckets = minioClient.listBuckets();
             }
