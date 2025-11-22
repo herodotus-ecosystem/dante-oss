@@ -22,6 +22,14 @@
 
 <h1 align="center"> 如果您觉得有帮助，请点右上角 "Star" 支持一下，谢谢！</h1>
 
+## 重要 | Important
+
+在未来 Dante Cloud 生态 4.0.X 版本中，对象存储功能将变更为使用 AWS V2 实现，并且将采用内置模块形式与 Dante Engine 合并。Dante Cloud 4.0.X 版本发布后，本项目将停止维护。
+
+v3.5.8.0 为本项目最后一个版本，需要基于 Dante Cloud 使用的朋友，可以基于 Dante Cloud 3.5.X 分支代码继续使用。
+
+**【Dante Cloud 工程地址: [https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)】**
+
 ## 简介 | Intro
 
 Dante OSS 是一款简化对象存储（OSS）操作的开源框架。借鉴 JPA 标准化设计思想，逐步提取和抽象各厂商 OSS 标准化操作，构建统一的 Java OSS API 规范。形成类似于 JPA 规范的、以 Java OSS API 为核心的、不同 OSS 厂商 SDK 为实现的对象存储使用模式，方便大家在不同厂商 OSS 之间切换而不需要修改代码。
