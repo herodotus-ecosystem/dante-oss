@@ -5,8 +5,8 @@
 ---
 
 <p align="center">
-    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.5.8-blue.svg?logo=spring" alt="Spring Boot 3.5.8"></a>
-    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.5.8.1-red.svg?logo=spring" alt="Version 3.5.8.1"></a>
+    <a href="https://spring.io/projects/spring-boot" target="_blank"><img src="https://shields.io/badge/Spring%20Boot-3.5.9-blue.svg?logo=springboot" alt="Spring Boot 3.5.9"></a>
+    <a href="#" target="_blank"><img src="https://shields.io/badge/Version-3.5.9.0-red.svg?logo=springboot" alt="Version 3.5.9.0"></a>
     <a href="https://bell-sw.com/pages/downloads/#downloads" target="_blank"><img src="https://img.shields.io/badge/JDK-17%2B-green.svg?logo=openjdk" alt="Java 17"></a>
     <a href="./LICENSE"><img src="https://shields.io/badge/License-Apache--2.0-blue.svg?logo=apache" alt="License Apache 2.0"></a>
     <a href="https://github.com/dromara/dante-cloud"><img src="https://img.shields.io/github/stars/dromara/dante-cloud?style=flat&logo=github" alt="Github star"></a>
@@ -26,7 +26,7 @@
 
 在未来 Dante Cloud 生态 4.0.X 版本中，对象存储功能将变更为使用 AWS V2 实现，并且将采用内置模块形式与 Dante Engine 合并。Dante Cloud 4.0.X 版本发布后，本项目将停止维护。
 
-v3.5.8.1 为本项目最后一个版本，需要基于 Dante Cloud 使用的朋友，可以基于 Dante Cloud 3.5.X 分支代码继续使用。
+v3.5.9.0 为本项目最后一个版本，需要基于 Dante Cloud 使用的朋友，可以基于 Dante Cloud 3.5.X 分支代码继续使用。
 
 **【Dante Cloud 工程地址: [https://gitee.com/dromara/dante-cloud](https://gitee.com/dromara/dante-cloud)】**
 
